@@ -1,0 +1,25 @@
+{% extends 'base_public.html' %}
+{% load form_tags i18n %}
+
+{% block content %}
+
+<h1 class="title">{%trans "Activation Cards"%}</h1>
+
+<form method="post" action="" onkeydown="javascript:if(13==event.keyCode){return false;}">
+
+<div class="popup-form activation_card">
+
+    {% for field in form %}
+        {% form_field field block %}
+    {% endfor %}
+    
+    <div class="form-submit-right">
+        <input type="submit" class="bt bt-blue2" name="submit" value='{% trans "activate" %}'>
+    </div>
+</div>
+
+</form>
+    
+{% endblock %}
+
+

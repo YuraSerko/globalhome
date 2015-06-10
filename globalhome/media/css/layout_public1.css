@@ -1,0 +1,178 @@
+#content {
+    float: left;
+    width: 100%;
+}
+#content-inner {
+    float: left;
+    margin: 0 20px 20px 90px;
+	width:800px;
+
+}
+
+#content.homepage #content-inner {
+    margin-right: 0;
+}
+/*
+Homepage
+*/
+
+#homepage-header {
+    
+    width: 100%;
+    height: 260px;
+}
+
+#homepage-header-inner {
+    margin-left: 40px;
+/*
+    float: left;
+*/
+/*
+    width: 100%;
+*/
+}
+
+#homepage-header-img {
+    float: right;
+    margin-left: 20px;
+}
+
+#homepage-header h2 {
+    margin-bottom: 10px;
+    padding-bottom: 0;
+    font-size: 1.8em;
+}
+
+#homepage-middle-part {
+    background: url(/media/img/layout/middle_part_bg.jpg) no-repeat -35px 0;
+    float: left;
+    width: 960px;
+    height: 318px;
+}
+
+#homepage-service-announces {
+    float: left;
+    width: 588px;
+    height: 100%;
+    position: relative;
+}
+
+#homepage-service-announces-inner {
+    margin: 20px 30px 30px 40px;
+}
+
+#homepage-service-announces h2 {
+    margin-bottom: 10px;
+}
+
+#homepage-service-announces-more {
+    position: absolute;
+    right: 50px;
+    bottom: 25px;
+}
+
+#homepage-login-form {
+    float: right;
+    width: 260px;
+    margin: 5px 20px 20px 20px;
+}
+
+#homepage-login-form-login {
+    margin: -5px 0 5px 0;
+    padding: 0;
+}
+
+#homepage-login-form .additional_link {
+    font-size: 12px;
+    margin: -5px 0 5px 0;
+    padding: 0;
+}
+
+#homepage-columns {
+    float: left;
+    margin-top: 20px;
+    width: 960px;
+}
+#level3 {
+    position:absolute;
+    width:143px;
+    top:0;
+    margin-top:200px;
+    padding-left:50px;
+    right:0;} 
+#level4 {
+    position:absolute;
+    width:143px;  
+    top:0;
+    height: 100px;
+    background: url(../img/menu/sun.png) no-repeat;
+    margin-top:200px;
+    right:0;}
+.homepage-column {
+    width: 320px;
+    float: left;
+}
+
+.homepage-column-inner {
+    margin: 0 40px 20px 40px;
+}
+
+.homepage-top-announce {
+    width: 500px;
+    margin-bottom: 20px;
+    color: #4E4E4E;
+    line-height: 1.2em;
+}
+
+.homepage-top-announce.last {
+    margin-bottom: 0;
+}
+
+.homepage-top-announce-inner {
+    position: relative;
+}
+.brace {
+    position: relative;
+    width: 20px;
+    vertical-align: middle;
+    background: url(/media/img/layout/brace/brace_bg.png) repeat-y 0px;
+
+}
+.brace-top {
+    position: absolute;
+    top: 0;
+    left: 0px; 
+}
+.brace-center {
+    position: absolute;
+    top: 50%;
+    margin-top:-8px;
+    left: -6px;
+}
+.brace-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+}
+.homepage-top-announce .content {
+    padding-left: 10px;
+}
+
+.homepage-top-announce h1 {
+    line-height: 1em;
+    font-size: 24px !important;
+    font-weight: bold;
+}
+.homepage-top-announce p {
+    margin: 0;
+}
+.homepage-top-announce a.more {
+/*
+    display: block;
+    text-align: right;
+*/
+    color: #0596BD;
+}
+/*
+End homepage
+*/

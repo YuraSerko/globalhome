@@ -1,0 +1,28 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+    {% if signed_findoc %} 
+        <table class="type-4" style="height: 600px;">
+        	<caption>
+                    <div class="form-submit-left">
+                        <a class="bt bt-blue2" href="/media/doc/{{display}}.zip" target="_blank">СКАЧАТЬ</a>
+                    </div>
+                    <div class="form-submit-right">
+                        <a class="bt bt-blue2" href="/account/findocs/signed/">Вернуться к списку</a>
+                    </div>
+            </caption>
+             <tbody>
+             	<td style="padding: 0;">
+                    <div class="document" id="signed-findoc-text" style="clear: all; height: 600px; overflow: scroll;">
+                        {{ signed_findoc.signed_text|safe }}
+                    </div>
+                </td>
+             </tbody>
+	 </table>
+     {% endif %}
+     
+{% endblock %}

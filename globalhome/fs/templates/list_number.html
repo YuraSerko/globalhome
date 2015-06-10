@@ -1,0 +1,312 @@
+{% extends 'base_private.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+<div id="info" class="status status-info" style="border:none;  !important">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p id="info_str" style="color: rgb(122, 122, 122); font-size: 12px; font-weight: 100; !important">Внимание!!! Данная услуга работает в тестовом режиме, в случае каких-либо неполадок необходимо сообщить в тех. поддержку</p>
+            </div>
+        </div>
+        <br>
+<div class="ugc">
+    <p>Здесь отображены, созданные Вами, черные и белые списки номеров</p>
+</div>
+
+{{ block.super }}
+
+{% if have_numbers %}
+
+		{% comment %}
+        <table class="type-2">
+            <thead>
+                <tr>
+                    <th>Имя списка</th>
+                    <th>Номера</th>
+                    <th>{% trans "Edit" %}</th>
+                    <th>{% trans "Delete" %}</th>
+                    <th>Связи с номером</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for list in lists %}
+                <tr>
+                    <td>{{ list.name }}</td>
+                    <td>{{ list.numbers }}</td>
+                    
+                    <td><a href="fix/edit/{{ list.id }}/1/">{% trans "Edit" %}</a></td>
+                    <td><a href="delete/{{ list.id }}/">{% trans "Delete" %}</a></td>
+                    <td><a href="fix/list/{{ list.id }}/">Смотреть</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endcomment %}
+       
+      <h1 class="title">Черные списки</h1>
+    {% if list_dict_black %}
+        <table width="100%" class="type-2">
+           <thead>
+                <tr>
+                	<th>Название</th>
+                    <th>Тип вызова</th>
+                    <th>Внутренние номера</th>
+                    <th>Городские номера</th>
+                    <th>Группы</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+            {% for key, value in list_dict_black.items %}
+            {% for key2, value2 in value.items %} 
+            <tr>
+            		<td width="120" style="word-wrap: break-word;">{% for sm, smval in list_dict_in_name.items %}{% if key == sm %}{{smval}}{% endif %}{% endfor %}</td>
+            		<td width="40">{% if key2 == 1 %}Входящий{% else %}{% if key2 == 2 %}Исходящий{% else %}{% if key2 == 3 %}Перенаправлять{% endif %}{% endif %}{% endif %}</td>
+                    <td width="50">{{ value2|join:", " }}</td>
+                    
+                    
+                    {% for key4, value4 in ext_black.items %}
+                    {% for item in value4.items %}
+                    {% if key4 == key %}{% if item.0 == key2 %}<td width="50">{{ item.1|join:", " }}</td>{% endif %}{% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                    
+                    
+                    {% for key3, value3 in d_black.items %}
+                    {% for item in value3.items %}
+                    {% if key3 == key %}{% if item.0 == key2 %}<td width="50">{{ item.1|join:", " }}</td>{% endif %}{% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                    <td width="50">
+                    <a href="/account/phones_list/fix/edit/{{ key }}/1/?call={{ key2 }}"><img src={{ MEDIA_URL }}images/edit.png></a>
+                    </td>
+                    <td width="50"><a href="delete/{{ key }}/"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a></td>
+                    
+                    
+            </tr>
+            {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table> 
+        {% else %}
+        <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>У Вас нету списков данного типа</p>
+        </div>
+    </div>
+    
+      {% endif %} 
+       
+       
+       
+      <h1 class="title">Белые списки</h1>
+     {% if list_dict_white %}
+     <table width="100%" class="type-2">
+            <thead>
+           <tr>
+                	<th style="word-wrap: break-word;">Название</th>
+                    <th>Тип вызова</th>
+                	<th>Внутренние номера</th>
+                    <th>Городские номера</th>
+                    <th>Группы</th>                    
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for key, value in list_dict_white.items %}
+            {% for key2, value2 in value.items %} 
+            
+            <tr>
+            		<td width="120" style="word-wrap: break-word;">{% for sm, smval in list_dict_out_name.items %}{% if key == sm %}{{smval}}{% endif %}{% endfor %}</td>
+                    <td width="40">{% if key2 == 1 %}Входящий{% else %}{% if key2 == 2 %}Исходящий{% endif %}{% endif %}</td>
+            		<td width="50">{{ value2|join:", " }}</td>
+                    
+                    
+                    {% for key4, value4 in ext_white.items %}
+                    {% for item in value4.items %}
+                    {% if key4 == key %}{% if item.0 == key2 %}<td width="50">{{ item.1|join:", " }}</td>{% endif %}{% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                    
+                    
+                    {% for key3, value3 in d_white.items %}
+                    {% for item in value3.items %}
+                    {% if key3 == key %}{% if item.0 == key2 %}<td width="50">{{ item.1|join:", " }}</td>{% endif %}{% endif %}
+                    {% endfor %}
+                    {% endfor %}
+            		<td width="50"><a href="/account/phones_list/fix/edit/{{ key }}/2/?call={{ key2 }}"><img src={{ MEDIA_URL }}images/edit.png></a></td>
+                    <td width="50"><a href="delete/{{ key }}/"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a></td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+	{% else %}
+
+    <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>У Вас нету списков данного типа</p>
+        </div>
+    </div>
+    {% endif %} 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   {% comment %}     
+        
+        <h1 class="title">Входящие вызовы <img src={{ MEDIA_URL }}images/inbox.png></h1>
+    {% if list_dict_in %}
+        <table class="type-2">
+           <thead>
+                <tr>
+                	<th>Список</th>
+                    <th>Тип списка</th>
+                    <th>Номера</th>
+                    <th>Внешние номера</th>
+                    <th>Группы</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+            {% for key, value in list_dict_in.items %}
+            {% for key2, value2 in value.items %} 
+            <tr>
+            		<td>{% for sm, smval in list_dict_in_name.items %}{% if key == sm %}{{smval}}{% endif %}{% endfor %}</td>
+            		<td>{% if key2 == 1 %}Черный{% else %}{% if key2 == 2 %}Белый{% else %}{% if key2 == 3 %}Перенаправлять{% endif %}{% endif %}{% endif %}</td>
+                    <td>{{ value2|join:", " }}</td>
+                    
+                    
+                    {% for key4, value4 in ext_in.items %}
+                    {% for item in value4.items %}
+                    {% if key4 == key %}{% if item.0 == key2 %}<td>{{ item.1|join:", " }}</td>{% endif %}{% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                    
+                    
+                    {% for key3, value3 in d_in.items %}
+                    {% for item in value3.items %}
+                    {% if key3 == key %}{% if item.0 == key2 %}<td>{{ item.1|join:", " }}</td>{% endif %}{% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                    <td>
+                    <a href="/account/phones_list/fix/edit/{{ key }}/{{ key2 }}/?call=1"><img src={{ MEDIA_URL }}images/edit.png></a>
+                    </td>
+                    <td><a href="delete/{{ key }}/">{% trans "Delete" %}</a></td>
+                    
+                    
+            </tr>
+            {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+	{% else %}
+
+    <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>У Вас нету списков данного типа</p>
+        </div>
+    </div>
+    {% endif %}
+    
+   
+    <h1 class="title">Исходящие вызовы <img src={{ MEDIA_URL }}images/outbox.png></h1>
+     {% if list_dict_out %}
+     <table class="type-2">
+            <thead>
+           <tr>
+                	<th>Список</th>
+                    <th>Тип списка</th>
+                	<th>Номера</th>
+                    <th>Внешние номера</th>
+                    <th>Группы</th>                    
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for key, value in list_dict_out.items %}
+            {% for key2, value2 in value.items %} 
+            
+            <tr>
+            		<td>{% for sm, smval in list_dict_out_name.items %}{% if key == sm %}{{smval}}{% endif %}{% endfor %}</td>
+                    <td>{% if key2 == 1 %}Черный{% else %}{% if key2 == 2 %}Белый{% endif %}{% endif %}</td>
+            		<td>{{ value2|join:", " }}</td>
+                    
+                    
+                    {% for key4, value4 in ext_out.items %}
+                    {% for item in value4.items %}
+                    {% if key4 == key %}{% if item.0 == key2 %}<td>{{ item.1|join:", " }}</td>{% endif %}{% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                    
+                    
+                    {% for key3, value3 in d_out.items %}
+                    {% for item in value3.items %}
+                    {% if key3 == key %}{% if item.0 == key2 %}<td>{{ item.1|join:", " }}</td>{% endif %}{% endif %}
+                    {% endfor %}
+                    {% endfor %}
+            		<td><a href="/account/phones_list/fix/edit/{{ key }}/{{ key2 }}/?call=2"><img src={{ MEDIA_URL }}images/edit.png></a></td>
+                    <td><a href="delete/{{ key }}/">{% trans "Delete" %}</a></td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+	{% else %}
+
+    <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>У Вас нету списков данного типа</p>
+        </div>
+    </div>
+    {% endif %}
+        
+
+    {% endcomment %}
+   
+    
+    <div class="submit-row">
+        <p class="deletelink-box">
+            <a class="bt bt-blue2" href="add/">Добавить новый список</a>
+        </p>
+    </div>
+    
+{% else %}
+
+    <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>{% trans "You have no internal numbers. You should create one first" %}</p>
+        </div>
+    </div>
+        
+{% endif %}
+
+{% endblock %}

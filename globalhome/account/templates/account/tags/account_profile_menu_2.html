@@ -1,0 +1,79 @@
+	
+	
+				
+	
+<div class="cols-side"><div id = "aside_Menu" class="cols-side-i">
+<i class="composition">
+					<img src="{{ MEDIA_URL }}images/compositions_mosdata/01.png" alt="">
+				</i>
+				<i class="visual">
+				<i class="visual-ll"></i><i class="visual-lr"></i>
+					<i class="visual-rl"></i><i class="visual-rr"></i>
+				</i>
+				
+    <div class="balance">
+        <div class="balance-inner">
+        <table>
+			{% with user.get_profile.billing_account.ballance as b %}
+			<tr>
+				<td><h4>Баланс:</h4></td>
+				<td><h3>{{ b }} </h3></td>
+				<td><h3> RUR</h3></td>
+			</tr>
+			{% endwith %}
+        </table>
+		<table>
+			{% with user.get_profile.get_free_minutes as m %}
+				{% if m %}
+					<tr>
+						<th colspan="2"><h4>Бесплатные минуты:</h4></th>
+					</tr> 
+				{% endif %}   
+				{% for name, minutes  in m.items %}
+					<tr>
+						<th><span class="balance-inner-th" title="{{ name }}"> {{ name }}</span></th>
+						<td><span class="balance-inner-td"> {{ minutes }}</span></td>
+					</tr>
+				{% endfor %}
+			{% endwith %}
+  		</table>
+            <p style = "margin-left:  23px;"> 
+                <a href="/account/payment/">Пополнить баланс</a>
+            </p>
+            <hr />
+        </div>
+    </div>
+
+    {% if not user.get_profile.is_card %}
+    <div style = "margin-left:  23px;" class="navside">
+        <h4>Дата-центр</h4>
+        <ul>
+            <li {% if my_data_centr.is_current %} class="active" {% endif %} ><a href="/account/demands_dc/">Мои заявки и заказы</a></li>
+            <li {% if demands_dc_archive.is_current %} class="active" {% endif %} ><a href="/account/demands_dc/demands_dc_archive/">Архив заявок и заказов</a></li>
+			<!--============================Menu bez Django=======================-->
+			 <li {% if account_data_centr.is_current %} class="active" {% endif %}><a href=" /account/data_centr/">Заказать услугу</a></li>
+			  <hr> 
+			 <li {% if account_dedicated.is_current %} class="active" {% endif %} ><a href="/account/dedicated/">Выделенные сервера</a></li>
+			 <li {% if account_rack.is_current %} class="active" {% endif %} ><a href="/account/rack/">Серверные стойки</a></li>
+			 <li {% if account_colocation.is_current %} class="active" {% endif %} ><a href="/account/colocation/">Размещение серверов</a></li>
+			 <li {% if account_vds.is_current %} class="active" {% endif %} ><a href="/account/vds/">Виртуальные сервера</a></li>
+			 <li {% if account_hosting.is_current %} class="active" {% endif %} ><a href="/account/hosting/">Хостинг</a></li>
+			 <li {% if vpn_users.is_current %} class="active" {% endif %} ><a href="/account/internet/vpn/">Прокси-сервер</a></li>
+			 <li {% if account_communication_links.is_current %} class="active" {% endif %} ><a href="/account/communication_links/">Аренда каналов связи</a></li>
+        </ul>
+    </div>
+    {% endif %}
+    {% if user.get_profile.is_card %}
+   <div class="navside">   
+   <h4>Дополнительные услуги</h4>
+        <ul>
+            <li {% if hotspot_statistic.is_current %} class="active" {% endif %} ><a href="/account/internet/hotspot/statistic/">Статистика</a></li>
+        </ul>
+   </div>
+   
+    {% endif %}
+</div>
+
+</div><!--cols-side-->
+		<!--style = "position: absolute; top: 1200px;"-->
+		

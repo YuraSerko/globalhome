@@ -1,0 +1,149 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+{% block extra_head %}
+<script type="text/javascript">	
+
+	function onClick(clickedId){
+		order_by = clickedId
+		uri = document.location.href
+		index = uri.indexOf("order_by=")
+		if (index < 0){
+			uri = setURLParameter(uri, "order_by", "date_send")
+			uri = setURLParameter(uri, "order_type", "DESC")
+		}
+		field_name = getURLParameter(uri, "order_by")
+		if (field_name == order_by){
+			if (getURLParameter(uri, "order_type") == "DESC")
+				uri = setURLParameter(uri, "order_type", "ASC")
+			else
+				uri = setURLParameter(uri, "order_type", "DESC")
+		} else uri = setURLParameter(uri, "order_type", "DESC")
+		uri = setURLParameter(uri,"order_by",order_by)
+		window.location.href = uri
+	}	
+	
+	$(document).ready( function(){
+		index = document.location.href.indexOf("order_by=")
+		if (index == -1){
+			uri = document.location.href
+			uri = setURLParameter(uri, "order_by", "date_send")
+			uri = setURLParameter(uri, "order_type", "DESC")
+			row = document.getElementById("datetime")
+			row.innerHTML = row.innerHTML + " &#9660;"
+		}
+		else{
+			sortedRow = getURLParameter(document.location.href, "order_by")
+			order_type = getURLParameter(document.location.href, "order_type")
+			row = document.getElementById(sortedRow)
+			text = row.innerHTML
+			if (order_type == "DESC")
+				row.innerHTML = text + " &#9660;"
+			else row.innerHTML = text + " &#9650;"
+		}
+	})
+	
+	function setURLParameter(uri, key, value) {
+		var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
+		separator = uri.indexOf('?') !== -1 ? "&" : "?";
+		if (uri.match(re)) {
+			return uri.replace(re, '$1' + key + "=" + value + '$2');
+		}
+		else {
+			return uri + separator + key + "=" + value;
+		}
+	}
+	
+	function getURLParameter(uri, name) {
+		return decodeURI(
+			(RegExp(name + '=' + '(.+?)(&|$)').exec(uri)||[,null])[1]
+		);
+	}
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+        <h1 class="title">{{ title }}</h1>
+   
+        <div class="ugc">
+            <p>Здесь можно посмотреть статистику отправленных Вами факсов. Вы можете заполнить необходимые поля и нажать кнопку  "Показать"</p>
+        </div>
+        
+       {{ block.super }}
+        
+      <form>
+        {{ form.errors }}
+     	 <div class="filter">
+                <div class="filter-body">
+                    <div class="filter-body-left">
+                        <div class="filter-body-right">
+                             Дата:
+                            <label>
+                                <span class="label">с:</span>
+                                {{ form.date_from }}
+                            </label>
+                            <label>
+                                <span class="label">по:</span>
+                                {{ form.date_to }}
+                            </label>
+                            <div class="form-item">
+                                <label>
+                                    <span class="label">Вызывающий абонент:</span>
+                                    {{ form.caller_number }}
+                                </label>
+                            </div>
+                            <div class="form-item">
+                                <label>
+                                    <span class="label">Вызываемый абонент:</span>
+                                    {{ form.called_number }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                <input type="hidden" name="filter" value="1">
+             </div>
+            <div class="filter-ctrl">
+                <input type="submit" class="bt bt-blue2" value="{% trans 'Show' %}">
+                <input type="submit" class="bt bt-blue2" value="{% trans 'Clear' %}" onclick="location.href='{% url "account_balancefax" %}'; return false;">
+            </div>
+		</div>
+	{% if transactions %}
+    <table class="type-b" id="balance">
+        <thead>
+        
+            <tr>
+            	<th id="date_send" onClick="onClick(this.id)">Время отправки</th>
+                <th id="number" onClick="onClick(this.id)">Вызывающий абонент</th>
+                <th id="to_numb" onClick="onClick(this.id)">Вызываемый абонент</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+		
+        {% for trans in transactions %}
+            <tr>
+            	<td>{{ trans.date_send }}</td>
+                <td>{{ trans.number }}</td>
+                <td>{{ trans.to_numb }}</td>
+                <td>
+                {% if trans.status == '2' %}Номер не доступен{% else %}{% if trans.status == 'USER_BUSY' %}Номер занят{% else %}{% if trans.status == '1' %}Отправлен{% else %}{% if trans.status == 'ORIGINATOR_CANCEL' %}Номер не отвечает{% else %}{% if trans.status == 'CALL_REJECTED' %}Не достаточно средств, пополните баланс{% else %}{% if trans.status == 'OUTGOING_CALL_BARRED' %}Не достаточно средств, пополните баланс{% else %}{% if trans.status == 'NORMAL_CLEARING' %}Факс не отправлен{% else %}{% if trans.status == '' %}Отправляется{% else %}{{ trans.status }}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
+                </td>
+                
+           
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+     <div class="ctrls">
+            
+            {% include 'paginator.html' %}
+      </div><!--ctrls-->
+      
+   	{% endif %}
+    </form>
+{% endblock %}
+
+
+

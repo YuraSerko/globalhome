@@ -1,0 +1,77 @@
+{% load i18n form_tags lib_tags %}
+<input id="count_or" name="count_or" type="hidden" value="{{ len_or_or }}"/>
+<div class="form-section form-section2">
+       <div class="form-row form-field " id="form-field-wrapper-name">
+            <div>
+                <label for="id_name">Название</label>
+                     <div class="field">   
+                         <input id="name_field" name="name" type="text" value="{{ model.name }}">
+                       </div>
+             </div>
+        </div>
+    </div>
+    <hr>
+     <div class="form-section form-section2">
+        <span class="label">Ваш файл: <ins>{{ model.file_wav }}</ins></span>
+        <span class="label">Выберите другой медиа файл:</span>
+        <input id="file_wav" name="file_wav" type="file"/>
+        <div class="hint"><i></i>Подключение собственного ivr</div>
+    </div><!--form-section-->
+<hr>
+<div class="form-section form-section2">
+        <ul class="iform" id="containerok">
+		{{ html|safe }}
+        </ul><!--iform-->
+        
+        <div class="set">
+            <input id="addNewField" class="bt bt-grey" value="Ещё набор..." name="Add new field" type="button">
+        </div>
+        <div class="set">
+            <label><input id="int_enabled" name="int_enabled" type="checkbox" {% if model.int_enabled %}checked{% endif %} value="">Включить внутренние номера разрешенные к донабору в голосовом приветствии</label>
+        </div>
+        
+        <div id="int_numbers">
+            <table style="overflow-y: no-display;">
+            <thead>
+                    <tr>
+                        <th>Не разрешенные к донабору:</th>
+                        <th></th>
+                        <th>Разрешенные к донабору:</th>
+                   	</tr>
+                </thead>
+                <tr>
+                    <td width="50" height="133" style="width:30%; margin: 0; padding: 0;">                   
+                        <select ondblclick="displayResult()" name="oper2" size="9" id="selected_numbers" style="height:100%; width: 250px;">
+                        {% for ch_int in choicesint %}
+                            {% if ch_int not in model.int_numbers %}
+                            <option value="{% for ch in choices_numbers %}{% if ch_int in ch %}{{ ch }}{% endif %}{% endfor %}">{% for ch in choices_numbers %}{% if ch_int in ch %}{{ ch }}{% endif %}{% endfor %}</option>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
+                    </td>
+                    <td style="width:5%;">
+                   		<button name="input4" class="bt bt-blue2" onclick="displayResult3()" type="button"style="width: 100%;">>></button>
+                        <p style="margin: 0"><font color="#FFFFFF">_</font></p>
+                   		<button name="input2" class="bt bt-blue2" onclick="displayResult()" type="button" style="width: 100%;">></button>
+                        <p style="margin: 0"><font color="#FFFFFF">_</font></p>
+                   		<button name="input3" class="bt bt-blue2" onclick="displayResult2()" type="button" style="width: 100%;"><</button>
+                        <p style="margin: 0"><font color="#FFFFFF">_</font></p>
+                   		<button name="input5" class="bt bt-blue2" onclick="displayResult4()" type="button" style="width: 100%;"><<</button>
+                    </td>
+                    <td width="217" style="width:35%; padding-left: 10px;">
+                        <select name="numbers" size="9" id="selected_numbers2" ondblclick="displayResult2()" style="height:100%; width: 250px;">
+                        {% for chint in choicesint %}
+                            {% if chint in model.int_numbers %}
+                            	<option  value="{% for ch in choices_numbers %}{% if chint in ch %}{{ ch }}{% endif %}{% endfor %}">{% for ch in choices_numbers %}{% if chint in ch %}{{ ch }}{% endif %}{% endfor %}</option>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
+                    </td>
+                    <td style="width:25%;">
+                    </td>
+                </tr>
+            </table> 
+        </div>
+        <input id="int_numb" name="int_numb" type="hidden" /> 
+        <div class="hint"><i></i>Расставьте логику голосового меню</div>
+    </div><!--form-section-->

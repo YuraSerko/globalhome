@@ -1,0 +1,361 @@
+/*Жанры*/
+.genres {
+            position: relative;
+            margin: 0 -10px 10px;
+            padding-top: 10px;
+            width: 102%;
+            font-family: Segoe UI;
+            font-size: 10px;
+            text-transform: uppercase;
+            background: #9F9F9F;
+            border-bottom: 1px solid #4B5D6B;
+            border-top: 1px solid #4B5D6B;
+            }
+            .genres ul li {
+            display: inline;
+            float: left;
+            margin: 0 10px;
+            }
+            .genres ul li a {
+                padding-top:4px;
+            margin-bottom: 10px;
+            display: block;
+            border-radius: 5px;
+            padding-left: 22px;
+            width: 110px;
+            height: 20px;
+            text-decoration: none;
+            color: #333;
+            background: #EEE url(/media/images/genres_item_wrapper.png) no-repeat 0 -20px;
+            }
+            .genres ul li a:hover{
+                background-position: 0px 0px; 
+            }
+            .genres ul{
+                width: 102%;
+            }
+            .film_title{
+                /*padding-left: 100px;
+                
+                vertical-align: middle;*/
+                background-image: linear-gradient(#5C96DC, #B0E5FF);
+                height: 30px;
+                text-align: center;
+            }
+            .film_title p{
+                padding-top: 5px;
+                font-weight: 700;
+                font-size: 16px;
+                color: white;
+            }
+            .find_element{
+                margin-top: 0px;
+                margin-bottom: 40px;
+            }
+
+            #active{
+                border: 1.9px solid red;
+            }
+            #active_all{
+                border: 1.9px solid red;
+            }
+            #films{
+                color: orange !important;
+            }
+            #serials{
+                color: orange !important;
+            }
+
+            .one_video_desc{
+    font-family: Segoe UI;}
+
+.video_desc_right{
+    
+}
+
+.img_left{
+    float:left; 
+    padding-right:20px;
+    
+}
+
+.video_desc_right li
+{
+    margin:10px;
+}
+
+.one_video_desc{
+border-left:1px solid #5591DA;
+border-right:1px solid #5591DA;
+border-top:1px solid #5591DA;
+padding-bottom:18px;
+}
+
+.one_video_desc_last{
+border:1px solid #5591DA;
+padding-bottom:18px;
+margin-bottom:5px;  
+}
+    
+.video_desc_right li b{
+color:#2268C6;
+}
+
+#buttom
+{
+
+margin-top: -20px;
+position: relative;
+right: -270px;
+
+}
+
+.bt 
+{margin-right:4px!important;}
+
+.bt-orange {
+    padding: 5px 11px 3px;
+    background: orange!important;
+    background: -moz-linear-gradient(top, #4ba6e9 0%, #2570c7 100%); 
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4ba6e9), color-stop(100%,#2570c7));
+    background: -webkit-linear-gradient(top, #4ba6e9 0%,#2570c7 100%);
+    background: -o-linear-gradient(top, #4ba6e9 0%,#2570c7 100%);
+    background: -ms-linear-gradient(top, #4ba6e9 0%,#2570c7 100%);
+    background: linear-gradient(to bottom, #4ba6e9 0%,#2570c7 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4ba6e9', endColorstr='#2570c7',GradientType=0 );
+    box-shadow: 0 1px 0 #c0c0c0;
+    border: none;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font: 700 12px Arial, sans-serif;
+    text-shadow: 0 -1px 0 #2465b4;
+    margin-right:4px!important;
+}
+
+.numbers_of_paginator{
+    margin-bottom: 20px; 
+    text-align: center; 
+    margin-left: -100px;
+}
+#rating_films{
+     position: relative;
+     width: 30%;
+     margin-top: 30px;
+     display: inline-block;
+     margin-left: 10px;
+}
+
+.bad_video_link{
+ margin-left: -100px;  
+margin-bottom: 15px;
+}
+.bad_video_link a{
+ white-space: nowrap;
+font-size: 125%;
+color: gray;
+text-decoration:underline;
+    }
+.bad_video_link a:hover{
+    text-decoration: none;
+
+}
+
+#com_cont_sub_bad_link{
+    display: block;
+    margin-bottom: 10px;
+    height: 32px;
+     color: #296CC6;
+    min-width: 0;
+    width: 140px;
+    font-size:140%;
+
+}
+
+.modal_tip{
+
+}
+
+.display_score_and_votes div{
+    /*border: 1px solid red;*/
+    box-shadow: 1px 1px 1px black;
+    background: #E1E1E1;
+}
+
+/*Комменты к фильмам*/
+#comments {
+background-color: #EBEBEE;
+border: 1px solid #89C0EF;
+margin: 3px 8px 20px 8px;
+padding: 5px 0 25px 10px;
+}
+.znt {
+font-size: 18px;
+color: black;
+position: relative;
+text-align: justify;
+top: 7px;
+margin-bottom: 15px;
+margin-left: 5px;
+}
+#comq {
+position: relative;
+top: 0px;
+float: left;
+ margin-bottom: 10px;
+}
+
+#comq input {
+background-color: #1c1c1c;
+}
+#comments input {
+background-color: white;
+border: 1px solid #89C0EF;
+color: black;
+font-size: 14px;
+}
+#author {
+height: 20px;
+padding: 1px 5px;
+cursor: default;
+color: black;
+}
+#comme{
+  height: 20px;
+padding: 1px 5px;
+cursor: default;
+color: black;  
+}
+
+/*#comments textarea::-webkit-input-placeholder { color: red; }*/
+#comments textarea {
+
+background-repeat: no-repeat;
+background-color: white;
+padding: 5px;
+border: 1px solid #89C0EF;
+height: 113px;
+ width: 75%;
+font-size: 13px;
+color: black;
+font-family: Verdana, Geneva, sans-serif;
+overflow: auto;
+}
+#comments textarea {
+margin: 0em;
+font: -webkit-small-control;
+
+letter-spacing: normal;
+word-spacing: normal;
+text-transform: none;
+text-indent: 0px;
+text-shadow: none;
+display: inline-block;
+text-align: start;
+}
+#comments input {
+/*background-color: #222;
+border: 1px solid #555;*/
+
+font-size: 14px;
+}
+
+.submit {
+height: 34px;
+width: 100px;
+cursor: pointer;
+font-size: 13px !important;
+border: none !important;
+background-image: url(/media/images/send.png);
+margin-bottom: 10px;
+margin-top: 5px;
+float: left;
+}
+#comment-form{
+    width: 60%;
+}
+#comments{
+    width: 75%;
+margin-left: -90px;
+}
+.comment{
+background: url(/media/images/comment.png) no-repeat;
+position: relative;
+/*left: -40px;*/
+width: 600px;
+padding-left: 22px;
+padding-top: 3px;
+}
+.author_name{
+    position: relative;
+    /*left: -270px;*/
+    top:-3px;
+    color: #cccccc;
+    font-size: 12px;
+
+}
+.ct-avatar {
+position: absolute;
+left: 7px;
+top: 34px;
+height: 70px;
+width: 70px;
+}
+.right {
+float: right;
+}
+.ct-text {
+display: block;
+color: #aaa;
+line-height: 18px;
+padding-bottom: 5px;
+padding-top: 9px;
+width: 490px;
+position: relative;
+left: 15px;
+min-height: 86px;
+}
+.avatar{
+    top: -58px;
+position: relative;
+}
+ul.comment-list li{
+    margin-bottom: 20px ;
+}
+.ct-text span{
+display: block;
+color: black;
+line-height: 18px;
+padding-bottom: 5px;
+padding-top: 9px;
+width: 490px;
+position: relative;
+/*left: -255px;*/
+/*min-height: 86px;*/
+font-family: Verdana, Geneva, sans-serif;
+font-size: 12px;
+word-break: break-all;
+text-align: justify;
+}
+.bad_video_link{
+ margin-left: -50px;  
+margin-bottom: 15px;
+}
+.bad_video_link a{
+ white-space: nowrap;
+font-size: 125%;
+color: gray;
+    }
+.bad_video_link:hover{
+    text-decoration: none;
+
+}
+
+.link_genre{
+color: gray;
+text-decoration: underline;
+}
+.link_genre:hover{
+
+text-decoration: none;
+}
+

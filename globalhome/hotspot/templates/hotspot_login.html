@@ -1,0 +1,358 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+
+{% endblock %}
+
+{% block content %}
+
+
+
+{% block sendin %}
+    {{block.super}}
+{% endblock %}
+
+		
+		{% if message_obshaga %}
+<style>
+	.message_obchaga{
+		position: relative;
+		text-align: center;
+		color: red;
+		/*left: -150px;*/
+		min-width: 400px;
+		max-width: 620px;
+		margin-left: 20px;
+		/*margin-left: 100px;*/
+		display: inline-block;
+		
+	}
+	@media screen and (min-width: 1200px){
+		.email{
+	top: 0px;
+	}
+	.message_obchaga{ /*#main*/
+		margin-left: 220px;
+	}
+	
+	}
+	
+</style>
+		<div class = "message_obchaga">{{message_obshaga}}</div>
+		{% endif %}
+		
+		
+		
+    <article id="right">
+	  {% block notbegun %}
+    {{block.super}}
+         {% endblock %}
+
+<style>
+  
+</style>
+  						<div id = "time_gl_mobi"><div class="time"></div><div id="date_gl_mobi">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<div style = "display: inline;"class = "date">14.03.2014</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Москва</div></div>
+  								<input id = "date_django" type="hidden" value="{{date_d}}">
+  							<script>
+              
+  							setInterval(time, 1000);
+  							function time(){
+  							var t = new Date();
+  							var d = new Date();
+                 var min = t.getMinutes()
+                    m = "";
+                    if (min < 10){
+                      m = "0";
+                    }
+                    s ="";
+                    sec = t.getSeconds();
+                    if (sec < 10){
+                      s = "0";
+                    }
+							$('#time_gl_mobi .time ').text(t.getHours()+":"+m+t.getMinutes()+":"+s+t.getSeconds());
+							
+							$('.date').text($('#date_django').val())
+  														}
+  							</script>
+
+     <a href="/weather"  title="Прогноз погоды">
+     <div class = "mail_weather">
+     <span style = "margin-left:0px; margin-top:25px; float:left">Погода</span>
+     <div class='{{ current_weather_list.9 }}' style = "margin-left:5px;!important;"></div>
+    <span style = "margin-top:25px; float:left">{{ current_weather_list.3 }}..{{ current_weather_list.4 }}°</span>
+     </div>
+     </a>
+
+
+                    <div class="email">
+                    <a href="/mail/">
+                        <img src = "/media/img_news/mail.png">
+                        </a>
+                    </div>
+                
+                <div class = "financy"> 
+
+				<div class = 'money'>
+					<a href = '/finance/currency/' title = 'Все курсы вылют'>
+						<table>
+						<tbody>
+						
+							{% for rate in rate_list %}
+							<tr><td class='cash_name'>{{rate.name}}</td><td class='cash_code'>{{rate.char_code}}</td><td class='cash_value'>{{rate.value}}</td></tr>		
+							{% endfor %}			
+						</tbody>
+						</table>
+					</a>
+				</div>	<!---->
+
+    	</div>	
+				<!--div style="height: 63px;" class="oplata_uslug">
+        <div style="">
+        <table>
+            <tbody>
+              <tr><td>Прием платежей</td></tr> 
+              <tr><td>
+               <select name="group" id="oplata_chet" style="font-size:10px;width: 170px" onchange="javascript:urla=this.value;window.location.href=urla;">>
+                <option value="http://www.e-pos.ru/main.php?group=mobile&p=e63f999fadf010689ca0e01cd8e1e64b">Мобильная связь</option>
+                <option value="http://www.e-pos.ru/main.php?group=inet&p=e63f999fadf010689ca0e01cd8e1e64b">Интернет</option>
+                <option value="http://www.e-pos.ru/main.php?group=ip&p=e63f999fadf010689ca0e01cd8e1e64b">IP-телефония</option>
+                <option value="http://www.e-pos.ru/main.php?group=tv&p=e63f999fadf010689ca0e01cd8e1e64b">Телевидение</option>
+                <option selected = 'selected' value="http://www.e-pos.ru/main.php?group=commun&p=e63f999fadf010689ca0e01cd8e1e64b">Коммунальные услуги</option>
+                <option value="http://www.e-pos.ru/main.php?group=other&p=e63f999fadf010689ca0e01cd8e1e64b">Другие услуги</option>
+                </select>
+                <button class = "plategi_button bt-blue2" onclick="javascript:document.location.href=$('#oplata_chet').find(':selected').val() " >Оплатить</button>
+              </td></tr>   
+            </tbody>
+            </table>  
+            </div>  
+        </div-->
+		
+        <style>
+        
+        
+        .tickets_banner a{
+        	text-decoration: none;
+        }
+        .tickets_banner button{
+        	text-decoration: none;
+        	margin: 13px;
+        	height: 40px;
+        	width: 100px;
+        	cursor: pointer;
+        	font-size: 12pt;
+        }
+        	.tickets_banner {
+        		
+        		cursor: pointer;
+        	}
+        </style>
+        <div style="height: 63px;" onclick = "document.location = '/tickets/'" class="oplata_uslug tickets_banner" ><button>Купить билет</a></button>
+				</div>
+
+				{% block burat2 %}
+        {{block.super}}
+        {% endblock %}		
+				<div class = 'info'>
+				<span><a href='/news/'>Новости:</a></span>
+					<ul class='ul_info_a'>
+					{% for news in news_bunner %}
+						<li><a href='/news/?out={{news.id}}'>{{news.title_news}}</a> </li>
+					{%endfor%}	
+					</ul>
+				
+				
+				
+				</div>
+				
+			
+		<style>
+			@media only screen and (min-width: 1200px){
+			.advert_2{
+					float: right;
+					margin: 20px;
+					width: 120px;
+					/*margin-right: -80px;*/
+					height: 600px;
+					/*border: 2px solid #4282D2;*/
+				}
+				
+				}
+		</style>	
+		
+	<div class = "advert_2">
+		<script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement|add:17}}"></script>
+						</div>
+			<div id='centr_field'>
+			{% block cap %}
+                {{ block.super }}
+                
+                {% endblock %} 
+				
+                
+
+                	{% if not search %}	
+					<br>
+					<br>
+					<div  class="games__title"><a href="games/top/" class="games__title__link" name="clb1750972"><span class="games__title__link__text">Игры</span></a></div>
+					<table cellspacing="0" class="games__list"><tbody><tr>
+					<td class = "games__list__col games__list__col_left">
+						<div class="games__list__item games__list__item_odd">
+								<a name="n114687236sz0" href="/games/top/" class="games__list__item__link">
+								<img  class="games__list__item__link__image" src="/media/images/banner_games/1339670089_log_5194.png" width="50" height="50" alt="" border = "1">
+								<span class="games__list__item__link__title">Топовые игры</span>
+								</a>
+						</div>
+						<div class="games__list__item games__list__item_even"><a name="n114687237sz0" href="/games/azart/" class="games__list__item__link"><img class="games__list__item__link__image" src="/media/images/banner_games/b23250099.jpg" width="50" height="50" alt="" border = "5"><span class="games__list__item__link__title">Азартные игры</span></a></div>
+
+                    </td>
+                    {% endif %}                 
+
+                    </tr>
+                    
+                    </tbody>
+                    </table>
+
+						
+			</div>	
+			
+			
+			
+	<!--/article-->
+		
+		
+		
+<div  id="all_result" class="yandex_search_result">
+	
+  {% if google %}
+    	{% if search %}
+		    	<style>
+					@media only screen and (min-width: 1200px){
+						#all_result{
+							margin-top: -400px;
+						}
+					}
+			</style>
+    	<script language="JavaScript" type="text/javascript" src="http://ghmedia.ru/get/?sid=5&q={{ query }}"></script>
+    	<div class="results">
+      {% endif %}
+	  {% if event %} 
+        <div id="wrap" style="position:relative">
+        <img width="100%" height="100%" onclick="check_window(event,this)" src="media/img/dock/blank.gif " style="z-index:100;position:absolute; "/>
+      {% endif %} 
+
+		<div id="cse-search-results"></div>
+		<script type="text/javascript">
+		  var googleSearchIframeName = "cse-search-results";
+		  var googleSearchFormName = "cse-search-box";
+		  var googleSearchFrameWidth = 800;
+		  var googleSearchDomain = "www.google.ru";
+		  var googleSearchPath = "/cse";
+		</script>
+		<script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js"></script>
+      {% if event %} 
+        </div>
+       {% endif %} 
+    </div>
+    
+    {% endif %}
+
+    {% if yandex %}
+
+      <style>/* Реклама с ghmedia */
+      @media screen and (max-width: 720px) {
+              .context-adv{
+               margin-left: 0px !important; 
+               left: 10% !important;
+                } 
+                .results{
+                  
+                }
+                #all_result{
+                  width: 100%;
+                }
+                                        }
+      </style>
+        {% if not emp%}
+        {% if search %}
+		        <style>
+					@media only screen and (min-width: 1200px){
+						#all_result{
+							margin-top: -400px;
+						}
+					}
+			</style>
+        <script language="JavaScript" type="text/javascript" src="http://ghmedia.ru/get/?sid=5&q={{ query }}"></script>
+        {% endif %}
+        <div class="results">
+            {{ya_spr|safe}}
+            {% for re_obj in ya_res%}
+            
+            {% if event %}
+            <span class='count_numb'>{{re_obj.num}}</span><a href = '{{re_obj.href}}' class = 'ya_links' onmousedown = 'check_window(event,this)'>{{re_obj.title}}<p >{{re_obj.snip}}</p></a><br>
+            {%else%}
+  
+            <span class='count_numb'>{{re_obj.num}}</span><a href = '{{re_obj.href}}' class = 'ya_links' target="_blank">{{re_obj.title}}<p>{{re_obj.snip}}</p></a><br>
+            {% endif %}
+            
+            {% endfor%}
+            
+            
+
+            <div class="all_pag">
+                <span class="all_pag">
+                    {% if ya_res.has_previous %}
+                    <a href="?query={{query}}&page={{ ya_res.previous_page_number }}" class = 'prev'></a>
+                    {% endif %}
+                    
+                    {% for pg in ya_res.paginator.page_range%}
+                      {% if pg >= m_r %}
+                         {% if pg == ya_res.number %}
+                            <a href = '?query={{query}}&page={{pg}}' class = ' pagin current_page'>{{pg}}</a>
+                         {% else %}
+                            <a href = '?query={{query}}&page={{pg}}' class = 'pagin'>{{pg}}</a>
+                         {%endif%}
+                      {%endif%} 
+                    {% endfor%}
+                    
+        
+                    {% if ya_res.has_next %}
+                    
+                        <a href="?query={{query}}&page={{ ya_res.next_page_number }}" class = 'next'></a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    {% else %}
+    <p class="empty_search">Задан пустой поисковый запрос.</p>
+    {%endif%}
+{% endif %}
+</div>
+ 
+ 
+ 		</article>
+ 
+ 
+ <!--  <div id = 'res_test_1'></div>-->
+    {% block login_1 %}
+        {{block.super}}
+    {% endblock %}
+        
+        
+        {% block hs_login2 %}
+            {{ block.super }}
+        {% endblock%}
+            
+    {% block review_window %}
+      {{block.super}}
+	  {% endblock %} 
+        
+      {% block complaint_window %}
+	  {{block.super}}
+	  {% endblock %}
+      
+      
+
+      
+       
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+<link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" /> 
+<link type="text/css" href="{{ MEDIA_URL }}css/egplant_cost.css" rel="stylesheet" />
+<script type="text/javascript" src="/media/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/media/js/jquery-ui-1.8.21.custom.min.js"></script>
+<!-- 
+<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
+<style type="text/css">
+    .div-state {
+        border-radius: 3px;
+        text-align: center;
+        color: white;
+        padding: 0 3px 0 3px;
+    }
+    .reserved {
+        background: #4ba6e9;
+    }
+    .activated {
+        background: #00CC00;
+    }
+    .pause {
+        background: #F90;
+    }
+</style>
+<script>
+    function hot_key()
+    {
+        $.ajax({
+            url: "/8800add/",
+            cache: false,
+            async: false,
+            success: function(html){
+                $("#ajall").html(html);
+            }
+        });
+    }
+
+    $(function() {
+        var location = window.location.hash;
+        if(location == "#form_add") {
+            hot_key();
+        }
+    })
+
+
+    </script>
+    {{ block.super }}
+    <p class="breadcrumbs"><a href="/account/service_choice/">Выбор раздела</a> <span>→</span><a href="#">Телефония</a><span>→</span>Номер 8-800</p>
+    <h1 class="title">Номера 8-800</h1>
+    {% if is_juridical %}
+        <form method="POST">
+            {% if numbers %}
+                <table class="type-2">
+                    <tr>
+                        <th>Номер</th>
+                        <th>Тариф</th>
+                        <th>Группа</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th style="width:13%;">Статус</th>
+                    </tr>
+                    {% for number in numbers %}
+                        <tr>
+                            <td>{{ number.number }}</td>
+                            <td>{{ number.tariff }}</td>
+                            <td>{{ number.group }}</td>
+                            <td><a href="{% url '8800_edit' number.id %}">Редактировать</a></td>
+                            {% if number.state == "abon" %}
+                                {% if not number.date_deactivation %}
+                                    <td>{% comment %}<a href="{% url '8800_action' number.id %}?action=pause">Приостановить</a>{% endcomment %}</td>
+                                    <td>{% comment %}<a href="{% url '8800_action' number.id %}?action=delete">Отключить</a>{% endcomment %}</td>
+                                    <td><div class="div-state activated">Активен</div></td>
+                                {% else %}
+                                    <td></td><td></td>
+                                    <td style="color:rgb(0, 204, 0)">Активен до {{ number.date_deactivation }}</td>
+                                {% endif %}
+                            {% elif number.state == 'reservation' %}
+                                {% if not number.date_deactivation %}
+                                    <td><a href="{% url '8800_action' number.id %}?action=reserved_connect">Подключить</a></td>
+                                    <td>{% comment %}<a href="{% url '8800_action' number.id %}?action=reserved_free">Освободить</a>{% endcomment %}</td>
+                                    <td><div class="div-state reserved">Забронирован</div></td>
+                                {% else %}
+                                    <td><a href="{% url '8800_action' number.id %}?action=reserved_connect">Подключить</a></td>
+                                    <td></td>
+                                    <td style="color:#4ba6e9">Забронирован до {{ number.date_deactivation }}</td>
+                                {% endif %}
+                            {% elif number.state == 'pause' %}
+                                <td><a href="{% url '8800_action' number.id %}?action=pause_connect">Восстановить</a></td>
+                                {% if not number.date_deactivation %}
+                                    <td><a href="{% url '8800_action' number.id %}?action=pause_delete">Отключить</a></td>
+                                    <td><div class="div-state pause">Приостановлен</div></td>
+                                {% else %}
+                                    <td></td>
+                                    <td style="color:#F90">Приостановлен до {{ number.date_deactivation }}</td>
+                                {% endif %}
+                            {% else %}
+                                <td>{{ number.state }}</td>
+                                <td>2</td>
+                                <td>3</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>Нет подключенных номеров</p>
+            {% endif %}
+            <a class="bt bt-blue2" onclick="hot_key()" href="#form_add" name="modal">Добавить номер</a>
+            <a href="#" class="overlay" id="form_add"></a>
+            <div class="popup_personal" id='ajall'></div>
+        </form>
+    {% else %}
+        <div class="status status-warning">
+            <i class="ico"></i><div class="status-i"><p>Данная услуга доступна только для юридических лиц!</p></div>
+        </div>
+    {% endif %}
+{% endblock %}

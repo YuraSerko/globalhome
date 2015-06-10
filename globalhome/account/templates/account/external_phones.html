@@ -1,0 +1,76 @@
+{% extends 'account/profile.html' %}
+{% load i18n form_tags lib_tags %}
+{% block content %}
+
+{% if billing_account.phones %}
+
+{% if groups %}
+    <table>
+    <thead>
+      <tr>
+        <th>{% trans "City number" %}</th>
+        <th>{% trans "Group name" %}</th>
+        <th>{% trans "Internal numbers" %}</th>
+        <th>{% trans "Actions" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for g in groups %}
+      <tr>
+        <td>
+        {% if g.external_number %}
+        <a title="{% trans "Edit" %}" href="{% url account_edit_external_phone g.external_number.id %}">{{ g.external_number.number }}
+        </a>
+        {% else %}
+        ----
+        {% endif %}
+        </td>
+        <td>{{ g.name }}</td>
+        <td>
+        {% for n in g.telnumbersgroupnumbers_set.all %}
+           {{ n.tel_number }}<br />
+        {% endfor %}
+        </td>
+
+        <td>
+        {% if g.external_number %}
+        <a title="{% trans "Edit" %}" href="{% url account_edit_external_phone g.external_number.id %}">{% trans "Change" %}</a>
+        {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endif %}
+
+{% if not free_external_numbers_exist %}
+<p class="warning">
+{% trans "Unfortunately at the moment there are no free city numbers. Please contact technical support." %}
+</p>
+{% else %}
+
+{%if user.get_profile.is_juridical  %}
+<h2>{% trans "Add city number" %}</h2>
+<form action="" method="post">
+<p class="attention">
+<span class="help">
+{% trans "City phone number will be generated automatically" %} <br />
+{% trans "In order to receive incoming calls you need to create a group of numbers, to which these calls will be routed" %}
+</span>
+</p>
+ {% for f in form %}
+ {% form_field f block %}
+ {% endfor %}
+ <div class="submit-row">
+    <input class="default" type="submit" name="submit" value="{% trans 'Add' %}" />
+  </div>
+</form>
+{% endif %}
+{% endif %}
+
+{% else %}
+<p class="warning">{% trans "You have no internal numbers. You should create one first" %}</p>
+{% endif %}
+
+{% endblock %}
+

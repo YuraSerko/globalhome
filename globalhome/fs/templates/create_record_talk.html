@@ -1,0 +1,93 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+{% block content %}
+
+<script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/id_utils.js"></script>
+<script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/wait_utils.js"></script>
+<script type="text/javascript" language="javascript" charset="utf-8">
+
+		function PageLoaded() // вызовется, когда страница загрузится
+		{	
+			var busy_div = GetI("form-field-wrapper-record_day");
+			var busy_cb = GetI("id_record_day_enabled");
+			busy_cb.onclick = function() { Sdown(busy_div, busy_cb); }
+			Sdown(busy_div, busy_cb);
+			
+			var time_div = GetI("time_begin_end");
+			var time_cb = GetI("id_record_time_enabled");
+			time_cb.onclick = function() { Sdown(time_div, time_cb); }
+			Sdown(time_div, time_cb);
+			$("label[for='id_record_day_5']").attr('style','color:#F00');
+			$("label[for='id_record_day_6']").attr('style','color:#F00');
+			
+		}
+		
+		WaitForLoaded("day_of_week", PageLoaded); 
+		WaitForLoaded("record_time", PageLoaded);
+		
+</script>
+
+<h1 class="title">{{ title }}</h1>
+
+<div class="ugc">
+	<p>Заполните необходимые параметры записи</p>
+</div>
+ 
+{{ block.super }}
+        
+{% if not form.init_error %}
+
+    <form action="." method="post" id="RecordTalkForm">
+    	<div class="form-sections">
+
+					<div class="form-section form-section2">
+               			{% form_field form.enabled block %}
+						<div class="hint"><i></i>Включено</div>
+					</div><!--form-section-->
+                    
+                    <hr>
+                    
+                    <div class="form-section form-section2">
+                   		{% form_field form.number block %}
+						<div class="hint"><i></i>Номер на котором будет производиться запись разговоров</div>
+					</div><!--form-section-->
+                    <hr>
+                    <div class="form-section form-section2 form_django">
+                   		{% form_field form.record_type block %}
+						<div class="hint"><i></i>Фильтр по типу звонка. По умолчанию будут записаны входящие и исходящие звонки</div>
+					</div><!--form-section-->
+                    <hr>
+                    
+                    <div id="record_time" class="form-section form-section2 form_django">
+                    	{% form_field form.record_time_enabled block %}  
+                            <div id="time_begin_end">                 
+                                {% form_field form.record_time_begin block %}
+                                {% form_field form.record_time_end block %}
+                            </div>
+						<div class="hint"><i></i>Фильтр по времени. Вы можете указать интервал времени в котором необходимо производить запись</div>
+					</div><!--form-section-->
+                    <hr>
+                    
+                    <div id="day_of_week" class="form-section form-section2 form_django">
+                    	{% form_field form.record_day_enabled block %}
+                   		{% form_field form.record_day block %}
+						<div class="hint"><i></i>Фильтр по дню недели. Вы можете указать дни недели в которые необходимо производить запись</div>
+					</div><!--form-section-->
+                    
+          </div>
+        <div class="form-sections-submit">
+            {% if record_id %}
+            <div class="form-submit-left">
+                <a class="bt bt-blue2" href="../../delete/{{ record_id }}/">{% trans "Delete" %}</a>
+            </div>
+            {% endif %}
+            <div class="form-submit-right">   
+                <input type="submit" class="bt bt-blue2" name="abort" value="{% trans 'Cancel' %}"/>         
+                <input type="submit" class="bt bt-blue2" name="submit" value="{% trans 'Save changes' %}"/>
+            </div>
+        </div>
+
+    </form>
+{% endif %}
+
+{% endblock %}

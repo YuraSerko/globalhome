@@ -1,0 +1,151 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+	<style type="text/css">
+		#border_div table {
+			width: 100%;
+		}
+		.left_allign_in_table {
+			width: 100%;
+		}
+		.left_allign_in_table tr th, .left_allign_in_table tr td {
+			text-align: left;
+		}
+	</style>
+{% endblock %}
+
+{% block extrahead %}
+	{{ block.super }}
+	{{ media.js }}
+	
+	{{ form.media }}
+	
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/forms1.css" type="text/css"> 
+	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/interface-style1.css" />
+
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/utils.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("a.popup").attr("onClick", "return PopupWindow(this)")
+		})
+	</script>
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+		<a href="../../">
+		    {% trans "Home" %}
+		</a>
+		&rsaquo; 
+		<a href="../">
+		    {{ app_label|capfirst }}
+		</a>
+		&rsaquo; 
+	    {{ app_section }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+    {% if cl.formset.errors %}
+        <p class="errornote">
+        {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+        </p>
+        {{ cl.formset.non_form_errors }}
+    {% endif %}
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+    
+    {% block notifications %}
+      {% if request.notifications %}
+        {% for message in request.notifications %}
+          <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+            {{ message|safe }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock %}
+    
+    <div id="border_div" class="module">
+    	{% if select_user_and_packet %}
+    		<form method="get" action=".">
+    			<table>
+    				<tr>
+    					<th>{% trans "Please select user" %}:</th>
+    					<td>
+    						<select name="user">
+    							{% for a_user in available_users %}
+    								<option value="{{ a_user.id }}">{{ a_user.get_profile.get_display_name }}</option>
+    							{% endfor %}
+    						</select>
+    					</td>
+    				</tr>
+    				<tr>
+    					<th>{% trans "Please select available service packet" %}:</th>
+    					<td>
+    						<select name="packet">
+    							{% for a_packet in available_packets %}
+    								<option value="{{ a_packet.id }}">{{ a_packet }}</option>
+    							{% endfor %}
+    						</select>
+    					</td>
+    				</tr>
+    			</table>
+    			
+				<div class="submit-row">
+					<input type="submit" value='{% trans "Continue" %}' class="default" name="continue"/>
+				</div>
+    		</form>
+    	{% else %}
+    		<table>
+    			<tr>
+    				<th>{% trans "To user" %}:</th>
+    				<td><a class="popup" href="/admin/account/customeraccount/{{ to_user.id }}/">{{ to_user.get_profile.get_display_name }}</td>
+    			</tr>
+    			<tr>
+    				<th>{% trans "Available service packet" %}:</th>
+    				<td><a class="popup" href="/admin/services/availableservicepacket/{{ packet.id }}/">{{ packet }}</a></td>
+    			</tr>
+    		</table>
+    		<form method="POST" action="">
+			    {% block custom_application_edit %}
+			    	{% for custom_service_template in custom_services_templates %}
+			    		<h3>{{ custom_service_template.service.functional }}:</h3>
+			    		<div class="module" style="margin: 5px;">
+			    			{% include custom_service_template.template %}
+			    		</div>
+			    	{% endfor %}
+			    {% endblock %}
+    			
+				<div class="submit-row">
+					<input type="submit" value='{% trans "Assign" %}' class="default" name="assign"/>
+					<input type="submit" value='{% trans "Cancel" %}' class="default" name="cancel"/>
+				</div>
+    		</form>
+    	{% endif %}
+    </div>
+    
+{% endblock %}

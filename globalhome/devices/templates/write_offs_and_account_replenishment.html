@@ -1,0 +1,360 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block extrahead %}
+	{{ block.super }}
+    <script type="text/javascript">
+        function submitform(type_document, id_document)
+        {	
+            document.getElementById('type_document').value = type_document;
+            document.getElementById('id_document').value = id_document;
+            document.forms["documents"].submit();
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+
+<h1 class="title">Произведенные списания и пополнения счета</h1>    
+
+<style type="text/css">
+.tab-control { /*Основной блок*/
+	  border : none;
+		  width : 95%;           
+		  padding : 0px;
+}
+
+.tab-header { /*Заголовки*/
+	  font-size : 14px;
+	  text-align: center;
+	  color: #FFF;
+	  font-size: 14px;
+	  border : none;
+          width : 100%;
+          height: 20px;
+          margin : 0px;         
+          padding : 0px; 
+}
+
+.tab-header > div { /*Отдельный заголовок*/
+          border-left : 1px solid #ddd; 
+          border-radius:10px 10px 0px 0;  
+	  background-color : #FF9521;
+          height: 20px;
+          padding : 5px;
+          margin-right : 2px; 
+          float : left;
+          cursor : pointer; 
+		  width: 140px;
+		-webkit-transition: all 200ms ease;
+		-moz-transition: all 200ms ease;
+		-ms-transition: all 200ms ease;
+		-o-transition: all 200ms ease;
+		transition: all 200ms ease;
+}
+
+.tab-header > div:hover { /*Текущий заголовок*/
+		  margin-top: -15px; 
+		  height: 35px;
+		-webkit-transition: all 200ms ease;
+		-moz-transition: all 200ms ease;
+		-ms-transition: all 200ms ease;
+		-o-transition: all 200ms ease;
+		transition: all 200ms ease;
+}
+
+.tab-body { /*Содержимое закладок*/
+	  border : none;
+          width : 100%;       
+          margin : 0px;         
+          padding : 0px;
+          clear : both; 
+}
+
+.tab-body > div { /*Содержимое отдельной закладки*/
+          border-bottom : 1px solid #ddd; 
+          border-left : 1px solid #ddd; 
+          border-radius:0 5px 5px 5px;  
+	  background-color : #FF9521;
+          display : none;
+          overflow: auto; /*Прокрутка запрещена, если она нужна, то следует поставить значение auto*/
+          width : 100%;
+          height: 100%;         
+          padding : 1px;
+
+}
+</style>
+ 
+<script type="text/javascript">
+	function OnClick(tabhid){
+	 //Получение заголовка по id
+	 var tabh = document.getElementById(tabhid);
+	
+	 if (tabh==null)
+		 return;
+	 
+	 //Ссылка на элемент tab-header
+	 var tabheader=tabh.parentNode;
+	
+	 if (tabheader==null)
+		 return;
+	 
+	 //Получаем все заголовки
+	 var tabhs;
+	 tabhs = SelectChildren(tabheader,'div');
+	
+	 if (tabhs.length == 0)
+		 return;
+	 
+	 //Изменяем стиль ранее выбранного заголовка
+	 for(var i = 0; i < tabhs.length; i++)
+		 if (tabh.style.backgroundColor = '#eee')
+			tabhs[i].style.backgroundColor = '#2884ea';
+	 
+	 //Изменяем стиль выбранного заголовка
+	 tabh.style.backgroundColor = '#FF9521';
+	
+	 var tabcontrol;
+	 
+	 //Получаем ссылку на весь элемент tab-control
+	 try {
+		 tabcontrol = tabheader.parentNode;
+	 } catch (ex)
+	 {
+		 return;
+	 }
+	
+	 var tabbody;
+	 
+	 //Получаем ссылку на раздел содержимого закладок
+	 try {
+		 tabbody = tabcontrol.getElementsByClassName('tab-body')[0];
+	 } catch (ex)
+	 {
+		 return;
+	 }
+	 
+	 //Получаем все элементы содержимого закладок
+	 var tabs;
+	 tabs = SelectChildren(tabbody,'div');
+	
+	 if (tabs.length == 0)
+		 return;
+	
+	 //Получаем содержимое выбранной закладки по ее id, сформированному по id заголовка
+	 var selectedtab= document.getElementById('b'+tabh.id);
+	
+	 if (selectedtab==null)
+		 return; 
+	
+	 //Скрываем содержимое ранее выбранной закладки
+	 for(var i = 0; i < tabs.length; i++)
+		 if (tabs[i].style.display == 'block')
+			tabs[i].style.display = 'none';
+	
+	 //Показываем содержимое выбранной закладки
+	 selectedtab.style.display = 'block';
+	}
+	
+	/*Функция выбора дочерних элементов по имени тэга*/
+	function SelectChildren(node, childname)
+	{
+	 var result = [];
+	
+	 for(var i = 0; i < node.childNodes.length; i++)
+		{
+		 var child = node.childNodes[i];
+		 if (child.nodeType==1) //Элемент
+			if (child.tagName.toLowerCase()==childname.toLowerCase())
+			   result.push(child); 
+		}
+	
+	 return result; 
+	}
+</script>
+
+<form name="documents">
+
+     <div class="filter" style="width: 95%;">
+        <div class="filter-body">
+             <div class="filter-body-left">
+                <label>
+                    <span class="label">с:</span>
+                    {{ form.date_from }}
+                </label>
+                <label>
+                    <span class="label">по:</span>
+                    {{ form.date_to }}
+                </label>
+             </div>
+             <div class="filter-body-right">
+             	<input type="submit" class="bt bt-blue2" name="filter" value="{% trans 'Show' %}">
+             </div>
+         </div>
+      </div>
+
+</form>
+
+{% if transaction %}
+
+{{ block.super }}
+
+    {% if all_transaction %}
+    	<body onLoad="OnClick('tab-01')">
+    {% endif %}
+        
+    <div class='tab-control'>
+        <div class='tab-header'>
+            {% if all_transaction %}
+            <div id='tab-01' onclick='OnClick(this.id)'>Все</div>
+            {% endif %}
+            {% if transaction_write_off %}
+            <div id="tab-02" onClick="OnClick(this.id)">Списания</div>
+            {% endif %}
+            {% if transaction_replenishment %}
+            <div id='tab-03' onclick='OnClick(this.id)'>Пополнения счета</div>
+            {% endif %}
+        </div> 
+        
+        <div class='tab-body'>
+            {% if all_transaction %}
+            <div id='btab-01'>
+                 <table class="t-spec" style="margin: 0;">
+                    <thead>
+                        <tr>
+                            <th width="10%">Месяц</th>
+                            <th width="20%">Тип</th>
+                            <th width="60%">Описание</th>
+                            <th width="10%" class="center">Сумма, руб</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                      {% for year in all_transaction_years %}
+                            <tr class="tr-section";>
+                                <th colspan="4" style = " background:#D1CDCD !important;">{{ year }}</th>
+                            </tr>
+						{% for key, value in dict_year_and_month_all.items %}
+						  {% if key == year %}
+						    {% for mth in value %}
+						    	 <tr class="tr-section" style = "color: #8A857F;">
+                                    <th colspan="4">{{ mth }}</th>
+                                </tr>	
+                           		{% for transaction in all_transaction %}                                                          
+                                	{% if transaction.year == year and transaction.month == mth %} 
+                                    	<tr>
+                                        <td><strong>{{ transaction.date|date:"d.m.Y"}} </strong> {{ transaction.date|time:"H:i:s"}}</td>
+                                        <td>{{ transaction.type }}</td>
+                                        <td>{{ transaction.about }}</td>
+                                        <td>{{ transaction.summ }}</td>
+                                    	</tr>
+                                	 {% endif %}
+                              {% endfor %}
+                           {% endfor %} 
+                          {% endif %} 
+						{% endfor %}
+                      {% endfor %}
+                      
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+            {% if transaction_write_off %}
+            <div id='btab-02'>
+                 <table class="t-spec" style="margin: 0;">
+                    <thead>
+                        <tr>
+                            <th width="10%">Месяц</th>
+                            <th width="80%">Описание</th>
+                            <th width="10%" class="center">Сумма, руб</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                        {% for year in transaction_write_off_years %}
+                            <tr class="tr-section">
+                                 <th colspan="4" style = " background:#D1CDCD !important;">{{ year }}</th>
+                            </tr>
+                            
+						   {% for key, value in dict_year_and_month_write_off.items %}
+						       {% if key == year %}
+						          {% for mth in value %}
+						    	     <tr class="tr-section"; style = "color: #8A857F;">
+                                       <th colspan="4">{{ mth }}</th>
+                                     </tr>
+                                    {% for transaction in transaction_write_off %}
+                                         {% if transaction.year == year and transaction.month == mth %}
+                                             <tr>
+                                          	  <td><b>{{ transaction.date|date:"d.m.Y"}} </b> {{ transaction.date|time:"H:i:s"}}</td>
+                                        	  <td>{{ transaction.about }}</td>
+                                        	  <td>{{ transaction.summ }}</td>
+                                    		</tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                  {% endfor %}
+                              {% endif %}      
+                           {% endfor %}
+                       {% endfor %} 
+                        
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+            {% if transaction_replenishment %}
+            <div id='btab-03'>
+                 <table class="t-spec" style="margin: 0;">
+                    <thead>
+                        <tr>
+                            <th width="10%">Месяц</th>
+                            <th width="80%">Описание</th>
+                            <th width="10%" class="center">Сумма, руб</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                       {% for year in transaction_replenishment_years %}
+                            <tr class="tr-section">
+                                 <th colspan="4" style = " background:#D1CDCD !important;">{{ year }}</th>
+                            </tr>
+                            
+						   {% for key, value in dict_year_and_month_repl.items %}
+						       {% if key == year %}
+						          {% for mth in value %}
+						    	     <tr class="tr-section"; style = "color: #8A857F;">
+                                       <th colspan="4">{{ mth }}</th>
+                                     </tr>
+                                    {% for transaction in transaction_replenishment %}
+                                         {% if transaction.year == year and transaction.month == mth %}
+                                             <tr>
+                                          	  <td><b>{{ transaction.date|date:"d.m.Y"}} </b> {{ transaction.date|time:"H:i:s"}}</td>
+                                        	  <td>{{ transaction.about }}</td>
+                                        	  <td>{{ transaction.summ }}</td>
+                                    		</tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                  {% endfor %}
+                              {% endif %}      
+                           {% endfor %}
+                       {% endfor %} 
+                       
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    </body>
+    
+    {% else %}
+    
+    <div class="status status-warning">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>За данные период у Вас нет ни пополнений, ни списаний. Попробуйте изменить период.</p>
+        </div>
+    </div>
+ 
+	{% endif %}
+
+
+{% endblock %}

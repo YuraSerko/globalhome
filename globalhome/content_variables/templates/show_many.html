@@ -1,0 +1,72 @@
+{% load i18n %}
+{% if not error %}
+{% if variables %}
+	{% for vars in variables %}
+		<h2>{{ vars.name }}</h2>
+	    <table width="100%" border="1px" cellspacing="0px">
+	        <thead>
+	            <tr>
+	                <th>{% trans "Variable name" %}</th>
+	                <th>{% trans "Description" %}</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            {% for var in vars.vars %}
+	                <tr>
+	                    <th style="text-align: left; width: 30%;">
+	                        {{
+	                        {{ var.name }}
+	                        }}
+	                        </th>
+	                    {% if var.description %}
+	                        <td>{{ var.description }}</td>
+	                    {% else %}
+	                        <td>&lt;NO DESCRIPTION&gt;</td>
+	                    {% endif %}
+	                </tr>
+	            {% endfor %}
+	        </tbody>
+		</table>
+	
+	{% endfor %}
+
+
+
+
+<!--
+    <table width="100%" border="1px" cellspacing="0px">
+        <thead>
+            <tr>
+                <th>{% trans "Variable name" %}</th>
+                <th>{% trans "Description" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for var in variables %}
+                <tr>
+                    <th style="text-align: left; width: 30%;">
+                        {{
+                        {{ var.name }}
+                        }}
+                        </th>
+                    {% if var.description %}
+                        <td>{{ var.description }}</td>
+                    {% else %}
+                        <td>&lt;NO DESCRIPTION&gt;</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+-->
+{% else %}
+    {% if vars_count == 0 %}
+        Модули загружены, но переменных не найдено!
+    {% else %}
+        Внутренняя ошибка!
+    {% endif %}
+{% endif %}
+{% else %}
+    Ошибка! Вероятно, у Вас отключен JavaScript!
+{% endif %}
+

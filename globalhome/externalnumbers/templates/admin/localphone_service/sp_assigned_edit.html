@@ -1,0 +1,7 @@
+{% load i18n %}
+<table>
+	<tr>
+		<th>{% trans "Local number" %}:</th>
+		<td><a href="/admin/telnumbers/externalnumber/{{ assigned_number.id }}/" class="popup">{{ assigned_number }}</a></td>
+	</tr>
+</table>

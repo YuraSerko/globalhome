@@ -1,0 +1,89 @@
+{% extends 'base_public.html' %}
+ {% block img_composition %}
+			<div class="composition">
+				<img src="{{ MEDIA_URL }}images/compositions/10.png" alt="">
+			</div>
+				{% endblock %} 
+{% block content %}
+
+<h1 class="title">Помощь</h1>
+
+<div class="ugc">
+    <p>Выберите тип услуги для получения информации:</p>
+</div>
+
+		<!--Moscowdata-->
+			<div style = "display:none;" id = "display_Y" class="toggle">
+    <div class="toggle-item">
+        <a href="#" class="toggle-head toggle-drop"><i></i>Выделенные сервера</a>
+        <div class="toggle-body">
+            <ul>
+                <li style = "position: absolute; top: 25px;" ><a  href="/type_service/arenda-dedicated-server/">Аренда выделенных серверов</a></li>
+                
+            </ul>
+        </div>
+    </div><!--toggle-item-->
+
+    <!--<div class="toggle-item">
+        <a href="#" class="toggle-head"><i></i>Аренда оборудования</a>
+    </div>--><!--toggle-item-->
+
+    <div class="toggle-item">
+        <a href="#" class="toggle-head toggle-drop"><i></i>Серверные стойки</a>
+        <div class="toggle-body">
+            <ul>
+                <li style = "position: absolute; top: 110px;" ><a href="/type_service/arenda-server-rack/">Аренда серверных стоек</a></li>
+                
+            </ul>
+        </div>
+    </div><!--toggle-item-->
+
+    <div class="toggle-item">
+        <a href="#" class="toggle-head toggle-drop"><i></i>Размещение оборудования</a>
+        <div class="toggle-body">
+            <ul>
+                <li style = "position: absolute; top: 200px;"><a href="/type_service/colocation-server-moscow/">Размещение серверов</a></li>
+                
+            </ul>
+        </div>
+    </div><!--toggle-item-->
+
+    <div class="toggle-item">
+        <a href="#" class="toggle-head toggle-drop"><i></i>Виртуальные сервера</a>
+        <div class="toggle-body">
+            <ul>
+                <li style = "position: absolute; top: 290px;"><a href="/type_service/vps-vds-server/">Аренда виртуального сервера</a></li>	
+                
+            </ul>
+        </div>
+    </div><!--toggle-item-->
+	   <div class="toggle-item">
+        <a href="#" class="toggle-head toggle-drop"><i></i>Хостинг</a>
+        <div class="toggle-body">
+            <ul>
+                <li style = "position: absolute; top: 375px;"><a href="/type_service/hosting-moscow/">Услуги хостинга</a></li>	
+               
+            </ul>
+        </div>
+    </div><!--toggle-item-->
+	   <div class="toggle-item">
+        <a href="#" class="toggle-head toggle-drop"><i></i>Прокси-сервер</a>
+        <div class="toggle-body">
+            <ul>
+                <li style = "position: absolute; top: 465px;"><a href="/type_service/besplatno-proxy-server/">Настройка прокси-сервера</a></li>	
+                
+            </ul>
+        </div>
+    </div><!--toggle-item-->
+	   <div class="toggle-item">
+        <a href="#" class="toggle-head toggle-drop"><i></i>Аренда каналов связи</a>
+        <div class="toggle-body">
+            <ul>
+                <li style = "position: absolute; top: 555px;"><a href="/type_service/arenda-communication/">Аренда каналов связи</a></li>	
+                
+            </ul>
+        </div>
+    </div><!--toggle-item-->
+
+</div>	
+{% endblock %}

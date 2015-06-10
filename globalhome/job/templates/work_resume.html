@@ -1,0 +1,367 @@
+{% extends 'base_private.html' %}
+{% load i18n %}
+
+
+
+
+
+{% block content %}
+   	  <link href="/media/css/chosen.css" rel="stylesheet" type="text/css" >
+   	  <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />  		 
+  	  <script src="/media/js/chosen.jquery.js"></script>
+	  <script src="/media/js/chosen_select.js"></script>
+	 	
+	 	
+	 	
+	 	<!-- здесь просто добавляем все резюме если они есть у пользователя -->
+	 	
+	 	<div id ="list_of_resume">
+	 	<h1 class = "resume_title">Мои резюме</h1>
+	 	<br>
+	 	
+	 	
+	 	
+	 	
+	 	{% if no_account == True %}
+	 	   Вы не может создать резюме пока не заполните раздел  <a href="/work_acount/personal_data/">Данные соискателя</a>
+	 	{% else %}
+	 	
+	 	
+	 	<table>
+	 	{% for k,v in resume_ww_ads_dict.items %}  <!-- k = resume_obj, v = [0 wishesobj 1 ad and skills ] -->
+	 	  		
+	 			
+	 		
+	 			{% if v.0 != 0 and v.1 != 0 %}   <!-- есть запись workwishes и ad and skills-->
+			    		<tr id = {{k.id}}>
+			    		<td>
+				    		<font  style= "font-weight:bold; font-size:20px;">
+				    			<a href = "/work_acount/resume/add_edit/{{ k.id }}/">{{ v.0.desirable_position.profession }}</a>
+				    		</font>
+				    	</td>
+				    	
+			    		<td>
+			    			<a href = "/work_acount/resume/add_edit/{{ k.id }}/">редактировать</a></font>
+			    		</td>
+			    		
+			    		<td>
+			    			<div id = 'publish_{{k.id}}'>
+				    			{% if k.publication_date != None %}
+				    			опубликовано: 
+				    			<p>{{ k.publication_date|date:"Y-m-d" }} {{ k.publication_date|time:"H:i" }}</p>
+				    			{% else %}
+				    			не опубликовано
+				    			{% endif %}
+			    		    </div>
+			    		</td>
+			    		
+			    		<td>
+			    			<div id = 'publish_but_{{k.id}}'>
+				    			{% if k.publication_date == None %}
+				    			<a href = "#"  onclick = "publish_not('{{k.id}}', 1)" return false;>опубликовать</a>
+				    			{% if v.2 ==  0 %}
+				    				<font class = "red_star">*</font>
+				    			{% endif %}
+				    			{% else %}
+				    			<a href = "#"  onclick = "publish_not('{{k.id}}', 2)" return false;>не показыать на сайте</a>
+				    			{% endif %}
+				    		</div>
+			    		</td>
+			    		
+			    		<td>
+			    			<font color=green>заполнено 100%</font>
+			    		</td>
+			    		<td>
+			    			<!-- Диалог удалять/не удалять -->
+			    			<!--a href = "#" onclick = "delete_resume('{{k.id}}')" return false;>удалить</a-->
+			    			<a href = "#delete_dialog" onclick = "$('#res_to_del_id').val('{{k.id}}');  $('#resume_name_text').html('{{v.0.desirable_position.profession}}'); ">удалить</a>
+			    		</td>
+			    {% endif %}
+			    
+			    
+			    {% if v.0 != 0 and v.1 == 0 %}   <!-- есть запись workwishes и ad and skills нет-->
+			    		<tr id = {{k.id}}>
+			    		<td>
+				    		<font  style= "font-weight:bold; font-size:20px;">
+				    			<a href = "/work_acount/resume/add_edit/{{ k.id }}/">{{ v.0.desirable_position.profession }}</a>
+				    		</font>
+				    	</td>
+				    	
+			    		<td>
+			    			<a href = "/work_acount/resume/add_edit/{{ k.id }}/">редактировать</a></font>
+			    		</td>
+			    		
+			    		<td>
+			    			<div id = 'publish_{{k.id}}'>
+				    			{% if k.publication_date != None %}
+				    			опубликовано: 
+				    			<p>{{ k.publication_date|date:"Y-m-d" }} {{ k.publication_date|time:"H:i" }}</p>
+				    			{% else %}
+				    			не опубликовано
+				    			{% endif %}
+			    		    </div>
+			    		</td>
+			    		
+			    		<td>
+			    			<div id = 'publish_but_{{k.id}}'>
+				    			{% if k.publication_date == None %}
+				    			<font color="lightgray">нельзя опубликовать</font>
+				    			{% else %}
+				    			<a href = "#"  onclick = "publish_not('{{k.id}}', 2)" return false;>не показыать на сайте</a>
+				    			{% endif %}
+				    		</div>
+			    		</td>
+			    		
+			    		<td>
+			    			<font color=red>не заполнено: образование</font>
+			    			
+			    		</td>
+			    		<td>
+			    			<!-- Диалог удалять/не удалять -->
+			    			<!--a href = "#" onclick = "delete_resume('{{k.id}}')" return false;>удалить</a-->
+			    			<a href = "#delete_dialog" onclick = "$('#res_to_del_id').val('{{k.id}}');  $('#resume_name_text').html('{{v.0.desirable_position.profession}}'); ">удалить</a>
+			    		</td>
+			    {% endif %}
+			    
+			    
+			    {% if v.0 == 0 and v.1 != 0 %}   <!-- нет запись workwishes и ad and skills есть-->
+			    		<tr id = {{k.id}}>
+			    		<td>
+				    		<font  style= "font-weight:bold; font-size:20px;">
+				    			<a href = "/work_acount/resume/add_edit/{{ k.id }}/">нет названия</a>
+				    		</font>
+				    	</td>
+				    	
+			    		<td>
+			    			<a href = "/work_acount/resume/add_edit/{{ k.id }}/">редактировать</a></font>
+			    		</td>
+			    		
+			    		<td>
+			    			<div id = 'publish_{{k.id}}'>
+				    			{% if k.publication_date != None %}
+				    			опубликовано: 
+				    			<p>{{ k.publication_date|date:"Y-m-d" }} {{ k.publication_date|time:"H:i" }}</p>
+				    			{% else %}
+				    			не опубликовано
+				    			{% endif %}
+			    		    </div>
+			    		</td>
+			    		
+			    		<td>
+			    			<div id = 'publish_but_{{k.id}}'>
+				    			{% if k.publication_date == None %}
+				    			<font color="lightgray">нельзя опубликовать</font>
+				    			{% else %}
+				    			<a href = "#"  onclick = "publish_not('{{k.id}}', 2)" return false;>не показыать на сайте</a>
+				    			{% endif %}
+				    		</div>
+			    		</td>
+			    		
+			    		<td>
+			    			<font color=red>не заполнено: пожелания к работе </font>
+			    			
+			    		</td>
+			    		<td>
+			    			<!-- Диалог удалять/не удалять -->
+			    			<!--a href = "#" onclick = "delete_resume('{{k.id}}')" return false;>удалить</a-->
+			    			<a href = "#delete_dialog" onclick = "$('#res_to_del_id').val('{{k.id}}');  $('#resume_name_text').html('нет названия'); ">удалить</a>
+			    		</td>
+			    {% endif %}
+	     
+	    {% endfor %}
+	    </table>
+	    <div class = "notification_not" id = "note">
+	    	<font color="red">*</font><font color ="gray" size = "2">Ваше резюме будет автоматически опубликовано также и на сайте JOB.RU (логин и пароль будут высланы на email, указанный при регистрации на globalhome.mobi)</font>
+	   	</div> 
+	    
+	     <br>
+	   	<a href = "add_edit/0" class = "link_create" >Cоздать резюме</a>
+		{% endif %}	   
+	   
+	   
+		 
+		<!-- окончание добавления резюме пользователей -->  
+	   	<!-- окончание моих данных -->
+   
+   			
+   
+   </div>
+   
+  
+   
+   
+  
+   <a href = "#"  class = "overlay" id = "delete_dialog"></a>
+   		<div  class="popup_personal" style="min-width: 400px;">
+        <a class="popup_personal-close" href="#close"></a>
+	        <div id="id_popup" style="margin-left:0px!important;">
+	        	Вы действительно хотите удалить резюме <font>"<font id = "resume_name_text"></font>"</font>?
+	        	<input id = 'res_to_del_id' style = "display:none;"></input>
+	        	<p>
+	        	<div style = "margin-right:130px!important">
+	        		<button onclick="delete_resume($('#res_to_del_id').val()); ">удалить</button>
+	        		<button onclick='location.href="#close"'>отмена</button>
+	        	</div>
+	        </div> 
+    	</div>
+  
+   
+	</article>
+  
+ 
+   
+	
+<style type = "text/css">
+
+.notification{
+	display:block;
+ 	}
+
+.notification_not{
+	display:none;
+	}
+
+.red_star{
+	color:red;}
+
+.popup_personal{
+	padding:28px;}
+
+.resume_title{
+	font-size: 25px;
+	}
+	
+.link_create{
+	color:#5591DA;
+	font-size:16px;}
+	
+#list_of_resume td{
+	width:160px;
+	vertical-align:top;
+	border: 1px solid gray; 
+}
+	
+#list_of_resume table{
+	border:1px!important;
+	border-collapse: collapse; 
+	}
+	
+#list_of_resume table tr{
+	height:37px;}
+
+.balance-inner table{
+	border-right: 0px !important;}
+	
+</style>
+
+
+  <script>
+
+
+// мой javascript
+
+function publish_not(id, type)
+{
+	items = {'id':id, 'type':type };
+	
+	//менеяем ajax значение в publication_date 
+	$.ajax ({
+		url:'/work_resume_ajax_publish/',
+		async:false,
+		cash:true,
+		type:"POST",
+		data:items,
+		success:function(html)
+			{
+				if (html!='None') {
+					//вписываем дату
+				    control1 = '#publish_' + id.toString();
+					html_date = 'опубликовано:' + '<p>' + html + '</p>' 
+					$(control1).html(html_date);
+					
+					control2 = '#publish_but_' + id.toString();
+					html_but = '<a href = "#"  onclick = "publish_not('+ id +', 2)" return false;>не показыать на сайте</a>'
+					$(control2).html(html_but);
+					//убрать звездочку
+					$(control2).find('font').remove();
+					note();
+				}
+			
+				
+				else{
+					
+					control1 = '#publish_' + id.toString();
+					html = 'не опубликовано' 
+					$(control1).html(html);	
+					
+					control2 = '#publish_but_' + id.toString();
+					html_but = '<a href = "#"  onclick = "publish_not('+ id + ', 1)" return false;>опубликовать</a>'
+					$(control2).html(html_but);
+					
+					
+					
+				}
+				
+			
+			
+			}
+	})
+ }
+
+//=============================================================================================
+
+function delete_resume(id)
+{
+	sel_id = '#' + id
+	item = {'id':id}
+	
+	$.ajax({
+		type:"POST",
+		url:'/work_resume_ajax_delete/',
+		cash:true,
+		data:item,
+		async:true,
+		success:function(html){
+				$(sel_id).remove();	
+				location.href="#close";
+		}
+	})
+	
+}
+
+function note(){
+		if  ($( "#list_of_resume" ).find('font').hasClass( "red_star" ))
+		{  
+				$('#note').addClass('notification').removeClass('notification_not');     
+		}	 
+		else   {
+		  $('#note').addClass('notification_not').removeClass('notification');
+		} 
+}
+
+//=============================================================================================
+$(document).ready(function(){
+	
+	note();	
+	
+	
+	
+	 
+	 
+})
+			
+// окончание моего javascript
+
+</script>
+<!--
+<script>
+      div="_ph1968";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1968&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+	<script>
+      div="_ph1971";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1971&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>-->
+    
+{% endblock %}	    
+		

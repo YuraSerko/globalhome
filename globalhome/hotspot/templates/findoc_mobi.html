@@ -1,0 +1,65 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %} 
+ 
+
+
+  {% block sendin %}
+  {{block.super}}
+         {% endblock %}
+
+
+  <article id="right">
+      
+            <div id='centr_field'>
+
+            {% block cap %}
+                {{ block.super }}
+                
+                {% endblock %} 
+ 
+                <div class="articles">
+
+                    <table class="type-4" style="height: 600px;  ">
+            <caption>
+                    <div style="text-align: center;">
+                        {{obj.name}}
+                    </div>
+            </caption>
+             <tbody>
+                <tr>
+                <td>{{obj.template.text|safe}} </td>
+             </tr></tbody>
+     </table>
+                
+
+                </div>
+
+                <form style="text-align: center; margin-bottom: 30px; margin-top: 20px;" action="javascript:history.back()">
+                <input style="width:100px;" class="bt bt-blue2" type="submit" name="submit"  value="Назад">
+                </form>
+      
+    </article> 
+    
+    {% block login_1 %}
+    {{block.super}}
+    {% endblock %}
+
+    {% block review_window %}
+    {{block.super}}
+    {% endblock %} 
+        
+    {% block complaint_window %}
+    {{block.super}}
+    {% endblock %}
+
+    {% block hs_login2 %}
+    {{block.super}}
+    {% endblock %}
+     
+{% endblock %}
+ 

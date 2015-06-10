@@ -1,0 +1,155 @@
+
+<style>
+  .hide_t{
+    cursor: pointer;
+
+  }
+ 
+  .hide_t .i_close{
+    width: 10px;
+   height: 10px;
+    background: url(/media/images/sprite_public_bold_arrow.png) no-repeat -79px -31px;
+    background-position: -88px -28px;
+
+  }
+  .head {
+position: relative;
+top: -25px;
+right: -182px;
+margin-bottom: -10px;
+display: block;
+width: 10px;
+height: 10px;
+background: url(/media/images/sprite_public_bold_arrow.png) no-repeat -79px -31px;
+}
+.head_i {
+position: relative;
+margin-bottom: -10px;
+top: -25px;
+right: -182px;
+display: block;
+width: 10px;
+height: 10px;
+background: url(/media/images/sprite_public_bold_arrow.png) no-repeat -79px -31px;
+}
+.head_data {
+position: relative;
+top: -25px;
+right: -182px;
+display: block;
+width: 10px;
+height: 10px;
+background: url(/media/images/sprite_public_bold_arrow.png) no-repeat -79px -31px;
+}
+
+.head_work {
+position: relative;
+top: -25px;
+right: -182px;
+display: block;
+width: 10px;
+height: 10px;
+background: url(/media/images/sprite_public_bold_arrow.png) no-repeat -79px -31px;
+}
+  </style>
+
+<div class="cols-side"><div class="cols-side-i">
+	{% if user.get_profile.is_card %}
+	    <div class="balance">
+	        <div class="balance-inner">
+	        <table >
+				{% with user.get_profile.billing_account.ballance as b %}
+				<tr>
+					<td><h4>Баланс:</h4></td>
+					<td><h3>{{ b }} </h3></td>
+					<td><h3> RUR</h3></td>
+				</tr>
+				{% endwith %}
+	        </table>
+			<table>
+				{% with user.get_profile.get_free_minutes as m %}
+					{% if m %}
+						<tr>
+							<th colspan="2"><h4>Бесплатные минуты:</h4></th>
+						</tr> 
+					{% endif %}   
+					{% for name, minutes  in m.items %}
+						<tr>
+							<th><span class="balance-inner-th" title="{{ name }}"> {{ name }}</span></th>
+							<td><span class="balance-inner-td"> {{ minutes }}</span></td>
+						</tr>
+					{% endfor %}
+				{% endwith %}
+	  		</table>
+	            <p>{% if not user.get_profile.is_card %}
+	                <a href="/account/balance/">Подробнее</a> |
+	               {% else %}
+	                <a href="/account/internet/hotspot/statistic/">Подробнее</a> |
+	                {% endif %}
+	                <a href="/account/payment/">Пополнить баланс</a>
+	            </p>
+	        </div>
+	    </div>
+	{% endif %}
+
+        
+
+            {% if account_phones_list.is_current or account_phones_groups.is_current or external_phones_list.is_current or callforwarding_rules_list.is_current or account_fax.is_current or list_getfax.is_current or list_ivr.is_current or list_vm.is_current or transfer_call_help.is_current or list_record_talk_tariff.is_current or list_gateway.is_current or obzvon.is_current or phones_list.is_current or list_gateway.is_current %}
+            <script>
+                $(function () {
+
+                    i_i.addClass('i_close');
+                    i_d.addClass('i_close');
+                    ul_i.removeClass('ul-opened');
+                    ul_d.removeClass('ul-opened');
+                    ul_i.css('display', 'none');
+                    ul_d.css('display', 'none');
+                
+                });
+            </script>
+
+
+{% endif %} 
+            
+
+
+
+    
+      <div class="navside">
+            <div class = "hide_t" >  
+          <!-- работа -->
+        <h4 class="work">Работа</h4>
+        <i class = "head_work"></i>
+        <ul class="hide_ul_w ul-opened">
+        	
+	            <li {% if my_data_centr.is_current %} class="active" {% endif %} ><a href="/work_acount/personal_data/">Данные соискателя</a></li>
+	            <li {% if demands_dc_archive.is_current %} class="active" {% endif %} ><a href="/work_acount/resume/">Мои резюме</a></li>
+            	<li {% if my_data_centr.is_current %} class="active" {% endif %} ><a href="/work_acount/work_employer_data/">Данные работодателя</a></li>
+	            <li {% if demands_dc_archive.is_current %} class="active" {% endif %} ><a href="/work_acount/vacancy/">Мои вакансии</a></li>
+			    
+        </ul>
+        <!-- работа -->
+      
+        
+    </div>
+        </div>
+         
+
+    
+    
+    
+    {% if user.get_profile.is_card %}
+   <div class="navside">   
+   <h4>Меню</h4>
+        <ul>
+            <li {% if account %} class="active" {% endif %} ><a href="/account/">Информация по учетной записи</a></li>
+            <li {% if payment_list %} class="active" {% endif %} ><a href="/account/payment/">Способы оплаты услуг</a></li>
+             <li {% if devices_page %} class="active" {% endif %} ><a href="/account/write_offs_and_account_replenishment/">Произведенные списания и пополнения счета</a></li>
+             <li {% if statistic %} class="active" {% endif %} ><a href="/account/internet/hotspot/statistic/">История hotspot сессии</a></li>
+        </ul>
+        
+   </div>
+    {% endif %}
+    
+    
+</div></div><!--cols-side-->

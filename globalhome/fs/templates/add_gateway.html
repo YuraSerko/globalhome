@@ -1,0 +1,102 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block content %}
+ <script>
+ $(document).ready(function(){
+	 //$("#id_user_groups [value='" + $('#id_hid').val() + "']").change();
+	 $("#id_user_groups [value='" + $('#id_hid').val() + "']").attr("selected", "selected");
+});
+function passtotext() 
+		{	
+		    var inp = document.getElementById('check');
+			var pass = document.getElementById('sip_password');
+			if (inp.checked) {
+				pass.type = "text";
+				}
+			else {pass.type = "password";}
+		}
+		
+function load_file()
+		{
+			var form = document.getElementById("gateway");
+			$('<input />').attr('type', 'hidden')
+            .attr('name', 'connect')
+            .attr('value', 'connect')
+            .appendTo('#gateway');
+			
+			form.submit();
+			document.location.replace("#load_file");
+		}
+</script> 
+
+<h1 class="title">{{ title }}</h1>
+
+<div class="ugc">
+	<p>Заполните поля для подключения к sip сервису</p>
+</div>
+ 
+{{ block.super }}
+<div id="warning"></div>
+        
+<form id="gateway" name="gatewayname" action="" method="post" enctype="multipart/form-data">
+<input name="hid" id="id_hid" type="hidden" value="{{ hid }}" />
+	    	<div class="form-sections">
+
+					<div class="form-section form-section2">
+               			{% form_field form.enabled block %}
+						<div class="hint"><i></i>Включено</div>
+					</div><!--form-section-->
+                    
+                    <hr>
+                  
+                    <div class="form-section form-section2">
+               			{% form_field form.user_groups block %}
+						<div class="hint"><i></i>Группа внутренних номеров</div>
+					</div><!--form-section-->
+                    
+                    <hr>
+                    <div class="form-section form-section2">
+                   		{% form_field form.sip_address block %}
+						<div class="hint"><i></i>Адрес сервиса для подключения</div>
+					</div><!--form-section-->
+                    <hr>
+                    <div class="form-section form-section2 form_django">
+                   		{% form_field form.login block %}
+						<div class="hint"><i></i>Логин для подключения к сервису</div>
+					</div><!--form-section-->
+                    <hr>
+                    
+                    <div id="record_time" class="form-section form-section2 form_django">
+                    	{% form_field form.password block %}  
+                        <input name="check" id="check" type="checkbox" value="" onclick="passtotext();"/> <label>Показать/Скрыть пароль</label>
+                        <div class="hint"><i></i>Пароль для подключения к сервису</div>
+                        
+					</div><!--form-section-->
+					
+                    
+          </div>
+
+    <div class="form-submit-right">
+        <input class="bt bt-blue" type="button" onClick="load_file()" value="Подключиться"/>
+    </div>
+</form>
+
+<a href="#" class="overlay" id="load_file"></a>
+    <div class="popup_personal">
+    <a class="popup_personal-close" href="#close"></a>
+    	<table class="type-4 modal" style="width: 440px;">
+        	<caption>
+            	<h1 class="title" style="margin: 0;">Ожидайте, идет подключение к Sip сервису!</h1>
+            </caption>
+            <tbody>
+            	<tr>
+                	<td style="text-align: center;"><img src="{{ MEDIA_URL }}images/loading.gif"></td>
+                </tr>
+            </tbody>
+        </table>
+	</div>	
+{% endblock %}

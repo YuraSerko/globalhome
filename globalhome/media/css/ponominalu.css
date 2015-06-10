@@ -1,0 +1,543 @@
+		.costoggler {
+			margin: 0 auto;
+			text-align: center;
+			height: 26px;
+			width: 88px;
+			display: inline;
+			}
+
+		 .costogltb a {
+			width: 25px;
+			height: 26px;
+			background-color: transparent;
+			background-repeat: no-repeat;
+			background-image: url(http://ponominalu.ru//public/images/polecost_sprite.gif);
+			display: block;
+			}
+			
+			.preorder_ins .cminus a {
+				background-position: 0 -52px;
+				}
+				
+			.costinp input {
+				background: none repeat scroll 0 0 transparent;
+				/*border: medium none;*/
+				display: block;
+				height: 26px;
+				/*line-height: 26px;*/
+				margin: 0 auto;
+				width: 34px;
+				text-align: center;
+				
+				/*font-size: 10px;*/
+				font-family: 'PT Sans', Arial;
+				}
+			.cminus a:hover{
+				background-position: 0 -78px;
+				}
+			.cplus a:hover{
+					background-position: 0 -26px;
+					}
+					
+					
+/*============================================Страница покупки билетов и Представление выбора мест сектора билетов======================================*/		
+		
+		.payments_h {
+										font-family: 'PT Sans Narrow';
+										font-weight: bold;
+										font-size: 36px;
+										line-height: 100%;
+										text-transform: uppercase;
+										letter-spacing: 0.03em;
+										color: #B51F23;
+										
+										}
+										.payments_h_tc {
+										font-family: 'PT Sans Narrow';
+										font-weight: bold;
+										font-size: 26px;
+										line-height: 100%;
+										text-transform: uppercase;
+										letter-spacing: 0.03em;
+										color: #B51F23;
+										
+										}
+										.venuelink {
+											font-family: 'PT Sans Narrow';
+											font-size: 24px;
+											color: #333;
+											margin-bottom: 20px;
+											}
+											
+											.venue_description{
+												margin: 10px;
+											}
+											.venuelink, .divide {
+												margin-bottom: 40px;
+											}
+											
+											.table_tickets_buy{
+												margin: 30px;
+											}
+											.table_tickets_buy tr:first-child td{
+												font-weight: bold;
+												border-right: none;
+												border-top: none;
+												border-bottom: none;
+											}
+											
+											.table_tickets_buy tr td{
+												border-bottom: 1px solid #B51F24;
+												border-top: 1px solid #B51F24;
+												border-right: 1px solid #B51F24;
+												color: #333333;
+												font-size: 20px;
+												position: relative;
+												text-align: center;
+												vertical-align: middle;
+												padding: 10px;
+												width: 200px;
+												
+											}
+										
+											/*Для подключения знака росийского рубля*/
+											.price {
+												font-family: 'PT Sans', serif;
+												}
+												
+												.choose_ticket {
+													color: gray;
+												}
+												.eng {
+													height: 100%;
+													width: 100%;
+													position: absolute;
+													background: url(http://ponominalu.ru/public/images/dark_tmp/enlarge.png) right bottom no-repeat;
+													bottom: 0;
+													right: 0;
+													}	
+					
+/*================================================================================================================*/
+
+
+					/*========================== Стили для таблицы мест =====================*/
+											#table_all_seats{
+												position: relative;
+												right: 3%;
+												margin: 10px;
+											}
+											#table_all_seats tr td:first-child{
+												background: #AC1D22;
+												
+												/*box-shadow:0px 0px 0px #000;*/
+											}
+											/*#table_all_seats tr .sector_scene{
+												box-shadow:0px 0px 0px #000
+											}*/
+											#table_all_seats tr .space:first-child{
+												background: white;
+											}
+											#table_all_seats tr .green{
+												background: green;
+												cursor: pointer;
+											}
+											
+											#table_all_seats tr td{
+												padding: 13px;
+												text-align: center;
+												background: #666666;
+												border: 4px solid white;
+												/*box-shadow: -3px -4px 2px #000;*/  /*Добавляет тень*/
+											}
+											#table_all_seats tr .space{
+												background: white;
+											}
+											#table_all_seats tr .sector_scene{
+												background: #EFEFEF;
+												font-family: 'PT Sans';
+												font-style: italic;
+												font-weight: bold;
+												padding:4px;;
+												/*font-size: 17px;*/
+											}
+				/*============================================================================*/
+															h4.delvr {
+											color: #B51F23;
+											font-family: 'PT Sans Narrow';
+											font-weight: bold;
+											font-size: 28px;
+											letter-spacing: 0.03em;
+											line-height: 100%;
+											padding-top: 10px;
+											text-transform: uppercase;
+											}
+											.delvr_1 {
+											color: #B51F23;
+											font-family: 'PT Sans Narrow';
+											font-weight: bold;
+											font-size: 23px;
+											letter-spacing: 0.03em;
+											line-height: 100%;
+											margin-top: 9px;
+											text-transform: uppercase;
+											}
+											
+											.price_inline{
+												display: inline-block;
+												margin: 10px;
+												font-size: 14px;
+												font-weight: bold;
+											}
+
+											#table_overflow{
+												width: 70%;
+												max-height: 500px;
+												overflow: scroll;
+												margin-bottom: 40px;
+											}
+											
+								/*============== Цвета price ==================*/
+																	.orange{
+										background:#ff9600 !important;
+										cursor: pointer;
+									}
+									
+									.magenta{
+										background:#5a0087 !important;
+										cursor: pointer;
+									}
+									
+									.magenta_1{
+										background:#be008c !important;
+										cursor: pointer;
+									}
+									
+									
+									
+									.green{
+										background:#39b44a !important;
+										cursor: pointer;
+									}
+									
+									.blue_p{
+										background:#29aae1 !important;
+										cursor: pointer;
+									}
+									
+									.pink{
+										background:#ff7bab !important;
+										cursor: pointer;
+									}
+									
+									.dark-green{
+										background:#006837 !important;
+										cursor: pointer;
+									}
+									
+									.grey{
+										background:yellow !important;
+										cursor: pointer;
+									}
+									
+									.blue{
+										background:#3C70FF !important;
+										cursor: pointer;
+									}
+									
+									.brown{
+										background:#a57c52 !important;
+										cursor: pointer;
+									}
+									
+									.dark_khaki {
+										background:#BDB76B !important;
+										cursor: pointer;
+									}
+									.gold {
+										background:#DAA520 !important ;
+										cursor: pointer;
+									}
+									.red{
+										background:#ec1c24 !important;	
+										cursor: pointer;
+									}
+									
+									.slate_blue {
+										background:#7B68EE !important;
+										cursor: pointer;
+									}
+									
+									.teal {
+										background:#008080 !important;
+										cursor: pointer;
+									}
+									
+									.cornflowerblue {
+										background:#0000CD !important;
+										cursor: pointer;
+									
+									}
+
+						/*=================================================*/
+								.color_div_price{
+									width: 15px;
+									height:15px;
+									display: inline-block;
+								}
+								
+						/*================ Убирает мой блок вывода билетов ==========================*/
+								.main{
+									/*display: none;*/
+								}
+								.tickets_left_table{
+									display: none;
+								}
+								time{
+									display: none;
+								}
+						/*========================================================*/
+						.venue_description_text {
+							background: #EAEAEA;
+							margin: 10px;
+							padding: 20px;
+							font-size: 16px;
+							}
+							.ticket_genres{
+								/*width: 132%;*/
+								width: auto; /*резиновая ширина*/
+							}
+							.genres ul{
+								
+							}
+							.select_region{
+								margin: 10px;
+								text-align: center;
+							}
+							.find_ticket{
+								margin-left: 10%;
+								margin-bottom: 10px;
+								margin-top: 10px;
+								text-align: center;
+							}
+							
+							#no_result {
+								margin: 20px;
+								font-family: 'PT Sans Narrow';
+								font-weight: bold;
+								font-size: 36px;
+								line-height: 100%;
+								/*text-transform: uppercase;*/
+								letter-spacing: 0.03em;
+								color: #B51F23;
+								}
+								.no_events {
+								margin: 20px;
+								font-family: 'PT Sans Narrow';
+								font-weight: bold;
+								font-size: 36px;
+								line-height: 100%;
+								/*text-transform: uppercase;*/
+								letter-spacing: 0.03em;
+								color: #B51F23;
+								}
+								
+				/*=================== Резиновый iframe =================*/
+								/*html, body{
+									height: 100%;
+								}
+								#autoHeight{
+									height: 100%;
+								}
+								
+								#main {
+									width: 100% !important;
+									height: 100% !important;
+									}
+									
+								#right, #centr_field{
+									height: 100% !important;
+								}*/
+								#autoHeight{
+									min-height: 1000px;
+								}
+	/*================================Данные по билетам для страницы ============================*/
+								
+								.genres{
+								display: inline-block;
+							}
+
+							.genres ul li ul{
+								display: none;
+							}
+							.genres ul li:hover ul{
+								display: block;
+								position: absolute;
+							}
+								.genres ul li ul li a{
+									display: block;
+								}
+								.urlopen li a{
+									display: block;
+								}
+								.urlopen_li{
+									
+									clear: both;
+								}
+								
+								/*.urlopen li{
+									padding-top: 5px;
+									padding-bottom: 5px;
+									background: #5C97DD;
+									width: 13%;
+									padding-left: 5px;
+								}*/
+								/**/
+								
+									.urlopen li {
+										text-align: center;
+										padding-top: 5px;
+										padding-bottom: 5px;
+										background: #5C97DD;
+										padding-left: 5px;
+										width: 90%;
+										word-break: break-all;
+										}
+									.genres ul {
+										width: inherit;
+										}
+								
+								.urlopen li:last-child{
+									margin-bottom: 50px; /*делает отступ выпавшего меню от последнего li*/
+								}
+								.urlopen{
+									/*margin-left: 70px;*/
+									margin-top: -7px;
+									margin-right: 5px;
+									
+								}
+								.genres ul li a{
+								/*background-size: 120px 40px; */
+								background-height: 60px;
+								background: #ECECEC;/*убирает рисунок кнопки*/
+								height: 30%;
+								/*margin-bottom: 0px;*/
+								padding-top: 5px;
+								padding-bottom: 5px;
+								/*выпадающий список слева и справа отступы*/
+								padding-left: 5px;
+								padding-right: 5px;
+									}
+									
+									.longsear {
+										width: 480px;
+										padding-left: 10px;
+										height: 31px;
+										line-height: 15px;
+										/*border: none;*/
+										background: none;
+										position: relative;
+										display: block;
+										font-family: 'PT Sans';
+										font-size: 15px;
+										float: left;
+										}
+										
+										.inputmain {
+											width: 499px;
+											background-image: url(http://ponominalu.ru/public/images/searchmainset.png);
+											background-color: transparent;
+											background-repeat: no-repeat;
+											background-position: 0 0;		
+											}
+											
+											.ok {
+												border: none;
+												width: 150px;
+												height: 29px;
+												line-height: 29px;
+												cursor: pointer;
+												cursor: hand;
+												font-family: 'PT Sans';
+												font-weight: bold;
+												font-size: 18px;
+												color: #FFF;
+												background-image: url(http://ponominalu.ru//public/images/butt_sprite.png);
+												background-repeat: no-repeat;
+												background-position: 0 0;
+												background-color: transparent;
+												margin-left: 20px;
+												float: left;
+												padding-bottom: 2px;
+												
+												
+												}
+												
+									.title_event{
+										margin: 5px;
+										width: 200px; 
+										text-align: center;
+										color: gray;
+										
+									}
+									.image_wrapper{
+										margin: 10px;
+									}
+
+									
+									#nothing_found {
+										margin: 20px;
+										font-family: 'PT Sans Narrow';
+										font-weight: bold;
+										font-size: 36px;
+										line-height: 100%;
+										text-transform: uppercase;
+										letter-spacing: 0.03em;
+										color: #B51F23;
+										
+										}
+									#results_search{
+										margin: 20px;
+										font-family: 'PT Sans Narrow';
+										font-weight: bold;
+										font-size: 36px;
+										line-height: 100%;
+										text-transform: uppercase;
+										letter-spacing: 0.03em;
+										color: gray;
+										
+									}
+									
+									.ticket_genres{
+										margin: 10px;
+									}
+									.ticket_search{
+										margin-bottom: 10px;
+									}	
+							/*===================================*/
+								.tickets_left_table{
+										float: left;
+										
+									}
+									.venue_clear{
+										clear:both;
+									}
+									.venue_description{
+										text-align: center;
+										width: 300px;
+										/*margin-left: 60%;*/
+									}
+									.venue_adress{
+										width: 200px;
+										margin: 0 auto;
+									}
+									.event_description{
+									
+										background: #EAEAEA;
+										margin: 10px;
+										padding: 20px;
+										font-size: 16px;
+									}
+						/*==========================================*/
+								
+								
+								

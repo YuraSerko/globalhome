@@ -1,0 +1,204 @@
+{% load i18n form_tags lib_tags %}
+{% block content %}
+	<link rel="stylesheet" href="/media/css/style_private.css">
+    <link rel="stylesheet" href="/media/css/jquery-ui_private.css">
+    
+    <script src="/media/js/jquery_private.js"></script>
+    <script src="/media/js/jquery-ui_private.js"></script>
+    <script src="/media/js/script_private.js"></script>
+    
+	<script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/id_utils.js"></script>
+    <script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/wait_utils.js"></script>
+    <script type="text/javascript" src="/media/js/general.js"></script>
+    <script type="text/javascript" src="/media/js/jquery-1.2.1.js"></script>
+	<script type="text/javascript" src="/media/js/jquery.form.js"></script>
+    <script type="text/javascript" language="javascript" charset="utf-8">
+	
+
+
+		function PageLoaded() // вызовется, когда страница загрузится
+		{	
+			var time_div = GetI("time_conditions");
+			var time_cb = GetI("id_time_enabled");
+			time_cb.onclick = function() { SetDivVisible(time_div, time_cb.checked); }
+			SetDivVisible(time_div, time_cb.checked);
+			
+			var dayofweek_div = GetI("dayofweek_conditions");
+			var dayofweek_enabled_cb = GetI("id_dayofweek_enabled");
+			dayofweek_enabled_cb.onclick = function() { SetDivVisible(dayofweek_div, dayofweek_enabled_cb.checked); }
+			SetDivVisible(dayofweek_div, dayofweek_enabled_cb.checked);
+			
+			var busy_div = GetI("busy_conditions");
+			var busy_cb = GetI("id_busy_flags_3");
+			busy_cb.onclick = function() { Sdown(busy_div, busy_cb); }
+			Sdown(busy_div, busy_cb);
+			
+			
+			var busy_not_cond = GetI("id_busy_flags_0");
+			busy_not_cond.onclick = function() {
+					ShowBusyBox(busy_not_cond)
+					$("#id_busy_flags_1").removeAttr('checked');
+					$("#id_busy_flags_2").removeAttr('checked');
+					$("#id_busy_flags_3").removeAttr('checked');
+					Sdown(busy_div, busy_cb);
+					}
+			ShowBusyBox(busy_not_cond)
+		}
+		function ShowBusyBox(a) 
+		{var vis = (a.checked) ? "none" : "block";
+		$("li").children('label').eq(1).css('display', vis);
+		$("li").children('label').eq(2).css('display', vis);
+		$("li").children('label').eq(3).css('display', vis);}
+		
+		$(".modal_window_title").append('Добавление правила переадресации звонков');
+		
+		(function() {
+		  $('#mainForm').ajaxForm({
+			cache: false,
+			async: false,
+			success: function(html) 
+				{				
+								if (html.split('_')[0] == "createnewelement") 
+										{
+										var goods = html.split('_');
+										$.ajax({
+											type: "POST",
+											url: "/account/constructor/save",  // or just url: "/my-url/path/"
+											data: {new_element: $('#newelement').val() + '_' + goods[goods.length-1], parent_new_element: $('#parent_newelement').val(), number_id: $('#number_id').val()},
+											success: function(data) {
+												window.location.reload(true)
+												//window.location.href=window.location.href;
+											},
+											error: function(xhr, textStatus, errorThrown) {
+												alert("Please report this error: "+errorThrown+xhr.status+xhr.responseText);
+											}
+										});
+										
+										}
+									else
+										{
+										$(".tab_container").html(html);
+										}
+				},
+			
+			});
+			})();
+			
+		WaitForLoaded("conditions", PageLoaded);  
+	</script>
+    
+
+</br>
+
+<div class="ugc">
+	<p>Укажите с какого номера и на какой будет идти  переадресация, в какое время (формат времени 00:00:00) и в какие дни недели.</p>
+</div>
+
+<style>
+.form-section{
+border-top: 1px dotted #bebebe !important;}
+</style>
+
+
+{% if not form.init_error %}
+
+    <form action="/account/constructor/createnewelement/{{newelement}}/{{parent_newelement}}/" method="post" id="mainForm">
+    
+    <input name="number_id" type="hidden" {% if number_id %} value="{{ number_id }}" {% else %} value="0" {% endif %} id="number_id"/>
+    <input name="newelement" type="hidden" {% if newelement %} value="{{ newelement }}" {% else %} value="0" {% endif %} id="newelement"/>
+    <input name="parent_newelement" type="hidden" {% if parent_newelement %} value="{{ parent_newelement }}" {% else %} value="0" {% endif %} id="parent_newelement"/>
+    
+    
+    	<div class="form-sections">
+
+					<div class="form-section form-section2">
+               			{% form_field form.enabled block %}
+						<div class="hint"><i></i>{% trans "You can temporarily disable or enable this rule without deleting him" %}</div>
+					</div><!--form-section-->
+                    
+                    
+                    
+                    <div class="form-section form-section2">
+                   		{% form_field form.from_number block %}
+						<div class="hint"><i></i>{% trans "Please select the number which during a call must be forwarded" %}</div>
+					</div><!--form-section-->
+                    
+                    
+                    
+                    <div class="form-section form-section2 form_django">
+               			{% form_field form.to_number block %}
+						<div class="hint"><i></i>Пожалуйста, укажите номер в международном формате (7495xxxxxxx) или sip адрес<br> (xxx@sip.example.com), на который вы хотите сделать переадресацию звонков</div>
+					</div><!--form-section-->
+                    
+                    
+                    
+                    <div class="form-section form-section2 form_django">
+                        {% form_field form.busy_flags block %}
+               			 <div id="busy_conditions">
+                       		 {% form_field form.busy_wait_time block %}
+                        </div>
+						<div class="hint"><i></i>{% trans "Please select the type of forward" %}</div>
+					</div><!--form-section-->    
+					
+                    
+                    
+                    <div class="form-section form-section2 form_django">
+                        {% form_field form.time_enabled block %}                   
+                        <div id="time_conditions">
+                            {% form_field form.date_time_begin block %}
+                            {% form_field form.date_time_end block %}
+                        </div>
+                        <div class="hint"><i></i>{% trans "You can specify the time of day when call forwarding will works.<br>Or you can disable this option. Then call forwarding will work all day." %}</div>
+                    </div><!--form-section-->   
+                     
+                     
+                        
+                     <div id="conditions">   
+                        <div class="form-section form-section2">
+                            {% form_field form.dayofweek_enabled block %}
+                             <div id="dayofweek_conditions">
+                                <table style="width: 35%">
+                                    <tr>
+                                        <th scope="col"><div align="center">{{ form.dayofweek_monday }}</div></th>
+                                        <th scope="col"><div align="center">{{ form.dayofweek_tuesday }}</div></th>
+                                        <th scope="col"><div align="center">{{ form.dayofweek_wednesday }}</div></th>
+                                        <th scope="col"><div align="center">{{ form.dayofweek_thursday }}</div></th>
+                                        <th scope="col"><div align="center">{{ form.dayofweek_friday }}</div></th>
+                                        <th scope="col"><div align="center">{{ form.dayofweek_saturday }}</div></th>
+                                        <th scope="col"><div align="center">{{ form.dayofweek_sunday }}</div></th>
+                                    </tr>
+                                    <tr>
+                                        <td><div align="center"><label for="dayofweek_monday">{% trans "Mon" %}</label></div></td>
+                                        <td><div align="center"><label for="dayofweek_tuesday">{% trans "Tue" %}</label></div></td>
+                                        <td><div align="center"><label for="dayofweek_wednesday">{% trans "Wed" %}</label></div></td>
+                                        <td><div align="center"><label for="dayofweek_thursday">{% trans "Thu" %}</label></div></td>
+                                        <td><div align="center"><label for="dayofweek_friday">{% trans "Fri" %}</label></div></td>
+                                        <td><div align="center"><label for="dayofweek_saturday" style="color:#F00">{% trans "Sat" %}</label></div></td>
+                                        <td><div align="center"><label for="dayofweek_sunday" style="color:#F00">{% trans "Sun" %}</label></div></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="hint"><i></i>{% trans "You can specify the days of week when call forwarding will works.<br>Or you can disable this option. Then call forwarding will work all week." %}</div>
+                        </div><!--form-section-->  
+                   </div>
+        </div><!--form-sections--> 
+        
+        <div class="form-sections-submit">
+            {% if rule_id %}
+            <div class="form-submit-left">
+                <a class="bt bt-blue2" href="../../delete_rule/{{ rule_id }}/">Delete</a>
+            </div>
+            {% endif %}
+            <div class="form-submit-right">   
+                <input type="submit" class="bt bt-blue2" name="abort" value='Cancel'/>         
+                {% if adding_new %}
+                    <input type="submit" class="bt bt-blue2" name="submit" value='Add rule'/>
+                {% else %}
+                    <input type="submit" class="bt bt-blue2" name="submit" value="Save changes"/>
+                {% endif %}
+            </div>
+        </div>
+
+    </form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,281 @@
+
+
+/* Оплата киви и вебмани*/
+
+    .h4_style {
+color: #535353;
+font-size: 12px;
+}
+h4 {
+font-size: 1em;
+margin: 1.33em 0;
+}
+.status {
+position: relative;
+margin: 0 0 10px;
+padding: 8px 8px 8px 33px;
+border: 2px solid #ccc;
+border-radius: 5px;
+color: #535353;
+font-size: 14px;
+font-weight: 700;
+}
+.status .ico {
+position: absolute;
+top: 9px;
+left: 10px;
+display: block;
+width: 14px;
+height: 14px;
+background: url(/media/images/sprite_private.png) no-repeat -9999px -9999px;
+}
+.status-error {
+border-color: red;
+}
+.status-error .ico {
+background-position: -42px -46px;
+width: 15px;
+height: 15px;
+
+}
+/*Для кнопки*/
+.default{
+    background: none repeat scroll 0 0 #FFFFFF;
+border-radius: 2px;
+color: #3174CC;
+border: 1px solid #3174CC;;
+font-size: 15px;
+height: 32px;
+
+width: 135px;
+
+}
+td{
+    vertical-align: middle;
+}
+.popup-form small, .popup-form .help {
+font-size: 9px;
+line-height: 11px;
+color: #999994;
+width: 85%;
+}
+.popup-form .help {
+display: block;
+margin: 0px;
+margin-top: 2px;
+}
+.data td{
+   color: #767676; 
+}
+.success{
+    color: #767676;
+}
+
+.success a{
+    color: #3a7cbd;
+}
+/*COMEPAY HOTSPOT*/
+
+ div  div.ugc  table  tbody  tr  td:nth-child(2)  ol  li:nth-child(1)  a{
+    color: #3a7cbd ;
+}
+#main > div.ugc{
+    /*margin: 0 200px;*/
+
+}
+
+.ugc {
+color: #636363;
+font-size: 12px;
+line-height: 14px;
+}
+
+.ugc ol li {
+margin-bottom: 14px;
+}
+
+#main > table > tbody > tr > td > img{
+    margin: 20px;
+}
+
+#main > table > tbody > tr > td:nth-child(2) > h1.title {
+float: none;
+}
+
+ .ugc ol {
+display: block;
+list-style-type: decimal;
+-webkit-margin-before: 1em;
+-webkit-margin-after: 1em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+-webkit-padding-start: 40px;
+}
+
+/* END COMEPAY HOTSPOT*/
+
+ /* LOGIN PAGE TO CABINET STYLES*/
+ .title {
+margin: 0 0 26px;
+color: #535353;
+font-size: 26px;
+font-weight: 400;
+margin-right: 20px;
+float: left;
+margin-left: 10%;
+margin-top: 40px;
+}
+ .payment-card, .login2-form, .register2-form, .reset_pass-form, .resend_activation_code, .activation_card {
+margin: auto;
+width: 210px;
+float: none;
+}
+.form-row {
+margin: 0 0 7px;
+}
+.popup-form label {
+margin: 0 0 2px;
+color: #767676;
+font-weight: 700;
+}
+.field{
+    margin-top: 10px;
+}
+.popup-form label {
+padding: 3px 0 0;
+display: inline;
+
+
+}
+.popup-form .field-required-label, .popup-form .req {
+color: #ff0000;
+}
+.form-submit:before, .form-submit:after {
+display: table;
+content: "";
+}
+.bt-blue2 {
+padding: 5px 11px 3px;
+background: #4ba6e9;
+background: -moz-linear-gradient(top, #4ba6e9 0%, #2570c7 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4ba6e9), color-stop(100%,#2570c7));
+background: -webkit-linear-gradient(top, #4ba6e9 0%,#2570c7 100%);
+background: -o-linear-gradient(top, #4ba6e9 0%,#2570c7 100%);
+background: -ms-linear-gradient(top, #4ba6e9 0%,#2570c7 100%);
+background: linear-gradient(to bottom, #4ba6e9 0%,#2570c7 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4ba6e9', endColorstr='#2570c7',GradientType=0 );
+box-shadow: 0 1px 0 #c0c0c0;
+border: none;
+border-radius: 5px;
+color: #fff;
+font: 700 12px Arial, sans-serif;
+text-shadow: 0 -1px 0 #2465b4;
+}
+.bt {
+display: inline-block;
+vertical-align: middle;
+margin: 0;
+text-decoration: none;
+cursor: pointer;
+}
+input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {
+align-items: flex-start;
+text-align: center;
+box-sizing: border-box;
+}
+.bt {
+display: inline-block;
+vertical-align: middle;
+margin: 0;
+text-decoration: none;
+cursor: pointer;
+}
+.form-submit-left {
+float: left;
+}
+.form-submit-right {
+float: right;
+}
+popup-form input[type="text"], .popup-form input[type="password"] {
+width: 203px;
+margin: 0;
+padding: 2px;
+background: #ddeeff;
+outline: none;
+box-shadow: inset 0 0 0 1px #cae1f8;
+border: 1px solid #a4c5e9;
+border-radius: 3px;
+font: 12px Arial, sans-serif;
+-webkit-appearance: none;
+}
+.popup-form .captcha-input {
+position: absolute;
+margin-left: 5px !important;
+vertical-align: middle !important;
+width: 80px !important;
+padding: 5px !important;
+font-size: 18px !important;
+}
+html, button, input, select, textarea {
+font-family: sans-serif;
+}
+.popup-form input[type="text"], .popup-form input[type="password"] {
+width: 203px;
+margin: 0;
+padding: 2px;
+background: #ddeeff;
+outline: none;
+box-shadow: inset 0 0 0 1px #cae1f8;
+border: 1px solid #a4c5e9;
+border-radius: 3px;
+font: 12px Arial, sans-serif;
+-webkit-appearance: none;
+}
+html, button, input, select, textarea {
+font-family: sans-serif;
+}
+.popup-form .field-errors ul {
+margin: 0;
+margin-bottom: 5px;
+padding: 0;
+}
+.popup-form .field-errors, .popup-form .error error_login, .popup-form-forgot .error2 error_login, .popup-form reg_success {
+position: relative;
+margin: 0 0 -3px;
+padding: 7px 0 0;
+color: #f00;
+font-size: 11px;
+font-weight: 700;
+line-height: 15px;
+}
+
+.popup-form .error, .popup-form-forgot .error2 {
+margin: 0 25px 7px -10px;
+padding: 0 10px 7px;
+border: 2px solid #fff;
+border-radius: 5px;
+background: #ffeded;
+border-color: #f00;
+width: 120% !important;
+}
+.popup-form .field-errors li {
+list-style: none;
+background: url(/media/images/sprite_public_popup_error.png) no-repeat;
+padding-left: 20px;
+}
+
+.reglog{
+    float: left;
+    margin-left: 5%;
+    margin-top: 80px;
+
+}
+
+/*Пока убрал регистрацию и восстановление пароля*/
+.blue_border{
+    display: none;
+}
+.form-submit-left{
+    display: none;
+}
+/*Пока убрал регистрацию и восстановление пароля*/

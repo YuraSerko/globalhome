@@ -1,0 +1,111 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+<link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+<script>
+	function ShowSubmitRow()
+	{
+		$(".form-submit-right").show()
+	}
+	$(document).ready(function() {
+		$(".form-submit-right").hide()
+	})
+	
+	
+	
+	function load_file()
+		{
+			var form = document.getElementById("gateway_list_form");
+			$('<input />').attr('type', 'hidden')
+            .attr('name', 'save')
+            .attr('value', 'save')
+            .appendTo('#gateway_list_form');
+			
+			form.submit();
+			document.location.replace("#load_file");
+		}
+</script>
+
+<h1 class="title">{{ title }}</h1>
+
+{{ block.super }}
+<div id="info" class="status status-info" style="border:none;  !important">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p id="info_str" style="color: rgb(122, 122, 122); font-size: 12px; font-weight: 100; !important">Внимание!!! Данная услуга работает в тестовом режиме, в случае каких-либо неполадок необходимо сообщить в тех. поддержку</p>
+            </div>
+        </div>
+{% if have_numbers %}
+    <form action="." method="post" id="gateway_list_form">
+        {% if gateways %}
+           
+            <table class="type-2">
+                <thead>
+                    <tr>
+                        <th>{% trans "Enabled" %}</th>
+                        <th>Группа номеров</th>
+                        <th>Адрес</th>
+                        <th>Логин</th>
+                        <th>{% trans "Editing" %}</th>
+                        <th>{% trans "Deleting" %}</th>
+
+                    </tr>
+                </thead>
+                {% for gateway in gateways %}
+                    <tr>
+                        <td>
+                      		<input type="checkbox" name="{{ gateway.id }}" {% if gateway.enabled %}checked{% endif %} onchange="ShowSubmitRow();"/>
+                        </td>
+                        <td>{{ gateway.tel_group }}</td>
+                        <td>{{ gateway.sip_address_original }}</td>
+                        <td>{{ gateway.login }}</td>
+                        <td><a href="/account/gateway/edit/{{ gateway.id }}/">{% trans "Edit" %}</a></td>
+                        <td><a href="/account/gateway/delete/{{ gateway.id }}/">{% trans "Delete" %}</a></td>
+                <!--</li> -->
+                    </tr>
+                {% endfor %}
+            </table>   
+                     
+        {% else %}
+            <div class="status status-info">
+                <i class="ico"></i>
+                <div class="status-i">
+                    <p>У Вас нет активных соединений</p>
+                </div>
+            </div>  
+        {% endif %}
+      
+        <div class="form-submit-left">
+            <a class="bt bt-blue2" href="/account/gateway/add/">{% trans "Add" %}</a>
+        </div>
+        <div class="form-submit-right">
+            <input type="submit" class="bt bt-blue2" name="abort" value="{% trans 'Cancel' %}"/>
+            <input class="bt bt-blue2" type="button" onClick="load_file()" value="Сохранить"/>
+        </div>
+        
+    </form>
+    
+<a href="#" class="overlay" id="load_file"></a>
+    <div class="popup_personal">
+    <a class="popup_personal-close" href="#close"></a>
+    	<table class="type-4 modal" style="width: 440px;">
+        	<caption>
+            	<h1 class="title" style="margin: 0;">Ожидайте...</h1>
+            </caption>
+            <tbody>
+            	<tr>
+                	<td style="text-align: center;"><img src="{{ MEDIA_URL }}images/loading.gif"></td>
+                </tr>
+            </tbody>
+        </table>
+</div>	        
+    {% else %}
+        <div class="status status-info">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>{% trans "You have no internal numbers. You should create one first" %}</p>
+            </div>
+        </div>
+    {% endif %}       
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">{{ title }} &#9834</h1>
+
+<script>
+$(document).ready(function () {
+	
+	var $_GET = {};
+
+	document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+		function decode(s) {
+			return decodeURIComponent(s.split("+").join(" "));
+		}
+	
+		$_GET[decode(arguments[1])] = decode(arguments[2]);
+	});
+	
+	$("#" + $_GET["id"]).addClass($_GET["sort"]);
+	
+	$("th").click(function(){
+		  var theLink = $(this).attr("id");
+		  var theClass = $(this).attr("class")
+		  
+		  if(theClass=="UP")
+			  {$(this).removeClass('UP');
+			  $(this).addClass('DOWN');}
+		  else if(theClass=="DOWN")
+			  {$(this).removeClass('DOWN');
+			  $(this).addClass('UP');}
+		  else
+		  	{$(this).addClass('UP');}
+			
+		if($_GET["page"]){
+		  window.location.href = window.location.pathname + '?page=' + $_GET["page"] + '&id=' + theLink + '&sort=' + $(this).attr("class");}
+		  else {window.location.href = window.location.pathname + '?page=1' + '&id=' + theLink + '&sort=' + $(this).attr("class");}
+	});
+
+});
+</script>
+<style>
+   th { cursor: pointer; }
+</style>
+<form action="." method="post" enctype="multipart/form-data">
+
+{% if all_users_files %}
+
+
+<table class="type-2">
+                    <thead class="SortHead">
+                        <tr>
+
+                            <th width="10%" scope="col" id="date">Дата</th>
+                            <th width="10%" scope="col" id="caller">Кто</th>
+                            <th width="10%" scope="col" id="called">Кому</th>
+                            <th width="10%" scope="col" id="name">Запись</th>
+                            <th width="10%" scope="col">Скачать</th>
+                            <th width="10%" scope="col">Удалить</th>
+
+                        </tr>
+                    </thead>
+   						{% for file in all_users_files2 %}
+                        <tr>
+							<td>{{ file.date }}</td>
+                            <td>{{ file.caller }}</td>
+                            <td>{{ file.called }}</td>
+                            <td>
+                            <object id="monFlash" type="application/x-shockwave-flash" data="/media/vkplay2/template_maxi/template_maxi/player_mp3_maxi.swf" width="200" height="20">
+                                <param name="wmode" value="transparent" />
+                                <param name="movie" value="/media/vkplay2/template_maxi/template_maxi/player_mp3_maxi.swf" />
+                                <param name="FlashVars" value="mp3=/account/listen_file/{{ file.name }}?id={{ record_id }}&amp;bgcolor1=ffffff&amp;bgcolor2=cccccc&amp;buttoncolor=999999&amp;buttonovercolor=6495ED&amp;slidercolor1=cccccc&amp;slidercolor2=999999&amp;sliderovercolor=6495ED&amp;textcolor=0&amp;showvolume=1" />
+							</object>
+                            </td>
+                            <td><a href="/account/listen_file/{{ file.name }}?id={{ record_id }}" class="link-download"></a></td>
+                            <td><a href="/account/delete_file/{{ file.name }}?id={{ record_id }}" id="delete"><img id="asdfg" class="img" title="Удалить поле" src="/media/images/sprite_delete.png"></img></a></td>
+
+                    <!--</li> -->
+                        </tr>
+            			{% endfor %}
+   			</table>
+<div class="ctrls">
+	{% include 'paginator.html' %}
+</div><!--ctrls-->
+
+
+{% else %}
+<div class="status status-info">
+                    <i class="ico"></i>
+                    <div class="status-i">
+                        <p>У Вас нет записанных разговоров</p>
+                    </div>
+</div>
+{% endif %}
+
+</form>
+{% endblock %}

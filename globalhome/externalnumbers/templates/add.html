@@ -1,0 +1,215 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block extrahead %}
+    {{ block.super }} 
+    <link type="text/css" href="/media/css/egplant.css" rel="stylesheet" />
+    <script type="text/javascript" src="/media/js/Localnumbers_relocating.js"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript">
+	
+        $(document).ready(function() {
+        	FilterLocalnumbersByRegion()
+            
+            {% if errors %}
+				add_warning('Пожалуйста выберите по крайней мере один номер!');
+            {% endif %}
+        });
+		
+		function add_warning(message) {
+		if (document.getElementById('warning_i') == null)
+			{
+				$("#warning").append('<i id="warning_i"class="ico"></i>');
+			}
+		if (document.getElementById('warning_div') == null)
+			{
+				$("#warning").append('<div id="warning_div" class="status-i"><p id="warning_p"></p></div>');
+			}
+		if (document.getElementById('warning_p'))
+			{
+				var warning_p = document.getElementById('warning_p');
+				warning_p.parentNode.removeChild(warning_p);
+				$("#warning_div").append('<p id="warning_p">'+ message +'</p>');
+			}
+		document.getElementById('warning').className = 'status status-error';		
+		};
+	
+		
+		$(function() {
+		$( "#accordions" )
+			.accordion({
+				header: "> div > h3"
+			})
+			.sortable({
+				axis: "y",
+				handle: "h3",
+				stop: function( event, ui ) {
+					// IE doesn't register the blur when sorting
+					// so trigger focusout handlers to remove .ui-state-focus
+					ui.item.children( "h3" ).triggerHandler( "focusout" );
+				}
+			});
+		});
+		
+		$(function() {
+		$( "#accordions1" )
+			.accordion({
+				header: "> div > h3"
+			})
+			.sortable({
+				axis: "y",
+				handle: "h3",
+				stop: function( event, ui ) {
+					// IE doesn't register the blur when sorting
+					// so trigger focusout handlers to remove .ui-state-focus
+					ui.item.children( "h3" ).triggerHandler( "focusout" );
+				}
+			});
+		});
+	
+		$(function() {
+		$( "#accordions2" )
+			.accordion({
+				header: "> div > h3"
+			})
+			.sortable({
+				axis: "y",
+				handle: "h3",
+				stop: function( event, ui ) {
+					// IE doesn't register the blur when sorting
+					// so trigger focusout handlers to remove .ui-state-focus
+					ui.item.children( "h3" ).triggerHandler( "focusout" );
+				}
+			});
+		});	
+		
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    <h1 class="title">{{ title }}</h1>
+    
+    <div class="ugc">
+        <p>Выберите желаемые городские номера и прикрепите их к группе внутренних номеров.</p>
+    </div>
+    
+    <div id="warning"></div>
+    
+    {% if free_numbers_count > 0 %}
+        <form method="POST" action=".">
+                
+                <h4 class="h4_style">{% trans "Please select your desired local numbers" %}:</h4>
+                
+                <div class="add_number">
+                
+                    <table style="width: 100%; height: 250px; padding-bottom:200px; color: #535353;">
+                        <thead>
+                            <tr>
+                                <th width="33%">Москва 495</th>
+                                <th width="33%">Москва 499</th>
+                                <th width="33%">Ст. Петербург 812</th>
+                            </tr>
+                        </thead>
+                            <tr height="auto">
+                           	 <td style="padding:0;">
+                                   <div id="accordions" style="height:100px;">
+                                   		{% for g in group %}
+                                        <div>
+                                            <h3><a href="#" style="font-size:12px;">{{g.name}}/{{g.price}} руб.**</a></h3>
+                                            <div>
+                                            	<ul>
+                                            	{% for gi in g.external %}
+                                                    <li><input name="numbers" type="checkbox" value="reg_1_id_{{gi.id}}" />{{gi.number}}</li>
+                                           	    {% empty %}
+                                        			В текущем регионе на данный момент нет номеров
+                                            	{% endfor %}
+                                                </ul>
+                                             </div>
+                                        </div>
+                                        {% empty %}
+                                        Тарифы на данные номера пока не назначены
+                                    {% endfor %}
+                                </div>
+                            </td>
+                            
+                            <td>
+                                <div id="accordions2" style="height:100px;">
+                                	{% for g in group2 %}
+                                    <div>
+                                        <h3><a href="#" style="font-size:12px;">{{g.name}}/{{g.price}} руб.**</a></h3>
+                                        	<div>
+                                            	<ul>
+                                                {% for gi in g.external %}
+                                                	<li><input name="numbers" type="checkbox" value="reg_1_id_{{gi.id}}" />{{gi.number}}</li>
+                                                {% empty %}
+                                            		В текущем регионе на данный момент нет номеров
+                                                {% endfor %}
+                                                </ul>
+                                             </div>
+                                     </div>
+                                    {% empty %}
+                                    Тарифы на данные номера пока не назначены{% endfor %}
+                                </div>
+                            </td>
+                            
+                            <td>
+                               <div id="accordions1" style=" height:100px;">
+                                {% for g in group1 %}
+                                    <div>
+                                        <h3> <a href="#" style="font-size:12px;">{{g.name}}/{{g.price}} руб.**</a></h3>
+                                            <div>
+                                                <ul>
+                                                {% for gi in g.external %}
+                                                    <li><input name="numbers" type="checkbox" value="reg_2_id_{{gi.id}}" />{{gi.number}}</li>
+                                                {% empty %}
+                                                    В текущем регионе на данный момент нет номеров
+                                                {% endfor %}
+                                                </ul>
+                                            </div>
+                                    </div>
+                                 {% empty %}
+                                    Тарифы на данные номера пока не назначены
+                                 {% endfor %}
+                            </div>
+                          </td>
+                          
+                       </tr>
+                   </table>
+            
+          
+		<div class="form_django">
+            <div class="add_group2">
+            	{% form_field form.user_groups block %}
+            </div>
+            <div class="form-submit">
+                <div class="form-submit-left">
+                    <small><span class="req">*</span> — пункты обязательные для заполнения</small>
+                </div>
+            </div>
+            <div class="form-submit">
+                <div class="form-submit-left">
+                    <small><span class="req">**</span> — цены указаны без учета НДС</small>
+                </div>
+       		</div>
+         </div><!--form django-->
+            
+        <div class="form-submit-right">
+          <input type="submit" class="bt bt-blue2" value='{% trans "Cancel" %}' name="cancel" />
+          <input type="submit" class="bt bt-blue2" value='{% trans "Checkout" %}' name="checkout" />
+        </div>
+        
+        </div>
+     </form>
+     
+      
+    {% else %}
+        <div class="status status-warning">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>{% trans "Unfortunately at the moment there are no free city numbers. Please contact technical support." %}</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

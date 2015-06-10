@@ -1,0 +1,94 @@
+<script>
+$(function () {
+
+    IS_IPAD = navigator.userAgent.match(/iPad/i) != null;
+    IS_IPHONE = (navigator.userAgent.match(/iPhone/i) != null) || (navigator.userAgent.match(/iPod/i) != null);
+
+    if (IS_IPHONE) {
+
+        $('.nav ul li ul li a').on('click touchend', function() { 
+           
+var link = $(this).attr('href');   
+            window.open(link,'_blank'); 
+
+            return false;   
+        });     
+    }
+});
+
+</script>
+<div class="header-wrap"><div class="header-inner">
+		<header class="header">
+        <style type="text/css">
+        .logo a{
+            text-decoration: none;
+        }
+        .side_h1 span{
+            color: #3B7CCF;
+            font-size: 26px;
+            
+        }
+        </style>
+			<h1 class="logo"><a href=/><h1 onclick="window.location.hash=&quot;#hs_login2&quot;" class="side_h1"><span>HotSpot Wi-Fi</span></h1></a></h1>
+
+			<nav class="nav">
+				<ul>
+					<li class="nav-profile nav-drop {% if account_profile.is_current %} active {% endif %}">
+						<a href="#" title="Профиль"><i></i><span>Профиль</span></a>
+						<ul>
+							<li><a href="/account/">Информация по учетной записи</a></li>
+							<li><a href="/work_acount/personal_data/">Данные соискателя</a></li>
+							<li><a href="/work_acount/work_employer_data/">Данные работодателя</a></li>
+							{% comment %}
+        					{% if not user.get_profile.is_card or %}
+							<li><a href="/account/profile/">Редактировать профиль</a></li>
+							<li><a href="/account/changepassword/">Изменить пароль</a></li>
+							<li><a href="/account/findocs/signed/">Подписанные документы</a></li>
+							<li><a href="/account/findocs/contract_cancellation/">Рассторгнуть договор</a></li>
+                            {% endif %}
+                            {% endcomment %}
+						</ul>
+					</li>
+					<li class="nav-support {% if helpdesk_account_tickets.is_current %} active {% endif %}"><a href="/account/helpdesk/" title="Поддержка"><i></i><span>Поддержка</span></a></li>
+					{% if user.get_profile.is_card %}
+					<li class="nav-finance nav-drop {% if account_show_tariffs.is_current %} active {% endif %}">
+                    	<a href="#" title="Финансы"><i></i><span>Финансы</span></a>
+                        <ul>
+							<li><a href="/account/payment/">Способы оплаты услуг</a></li>
+                            <li><a href="/account/write_offs_and_account_replenishment/">Произведенные списания и пополнения счета</a></li>
+							{% if not user.get_profile.is_card %}
+							<li><a href="/account/balance/">Детализация разговоров</a></li>
+                            <li><a href="/account/fax/stat/">Статистика отправленных факсов</a></li>
+							{% else%}
+							<li><a href="/account/internet/hotspot/statistic/">История hotspot сессии</a></li>
+							{% endif %}
+							{% if not user.get_profile.is_card %}
+                            <li><a href="/account/record_balance/">Детализация записи разговоров</a></li>
+        					
+							<li><a href="/account/mytariffs/">Мои тарифы</a></li>
+							<li><a href="/account/invoices_and_payment/">Платежные документы</a></li>
+                            {% if not_is_invoice %}
+							<li><a href="/account/advance_invoice/">Выставить авансовый счет</a></li>
+                            {% endif %}
+							<li><a href="/account/write_offs_and_account_replenishment/">Произведенные списания и пополнения счета</a></li>
+							<li><a href="/account/priority_of_services/">Приоритет списания и оплата</a></li>
+                            {% endif %}
+						</ul>
+                    </li>
+                    {% endif %}
+					<li class="nav-home"><a href="/" title="Домой"><i></i><span>Домой</span></a></li>
+				</ul>
+			</nav>
+           
+           
+
+			
+			<div class="user user-logged"><i class="icon"></i>
+           		{% with user.get_profile.main_billing_account_id as id %}
+				<span class="username">{{ id }}, <br><span title="Ваш ID и Имя"><i></i>{{ request.user.username }}</span></span>
+				<span class="logout"><a href="/logout/">Выход</a></span>
+            	{% endwith %}
+			</div>
+            
+		</header>
+</div></div><!--header-->

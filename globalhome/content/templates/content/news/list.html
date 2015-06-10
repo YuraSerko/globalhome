@@ -1,0 +1,18 @@
+{% extends 'base_public.html' %}
+
+{% block content %}
+	<p class="breadcrumbs"><a href="/">Главная</a> <span>→</span> Новости</p>
+    
+        <hr/>
+        {% for obj in objects %}
+        		<h3 class="title">{{ obj.name }}</h3></td>
+    			<div class="news_date">Опубликовано: {{ obj.created_at|date:" d.m.Y" }}</div>
+    			<div>
+        			{{ obj.text|safe }}
+    			</div>
+    			<hr/>
+        {% endfor %}
+    <div class="ctrls">
+        {% include 'paginator.html' %}
+     </div><!--ctrls-->
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+
+
+
+{% block content %} 
+ 
+ {% block sendin %}
+  {{block.super}}
+         {% endblock %}
+ 
+{% block login_1 %}
+	{{block.super}}
+         {% endblock %}
+  
+
+  
+  <article id="right">
+	
+			
+				
+				
+				{% block burat2 %}
+        {{block.super}}
+        {% endblock %}	
+				<style>
+				@media only screen and (min-width: 1200px){	
+				.advert_2{
+					float: right;
+					margin: 20px;
+					width: 240px;
+					margin-right: -200px;
+					height: 400px;
+					/*border: 1px solid black;*/
+				}
+				}
+		</style>
+	<div class = "advert_2">
+		<script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement|add:17}}"></script>
+	</div>
+			
+			
+			<div id='centr_field'>
+				{% block cap %}
+                {{ block.super }}
+                
+                {% endblock %} 
+
+                <!--  мои данные  -->
+					
+					
+					
+                	<p><a href = "/weather/region/7/">{{ weather_regions.0 }}</a> </p>
+                	<p><a href = "/weather/region/6/">{{ weather_regions.1 }}</a></p>
+                	<p><a href = "/weather/region/1/">{{ weather_regions.2 }}</a></p>
+	                <p><a href = "/weather/region/2/">{{ weather_regions.3 }}</a></p>
+	                <p><a href = "/weather/region/3/">{{ weather_regions.4 }}</a></p>
+	                <p><a href = "/weather/region/5/">{{ weather_regions.5 }}</a></p>
+	                <p><a href = "/weather/region/4/">{{ weather_regions.6 }}</a></p>
+	
+                <!-- окончание моих данных -->
+
+
+
+				</div>
+			</div>	
+	</article>
+  
+  
+
+   
+	
+
+ 
+ 
+ 
+ 
+	
+	 	
+    	
+
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+});
+
+
+</script>
+
+    
+    {% block hs_login2 %}
+            {{ block.super }}
+        {% endblock%}
+
+           {% block review_window %}
+      {{block.super}}
+      {% endblock %} 
+        
+      {% block complaint_window %}
+      {{block.super}}
+      {% endblock %}
+
+      
+{% endblock %}

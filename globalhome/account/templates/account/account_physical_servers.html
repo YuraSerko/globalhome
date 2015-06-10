@@ -1,0 +1,700 @@
+{% extends 'base_private.html' %}
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+	{% comment %}
+	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/jquery.ui.labeledslider.css">
+	<script src="{{ MEDIA_URL }}js/jquery.ui.labeledslider.js"></script>
+    {% endcomment %}
+{% endblock %}
+{% block content %}
+ 
+<style type="text/css">
+.tab-control { /*Основной блок*/
+	  border : none;
+		  width : 95%;           
+		  padding : 0px;
+}
+
+.tab-header { /*Заголовки*/
+	  font-size : 14px;
+	  text-align: center;
+	  color: #FFF;
+	  font-size: 14px;
+	  border : none;
+          width : 100%;
+          height: 20px;
+          margin : 0px;         
+          padding : 0px; 
+}
+
+.tab-header > div { /*Отдельный заголовок*/
+          border-left : 1px solid #ddd; 
+          border-radius:10px 10px 0px 0;  
+	  background-color : #FF9521;
+          height: 20px;
+          padding : 5px;
+          margin-right : 2px; 
+          float : left;
+          cursor : pointer; 
+		  width: 140px;
+		-webkit-transition: all 200ms ease;
+		-moz-transition: all 200ms ease;
+		-ms-transition: all 200ms ease;
+		-o-transition: all 200ms ease;
+		transition: all 200ms ease;
+}
+
+.tab-header > div:hover { /*Текущий заголовок*/
+		  margin-top: -15px; 
+		  height: 35px;
+		-webkit-transition: all 200ms ease;
+		-moz-transition: all 200ms ease;
+		-ms-transition: all 200ms ease;
+		-o-transition: all 200ms ease;
+		transition: all 200ms ease;
+}
+
+.tab-body { /*Содержимое закладок*/
+	  border : none;
+          width : 100%;       
+          margin : 0px;         
+          padding : 0px;
+          clear : both; 
+}
+
+.tab-body > div { /*Содержимое отдельной закладки*/
+          border-bottom : 1px solid #ddd; 
+          border-left : 1px solid #ddd; 
+          border-radius:0 5px 5px 5px;  
+	  background-color : #FF9521;
+          display : none;
+          overflow: auto; /*Прокрутка запрещена, если она нужна, то следует поставить значение auto*/
+          width : 100%;
+          height: 100%;         
+          padding : 1px;
+}
+</style>
+ 
+<script type="text/javascript">
+function OnClick(tabhid){
+	 //Получение заголовка по id
+	 var tabh = document.getElementById(tabhid);
+	
+	 if (tabh==null)
+		 return;
+	 
+	 //Ссылка на элемент tab-header
+	 var tabheader=tabh.parentNode;
+	
+	 if (tabheader==null)
+		 return;
+	 
+	 //Получаем все заголовки
+	 var tabhs;
+	 tabhs = SelectChildren(tabheader,'div');
+	
+	 if (tabhs.length == 0)
+		 return;
+	 
+	 //Изменяем стиль ранее выбранного заголовка
+	 for(var i = 0; i < tabhs.length; i++)
+		 if (tabh.style.backgroundColor = '#eee')
+			tabhs[i].style.backgroundColor = '#2884ea';
+	 
+	 //Изменяем стиль выбранного заголовка
+	 tabh.style.backgroundColor = '#FF9521';
+	
+	 var tabcontrol;
+	 
+	 //Получаем ссылку на весь элемент tab-control
+	 try {
+		 tabcontrol = tabheader.parentNode;
+	 } catch (ex)
+	 {
+		 return;
+	 }
+	
+	 var tabbody;
+	 
+	 //Получаем ссылку на раздел содержимого закладок
+	 try {
+		 tabbody = tabcontrol.getElementsByClassName('tab-body')[0];
+	 } catch (ex)
+	 {
+		 return;
+	 }
+	 
+	 //Получаем все элементы содержимого закладок
+	 var tabs;
+	 tabs = SelectChildren(tabbody,'div');
+	
+	 if (tabs.length == 0)
+		 return;
+	
+	 //Получаем содержимое выбранной закладки по ее id, сформированному по id заголовка
+	 var selectedtab= document.getElementById('b'+tabh.id);
+	
+	 if (selectedtab==null)
+		 return; 
+	
+	 //Скрываем содержимое ранее выбранной закладки
+	 for(var i = 0; i < tabs.length; i++)
+		 if (tabs[i].style.display == 'block')
+			tabs[i].style.display = 'none';
+	
+	 //Показываем содержимое выбранной закладки
+	 selectedtab.style.display = 'block';
+	}
+	
+	/*Функция выбора дочерних элементов по имени тэга*/
+	function SelectChildren(node, childname)
+	{
+	 var result = [];
+	
+	 for(var i = 0; i < node.childNodes.length; i++)
+		{
+		 var child = node.childNodes[i];
+		 if (child.nodeType==1) //Элемент
+			if (child.tagName.toLowerCase()==childname.toLowerCase())
+			   result.push(child); 
+		}
+	
+	 return result; 
+	}
+	
+	
+	function step_zakaz(id)
+	{	
+		$.ajax({
+                url: "/dedicated/step_zakaz/True/"+id+"/",
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+                    $("#id_popup").html(html);
+					  
+                }  
+            });
+	}
+	
+	{% comment %}
+	function step_zakaz_config()
+	{
+		count_hdd = $("#hdd").text();
+		count_ssd = $("#ssd").text();
+		if ((count_hdd==0) && (count_ssd==0))
+			{alert('bad');}
+		else {
+			cpu_id = labels_id_cpu[$.inArray($("#cpu").text(), labels_cpu)]
+			count_ram = $("#ram").text();
+			get = '?cpu_id=' + cpu_id + '&count_ram=' + count_ram + '&count_hdd=' + count_hdd + '&count_ssd=' + count_ssd;
+			$.ajax({
+					url: "/dedicated/step_conf/True/"+get,
+					cache: false,
+					async: false,
+					  
+					success: function(html){
+						
+						$("#id_popup").html(html);
+						  
+					}  
+				});
+		    }
+	}
+	{% endcomment %}
+	
+	function change_type_inet(server_id) {
+		$.ajax({
+			
+				  	url: "/dedicated/change_type_inet/"+document.getElementById("type_inet").value+"/",
+					beforeSend: function () 
+					{
+						$("#range_speed").find('option').remove();
+					},
+					complete: function(html)
+					{	
+						var id_plus_speed = html.responseText;
+						id_plus_speed = id_plus_speed.split('_');
+						spis_id = id_plus_speed[0].split(', ');
+						speed = id_plus_speed[1].split(', ');
+						select_obj = document.getElementById("range_speed");
+						for (var i=0; i < spis_id.length; i++) {
+							select_obj.options[select_obj.options.length] = new Option(speed[i], spis_id[i]);
+						}
+						dedicated_cost(server_id);
+					}, 
+			
+			  })
+	}
+	
+	function dedicated_cost(server_id) {
+		var get = "?";
+		get += "count_ip=" + document.getElementById('count_ip').value;
+		get += "&speed_inet=" + document.getElementById("range_speed").value;
+		
+		$.ajax({
+		url: "/dedicated/cost_calculation/"+server_id+"/"+get,
+		cache: false,
+		async: false,
+		  
+		success: function(cost){
+					document.getElementById("cost").innerHTML = cost;
+		} 
+		});
+	}
+	
+	function change_count_ip(value) {
+		count_ip = document.getElementById("count_ip").value;
+		if (value == '-') {
+			if (Number(count_ip) > 1) {
+				count_ip = Number(count_ip) - 1;
+			}
+			
+		}
+		if (value == '+') {
+			if (Number(count_ip) < 4) {
+				count_ip = Number(count_ip) + 1;
+			}
+		}
+		document.getElementById("count_ip").value = count_ip;
+	}
+	
+
+	function step_auth(server_id)
+	{
+		get = "?server_id=" + server_id;
+		get += "&count_ip=" + document.getElementById('count_ip').value;
+		get += "&speed_inet=" + document.getElementById("range_speed").value;
+		document.getElementById('dedicated_zakaz').action = '/dedicated/step_auth/True/' + get;
+		document.getElementById('dedicated_zakaz').submit();
+	}
+	
+	{% comment %}
+	function step_auth_conf(cpu_id, count_ram, count_hdd, count_ssd)
+	{
+		count_ip = document.getElementById('count_ip').value;
+		get = '?cpu_id='+cpu_id+'&count_ram='+count_ram+'&count_hdd='+count_hdd+'&count_ssd='+count_ssd+'&count_ip='+count_ip;
+		document.getElementById('dedicated_zakaz').action = '/dedicated/step_auth/True/'+get;
+		document.getElementById('dedicated_zakaz').submit();
+	}
+	{% endcomment %}
+		
+</script>
+
+<h1 class="title"> Аренда выделенного физического сервера (dedicated)</h1>
+<!-- <form></form>
+
+<font color="black">
+<div>
+<table border="0">
+<tr>
+<td>
+ <style type="text/css">
+TD
+{
+ border-top: 1px solid #DFDFDF; /* Параметры рамки вокруг ячеек таблицы */
+ border-right: none;
+ border-left: none;
+}
+
+</style>
+
+{% for i in serv %}
+<font color="black">
+<table align="left" style="width: 295px; margin-left: 20px;" id="round">
+	
+		<tr>
+			<th width="120" scope="col"><div align="center"><strong>Характеристики</strong></div></th> 
+		    <th style="border-left:1px solid #DFDFDF;"align="center" scope="col"><div align="center"><font size="3" color="#0093D9"><strong> {{ i.tarif }}	</strong></font></div></th>
+		</tr>
+	
+	<tbody>
+		<tr>
+			<td>Процессор				</td>
+			<td style="border-left:1px solid #DFDFDF;">{{ i.cpu }}
+		  </td>
+		</tr>
+		<tr>
+			<td>Опер. память 
+				</td>
+			<td style="border-left:1px solid #DFDFDF;">{{ i.ram }}
+				</td>
+		</tr>
+		<tr>
+			<td>Жесткий диск 
+				</td>
+			<td style="border-left:1px solid #DFDFDF;">{{ i.hdd }}
+				</td>
+		</tr>
+		<tr>
+			<td>Высота сервера
+				</td>
+			<td style="border-left:1px solid #DFDFDF;">{{ i.unit }}
+				</td>
+		</tr>
+		<tr>
+			<td>Электропитание
+				</td>
+			<td style="border-left:1px solid #DFDFDF;">{{ i.electro }}
+				</td>
+		</tr>
+		<tr>
+			<td >Стоимость <em>руб.</em>			  </td>
+			<td style="border-left:1px solid #DFDFDF;">{{ i.cost }}
+		  </td>
+		</tr>
+		<tr>
+			<td colspan="2" scope="col" style="text-align: center; ">
+				<em style="text-align: right; white-space: nowrap; "><a href="#zakaz{{ i.id }}"><img alt="" onmousedown=" this.src='/media/jpg/button_sergei_down_vds.png'" onmouseout=" this.src='/media/jpg/button_sergei_vds.png' " onmouseover=" this.src='/media/jpg/button_sergei_over_vds.png' " src="/media/jpg/button_sergei_vds.png" style="border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; margin-left: 7px; margin-right: 7px; margin-top: 3px; margin-bottom: 3px; " /></a></em>
+				</td>
+		</tr>
+	</tbody>
+</table>
+</font>
+
+  <a href="#" class="overlay" id="zakaz{{ i.id }}"></a>
+    <div class="popup">
+	<form action="/content/dedicated/send_zakaz/" id="preview{{ i.id }}" method="post">
+	<font color="black">
+            <h2><font color="blue">Оформление заказа</font></h2>
+            <p>Для заказа необходимо заполнить все поля</p>
+			<div>
+				<label for="usluga"><font color="black">Тип услуги</font></label>
+				<font color="blue">Аренда выделенного физического сервера / dedicated</font>
+			</div>
+			<div>
+				<label for="tarif"><font color="black">Тариф</font></label>
+				<font color="blue">{{ i.tarif }}</font>
+				<input type="hidden" name="tarif" value="{{ i.tarif }}"/>
+			</div>
+			<div>
+				<label for="unit"><font color="black">Кол-во unit`ов</font></label>
+				<font color="blue">{{ i.unit }}</font>
+				<input type="hidden" name="unit" value="{{ i.unit }}"/>
+			</div>
+			<div>
+				<label for="port"><font color="black">Кол-во портов коммутатора 100 Мбит/сек</font></label>
+				<font color="blue">1</font>
+			</div>
+			<div>
+				<label for="unit"><font color="black">Кол-во IP адресов</font></label>
+				<font color="blue">1</font>
+			</div>
+			<div>
+				<label for="unit"><font color="black">Кол-во розеток</font></label>
+				<font color="blue">1</font>
+			</div>
+			<div>
+				<label for="unit"><font color="black">Электропитание, Вт</font></label>
+				<font color="blue">{{ i.electro }}</font>
+				<input type="hidden" name="electro" value="{{ i.electro }}"/>
+			</div>
+			<div>
+				<label for="cost"><font color="black">Стоимость услуги</font></label>
+				<font color="blue">{{ i.cost }}</font>
+				<input type="hidden" name="cost" value="{{ i.cost }}"/>
+			</div>
+            <font color="#FF0000"><p class="red" id="alert{{ i.id }}"></p></font>
+			<div>
+  			 <button type="submit">Оформить заказ</button>
+			</div>
+            <a class="close" href="#close"></a>
+			</font>
+			</form>
+        </div>	
+{% endfor %}
+</td>
+</tr>
+<tr>
+<td>
+<font color="#CCCCCC" size="+1"><p>Вместе с сервером Вы приобретаете следующий пакет услуг:</p></font>
+<li>источник питания - 1шт.</li>
+<li>порт коммутатора Ethernet 100 Мбит/сек - 1шт.</li>
+<li>безлимитный доступ в интернет со скоростью 100 Мбит/сек</li>
+<li>неограниченное использование IP-KVM</li>
+<li>бесплатная установка операционной системы</li>
+<br />
+* В стоимость сервера уже входит стоимость размещения сервера в нашем дата-центре<br />
+&nbsp Все цены приведены без учёта НДС. На сегодняшний день НДС состоявляет 18%
+</td>
+</tr>
+</table>
+</div>
+</font>-->
+
+<style>
+.val {
+	color: #3a7cbd;
+}
+</style>
+
+<body onLoad="OnClick('tab-01')">
+<div class='tab-control'>
+        <div class='tab-header'>
+            <div id='tab-01' onclick='OnClick(this.id)'>Все сервера</div>
+            <div id="tab-02" onClick="OnClick(this.id)">Конфигуратор</div>
+        </div> 
+        
+        <div class='tab-body'>
+            <div id='btab-01'>
+                <table class="t-spec">
+                    <thead>
+                        <tr>
+                            <th>Тариф</th>
+                            <th>Процессор</th>
+                            <th>Память</th>
+                            <th>Диск, HDD</th>
+                            <th>Диск, SSD</th>
+                            <th>Цена, р./мес.</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for server in servers %}
+                        <tr>
+                            <td>{{ server.tariff }}</td>
+                            <td>{{ server.cpu }}</td>
+                            <td>{{ server.ram|safe }}</td>
+                            <td>{{ server.hdd|safe }}</td>
+                            <td>{{ server.ssd|safe }}</td>
+                            <td>{{ server.cost }}</td>
+                            <td><a href="#zakaz" class="bt bt-blue2" onClick="step_zakaz('{{ server.id }}')">Заказать</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div id='btab-02'>
+            <div style="background: #FFF; border-radius: 6px">
+            <br />
+                <div class="under-construction">
+    
+                    <h1 class="title">Конфигуратор</h1>
+                
+                    <p><img src="{{ MEDIA_URL }}images/construction.png" alt=""></p>
+                    <p>Данный раздел находится на реконструкции.</p>
+                
+                </div>
+            <br />
+           </div>
+            	{% comment %}
+                <table class="t-spec">
+                    <thead>
+                        <tr>
+                            <th colspan="6">Конфигурация сервера</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td width="15%">Процессор</td>
+                            <td width="50%" colspan="2" id="td_cpu"><div id="slider1"></div></td>
+                            <td width="15" style="padding-left: 40px;"><label>Процессор:</label></td>
+                            <td colspan="2"><label class="val" id="cpu"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Память, Мб</td>
+                            <td colspan="2" id="td_ram"><div id="slider2"></div></td>
+                            <td style="padding-left: 40px;"><label>Память:</label></td>
+                            <td width="10%"><label class="val" id="ram"></label><label class="val"> Мб</label></td>
+                            <td width="10%"></td>
+                        </tr>
+                        <tr>
+                            <td>Диск, Гб</td>
+                            <td id="td_hdd"><div id="slider3"></div></td>
+                            <td id="td_ssd"><div id="slider4"></div></td>
+                            <td style="padding-left: 40px;"><label>HDD:</label><br /><label>SSD:</label></td>
+                            <td><label class="val" id="hdd"></label><label class="val"> Гб</label><br />
+	                            <label class="val" id="ssd"></label><label class="val"> Гб</label></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                        	<td colspan="3" style="vertical-align: bottom;">      
+                                <div class="ugc">
+                                    <small><req>*</req> Все цены приведены без учёта НДС.</small>
+                                </div></td>
+                            <td style="padding-left: 40px;"><label>Стоимость:</label></td>
+                            <td><label class="val" id="cost"></label><label class="val">100 руб.<req>*</req></label></td>
+                            <td><a href="#zakaz" class="bt bt-blue2" onClick="step_zakaz_config()" style="float: right;">Заказать</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% endcomment %}
+            </div>
+        </div>
+</div>
+
+
+{% comment %}
+<script>
+   $(function() {
+	  labels_cpu = []
+	  labels_id_cpu = []
+	  {% for cpu in cpu_qs %}
+	     labels_cpu.push('{{ cpu }}');
+	     labels_id_cpu.push('{{ cpu.id }}');
+	  {% endfor %}
+      $('#slider1').labeledslider({ max: {{ count_cpu }}, 
+	  								tickInterval: 1,                 
+									slide: function(event, ui) {
+									$('#cpu').text(labels_cpu[ui.value]);
+									divs = $('#td_cpu').find('.ui-slider-label-ticks');
+									span = $(divs).find("span");
+									span.css('background-image', 'url(/media/images/processor_blue.png)');
+									divs = $('#td_cpu').find('.ui-slider-label-ticks').get(ui.value);
+									span = $(divs).find("span");
+									span.css('background-image', 'url(/media/images/processor_orange.png)');
+									 }, 
+								});
+	  div = $('#td_cpu').find('.ui-slider-label-ticks').get(0);
+	  span = $(div).find("span");
+	  span.css('background-image', 'url(/media/images/processor_orange.png)');
+  	  $('span').text("");
+	  for (var i = 0; i < labels_cpu.length; i++) {
+			divs = $('#td_cpu').find('.ui-slider-label-ticks').get(i);
+			span = $(divs).find("span");
+			$(span).attr('title', labels_cpu[i]);
+		}		
+		$('#cpu').text(labels_cpu[0]);
+	  divs = $('#td_cpu').find('.ui-slider-label-ticks');
+	  span = $(divs).find("span");
+	  span.click(function() {
+				len = labels_cpu.length - 1;
+				index = $.inArray($(this).attr('title'), labels_cpu);
+				pos_left = 100 / len * index
+				polz = $('#slider1').find('a');
+				polz.css('left', pos_left + '%')
+				$('#cpu').text($(this).attr('title'));
+				divs = $('#td_cpu').find('.ui-slider-label-ticks');
+				span = $(divs).find("span");
+				span.css('background-image', 'url(/media/images/processor_blue.png)');
+				divs = $('#td_cpu').find('.ui-slider-label-ticks').get(index);
+				span = $(divs).find("span");
+				span.css('background-image', 'url(/media/images/processor_orange.png)');
+				});
+	  /*****************************************************************************/
+	  /*****************************************************************************/
+      labels_ram = ['1024', '2048', '4096', '6144', '8192', '12228', '16384'];
+	  $('#slider2').labeledslider({ max: labels_ram.length - 1,
+									step: 1,
+									tickLabels: labels_ram,
+									slide: function(event, ui) {
+											$('#ram').text(labels_ram[ui.value]);
+											divs = $('#td_ram').find('.ui-slider-label-ticks');
+											span = $(divs).find("span");
+											span.css('color', '#2884ea');
+											divs = $('#td_ram').find('.ui-slider-label-ticks').get(ui.value);
+											span = $(divs).find("span");
+											span.css('color', 'rgb(255, 149, 33)');
+											 },	
+								 });
+  	  div = $('#td_ram').find('.ui-slider-label-ticks').get(0);
+	  span = $(div).find("span");
+	  span.css('color', 'rgb(255, 149, 33)');
+	  $('#ram').text(labels_ram[0]);
+	  
+	  divs = $('#td_ram').find('.ui-slider-label-ticks');
+	  span = $(divs).find("span");
+	  span.click(function() {
+				len = labels_ram.length - 1;
+				pos_left = 100 / len * labels_ram.indexOf($(this).text())
+				polz = $('#slider2').find('a');
+				polz.css('left', pos_left + '%')
+				$('#ram').text($(this).text());
+				divs = $('#td_ram').find('.ui-slider-label-ticks');
+				span = $(divs).find("span");
+				span.css('color', '#2884ea');
+				divs = $('#td_ram').find('.ui-slider-label-ticks').get(labels_ram.indexOf($(this).text()));
+				span = $(divs).find("span");
+				span.css('color', 'rgb(255, 149, 33)');
+				});
+	  /*****************************************************************************/
+	  /*****************************************************************************/
+      labels_hdd = ['0', '512', '1024', '1536', '2048'];
+	  $('#slider3').labeledslider({ max: labels_hdd.length - 1,
+									step: 1,
+									tickLabels: labels_hdd,
+									slide: function(event, ui) {
+											$('#hdd').text(labels_hdd[ui.value]);
+											divs = $('#td_hdd').find('.ui-slider-label-ticks');
+											span = $(divs).find("span");
+											span.css('color', '#2884ea');
+											divs = $('#td_hdd').find('.ui-slider-label-ticks').get(ui.value);
+											span = $(divs).find("span");
+											span.css('color', 'rgb(255, 149, 33)');
+											 },	
+								 });
+  	  div = $('#td_hdd').find('.ui-slider-label-ticks').get(1);
+	  span = $(div).find("span");
+	  span.css('color', 'rgb(255, 149, 33)');	 
+	  $('#hdd').text(labels_hdd[1]);
+	  $("#slider3").append("<p class='marker_text'>HDD</p>");
+	  
+	  divs = $('#td_hdd').find('.ui-slider-label-ticks');
+	  span = $(divs).find("span");
+	  span.click(function() {
+				len = labels_hdd.length - 1;
+				pos_left = 100 / len * labels_hdd.indexOf($(this).text())
+				polz = $('#slider3').find('a');
+				polz.css('left', pos_left + '%')
+				$('#hdd').text($(this).text());
+				divs = $('#td_hdd').find('.ui-slider-label-ticks');
+				span = $(divs).find("span");
+				span.css('color', '#2884ea');
+				divs = $('#td_hdd').find('.ui-slider-label-ticks').get(labels_hdd.indexOf($(this).text()));
+				span = $(divs).find("span");
+				span.css('color', 'rgb(255, 149, 33)');
+				});
+	  /*****************************************************************************/
+	  /*****************************************************************************/
+      labels_sdd = ['0', '64', '128', '256', '512'];
+	  $('#slider4').labeledslider({ max: labels_sdd.length - 1,
+									step: 1,
+									tickLabels: labels_sdd,
+									slide: function(event, ui) {
+										$('#ssd').text(labels_sdd[ui.value]);
+										divs = $('#td_ssd').find('.ui-slider-label-ticks');
+										span = $(divs).find("span");
+										span.css('color', '#2884ea');
+										divs = $('#td_ssd').find('.ui-slider-label-ticks').get(ui.value);
+										span = $(divs).find("span");
+										span.css('color', 'rgb(255, 149, 33)');
+										 },	
+							 });
+  	  div = $('#td_ssd').find('.ui-slider-label-ticks').get(0);
+	  span = $(div).find("span");
+	  span.css('color', 'rgb(255, 149, 33)');
+	  $("#slider4").append("<p class='marker_text'>SSD</p>"); 	
+	  $('#ssd').text(labels_sdd[0]);
+	  
+	  divs = $('#td_ssd').find('.ui-slider-label-ticks');
+	  span = $(divs).find("span");
+	  span.click(function() {
+				len = labels_sdd.length - 1;
+				pos_left = 100 / len * labels_sdd.indexOf($(this).text())
+				polz = $('#slider4').find('a');
+				polz.css('left', pos_left + '%')
+				$('#ssd').text($(this).text());
+				divs = $('#td_ssd').find('.ui-slider-label-ticks');
+				span = $(divs).find("span");
+				span.css('color', '#2884ea');
+				divs = $('#td_ssd').find('.ui-slider-label-ticks').get(labels_sdd.indexOf($(this).text()));
+				span = $(divs).find("span");
+				span.css('color', 'rgb(255, 149, 33)');
+				});
+   });
+</script>
+{% endcomment %}
+
+
+<a href="#" class="overlay" id="zakaz"></a>
+    <div class="popup_personal" style="min-width: 400px;">
+        <a class="popup_personal-close" href="#close"></a>
+        <div id="id_popup">
+        </div>
+    </div>
+
+</body>
+{% endblock %}

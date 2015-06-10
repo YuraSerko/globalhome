@@ -1,0 +1,173 @@
+{% extends 'base_public.html' %}
+{% block extrahead %}
+
+   	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/style_public_moscowdata.css">
+	<link rel="shortcut icon" href="{{ MEDIA_URL }}moscowdata/favicon.ico">
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/style_moscowdata.css">
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/modal_moscowdata.css">
+	
+	<script src="{{ MEDIA_URL }}js/jquery_public.js"></script>
+	<script src="{{ MEDIA_URL }}js/jquery.js"></script>
+	<script src="{{ MEDIA_URL }}js/html5_moscowdata.js"></script>
+	<script src="{{ MEDIA_URL }}js/script_moscowdata_forgot.js"></script>
+    
+	<style>
+	.cols {
+	min-height: 390px;
+	}
+	.page-inner2{
+		background: none;
+	}
+	</style>
+	
+{% endblock %}
+                                    
+{% block left_menu %}
+{% endblock %} 
+
+{% block content %}
+{{ block.super }}
+
+	<section >
+	<div class = "promo">
+			<ul>
+				<li  class="promo-item promo-item-drop">
+					<i class="promo-icon promo-calls"></i>
+					<div class="name">
+						<a href="/service/dedicated-server/">
+							<span>Выделенные сервера</span>
+							<!--i class="arr"></i-->
+						</a>
+						<!--ul>
+						<li><a href="/content/dedicated/">Аренда выделенных серверов</a></li>
+						</ul-->
+					</div>
+					<div class="desc">
+						Аренда выделенных серверов в нашем дата-центре.
+					</div>
+				</li>
+				<li class="promo-item promo-item-drop">
+					<i class="promo-icon promo-number"></i>
+					<div class="name">
+						<a href="/service/colocation-server/">
+							<span>Размещение оборудования</span>
+							<!--i class="arr"></i-->
+						</a>
+						<!--ul>
+						<li><a href="/content/colocation/">Размещение серверов</a></li>
+						</ul-->
+					</div>
+					<div class="desc">
+						Услуги colocation серверов и серверного оборудования.
+					</div>
+				</li>
+				<li class="promo-item promo-item-drop">
+					<i class="promo-icon promo-pad"></i>
+					<div class="name">
+						<a href="/service/proxy-server/">
+							<span>Прокси-сервер</span>
+							<!--i class="arr"></i-->
+						</a>
+						<!--ul>
+						<li><a href="/content/article/vpn_server_proxy/">Подключение прокси-сервера</a></li>
+						</ul-->
+					</div>
+					<div class="desc">
+						Предоставление прокси-серверов VPN.
+					</div>
+				</li>
+				<!--Восстановил несуществующие пока страницы-->
+				<li class="promo-item promo-item-drop">
+					<i class="promo-icon promo-ats"></i>
+					<div class="name">
+						<a href="/service/communication/">
+							<span>Аренда каналов связи</span>
+							<!--i class="arr"></i-->
+						</a>
+						<!--ul>
+						<li><a href="#">Аренда каналов связи</a></li>
+						</ul-->
+					</div>
+					<div class="desc">
+						Высокоскоростное подключение к сети Интернет.
+					</div>
+				</li>
+				<li class="promo-item promo-item-drop">
+					<i class="promo-icon promo-internet"></i>
+					<div class="name">
+						<a href="/service/server-rack/">
+							<span>Серверные стойки</span>
+							<!--i class="arr"></i-->
+						</a>
+						<!--ul>
+						<li><a href="/content/rack/">Аренда серверных стоек</a></li>
+						</ul-->
+					</div>
+					<div class="desc">
+						Аренда места в телекоммуникационной серверной стойке.
+					</div>
+				</li>
+				
+				<li class="promo-item promo-item-drop">
+					<i class="promo-icon promo-data"></i>
+					<div class="name">
+						<a href="/service/virtual-server/">
+							<span>Виртуальные сервера</span>
+							<!--i class="arr"></i-->
+						</a>
+						<!--ul>
+						<li><a href="/content/vds/">Аренда виртуального сервера</a></li>
+						</ul-->
+					</div>
+					<div class="desc">
+						Аренда виртуальных серверов VPS/VDS.
+					</div>
+				</li>
+				<!--Восстановил несуществующие пока страницы-->
+				<li class="promo-item promo-item-drop">
+					<i class="promo-icon promo-hosting"></i>
+					<div class="name">
+						<a href="/service/hosting-site/">
+							<span>Хостинг</span>
+							<!--i class="arr"></i-->
+						</a>
+						<!--ul>
+						<li><a href="#">Услуги хостинга</a></li>
+						</ul-->
+					</div>
+					<div class="desc">
+						Надежный хостинг для Вашего web-сайта.
+					</div>
+				</li>
+				<li class="promo-item promo-item-drop">
+					<i class="promo-icon promo-payment"></i>
+					<div class="name">
+						<a href="/payment/">
+							<span>Оплата</span>
+							<i class="arr"></i>
+						</a>
+						<ul>
+							<li><a href="/payment/methods/">Пополнение счета</a></li>
+							<li><a href="/payment/cards/">Покупка карт доступа</a></li>
+						</ul>
+					</div>
+					<div class="desc">
+						Пополнение счета и покупка карт экспресс оплаты.
+					</div>
+				</li>
+			</ul>
+				
+		</div>
+		
+{% endblock %}
+
+
+
+
+
+
+
+

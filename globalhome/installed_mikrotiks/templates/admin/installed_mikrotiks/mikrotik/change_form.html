@@ -1,0 +1,279 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_modify add_second %}
+{% load admin_urls %}
+
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+{{ media }}
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />{% endblock %}
+
+{% block coltype %}{% if ordered_objects %}colMS{% else %}colM{% endif %}{% endblock %}
+
+{% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} change-form{% endblock %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_label|capfirst|escape }}</a>
+&rsaquo; {% if has_change_permission %}<a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %}
+&rsaquo; {% if add %}{% trans 'Add' %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}
+</div>
+{% endblock %}
+{% endif %}
+
+{% block content %}<div id="content-main">
+{% block object-tools %}
+{% if change %}{% if not is_popup %}
+  <ul class="object-tools">
+    {% block object-tools-items %}
+    <li><a href="{% url opts|admin_urlname:'history' original.pk|admin_urlquote %}" class="historylink">{% trans "History" %}</a></li>
+    {% if has_absolute_url %}<li><a href="{% url 'admin:view_on_site' content_type_id original.pk %}" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif%}
+    {% endblock %}
+  </ul>
+{% endif %}{% endif %}
+{% endblock %}
+<form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.module_name }}_form">{% csrf_token %}{% block form_top %}{% endblock %}
+<div>
+{% if is_popup %}<input type="hidden" name="_popup" value="1" />{% endif %}
+{% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
+{% if errors %}
+    <p class="errornote">
+    {% blocktrans count counter=errors|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+    </p>
+    {{ adminform.form.non_field_errors }}
+{% endif %}
+
+{% block field_sets %}
+<script>
+function set_parent(value)
+{
+$("#id_parent").val(value);
+}
+
+function change_value(value)
+{
+	if(value!='user'){
+		var elements = document.getElementsByClassName('form-row field-flat');
+		$(elements).removeClass('required');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+		elements = document.getElementsByClassName('form-row field-notation');
+		$(elements).removeClass('required');
+		elements = document.getElementsByClassName('form-row field-ip_address');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'block';
+		document.getElementById('id_secondary_parent').style.display = 'none';
+		document.getElementById('id_primary_parent').style.display = 'block';
+	}
+	else{
+		elements = document.getElementsByClassName('form-row field-ip_address');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';	
+		elements = document.getElementsByClassName('form-row field-notation');
+		$(elements).addClass('required');
+		elements = document.getElementsByClassName('form-row field-flat');
+		$(elements).addClass('required');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'block';
+		document.getElementById('id_secondary_parent').style.display = 'block';
+		document.getElementById('id_primary_parent').style.display = 'none';
+	}
+	if(value=='primary'){
+		var elements = document.getElementsByClassName('form-row field-ip_address')[0].getElementsByTagName("label")[0];
+		$(elements).addClass('required');
+		elements = document.getElementsByClassName('form-row field-used_ipsubnet');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'block';
+		elements = document.getElementsByClassName('form-row field-count_of_second_mikrotiks');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'block';
+		elements = document.getElementsByClassName('form-row field-parent');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+		elements = document.getElementsByClassName('form-row field-porch');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+		elements = document.getElementsByClassName('form-row field-floor');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+
+	}
+	else{
+		elements = document.getElementsByClassName('form-row field-porch');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'block';
+		elements = document.getElementsByClassName('form-row field-floor');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'block';
+		var elements = document.getElementsByClassName('form-row field-parent');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'block';
+		elements = document.getElementsByClassName('form-row field-ip_address')[0].getElementsByTagName("label")[0];
+		$(elements).removeClass('required');
+		elements = document.getElementsByClassName('form-row field-count_of_second_mikrotiks');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+		elements = document.getElementsByClassName('form-row field-used_ipsubnet');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+	}
+};
+</script>
+
+{% for fieldset in adminform %}
+	<div>
+	<fieldset class="module aligned {{ fieldset.classes }}">
+		{% if fieldset.name %}<h2>{{ fieldset.name }}</h2>{% endif %}
+		{% if fieldset.description %}
+			<div class="description">{{ fieldset.description|safe }}</div>
+		{% endif %}
+		{% for line in fieldset %}
+			<div class="form-row{% if line.fields|length_is:'1' and line.errors %} errors{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% endfor %}">
+				{% if line.fields|length_is:'1' %}{{ line.errors }}{% endif %}
+				{% for field in line %}
+					<div{% if not line.fields|length_is:'1' %} class="field-box{% if field.field.name %} field-{{ field.field.name }}{% endif %}
+						{% if not field.is_readonly and field.errors %} errors{% endif %}"{% endif %}>
+						{% if not line.fields|length_is:'1' and not field.is_readonly %}{{ field.errors }}{% endif %}
+						{% if field.is_checkbox %}
+							{{ field.field }}{{ field.label_tag }}
+						{% elif  field.field.name == "type_of_settings" %}
+								<label for="id_type_of_settings" class="required">Тип настроек:</label>
+								<select id="id_type_of_settings" class="type_of_settings" name="type_of_settings" onchange="change_value(this.value);">
+									<option value="primary" {% if field.field.value == "primary" %}selected="selected"{% endif%} >Первичный</option>
+									<option value="secondary"{% if field.field.value == "secondary" %}selected="selected"{% endif%} >Вторичный</option>
+									<option value="user"{% if field.field.value == "user" %}selected="selected"{% endif%}>Пользовательский</option>
+									<option value="reserve"{% if field.field.value == "reserve" %}selected="selected"{% endif%}>Резервный</option>
+									<input type="hidden" name="value_of_type_of_settings" value={{field.field.value}}>
+								</select>
+						{% elif  field.field.name == "parent" %}
+						<div id="id_primary_parent">
+							<label for="id_primary_parent">Parent:</label>
+							<select id="id_primary_parent" class="type_of_settings" name="primary_parent" onchange="set_parent(this.value);">
+								<option value="">--------</option>
+								{% for obj in qs_primary_mikrotiks %}
+								<option value={{ obj.id }} {% if field.field.value|to_int == obj.id|to_int %} selected="selected" {% endif %}>{{ obj }}</option>
+								{% endfor %}
+							</select>
+							<a href="/admin/installed_mikrotiks/mikrotik/add/" class="add-another" id="add_id_parent" onclick="return showAddAnotherPopup(this);"> <img src="/static/admin/img/icon_addlink.gif" width="10" height="10" alt="Добавить еще"></a>
+						</div>
+						<div id="id_secondary_parent">
+							<label for="id_secondary_parent">Parent:</label>
+							<select id="id_secondary_parent" class="type_of_settings"  name="secondary_parent" onchange="set_parent(this.value);">
+								<option value="">--------</option>
+								{% for obj in qs_secondary_mikrotiks %}
+								<option value={{ obj.id }} {% if field.field.value|to_int == obj.id|to_int %} selected="selected" {% endif %}>{{ obj }}</option>
+								{% endfor %}
+							</select>
+							<a href="/admin/installed_mikrotiks/mikrotik/add/" class="add-another" id="add_id_parent" onclick="return showAddAnotherPopup(this);"> <img src="/static/admin/img/icon_addlink.gif" width="10" height="10" alt="Добавить еще"></a>
+						</div>
+						<div id="div_id_parent">
+							{{ field.field }}{{ field.label_tag }}
+						</div>
+						{% elif field.field.name == "used_ipsubnet" %}
+							{{ field.label_tag }}{{ field.field }}
+						{% elif field.field.name == "id" %}
+						{% if field.field.value %}<input id="id_id" name="id" type="text" hidden value={{field.field.value}}>{% endif %}
+						{% else %}
+							{{ field.label_tag }}
+							{% if field.is_readonly %}
+								<p>{{ field.contents|linebreaksbr }}</p>
+							{% else %}
+								{{ field.field }}
+							{% endif %}
+						{% endif %}
+						{% if field.field.help_text %}
+							<p class="help">{{ field.field.help_text|safe }}</p>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+		{% endfor %}
+	</fieldset>
+	</div>
+{% endfor %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+jQuery(document).ready(function ($) {
+	document.getElementById('div_id_parent').style.display = 'none';
+	elements = document.getElementsByClassName('form-row field-porch');
+		$(elements).addClass('required');
+	elements = document.getElementsByClassName('form-row field-floor');
+		$(elements).addClass('required');
+	
+	if($( "#id_type_of_settings option:selected" ).text().indexOf('Первичный') == 0){
+		elements = document.getElementsByClassName('form-row field-parent');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+		elements = document.getElementsByClassName('form-row field-porch');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+		elements = document.getElementsByClassName('form-row field-floor');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+	}
+	else{
+		if($( "#id_type_of_settings option:selected" ).text().indexOf('Пользовательский') == 0){
+			elements = document.getElementsByClassName('form-row field-ip_address');
+			for (var i = 0; i < elements.length; i++)
+				elements[i].style.display = 'none';
+			document.getElementById('id_primary_parent').style.display = 'none';
+			document.getElementById('id_primary_parent').name="primary_parent";
+			document.getElementById('id_secondary_parent').style.display = 'block';
+			document.getElementById('id_secondary_parent').name="parent";
+		}else{
+			document.getElementById('id_primary_parent').style.display = 'block';
+			document.getElementById('id_primary_parent').name="parent";
+			document.getElementById('id_secondary_parent').style.display = 'none';
+			document.getElementById('id_secondary_parent').name="secondary_parent";
+		}
+		var elements = document.getElementsByClassName('form-row field-used_ipsubnet');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+		elements = document.getElementsByClassName('form-row field-ip_address')[0].getElementsByTagName("label")[0];
+		$(elements).removeClass('required');
+		elements = document.getElementsByClassName('form-row field-count_of_second_mikrotiks');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+	};
+
+	if($( "#id_type_of_settings option:selected" ).text().indexOf('Пользовательский') != 0){
+		elements = document.getElementsByClassName('form-row field-flat');
+		for (var i = 0; i < elements.length; i++)
+			elements[i].style.display = 'none';
+	}else{
+		elements = document.getElementsByClassName('form-row field-notation');
+		$(elements).addClass('required');
+		elements = document.getElementsByClassName('form-row field-flat');
+		$(elements).addClass('required');
+	}
+}
+)
+</script>
+
+{% endblock %}
+
+{% block after_field_sets %}{% endblock %}
+
+{% block inline_field_sets %}
+{% for inline_admin_formset in inline_admin_formsets %}
+    {% include inline_admin_formset.opts.template %}
+{% endfor %}
+{% endblock %}
+
+{% block after_related_objects %}{% endblock %}
+{% block submit_buttons_bottom %}{% submit_row_with_add_second %}{% endblock %}
+
+{% if adminform.first_field and add %}
+   <script type="text/javascript">document.getElementById("{{ adminform.first_field.id_for_label }}").focus();</script>
+{% endif %}
+
+{# JavaScript for prepopulated fields #}
+{% prepopulated_fields_js %}
+
+</div>
+</form></div>
+{% endblock %}

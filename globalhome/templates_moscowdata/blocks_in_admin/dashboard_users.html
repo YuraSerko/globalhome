@@ -1,0 +1,4 @@
+{% extends "admin_tools/dashboard/module.html" %}
+{% block module_content %}
+<p>Пользователи: <strong>{{ module.count_all_users }}</strong> (в этом месяце: +{{ module.count_month_user }}, на этой неделе: +{{ module.count_week_user }}, сегодня: +{{ module.count_today_user }})</p>
+{% endblock %}

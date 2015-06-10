@@ -1,0 +1,4 @@
+/* Progressbar
+----------------------------------*/
+.interiorNavigation .ui-progressbar { height:2em; text-align: left; }
+.interiorNavigation .ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }

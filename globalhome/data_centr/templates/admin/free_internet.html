@@ -1,0 +1,156 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls form_tags %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/forms1.css" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/interface-style1.css" />
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+	<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="../../">
+        {% trans "Home" %}
+      </a>
+       &rsaquo; 
+       <a href="../">
+         {{ app_label|capfirst }}
+      </a>
+      &rsaquo; 
+      {{ app_section }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block content %}
+<script>
+$(function(){
+	$('#id_city').change(function(){
+		$('#id_city option[value=0]').remove();
+		city_id = $('select[id=id_city]').val()
+			$.ajax({
+				url: "/admin/data_centr/add_free_internet_zakaz/search_street/" + city_id,
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+					$("#id_street").parent().parent().replaceWith(html);
+                }  
+            });
+			$.ajax({
+				url: "/admin/data_centr/add_free_internet_zakaz/search_house/0/",
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+					$("#id_house").parent().parent().replaceWith(html);
+					
+						$('#id_street').change(function(){
+							$('#id_street option[value=0]').remove();
+							street_id = $('select[id=id_street]').val()
+								$.ajax({
+									url: "/admin/data_centr/add_free_internet_zakaz/search_house/" + street_id,
+									cache: false,
+									async: false,
+									  
+									success: function(html){
+										$("#id_house").parent().parent().replaceWith(html);										
+										$('#id_house').change(function(){
+											$('#id_house option[value=0]').remove();
+											});
+									}  
+								});
+							});
+					
+                }  
+            });
+		});
+	
+	$('#id_street').change(function(){
+		$('#id_street option[value=0]').remove();
+		street_id = $('select[id=id_street]').val()
+		$.ajax({
+			url: "/admin/data_centr/add_free_internet_zakaz/search_house/" + street_id,
+			cache: false,
+			async: false,
+			  
+			success: function(html){
+				$("#id_house").parent().parent().replaceWith(html);
+				$('#id_house').change(function(){
+					$('#id_house option[value=0]').remove();
+					});
+			}  
+		});
+	});
+	
+	$('#id_account').change(function(){
+		$('#id_account option[value=0]').remove();
+		account_id = $('select[id=id_account]').val()
+		$.ajax({
+			url: "/admin/data_centr/add_free_internet_zakaz/search_tariff/" + account_id,
+			cache: false,
+			async: false,
+			  
+			success: function(html){
+				$("#id_tariff").parent().parent().replaceWith(html);
+				$('#id_tariff').change(function(){
+					$('#id_tariff option[value=0]').remove();
+					});
+			}  
+		});
+	});
+	
+	$('#id_account').change(function(){
+		$('#id_account option[value=0]').remove();
+		});
+		
+	$('#id_tariff').change(function(){
+		$('#id_tariff option[value=0]').remove();
+		});
+		
+
+});	
+
+</script>
+
+<form method="post" name="form_free_inet">
+	{% csrf_token %}
+    {% block notifications %}
+      {% if request.notifications %}
+        {% for message in request.notifications %}
+          <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+            {{ message|safe }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock %}
+    <table>
+        {{ form_account_inet.as_table }}
+        {{ form_tariff_inet.as_table }}
+        {{ form_city_inet.as_table }}
+        {{ form_street_inet.as_table }}
+        {{ form_house_inet.as_table }}
+    </table>
+<input type="submit" value="Создать"/>
+</form>
+{% endblock %} 

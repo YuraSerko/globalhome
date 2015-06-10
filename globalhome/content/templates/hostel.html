@@ -1,0 +1,105 @@
+{% extends 'base_public.html' %}
+{% load i18n form_tags lib_tags %}
+{% block extrahead %}
+{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.hint.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}prettyforms/js/jquery.hoverbox.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/but.js"></script>
+
+
+
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/slide_for_login.css" type="text/css" media="screen" />
+    <script src="{{ MEDIA_URL }}js/slide.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/action_links1.css" type="text/css" media="screen" />
+{% endblock %}
+{% block content %}
+
+<form method="post" action="">
+<div style="padding: 60px">
+  &nbsp;
+  <h4 align="center"> Информация по общежитию №1 РГГРУ: </h4>
+  &nbsp;
+  &nbsp;
+    <div style="border: solid 1px #cccccc;">
+    {% if error %}
+    <div style="padding: 1px">
+         <p class="error">{% trans "Enter the correct values" %} </p>
+         </div >
+    {% endif %}
+    &nbsp;
+    <table>
+      
+          <tr>
+              <td style="text-align: right;">{% trans "University name:" %}</td>
+              <td>{{ form.university_name }}</td>
+              
+              <td style="text-align: right;">{% trans "Floor:" %}</td>
+              <td>{{ form.floor }}</td>
+          </tr>
+          <tr>
+              
+             
+              <td style="text-align: right; ">{% trans "Hostel №:" %}</td>
+              <td style="margin: 120px;">{{ form.hostel_number }}</td>
+              <td style="text-align: right;">{% trans "Room №:" %}</td>
+              <td>{{ form.room }}</td>
+          </tr>
+          <tr>
+              <td style="text-align: right;">{% trans "Status:" %}</td>
+              <td>{{ form.length_choice }}</td>
+              <td style="text-align: right;">{% trans "Telephone number:" %}</td>
+              <td>{{ form.number }}</td>
+          </tr>
+                
+    </table>
+    
+    </div>
+    <div class="form-buttons">
+    <div class="submit-row"><input class="default" type="submit" align="left" value='{% trans "search" %}' /></div>
+    </div>
+    &nbsp;
+    &nbsp;
+ <table class="data">
+            <thead>
+                <tr>
+                  
+                    <th style="width: 10%;">{% trans "Floor:" %}</th>
+                    <th style="width: 10%;">{% trans "Block:" %}</th>
+                    <th style="width: 10%;">{% trans "Room type:" %}</th>
+                    <th style="width: 10%;">{% trans "Telephone number:" %}</th>
+                    <th style="width: 10%;">{% trans "Status:" %}</th>
+                </tr>
+            </thead>
+            {% for hos in host %}
+            <tbody>
+                    <td>{% if hos.1 %}{{ hos.1 }} этаж
+                        {%else%}...
+                        {% endif %}</td>
+                    <td>{% if hos.2 %}
+                            {% if hos.1 == '1' %}
+                                  {{ hos.2 }}
+                            {% else %}
+                                                                                          блок №{{ hos.2 }}
+                            {% endif %}
+                        {%else%}...
+                        {% endif %}</td>
+                    <td>{% if hos.8 == '2' %}двушка
+                        {% endif %}
+                        {% if hos.8 == '3' %}трешка
+                        {% endif %}</td>
+                    <td>{{ hos.3 }}</td>
+                    {% if hos.7 %}
+                    <td><a class="accept_link"></a></td>
+                    {% else %}
+                    <td>{% trans "disconnected" %}</td>
+                    {% endif %}
+                
+            </tbody>
+            {% endfor %}
+   </table>
+   </div>
+   </form>
+{{ block.super }}
+{% endblock %}
+       

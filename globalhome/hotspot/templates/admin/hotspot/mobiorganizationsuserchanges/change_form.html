@@ -1,0 +1,90 @@
+{% extends "admin/change_form.html" %}
+
+
+
+{% block content %}
+
+
+
+<div style ="  width: 50%; height:auto; float:left">
+{{ block.super }}
+</div>
+{% endblock %}
+
+
+
+{% block sidebar  %}
+
+
+
+
+
+
+<div id="right-block" style="  width:49%; float:left">
+{%  if deleted %}
+<p id = 'title'>Текущие значения параметров организации(организация была удалена по заявке)</p>
+{% endif %}
+<p id = 'title'>Текущие значения параметров организации</p>
+
+<div id = "cur_org_info"> 
+		<div class = "list_item"><p >Название организации:</p><input id = "cur_org_name"   value = '{{ cur_org_name }}' > </input></div>
+		<div class = "list_item"><p >Адрес организации:</p><input id = "cur_org_address" value = '{{ cur_org_address }}' ></input></div>
+		<div class = "list_item"><p >Телефон организации:</p><input id = "cur_org_name"   value = '{{ cur_org_tel }}' > </input></div>
+		<div class = "list_item"><p >Сайт организации:</p><input id = "cur_org_address" value = '{{ cur_org_url }}' ></input></div>
+		<div class = "list_item"><p >Часы работы организации:</p><input id = "cur_org_name"   value = '{{ cur_org_hours }}' > </input></div>
+</div>
+
+
+
+</div>   <!--  конец блока right-blocks -->     
+
+ <style>
+ /* стиль для списка параметров организации из базы */
+  
+ #right-block{padding:0px;
+ 	  margin:0px;
+ 	  border: 1px solid #ccc;
+ 	  }
+  
+ #cur_org_info input{
+ 	width:300px!important;
+ 	
+ 	border: 1px solid #ccc;}
+ .list_item  {
+    list-style-type: none; /* Убираем маркеры */
+	padding: 8px 12px;
+	font-size: 11px;
+	border-bottom: 1px solid #eee;
+	
+  	 }
+ #cur_org_info div p {
+ 	display: inline-block;
+ 	width:200px;
+ 	margin:0px!important}
+
+
+#title {
+	margin-top:-25px;
+	height:20px;
+	position:absolute;
+	font-size:18px;
+	font-weight: bold;}
+
+.submit-row {
+	width:200%;}
+
+ /* окончание стилей парамтров организации из базы */ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% load form_tags i18n %}
+
+{% if have_free_numbers %}
+	<script type="text/javascript" src="/media/js/Localnumbers_relocating.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			FilterLocalnumbersByRegion()
+			
+			window.extra_addgroup_get_query = "user_id={{ to_user.id }}"
+			
+	        {% if errors %}
+	            var tab = $("#numbers_table_div")
+	            tab.attr("class", tab.attr("class") + " error")
+	            tab.prepend('<p>{% trans "Please select at least one number!" %}</p>')
+	        {% endif %}
+		})
+	</script>
+	
+	<div class="module" style="width: 600px;">
+		<div id="numbers-select-div">
+		    <div id="numbers-cb-default">
+		        {% form_field form.numbers block %}
+		    </div>
+		    <div class="form-row form-field required ">
+		        <label>
+		            {% trans "Please select your desired local numbers" %}
+		            <span class="field-required-label">*</span>
+		        </label>
+		    </div>
+		    <div id="numbers_table_div">
+		        <table id="numbers_table" style="width: 100%;">
+		            <thead>
+		                <tr id="region-name-tr">
+		                    {% for region in regions %}
+		                        <th>{{ region.1 }}</th>
+		                    {% endfor %}
+		                </tr>
+		            </thead>
+		            <tbody>
+		                <tr id="region-numbers">
+		                    {% for region in regions %}
+		                        <td id="region-numbers-{{ region.0 }}" style="vertical-align: top;"></td>
+		                    {% endfor %}
+		                </tr>
+		            </tbody>
+		        </table>
+		    </div>
+		</div>
+	
+		<div id="group-select-div">
+		    {% form_field form.user_groups block %}
+		</div>
+	</div>
+{% else %}
+	<div class="error">
+		{% trans "No free numbers!" %}<br>
+		{% trans "To fix it go here:" %} <h3><a target="_blank" href="/admin/telnumbers/externalnumber/">{% trans "Local numbers" %}</a></h3>
+	</div>
+{% endif %}
+
+

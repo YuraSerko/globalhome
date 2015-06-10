@@ -1,0 +1,288 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-04-08 15:40+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: .\admin.py:40 .\views.py:44
+msgid "Change telzone group for selected telzones"
+msgstr "Изменить группу телефонной зоны для выбранных телефонных зон"
+
+#: .\admin.py:142 .\models.py:246 .\models.py:247
+msgid "Upload tariffs from CSV file"
+msgstr "Привет"
+
+#: .\admin.py:175
+msgid "Error uploading file!"
+msgstr "Ошибка при загрузке тарифа!"
+
+#: .\admin.py:243
+#, python-format
+msgid "Exception! %s"
+msgstr ""
+
+#: .\admin.py:248
+msgid "File succesfully uploaded and inserted to database"
+msgstr "Файл успешно загружен и внедрён в базу данных"
+
+#: .\admin.py:251
+#, python-format
+msgid "Total time: %s"
+msgstr "Всего заняло времени: %s"
+
+#: .\admin.py:268
+#, python-format
+msgid "Errors total: %s"
+msgstr "Всего ошибок: %s"
+
+#: .\admin.py:276
+#, python-format
+msgid "Warnings total: %s"
+msgstr "Всего предупреждений: %s"
+
+#: .\admin.py:284
+#, python-format
+msgid "Messages total: %s"
+msgstr "Всего сообщений: %s"
+
+#: .\content_varset.py:113
+msgid "Missing tariffs data in database!"
+msgstr "В базе данных отсутствует информация по тарифам!"
+
+#: .\csv_parse_tariffs.py:86
+msgid "Had more errors, but not displayed"
+msgstr "Больше ошибок не отображается."
+
+#: .\csv_parse_tariffs.py:93
+msgid "Had more warnings, but not displayed"
+msgstr "Больше предупреждений не отображается."
+
+#: .\csv_parse_tariffs.py:100
+msgid "Had more messages, but not displayed"
+msgstr "Больше сообщений не отображается"
+
+#: .\csv_parse_tariffs.py:121 .\csv_parse_tariffs.py:140
+#, python-format
+msgid ""
+"Parsing file: Cannot parse CSV file in line %(line)s! Wrong values number!"
+msgstr ""
+"Обработка файла: Не могу обработать CSV файл в строке %(line)s! Неверное "
+"количество значений!"
+
+#: .\csv_parse_tariffs.py:153
+msgid "Parsing data: No parsed data from CSV file!!!"
+msgstr "Обработка данных: Из файла небыло разобрано никаких данных!"
+
+#: .\csv_parse_tariffs.py:206
+#, python-format
+msgid "Parsing data: Mismatch of dates in lines %(line1)s and %(line2)s"
+msgstr "Обработка данных: Несоответствие дат в строках %(line1)s и %(line2)s"
+
+#: .\csv_parse_tariffs.py:220 .\csv_parse_tariffs.py:226
+#, python-format
+msgid ""
+"Parsing data: Code %(code)s with given name '%(zone_name)s' does not "
+"correspond to any telzone! See line %(line)s in your CSV file"
+msgstr ""
+"Обработка данных: Код %(code)s с указанным именем '%(zone_name)s' не "
+"соответствует ни одной зоне! См. строку %(line)s в Вашем CSV файле"
+
+#: .\forms.py:21
+msgid "Upload to Tariff group"
+msgstr "Загружать в тарифную группу"
+
+#: .\forms.py:25
+msgid "CSV file"
+msgstr "CSV файл"
+
+#: .\forms.py:33
+msgid "Replace existing tariffs"
+msgstr "Заменять существующие тарифы"
+
+#: .\forms.py:41
+msgid "Ignore missing telzones"
+msgstr "Игнорировать отсутствующие телефонные зоны"
+
+#: .\forms.py:49
+msgid "Add missing mobile codes"
+msgstr "Добавить отсутствующие мобильные телефонные коды"
+
+#: .\forms.py:65
+msgid "Select telzone group"
+msgstr "Выберите группу телефонной зоны"
+
+#: .\models.py:13
+msgid "Telzone group name"
+msgstr "Имя группы телефонных зон"
+
+#: .\models.py:14
+msgid "Variable slug"
+msgstr "Слаг переменной"
+
+#: .\models.py:28 .\models.py:37
+msgid "Telzone group"
+msgstr "Группа телефонных зон"
+
+#: .\models.py:29
+msgid "Telzone groups"
+msgstr "Группы телефонных зон"
+
+#: .\models.py:36
+msgid "Telzone name"
+msgstr "Имя телефонной зоны"
+
+#: .\models.py:38
+msgid "Russian telzone name"
+msgstr "Русское имя телефонной зоны"
+
+#: .\models.py:53 .\models.py:61 .\models.py:142
+msgid "Telzone"
+msgstr "Телефонная зона"
+
+#: .\models.py:54
+msgid "Telzones"
+msgstr "Телефонные зоны"
+
+#: .\models.py:63
+msgid "Code"
+msgstr "Код"
+
+#: .\models.py:81
+msgid "Telcode"
+msgstr "Телефонный код"
+
+#: .\models.py:82
+msgid "Telcodes"
+msgstr "Телефонные коды"
+
+#: .\models.py:89
+msgid "Tariff group name"
+msgstr "Имя тарифной группы"
+
+#: .\models.py:116 .\models.py:141
+msgid "Tariff group"
+msgstr "Тарифная группа"
+
+#: .\models.py:117
+msgid "Tariff groups"
+msgstr "Тарифные группы"
+
+#: .\models.py:143
+msgid "Price"
+msgstr "Цена"
+
+#: .\models.py:144 .\models.py:153
+msgid "Start date"
+msgstr "Дата начала"
+
+#: .\models.py:145 .\models.py:166
+msgid "End date"
+msgstr "Дата окончания"
+
+#: .\models.py:147
+msgid "Is active"
+msgstr "Активен"
+
+#: .\models.py:239
+msgid "Tariff"
+msgstr "Тариф"
+
+#: .\models.py:240
+msgid "Tariffs"
+msgstr "Тарифы"
+
+#: .\templates\change_telzone_group.html.py:45
+#: .\templates\admin\tariffs\csv_upload_form.html.py:45
+#: .\templates\admin\tariffs\edit.html.py:18
+msgid "Home"
+msgstr "Домой"
+
+#: .\templates\change_telzone_group.html.py:68
+#: .\templates\admin\tariffs\csv_upload_form.html.py:64
+#: .\templates\admin\tariffs\edit.html.py:39
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: .\templates\change_telzone_group.html.py:74
+msgid "For next telzones telzone group will be changed:"
+msgstr "Для следующих телефонных зон группа будет изменена:"
+
+#: .\templates\change_telzone_group.html.py:86
+msgid "Cancel"
+msgstr "Отмена"
+
+#: .\templates\change_telzone_group.html.py:87
+msgid "Change"
+msgstr "Изменить"
+
+#: .\templates\show_my_tariffs.html.py:13
+msgid "* All prices excluding VAT"
+msgstr "* Все цены без учета НДС"
+
+#: .\templates\show_tariffs.html.py:30
+msgid "Direction"
+msgstr "Направление"
+
+#: .\templates\show_tariffs.html.py:31
+msgid "Proper"
+msgstr "Стационарный"
+
+#: .\templates\show_tariffs.html.py:32
+msgid "Mobile"
+msgstr "Мобильный"
+
+#: .\templates\admin\tariffs\csv_upload_form.html.py:98
+msgid "Please wait while tariffs are uploaded (about 30 sec)"
+msgstr "Пожалуйста, подождите, пока тарифы загрузятся (около 30 сек)"
+
+#: .\templates\admin\tariffs\csv_upload_form.html.py:101
+msgid "Upload"
+msgstr "Загрузить"
+
+
+
+#: .\templates\admin\tariffs\edit.html.py:21
+msgid "Add"
+msgstr "Добавить"
+
+#: .\templates\admin\tariffs\edit.html.py:28
+msgid "History"
+msgstr ""
+
+#: .\templates\admin\tariffs\edit.html.py:29
+msgid "View on site"
+msgstr ""
+
+#~ msgid "Billing group name"
+#~ msgstr "Имя биллинговой группы"
+
+#~ msgid "Billing group"
+#~ msgstr "Биллинговая группа"
+
+#~ msgid "Billing groups"
+#~ msgstr "Биллинговые группы"
+
+#~ msgid "My tariffs"
+#~ msgstr "Мои тарифы"
+
+#~ msgid "Hello"
+#~ msgstr "Привет"
+
+

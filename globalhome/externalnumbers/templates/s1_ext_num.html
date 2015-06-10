@@ -1,0 +1,242 @@
+<script type="text/javascript">
+    $(function() {
+        $("#accordions")
+            .accordion({
+                header: "> div > h3"
+            })
+    });
+
+    $(function() {
+        $("#accordions1").accordion({
+            header: "> div > h3"
+        })
+    });
+
+    $(function() {
+        $("#accordions2").accordion({
+            header: "> div > h3"
+        })
+    });
+
+    function hot_key(numbers, face, group_numbers) {
+        var items = {
+            numbers:numbers,
+            face:face,
+            group_numbers:group_numbers
+        }
+
+        $.ajax({
+            url: "/hot_key/",
+            type: "POST",
+            data:items,  
+            cache: false,
+            async: false, 
+            success: function(html){
+                $("#ajall").html(html);
+            }  
+        });
+    }
+
+    function show_accordions() {
+        $( "#accordions" ).show()
+        $( "#accordions1" ).show()
+        $( "#accordions2" ).show()
+        $("#loading").hide()
+    }
+
+    setTimeout(show_accordions, 0)
+
+    function checkbox_val() {
+        var numbers_list = null, numbers_res = [],face_list = null, face_res = [];
+        numbers_list = $(':checkbox:checked');
+        numbers_list.each( function(ind) {
+            numbers_res += $(this).val();
+            if (ind < numbers_list.length - 1) numbers_res += ' '; // например через запятую
+        });
+        var numbers = numbers_res;
+        // face_list = $(':radio:checked');
+        // face_list.each( function(ind1) {
+        //     face_res += $(this).val();
+        //     if (ind1 < face_list.length - 1) face_res += ','; // например через запятую
+        //  });
+
+        // if (face_res == ''){
+        //     var face = $("[name=face]").val();
+        // }
+        // else { face = face_res; }
+        face = face_list = $(':radio:checked').val();
+        if (!face) { face = '2'}
+        var group_numbers = $("[name=number_groups]").val();
+        hot_key(numbers, face, group_numbers);
+    };
+
+</script>
+
+
+            {% if errors.none_numbers %}   
+               <tr>         
+                	<td colspan="3">   
+                        <div class="status status-warning">
+                            <i class="ico"></i>
+                            <div class="status-i">
+                                <p>Номера на данном тарифе отсутсвуют!</p>
+                            </div>
+                        </div>
+                     </td>
+                </tr>
+            {% endif %}
+<a class="popup_personal-close" href="#close"></a> 
+<form class="clearfix" action="#" method="post" id='form_step_1' onkeydown="javascript:if(13==event.keyCode){return false;}">
+<div class ="add_number" >
+ 
+ <div id="loading"></div>
+ 
+	<table class="type-4 modal">
+       
+        <caption>					
+        	<h1 class="title">Выберите номер и тариф</h1>
+        </caption>
+        {% if errors.numbers %}
+        		<tr>
+                	<td colspan="3">
+                        <div class="status status-error">
+                            <i class="ico"></i>
+                            <div class="status-i">
+                                <p>Выберите хотя бы один номер!</p>
+                            </div>
+                        </div>
+                    </td>
+            	</tr>
+    		{% endif %}
+    		 <tr >
+                 <th width="33%">Москва 495</th>
+                 <th width="33%">Москва 499</th>
+                 <th width="33%">Ст. Петербург 812</th>
+             </tr>
+         
+         
+             <tr height="195px">
+             
+			<td id="td" >
+                <div id="accordions"  style="height:100px; display:none;">
+                    {% for g in group %}
+						<div>
+                            <h3><a href="#" style="font-size:12px; text-align:center;">{{g.name}}<br/><span>Абон.плата </span> <span style="font-size:90%;color:rgb(235, 134, 41);font-style:italic">{{g.abon|floatformat }}<span style="color:white">/</span></span><span>Подкл.</span><span style="font-size:90%;color:rgb(235, 134, 41);font-style:italic;">{{g.price|floatformat }} руб.**<span></a></h3>
+                            <div class="over" >
+                             	<ul>
+                             	{% for gi in g.external %}
+                                     <li><input name="numbers" type="checkbox" value="reg_1_id_{{gi.id}}" />{{gi.number}}</li>
+                            	    {% empty %}
+                         			<p>В текущем регионе на данный момент нет номеров</p>
+                             	{% endfor %}
+                                 </ul>
+                            </div>
+                        </div>
+                         {% empty %}
+							<p>Тарифы на данные номера пока не назначены</p>
+                     {% endfor %}
+                 </div>
+            </td>
+             
+             <td id="td">
+                 <div id="accordions2" style="height:100px;  display:none;" >
+                 	{% for g in group2 %}
+                     <div id="scroll">
+                       <h3 ><a href="#" style="font-size:12px; text-align:center;">{{g.name}}<br/><span>Абон.плата</span> <span style="font-size:90%;color:color:rgb(235, 134, 41);font-style:italic;">{{g.abon|floatformat}}<span style="color:white">/</span></span><span>Подкл.</span><span style="font-size:90%;color:rgb(235, 134, 41);font-style:italic">{{g.price|floatformat}} руб.**</span></a></h3>
+                         <div class="over">
+                         	<ul>
+                                 {% for gi in g.external %}
+                                 	<li><input name="numbers" type="checkbox" value="reg_1_id_{{gi.id}}" />{{gi.number}}</li>
+                                 {% empty %}
+                             		<p>В текущем регионе на данный момент нет номеров </p>
+                                 {% endfor %}
+                                 </ul>
+                              </div>
+                      </div>
+                     {% empty %}
+                     <p>Тарифы на данные номера пока не назначены</p>
+                     {% endfor %}
+                 </div>
+             </td>
+             
+             <td id="td" >
+                <div id="accordions1" style=" height:100px; display:none;">
+                 {% for g in group1 %}
+                     <div>
+                         <h3 ><a href="#" style="font-size:12px; text-align:center;">{{g.name}}<br/><span>Абон.плата</span> <span style="font-size:90%;color:rgb(235, 134, 41);font-style:italic">{{g.abon|floatformat}}<span style="color:white">/</span></span><span>Подкл.</span><span style="font-size:90%;color:rgb(235, 134, 41);font-style:italic">{{g.price|floatformat}} руб.**</span></a></h3>
+                             <div class="over">
+                                 <ul>
+                                 {% for gi in g.external %}
+                                     <li><input name="numbers" type="checkbox" value="reg_2_id_{{gi.id}}" />{{gi.number}}</li>
+                                 {% empty %}
+                                    <p> В текущем регионе на данный момент нет номеров</p>
+                                 {% endfor %}
+                                 </ul>
+                             </div>
+                     </div>
+                  {% empty %}
+                     <p>Тарифы на данные номера пока не назначены<p>
+                  {% endfor %}
+             </div>
+           </td>
+           
+        </tr>
+           {% if user != '' %}
+           		{% if group_numbers %}
+        	<tr> 
+        	<td colspan="3">
+        	<br/><span class="field-required-label" style="margin-bottom: 5px;"><strong> Группа номеров</strong></span><span class="req">*</span><br/>
+            	<select style="width:auto; " name="number_groups">
+            	{% for item_group in group_numbers %}
+            	<option value="{{item_group.id}}">{{item_group.name}}</optin>
+            	{% endfor %}
+            	</select>
+        
+        	</td>
+        	</tr>
+        		{% endif %}
+        	{% endif%}
+   			
+			<tr>
+   			
+           <td colspan="3" style="margin-top:10px; display:block;">
+           <span class="ugc" style="margin-right:-55px"><span class="req">*</span>  — пункты обязательные для заполнения</span><br/>
+           <span class="ugc" ><span class="req">**</span> — цены указаны без учета НДС</span>
+           
+          
+             </td>
+           </tr>
+      
+                {% if not final %}
+            	{% if user == '' or user == 'is card' %}
+                    <tr>
+                        <td colspan="3" style="padding: 0; padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
+                            <label><input name="face" type="radio" id="face_0"  value="0" checked="checked"><strong>Зарегистрироваться</strong></label>{% if user == 'is card' %}<span style = "color:red;">Данная услуга не доступна для учётной записи HotSpot,</span>{% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td colspan="3" style="padding: 0; padding-left: 15px; padding-right: 15px; padding-bottom: 10px;">
+                           <label><input type="radio" name="face" id="face_1" value="1"><strong>Авторизоваться в системе</strong></label>{% if user == 'is card' %}<span style = "color:red;">Вы можете войти под другой учётной записью, либо создать новую.</span>{% endif %}
+            	{% else %}
+                	<tr>
+                    	<td colspan="3" style="padding: 0; padding-left: 15px; padding-right: 15px; padding-bottom: 10px; padding-top: 10px;">
+                   			<label style="width: 70%"><input type="hidden" name="face" id="face_2"  value="2">Вы авторизованы как пользователь: <strong>{{ user }}</strong></label>
+         		{% endif %}
+                           <div class="form-submit-right" id="ajf">
+                               <input class="bt bt-blue2" name="next" type="button" id='next_button' value="Далее" onclick="checkbox_val()"/>
+                               <input name="id_tarif" type="hidden" id="textfield"  value="{{id_tarif}}"/> 
+                               
+                           </div>
+                        </td>
+                    </tr>
+         {% endif %}
+        </div> 
+	</table>
+	</div>
+
+
+
+ 
+</form>
+ 
+

@@ -1,0 +1,881 @@
+
+<html><head>{% block content %}
+<meta charset="utf-8">
+<title>Конструктор</title>
+<!--ivr-->
+<!--ivr end-->
+    
+<!--call_listbw-->
+   
+<!--call_listbw end-->
+
+<!--callnumber-->
+    
+<!--callnumber end-->
+
+
+<!--call_list-->
+    
+<!--call_list end-->
+
+<!-- timerange-->
+   
+<!-- timerange end-->
+
+<!-- queue-->
+  
+	
+<!-- queue end-->
+<link rel="stylesheet" href="/media/css/style_private.css">
+<link rel="stylesheet" href="/media/css/jquery-ui_private.css">
+<link rel="stylesheet" href="/media/css/modal.css">
+<link rel="stylesheet" href="/media/css/drag.css">
+
+<script src="/media/js/jCanvas.js"></script> 
+<script src="/media/js/canvas_lines_new.js"></script>
+
+<script src="/media/js/jquery_private.js"></script>
+<script src="/media/js/jquery-ui_private.js"></script>
+<script src="/media/js/script_private.js"></script>
+
+<script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/id_utils.js"></script>
+<script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/wait_utils.js"></script>
+<script type="text/javascript" src="/media/js/general.js"></script>
+<script type="text/javascript" src="/media/js/jquery.form.js"></script>
+<script type="text/javascript" src="/media/js/add_int_numbers.js"></script>
+
+<!--script src="/media/js/jquery.ui.draggable.min.js"></script>
+<script src="/media/js/jquery.ui.droppable.min.js"></script-->
+
+<!--link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"-->
+<script type="text/javascript" src="/media/js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="/media/js/jquery-ui.js"></script>
+
+<script src="/media/js/queryscript_drag.js"></script>
+<script src="/media/js/beforesave_drag.js"></script>
+  
+   <style>
+.tab_container {
+	overflow-y:scroll;
+	}
+</style>
+
+
+
+<script>
+  /* Данная функция создаёт кроссбраузерный объект XMLHTTP */
+  function getXmlHttp() {
+    var xmlhttp;
+    try {
+      xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (e) {
+    try {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    } catch (E) {
+      xmlhttp = false;
+    }
+    }
+    if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+      xmlhttp = new XMLHttpRequest();
+    }
+    return xmlhttp;
+  }
+  
+  function getForm(a) {
+    var xmlhttp = getXmlHttp(); // Создаём объект XMLHTTP
+	
+    xmlhttp.open('POST', '/account/constructor/getform/', true); // Открываем асинхронное соединение
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Отправляем кодировку
+    xmlhttp.send("element_id=" + encodeURIComponent(a.id)); // Отправляем POST-запрос
+    xmlhttp.onreadystatechange = function() { // Ждём ответа от сервера
+      if (xmlhttp.readyState == 4) { // Ответ пришёл
+        if(xmlhttp.status == 200) { // Сервер вернул код 200 (что хорошо)
+          //document.getElementById('con_' + a.id).innerHTML = xmlhttp.responseText; // Выводим ответ сервера
+		  try{
+			$('#con_' + a.id).html(xmlhttp.responseText);
+			  } catch(e) {
+				}
+		$('#number_id').val($('#number_drag_id').val())
+		$('#parent_newelement').val($('#parent_plus_id').val())
+		$('#newelement').val(a.name);
+		$('#mainForm').attr('action', '/account/constructor/createnewelement/'+a.name+'/'+$('#parent_plus_id').val()+'/')
+		}
+      }
+    };
+  }
+
+
+
+
+
+
+
+function getFor1m(a){
+	$.post("/account/constructor/getform/", { element_id: a.id }, function(data) {
+						$('#con_' + a.id).html(data);
+						$('#number_id').val($('#number_drag_id').val())
+						$('#parent_newelement').val($('#parent_plus_id').val())
+						$('#newelement').val(a.name);
+						$('#mainForm').attr('action', '/account/constructor/createnewelement/'+a.name+'/'+$('#parent_plus_id').val()+'/')
+					});
+	
+	
+	}
+	
+	
+function createDraft() {
+	$.post("/account/constructor/create_draft/", { number_id: $('#number_drag_id').val() }, function(data) {
+														window.location.reload(true)
+													});
+	}	
+</script>
+
+</head>
+
+<body>
+
+<a id="fon" href="#"><img src="{{ MEDIA_URL }}images/ajax_loader.gif" style="left: 23%; top: 20%;"></a>
+
+<!--cols-side-->
+
+<style>
+.button, .button:visited {
+background: #222 url(overlay.png) repeat-x;
+display: inline-block;
+padding: 5px 10px 6px;
+color: #fff;
+text-decoration: none;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+border-bottom: 1px solid rgba(0,0,0,0.25);
+position: relative;
+cursor: pointer
+}
+.pink.button, .magenta.button:visited   { background-color: #2981e4; }
+.pink.button:hover { background-color: #2575cf; }
+.super.button, .super.button:visited { font-size: 30px;
+    padding: 8px 14px 9px;
+}
+.medium.button, .medium.button:visited { font-size: 13px;
+font-weight: bold;
+line-height: 1;
+text-shadow: 0 -1px 1px rgba(0,0,0,0.25
+);
+}
+</style>		
+
+		
+		<a href="#" class="overlay" id="showimage1"></a>
+
+		<input id="click_element" type="hidden" value="0">
+		<input id="parent_plus_id" type="hidden" value="">
+		<input id="number_drag_id" type="hidden" value="{{number_id}}">
+        <div class="dialogs">
+		
+		<div id="podskaz"></div>
+		
+		<div class="side_menu_images">
+		
+			<ul class="side_spisok" >
+            <li style="width:200px;">
+        	<a class="super button pink" href="/account/constructor/">&larr;Назад</a>
+            </li>
+        <li id="li_waiting_list"  ><!--<a class="side_name" title="Перетащите элемент в схему">Очередь</a>-->	<div class="trunk trunk_without_drop ui-draggable" id="waiting_list"> 
+        
+        
+        
+						<div class="tree">
+							
+								<div class="objects" id="new_call">
+									<div class="box">
+											<a><img src="/media/img/icons/shem/waiting_list.png" width="70px" height="70px" alt="call_wait"></a>
+									</div>
+									<div class="description" style="min-height:27px; height:27px;"><p class="descr">Очередь</p></div>
+									<div class="icon_action"> 
+										<a class="replace"></a>
+										<a class="del"></a>
+									</div>
+								</div>	
+							
+						</div>
+							
+		
+							
+		
+		
+		
+						<canvas id="waiting_list_canvas" class="canvas hover" width="308" height="70"></canvas>
+						<div id="waiting_list_drop" class="box-empty  ui-droppable hover">
+															<p></p>
+															<img class="plus_canvas" id="waiting_list_plus" title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+															<br>
+						</div>
+<!--fun-->
+
+<!--fun-->
+		
+			</div>
+			</li>
+					
+			<li id="li_call_number"><!--<a class="side_name" title="Перетащите элемент в схему">Звонить на<br>  номер</a>-->	<div class="trunk trunk_without_drop ui-draggable" id="call_number">
+						<div class="tree">
+							
+								<div class="objects" id="new_call">
+									<div class="box">
+											<a><img src="/media/img/icons/shem/call.png" width="70px" height="70px" alt="call"></a>
+									</div>
+									<div class="description"><p class="descr">Звонить на номер</p></div>
+										<div class="icon_action"> 
+										<a class="replace"></a>
+										<a class="del"></a>
+									</div>
+								</div>	
+							
+						</div>
+							
+					
+							
+		
+		
+		
+						<canvas id="call_number-canvas" class="canvas hover" width="308" height="70"></canvas>
+						<div id="call_number_drop" class="box-empty  ui-droppable hover">
+															<p></p>
+															<img class="plus_canvas" id="call_number_plus" title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+															<br>
+						</div>
+<!--fun-->
+
+<!--fun-->
+		
+					</div></li>
+				<li id="li_call_list"><!--<a class="side_name" title="Перетащите элемент в схему">Звонить на<br>  список</a>-->	<div class="trunk trunk_without_drop ui-draggable" id="call_list">
+						<div class="tree">
+							
+								<div class="objects" id="new_call">
+									<div class="box">
+											<a><img src="/media/img/icons/shem/call_list.png" width="70px" height="70px" alt="ring"></a>
+									</div>
+									<div class="description"><p class="descr">Звонить на список</p></div>
+									<div class="icon_action hover"> 
+										<a class="replace"></a>
+										<a class="del"></a>
+									</div>
+								</div>	
+							
+						</div>
+							
+		
+							
+		
+		
+		
+						<canvas id="call_list_canvas" class="canvas hover" width="308" height="70"></canvas>
+						<div id="call_list_drop" class="box-empty  ui-droppable hover">
+															<p></p>
+															<img class="plus_canvas" id="call_list_plus"  title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+															<br>
+						</div>
+<!--fun-->
+
+<!--fun-->
+		
+					</div></li>
+				<li id="li_time_range"><!--<a class="side_name" title="Перетащите элемент в схему">Время в<br>  диапазоне</a>-->	<div class="trunk trunk_without_drop ui-draggable" id="time_range">
+						<div class="tree">
+							
+								<div class="objects" id="new_call">
+									<div class="box">
+											<a><img src="/media/img/icons/shem/clock.png" width="70px" height="70px" alt="clock"></a>
+									</div>
+									<div class="description"><p class="descr">Время в диапазоне</p></div>
+									<div class="icon_action hover"> 
+										<a class="replace"></a>
+										<a class="del"></a>
+									</div>
+								</div>	
+							
+						</div>
+							
+		
+							
+		
+		
+		
+						<canvas id="time_range_canvas" class="static_canvas hover" width="400" height="150"></canvas>
+						
+						<div class='drop_line hover'>
+							
+							<div id="time_range_drop_first" class="box-empty  ui-droppable hover">
+																<p></p>
+																<img class="plus_canvas" id="time_range_plus" title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+																<br>
+							</div>
+							
+							<div id="time_range_drop_2" class="box-empty  ui-droppable hover">
+																<p></p>
+																<img class="plus_canvas" id="time_range_plus" title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+																<br>
+							</div>
+						</div>
+<!--fun-->
+
+<!--fun-->
+		
+					</div></li>
+				<li id="li_number_list"><!--<a class="side_name" title="Перетащите элемент в схему">Номер в <br> списке</a>-->	<div class="trunk trunk_without_drop ui-draggable" id="number_list">
+						<div class="tree">
+							
+								<div class="objects" id="new_call">
+									<div class="box">
+											<a><img src="/media/img/icons/shem/number_list.png" width="70px" height="70px" alt="spisok"></a>
+									</div>
+									<div class="description"><p class="descr">Номер в списке</p></div>
+									<div class="icon_action hover"> 
+										<a class="replace"></a>
+										<a class="del"></a>
+									</div>
+								</div>	
+							
+						</div>
+							
+		
+							
+		
+		
+		
+						<canvas id="number_list_canvas" class="static_canvas hover" width="400" height="150"></canvas>
+							<div class='drop_line hover'>
+							
+								<div id="number_list_drop_first" class="box-empty  ui-droppable hover">
+																	<p></p>
+																
+																	<img class="plus_canvas" id="number_list_plus"  title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+																	
+																	<br>
+								</div>
+								
+								<div id="number_list_drop_2" class="box-empty  ui-droppable hover">
+																	<p></p>
+																
+																	<img class="plus_canvas" id="number_list_plus"  title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+																	
+																	<br>
+								</div>
+							</div>
+<!--fun-->
+
+<!--fun-->
+		
+					</div></li>
+				<li id="li_voice_menu"><!--<a class="side_name" title="Перетащите элемент в схему">Голосовое<br>  меню</a>-->	<div class="trunk trunk_without_drop ui-draggable" id="voice_menu">
+						<div class="tree">
+							
+								<div class="objects" id="new_call">
+									<div class="box">
+											<a><img src="/media/img/icons/shem/voice_menu.png" width="70px" height="70px" alt="voice_menu"></a>
+									</div>
+									<div class="description"><p class="descr">Голосовое меню</p></div>
+									<div class="icon_action hover"> 
+										<a class="replace"></a>
+										<a class="del"></a>
+									</div>
+								</div>	
+							
+						</div>
+							
+	
+							
+		
+		
+		
+						<canvas id="voice_menu_canvas1" class="canva hover" width="400" height="150"></canvas>
+						<div class="drop_line hover">
+							<div id="voice_menu_drop_first" class="box-empty  ui-droppable">
+																<p></p>
+																<img id="img_1st" class="plus_canvas"  title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+																<br>
+							</div>
+							<div id="voice_menu_drop_2" class="box-empty  ui-droppable">
+																<p></p>
+																<img id="img_2st" class="plus_canvas"  title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+																<br>
+							</div>
+						</div>
+						<!--fun-->
+
+<!--fun-->
+		
+					</div></li>
+				<li id="li_fax"><!--<a class="side_name" title="Перетащите элемент в схему">Факс</a>-->	<div class="trunk trunk_without_drop ui-draggable" id="fax_rec">
+						<div class="tree">
+							
+								<div class="objects" id="new_call">
+									<div class="box">
+											<a><img src="/media/img/icons/shem/fax_rec.png" width="70px" height="70px" alt="fax"></a>
+									</div>
+									<div class="description" style="min-height:27px; height:27px;"><p class="descr">Факс</p></div>
+									<div class="icon_action hover"> 
+										<a class="replace"></a>
+										<a class="del"></a>
+									</div>
+								</div>	
+							
+						</div>
+							
+
+							
+		
+		
+		
+						<canvas id="fax_canvas" class="canvas hover" width="308" height="70"></canvas>
+						<div id="fax_drop" class="box-empty  ui-droppable hover">
+															<p></p>
+															<img class="plus_canvas" id="fax_plus" title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+															<br>
+						</div>
+<!--fun-->
+
+<!--fun-->
+		
+					</div></li>
+				<li id="li_voice_mail"><!--<a class="side_name" title="Перетащите элемент в схему">Голосовая<br> почта</a>-->	<div class="trunk trunk_without_drop ui-draggable" id="voice_mail">
+						<div class="tree">
+							
+								<div class="objects" id="new_call">
+									<div class="box">
+											<a><img src="/media/img/icons/shem/voice_mail.png" width="70px" height="70px" alt="voice_mail"></a>
+									</div>
+									<div class="description"><p class="descr">Голосовая почта</p></div>
+									<div class="icon_action hover"> 
+										<a class="replace"></a>
+										<a class="del"></a>
+									</div>
+								</div>	
+							
+						</div>
+							
+				
+							
+		
+		
+		
+						<canvas id="voice_mail_canvas" class="canvas hover" width="308" height="70"></canvas>
+						<div id="voice_mail_drop" class="box-empty  ui-droppable hover">
+															<p></p>
+															<img class="plus_canvas" id="voice_mail_plus" title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+															<br>
+						</div>
+<!--fun-->
+
+<!--fun-->
+		
+					</div></li>
+					
+					
+				<!--<li id="li_auto_redirect">--><!--<a class="side_name" title="Перетащите элемент в схему">Автоматическая переадресация</a>-->	<!--<div class="trunk  ui-draggable" id="auto_redirect">-->
+						<!--<div class="tree">
+							
+								<div class="objects" id="new_call">
+									<div class="box">
+										<div class="polaroid">
+											<a><img src="/media/img/icons/shem/auto_redirect.png" width="40px" height="40px" alt="autoredirect"></a>
+										</div>
+									</div>
+									<div class="description hover">Автоматическая переадресация</div>
+									<div class="icon_action hover"> 
+										<a class="replace"></a>
+										<a class="del"></a>
+									</div>
+								</div>	
+							
+						</div>
+							
+	
+							
+		
+		
+		
+						<canvas id="auto_redirect_canvas" class="canvas hover" width="308" height="70"></canvas>
+						<div id="auto_redirect_drop" class="box-empty  ui-droppable hover">
+															<p></p>
+															<img class="plus_canvas" id="auto_redirect_plus"  title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+															<br>
+						</div>-->
+<!--fun-->
+
+<!--fun-->
+		<!--</li>-->
+        
+        <li id="li_splitter"><!--<a class="side_name" title="Перетащите элемент в схему">Голосовое<br>  меню</a>-->	
+					<div class="trunk_splitter trunk_without_drop ui-draggable" id="split_ter">
+							<div class="tree">
+								
+									<div class="objects" id="new_call">
+										<div class="box">
+												<a><img src="/media/img/icons/shem/auto_redirect.png" width="70px" height="70px" alt="Splitter"></a>
+										</div>
+										<div class="description" style="min-height:27px; height:27px;"><p class="descr">Переадресация</p></div>
+										<div class="icon_action hover"> 
+											<a class="replace"></a>
+											<a class="del"></a>
+										</div>
+									</div>	
+								
+							</div>
+								
+								<canvas id="splitter_canvas1" class="canva hover" width="600" height="200" style="margin-left: -98px;"></canvas>
+							<div class="drop_line hover">
+								
+								<div id="splitter_drop_first" class="box-empty split first ui-droppable">
+																	<p></p>
+																	<img id="img_1st" class="plus_canvas"  title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+																	<br>
+								</div>
+								
+								<div id="splitter_drop_2" class="box-empty split sec ui-droppable">
+																	<p></p>
+																	<img id="img_2st" class="plus_canvas"  title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+																	<br>
+								</div>
+								
+								<div id="splitter_drop_3" class="box-empty split third ui-droppable">
+																	<p></p>
+																	<img id="img_2st" class="plus_canvas"  title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+																	<br>
+								</div>
+							</div>
+							<!--fun-->
+
+	<!--fun-->
+			
+					</div>
+		</li>
+        
+        <li id="li_check_direction">
+					<div class="trunk trunk_without_drop ui-draggable" id="check_direction">
+						<div class="tree">
+								<div class="objects" id="new_call">
+									<div class="box">
+											<a><img src="/media/img/icons/shem/check_direction.png" width="70px" height="70px" alt="check_direction"></a>
+									</div>
+									<div class="description"><p class="descr">Проверка по шаблону</p></div>
+									<div class="icon_action hover"> 
+										<a class="replace"></a>
+										<a class="del"></a>
+									</div>
+								</div>	
+							
+						</div>
+		
+					</div>
+		</li>
+        
+        <li style="margin-left:80px;">
+        <div style="background: #f4efd1; border-radius: 10px 10px 10px 10px; border: #d4cfb1 solid 1px; width:225px; height:105px;">
+                        	<h3 style="text-align: center;
+                            		padding: 5px;
+                                    margin-top:0px; 
+                                    font-size: 13px;
+                                    font-weight: 200;
+                                    line-height: 20px;
+                                    font-family:Arial, Helvetica, sans-serif;
+                                    color: #69F;">
+                                    Внимание!!! Конструктор работает<br> в тестовом режиме, в случае<br> каких-либо неполадок необходимо<br> сообщить в тех. поддержку.
+                             </h3>
+                        </div>
+        </li>
+        
+      
+       
+        
+					</div>		
+					<!--
+				<ul class="spis_znachkov">
+					<li class="znak_name">Очередь</li>
+					<li class="znak_name">Звонить на<br> номер</li>
+					<li class="znak_name">Звонить на<br> список</li>
+					<li class="znak_name">Время в<br> диапазоне</li>
+					<li class="znak_name">Номер в<br> списке</li>
+					<li class="znak_name">Голосовое<br> меню</li>
+					<li class="znak_name">Факс</li>
+					<li class="znak_name">Голосовая<br> почта</li>
+					<li class="znak_name">Автоматическая<br> переадресация</li>
+				</ul>	
+				-->
+                
+                
+                
+			</ul>	
+		
+		</div>
+        
+	
+	
+<div class="container_null"> 
+								<div>
+									<h1 class="modal_window_title"></h1>
+								</div>
+					
+								<div class="tab_container">
+ 									
+								</div> 
+									
+</div> <!-- container_null -->
+        
+        
+					<div class="container"> 
+									<div>
+										<h1 class="modal_window_title">Выбор нового узла</h1>
+										
+									</div>
+						
+									<div class="tab_container">
+ <!--
+	 <ul class="tabs"> 
+			<li class=""><a href="#tab1"><span class="modal_li">Звонки</span></a></li> 
+			<li class=""><a href="#tab6"><span class="modal_li">Факс, почта</span></a></li> 
+			<li class=""><a href="#tab7"><span class="modal_li">Автоматическая переадресация</span></a></li>
+			<li class=""><a href="#tab8"><span class="modal_li">Управление звонком</span></a></li> 
+			<li class=""><a href="#tab9"><span class="modal_li">Проверки</span></a></li> 	
+				
+		</ul>-->
+			<div class="all_d">
+				<div id="tab1" class="tab_content" style="display: none;"> 
+						<div id="inside-table">
+							<a href="javascript:;" id="tab1" class="tabs" onClick="getForm(this);" name="call_number"><div class="img_block"><img id="" src="/media/img/icons/shem/call.png" width="60px" height="60px" alt="call"><span class="text_under_image">Звонить на<br> номер<br></span></div></a>
+							<a href="javascript:;" id="tab2" class="tabs" onClick="getForm(this);" name="call_list"><div class="img_block"><img id="call_list_sel" src="/media/img/icons/shem/call_list.png" width="60px" height="60px" alt="ring"><span class="text_under_image">Звонить на список</span></div></a>
+							<a href="javascript:;" id="tab3" class="tabs" onClick="getForm(this);" name="waiting_list"><div class="img_block"><img id="waiting_list_sel" src="/media/img/icons/shem/waiting_list.png" width="60px" height="60px" alt="call_wait"><span class="text_under_image"><br>Очередь</span></div></a>
+							<a href="javascript:;" id="tab4" class="tabs" onClick="getForm(this);" name="fax_rec"><div class="img_block"><img src="/media/img/icons/shem/fax_rec.png" width="60px" height="60px" alt="fax"><span class="text_under_image"><br>Факс<span><span></span></div></a>
+							<a href="javascript:;" id="tab5" class="tabs" onClick="getForm(this);" name="voice_mail"><div class="img_block"><img src="/media/img/icons/shem/voice_mail.png" width="60px" height="60px" alt="voice_mail"><span class="text_under_image">Голосовая почта</span></div></a>
+							<!--a href="javascript:;" id="tab6" class="tabs"><div class="img_block"><img src="/media/img/icons/shem/auto_redirect.png" width="60px" height="60px" alt="autoredirect"><span class="text_under_image">авто<br>переадр</span></div></a-->
+							<a href="javascript:;" id="tab7" class="tabs" onClick="getForm(this);" name="voice_menu"><div class="img_block"><img src="/media/img/icons/shem/voice_menu.png" width="60px" height="60px" alt="voice_menu"><span class="text_under_image">Голосовое меню</span></div></a>
+							<a href="javascript:;" id="tab8" class="tabs" onClick="getForm(this);" name="number_list"><div class="img_block"><img src="/media/img/icons/shem/number_list.png" width="60px" height="60px" alt="spisok"><span class="text_under_image">Номер в<br> списке</span></div></a>
+							<a href="javascript:;" id="tab9" class="tabs" onClick="getForm(this);" name="time_range"><div class="img_block"><img src="/media/img/icons/shem/clock.png" width="60px" height="60px" alt="clock"><span class="text_under_image">Время в диапазоне</span></div></a>
+							
+							<hr>
+							
+							<div id="con_tab1" class="tabs active"><p class=''>Выберите тип нового узла</p></div>
+							<div id="con_tab2" class="tabs"></div>
+							<div id="con_tab3" class="tabs"></div>
+							<div id="con_tab4" class="tabs"></div>
+							<div id="con_tab5" class="tabs"></div>
+							<div id="con_tab6" class="tabs"></div>
+							<div id="con_tab7" class="tabs"></div>
+							<div id="con_tab8" class="tabs"></div>
+							<div id="con_tab9" class="tabs"></div>
+						</div>
+				</div> 
+                <!--
+				<div id="tab6" class="tab_content" style="display: none;"> 
+					<div id="inside-table">
+							
+							<hr>
+							
+							
+							
+					</div>
+							
+				</div> 
+				
+				<div id="tab7" class="tab_content" style="display: block;"> 
+					<div id="inside-table">
+							
+							
+							<hr>
+							
+						
+							
+							
+					</div>
+				</div> 
+                
+				<div id="tab8" class="tab_content" style="display: none;"> 
+					<div id="inside-table">
+							
+							
+							<hr>
+							
+							
+							
+							
+					</div>
+				</div> 
+                
+				<div id="tab9" class="tab_content" style="display: none;"> 
+					<div id="inside-table">
+							
+							<hr>
+							
+							
+							
+					</div>
+				</div> 
+				
+			</div>-->
+								<!--div class="save_line">
+									<div class="buttons_save_line"><button id="save_but">Сохранить</button><button id="cancel">Отмена</button></div>
+								</div-->
+								</div>
+									</div> 
+									
+					</div><!-- походу конец дива контейнера -->
+				
+		
+		
+		
+		
+		 
+            <div id="dffdfd" class="d-wrapper">
+					
+				<div id="trash_div" style="display: inline;
+                min-width:200px;
+                height: 200px;
+                position: absolute;
+                left: 0;
+                float:left;"
+                >
+                
+					<aside style="text-align:center; margin-left: inherit; position: fixed; top: 180px; left: 100px;" class="side_left">
+                    
+                        <div style="background: #f4efd1; border-radius: 10px 10px 10px 10px; border: #d4cfb1 solid 1px;">
+                        	<h3 style="text-align: center;
+                            		padding: 5px;
+                                    margin-top:0px; 
+                                    font-size: 13px;
+                                    font-weight: 200;
+                                    line-height: 20px;
+                                    font-family:Arial, Helvetica, sans-serif;
+                                    color: #69F;">
+                                    Для удаление элемента</br>перетащите его в корзину
+                             </h3>
+                        </div>
+                        <div class="trash delete box-empty ui-droppable" style="top: 50%; 
+                            left: 32%;
+                        ">
+                        
+                        </div>
+
+					</aside>
+                   </div> 
+					<div class="funhouse " id="start" style="margin-left:auto; height:0;">
+                    <h3 style="text-align: center;
+                    margin-top:0px; 
+                    font-size: 25px;
+                    font-weight: 200;
+                    line-height: 35px;
+                    font-family:Arial, Helvetica, sans-serif;
+                    color: #69F;
+                    ">
+                    Рабочая область</h3>
+                    
+
+						<div class="tree">
+							
+								<div class="objects" id="">
+									<div class="box">
+										<div class="polaroid">
+											<a><img src="/media/img/icons/shem/call.png" width="70px" height="70px" style="z-index:9999;" alt="ring"></a>
+										</div>
+									</div>
+									<div class="description" style="z-index:1;">Поступил новый звонок</div>
+                                    <div class='box-empty over_canvas start_add_drop'></div>
+								</div>	
+							
+						</div>
+							
+			
+							
+		
+		
+		
+			<canvas id="start_canvas" class="canvas" height="70"><img title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus"></canvas>
+			<div id="start_drop" class="box-empty ui-droppable">
+															<img class="plus_canvas" id="start_drop_plus" title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus" style="top:-30px !important;">
+                                                            {{strok|safe}}
+                                                            
+			</div>
+<!--fun-->
+
+<!--fun-->
+							
+					
+					</div>
+		
+
+<!--dobavl9u pl9 drafta-->
+<div id="all_draft" style="margin-left:100px; position:absolute; right:0; width:150px; border-left: 2px dotted green;">
+<h3 style="text-align: center;
+margin-top:0px; 
+font-size: 25px;
+font-weight: 200;
+line-height: 35px;
+font-family:Arial, Helvetica, sans-serif;
+color: #3C9;">
+Черновики</h3>
+{% for key, values in draft.items %}
+
+  
+<div class="funhouse" id="start_draft">
+                    
+						<div class="tree">
+							
+								<div class="objects">
+									<div class="box">
+										<div class="polaroid">
+											<a><img src="/media/img/icons/shem/call.png" width="70px" height="70px" style="z-index:9999;" alt="ring"></a>
+										</div>
+									</div>
+									<div class="description" style="z-index:1;">Черновик</div>
+                                    <div class='box-empty over_canvas start_add_drop'></div>
+								</div>	
+							
+						</div>
+							
+			<canvas id="draft_canvas_{{key}}" class="canvas" height="70"><img title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus"></canvas>
+			<div id="draft_one_{{key}}" class="box-empty ui-droppable draftdrop">
+															<img class="plus_canvas" id="start_drop_plus" title="Добавить сюда новый узел" src="/media/img/icons/shem/plus.png" width="16px" height="16px" alt="plus">
+                                                            {{values|safe}}
+			</div>
+<!--fun-->
+
+<!--fun-->
+							
+					
+					</div>
+                    <hr style="border-style: dashed;
+								border-color: green;">
+                    
+{% endfor %}      
+<a class="medium button pink" onClick="createDraft();">Ещё черновик</a>   
+</div>
+
+  <!--dobavl9u pl9 drafta-->                  
+                    
+		<!--copy starts-->
+					
+					
+					
+					<!--copy finished-->
+                <!--div id="header" style="text-align:right; position:fixed; z-index:1;">
+                <a href="#" id="push_id" class="v_button" title="button">
+Ч<br />е<br />р<br />н<br />о<br />в<br />и<br />к<br /></a> 
+                </div-->
+                
+                
+                    
+			</div><!--d-wrapper-->
+
+		
+            
+            
+            
+            
+            <!--cols-->
+        <!--section-->
+ 
+{% endblock %}
+</body></html>

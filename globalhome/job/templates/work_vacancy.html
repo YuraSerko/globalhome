@@ -1,0 +1,302 @@
+{% extends 'base_private.html' %}
+{% load i18n %}
+
+
+
+
+
+{% block content %}
+   	  <link href="/media/css/chosen.css" rel="stylesheet" type="text/css" >
+   	  <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />  			 
+  	  <script src="/media/js/chosen.jquery.js"></script>
+	  <script src="/media/js/chosen_select.js"></script>
+	 	
+	 	
+	 	
+	 	<!-- здесь просто добавляем все вакансии если они есть у пользователя -->
+	 	
+	 	
+	 	<h1 class = "vacancy_title">Мои вакансии</h1>
+	 	<br>
+		
+	
+	 	{% if no_vacancy == True %}
+	 	   Вы не может создать вакансию пока не заполните раздел  <a href="/work_acount/work_employer_data/">Данные работодателя</a>
+	 	{% else %}
+		
+		
+		
+				<table id = "vacancy">
+			 	{% for k, v in work_vacancy_dut_cond.items %}
+			 	
+			 		{% if v.1 != 0 %}
+					    		<tr id = {{k.id}}>
+					    		<td>
+						    		<font  style= "font-weight:bold;">
+						    			<a href = "/work_acount/vacancy/add_edit/{{ k.id }}/">{{ v.0.vacancy_name }}</a>
+						    		</font>
+						    	</td>
+						    	
+					    		<td>
+					    			<a href = "/work_acount/vacancy/add_edit/{{ k.id }}/">редактировать</a></font>
+					    		</td>
+					    		
+					    		<td>
+					    			<div id = 'publish_{{k.id}}'>
+						    			{% if k.publication_date != None %}
+						    			опубликовано: 
+						    			<p>{{ k.publication_date|date:"Y-m-d" }} {{ k.publication_date|time:"H:i" }}</p>
+						    			{% else %}
+						    			не опубликовано
+						    			{% endif %}
+					    		    </div>
+					    		</td>
+					    		
+					    		<td>
+					    			<div id = 'publish_but_{{k.id}}'>
+						    			{% if k.publication_date == None %}
+						    			<a href = "#"  onclick = "publish_not('{{k.id}}', 1)" return false;>опубликовать</a>
+						    			{% else %}
+						    			<a href = "#"  onclick = "publish_not('{{k.id}}', 2)" return false;>не показыать на сайте</a>
+						    			{% endif %}
+						    		</div>
+					    		</td>
+					    		<td>
+			    					<font color=green>заполнено 100%</font>
+			    				</td>
+					    		<td>
+					    			<!-- Диалог удалять/не удалять -->
+					    			<!--a href = "#" onclick = "delete_vacancy('{{k.id}}')" return false;>удалить</a-->
+			    					<a href = "#delete_dialog" onclick = "$('#vac_to_del_id').val('{{k.id}}'); ">удалить</a>
+					    		</td>
+					 {% endif %}  
+					 
+					 {% if v.1 == 0 %}
+					    		<tr id = {{k.id}}>
+					    		<td>
+						    		<font  style= "font-weight:bold;">
+						    			<a href = "/work_acount/vacancy/add_edit/{{ k.id }}/">{{ v.0.vacancy_name }}</a>
+						    		</font>
+						    	</td>
+						    	
+					    		<td>
+					    			<a href = "/work_acount/vacancy/add_edit/{{ k.id }}/">редактировать</a></font>
+					    		</td>
+					    		
+					    		<td>
+					    			<div id = 'publish_{{k.id}}'>
+						    			{% if k.publication_date != None %}
+						    			опубликовано: 
+						    			<p>{{ k.publication_date|date:"Y-m-d" }} {{ k.publication_date|time:"H:i" }}</p>
+						    			{% else %}
+						    			не опубликовано
+						    			{% endif %}
+					    		    </div>
+					    		</td>
+					    		
+					    		<td>
+					    			<div id = 'publish_but_{{k.id}}'>
+						    			{% if k.publication_date == None %}
+						    			<font color=lightgray>нельзя опубликовать</font>
+						    			{% else %}
+						    			<a href = "#"  onclick = "publish_not('{{k.id}}', 2)" return false;>не показыать на сайте</a>
+						    			{% endif %}
+						    		</div>
+					    		</td>
+					    		<td>
+			    					<font color=red>не заполнено:условия работы</font>
+			    				</td>
+					    		<td>
+					    			<!-- Диалог удалять/не удалять -->
+					    			<!--a href = "#" onclick = "delete_vacancy('{{k.id}}')" return false;>удалить</a-->
+			    					<a href = "#delete_dialog" onclick = "$('#vac_to_del_id').val('{{k.id}}'); ">удалить</a>
+					    		</td>
+					 {% endif %}  
+			    {% endfor %}
+	 	
+	 	</table>
+	 	
+	 	
+	 	
+
+	 	
+	   
+		<br>
+		<a href = "add_edit/0" class = "link_create" >Cоздать вакансию</a> 
+		{% endif %}
+		 
+		<!-- окончание добавления вакансий пользователей -->  
+	   	<!-- окончание моих данных -->
+   
+   
+   
+   </div>
+	 <a href = "#"  class = "overlay" id = "delete_dialog"></a>
+   		<div  class="popup_personal" style="min-width: 400px;">
+        <a class="popup_personal-close" href="#close"></a>
+	        <div id="id_popup" style="margin-left:0px!important;">
+	        	Вы действительно хотите удалить вакансию?
+	        	<input id = 'vac_to_del_id' style = "display:none;"></input>
+	        	<p>
+	        	<div style = "margin-right:130px!important">
+	        		<button onclick="delete_vacancy($('#vac_to_del_id').val()); ">удалить</button>
+	        		<button onclick='location.href="#close"'>отмена</button>
+	        	</div>
+	        </div> 
+    	</div>
+	</article>
+  
+ 
+   
+	
+<style type = "text/css">
+
+.vacancy_title{
+	font-size: 25px;
+	}
+	
+.link_create{
+	color:#5591DA;
+	font-size:16px;}
+	
+#vacancy td{
+	width:160px;
+	vertical-align:top;
+	border: 1px solid gray; 
+}
+	
+#vacancy table{
+	border:1px!important;
+	border-collapse: collapse; 
+	}
+	
+#vacancy table tr{
+	height:37px;}
+
+.balance-inner table{
+	border-right: 0px !important;}
+		
+</style>
+
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+
+// мой javascript
+
+
+
+// блог залогирован
+$(document).ready(function(){
+		//alert('11');
+		{% if request.user.username %}
+			log = "<div class='user user-logged' style = 'display:inline-block'><i class='icon'></i>{% with user.get_profile.main_billing_account_id as id %}<span class='username'>{{ id }}, <br><span title='Ваш ID и Имя'><i></i>{{ request.user.username }}</span></span><span class='logout'><a href='/logout/'><br>Выход</a></span>{% endwith %}"
+			$(log).insertAfter('#searchwrapper');
+			$('#searchwrapper').css("display", "inline-block");
+			$('#centr_field').width('87%');
+			$('.tri').css('display', 'none');
+		{% endif %}
+			})
+
+// окончание блока залогирован
+
+function publish_not(id, type)
+{
+	items = {'id':id, 'type':type };
+	
+	//менеяем ajax значение в publication_date 
+	$.ajax ({
+		url:'/work_vacancy_ajax_publish/',
+		async:true,
+		cash:true,
+		type:"POST",
+		data:items,
+		success:function(html)
+			{
+				if (html!='None') {
+					//вписываем дату
+				    control1 = '#publish_' + id.toString();
+					html_date = 'опубликовано:' + '<p>' + html + '</p>' 
+					$(control1).html(html_date);
+					
+					control2 = '#publish_but_' + id.toString();
+					html_but = '<a href = "#"  onclick = "publish_not('+ id +', 2)" return false;>не показыать на сайте</a>'
+					$(control2).html(html_but);
+				}
+			
+				
+				else{
+					
+					control1 = '#publish_' + id.toString();
+					html = 'не опубликовано' 
+					$(control1).html(html);	
+					
+					control2 = '#publish_but_' + id.toString();
+					html_but = '<a href = "#"  onclick = "publish_not('+ id + ', 1)" return false;>опубликовать</a>'
+					$(control2).html(html_but);
+					
+					
+				}
+				
+			
+			
+			}
+	})
+	
+	
+	
+	
+ }
+
+//=============================================================================================
+
+function delete_vacancy(id)
+{
+	sel_id = '#' + id
+	item = {'id':id}
+	
+	$.ajax({
+		type:"POST",
+		url:'/work_vacancy_ajax_delete/',
+		cash:true,
+		data:item,
+		async:true,
+		success:function(html){
+				$(sel_id).remove();
+				location.href="#close";
+		}
+	})
+	
+}
+
+
+//=============================================================================================
+
+// окончание моего javascript
+
+</script>
+<!--
+<script>
+      div="_ph1968";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1968&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+	<script>
+      div="_ph1971";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1971&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>-->
+   
+	
+{% endblock %}	
+

@@ -1,0 +1,43 @@
+{% load i18n page_tags form_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<title>{{ title }}</title>
+	<meta name="description" content="{{ description }}">
+	<meta name="keywords" content="{{ keywords }}"> 
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="expires" content="-1">
+	</head>
+<style>
+.under-construction{
+	padding-top:5%;
+}
+#hs_crane h1{
+	text-align: center;
+}
+img{
+	display:block;
+	margin:0 auto;
+}
+p{
+	text-align:center;
+}
+</style>
+
+ 
+{% block content %}
+
+<div id = "hs_crane" class="under-construction">
+
+    <h1  class="title">{{main_title}}</h1>
+
+    <img src="/media/images/construction.png" alt="">
+    <p>Данный раздел находится на реконструкции.<br>Вы можете просмотреть другие услуги нашего сервиса <a href="/">HotSpot Wi-Fi</a>.</p>
+
+</div>
+
+
+
+{% endblock %}
+</html>

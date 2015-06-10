@@ -1,0 +1,85 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+<p>{{ block.super }} </p>
+
+
+
+ <form>
+        {{ form.errors }}
+     	 <div class="filter">
+            <div class="filter-body">
+                <div class="filter-body-left">
+                    Дата
+                    <label>
+                        <span class="label">с:</span>
+                        {{ form.date_from }}
+                    </label>
+                    <label>
+                        <span class="label">по:</span>
+                        {{ form.date_to }}
+                    </label>
+                </div>
+
+            </div>
+       		<input type="hidden" name="filter" value="1">
+        </div>
+   
+     <div class="ctrls">
+       		<input type="hidden" name="filter" value="1">
+            <div class="filter-ctrl">
+                <input type="submit" class="bt bt-blue2" value="{% trans 'Show' %}">
+                <input type="submit" class="bt bt-blue2" value="{% trans 'Clear' %}" onclick="location.href='{% url "hotspot_statistic" %}'; return false;">
+            </div>
+      </div><!--ctrls-->
+      
+    </form>
+
+
+ {% if active_session %}
+	<table class="type-2">
+          <thead>
+                <tr>
+						<th>Начало</th>
+						<th>Окончание</th>
+						<th>IP-адрес</th>
+						<th>Передано </th><th> Принято </th> <th> Всего</th>
+						<th>Время</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for session in active_session %}
+                    <tr>
+							<td>{{ session.date_start|date:"d.m.Y H:i" }}</td>
+							<td>{{ session.date_end|date:"d.m.Y H:i" }}</td>
+							<td>{{ session.framed_ip_address }}</td>
+							<td>{{  session.bytes_out|filesizeformat }} </td> <td> {{  session.bytes_in|filesizeformat }} </td> <td> {{  session.bytes_out|filesizeformat }}</td>
+							<td> {{ session.session_time }}</td>
+                    </tr>
+                {% endfor %}
+              <td colspan="3" style="text-align:right;padding:0 38px 0 0 ;">Всего на странице: </td>
+            
+            <td>
+            				{{ sum_output|filesizeformat }} </td><td> {{ sum_input|filesizeformat }} </td><td> {{ sum_all|filesizeformat }}
+            			    
+             </td>
+            <td>
+            {{ sum_time }}
+            </td>
+            </tbody>
+        </table>
+     <div class="ctrls">
+            {% include 'paginator.html' %}
+</div><!--ctrls-->
+{% endif %}   
+    
+
+{% endblock %}
+
+
+
+
+

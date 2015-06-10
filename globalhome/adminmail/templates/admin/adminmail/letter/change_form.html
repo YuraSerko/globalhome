@@ -1,0 +1,19 @@
+{% extends 'admin/change_form.html' %}
+{% load i18n %}
+{% block pretitle %}
+<h5>{% trans "You can use the following variables in a form of {{ name }}" %}</h5>
+<ul>
+{% if mail_class %}
+{% for name, verbose_name in mail_class.keys %}
+<li>{{ name }}: {{ verbose_name }}</li>
+{% endfor %}
+{% endif %}
+
+{% if original.mail_class %}
+{% for name, verbose_name in original.mail_class.keys %}
+<li>{{ name }}: {{ verbose_name }}</li>
+{% endfor %}
+{% endif %}
+</ul>
+{% endblock %}
+

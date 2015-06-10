@@ -1,0 +1,38 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">Удаление приёма факса</h1>
+
+<form action="." method="post" enctype="multipart/form-data">
+    <div class="confirm">
+        <h4 class="h4_style">Вы уверены что хотите удалить голосовую почту?</h4>  
+        <table class="type-2">
+            <thead>
+                <th width="40%">Правило</th>
+                <th width="60%"></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{% trans "Enabled" %}</td>
+                    <td>{% if vm.enabled %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>{% trans "Number" %}</td>
+                    <td>{{ vm.number }}</td>
+                </tr>
+                <tr>
+                    <td>{% trans "E-mail" %}</td>
+                    <td>{{ vm.email }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-submit-right">
+            <input type="submit" class="bt bt-blue2" value='Отмена' name="abort" />
+            <input type="submit" class="bt bt-blue2" value='Да' name="submit" />
+        </div>
+    </div>
+</form>
+
+{% endblock %}

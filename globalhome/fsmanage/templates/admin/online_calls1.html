@@ -1,0 +1,330 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+
+
+{{ form.media }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/js/ui/i18n/ui.datepicker-{{ language }}.js"></script>
+
+
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" /> 
+
+
+
+
+{% if action_form %}{% if actions_on_top or actions_on_bottom %}
+<script type="text/javascript">
+(function($) {
+    $(document).ready(function($) {
+        $("tr input.action-select").actions();
+    });
+})(django.jQuery);
+</script>
+{% endif %}{% endif %}
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="../../">
+        {% trans "Home" %}
+      </a>
+       &rsaquo; 
+       <a href="../">
+         {{ app_label|capfirst }}
+      </a>
+      &rsaquo; 
+      {{ app_section }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+
+  <div id="content-main">
+    {% if cl.formset.errors %}
+        <p class="errornote">
+        {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+        </p>
+        {{ cl.formset.non_form_errors }}
+    {% endif %}
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+    
+    {% block notifications %}
+      {% if request.notifications %}
+        {% for message in request.notifications %}
+      <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+            {{ message|safe }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock %}
+    
+    {% if form %}
+    <form id="changelist-form" enctype="multipart/form-data" action="" method="get">
+        <table>
+            <tr>
+                <td style="text-align: right;">{% trans "Caller number:" %}</td>
+                <td>
+                    {{ form.caller_number }}<br>
+                    <span class="help">{% trans 'You can use the "*" character as a template that matches any number of any characters' %}</span>
+                </td>
+                <td style="text-align: right;">{% trans "Caller account:" %}</td>
+                <td>{{ form.account }}</td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">{% trans "Called number:" %}</td>
+                <td>
+                    {{ form.called_number }}<br>
+                    <span class="help">{% trans 'You can use the "*" character as a template that matches any number of any characters' %}</span>
+                </td>
+                <td style="text-align: right;">{% trans "Called account:" %}</td>
+                <td>{{ form.called_account }}</td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">{% trans "Billable session length:" %}</td>
+                <td colspan="3" >{{ form.length_choice }}</td>
+            </tr>
+        </table>
+        
+        <input type="hidden" name="filter" value="1" id="id_hidden_filter">
+</form>
+    
+        {{ form.errors }}
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+      <table style="width: 50%;">
+          <thead class="fixedHeader">
+              <tr >
+                  <td>{% trans "Total calls" %}:</td>
+                  <td>{% trans "Count of not null calls" %}:</td>
+                  <td>{% trans "Count of null calls" %}:</td>
+                  <td>{% trans "ACD" %}:</td>
+              </tr>
+          </thead>
+          <tbody class="scrollContent">
+	        <tr>
+	           <td>{{ total_calls}}</td>
+	           <td align = "center">{{not_null_calls}}</td>
+	           <td align = "center">{{null_calls}}</td>
+	           <td align = "center">{{acd}}</td>
+	        </tr>
+         </tbody>
+      </table>
+    {% endif %}
+    
+   	  <form enctype="application/x-www-form-urlencoded" id="start" name="start" method="post" action="">
+        <div>Отображаемые поля</div>
+        <div style="width:auto">
+          <table width="100%" border="1" cellspacing="2" style="text-align: left;">
+            <tr>
+              {{sp|safe}}
+            </tr>
+          </table>
+      </div>
+        <div>
+           
+        <p>
+               <label for="checkbox"></label>
+               
+               <br />
+               
+               <label for="textfield">Обновлять каждые</label>
+          <input name="timeres" type="text" id="timeres" value="60" />
+                Фильтр "Кто звонит"
+          <input type="text" name="filtr_who" id="filtr_who" />
+               
+               Фильтр "Кому звонят"
+          <input type="text" name="filtr" id="filtr" />
+         
+               Фильтр "FreeSWITCH"
+           <select name="filtr_ipfs" id="filtr_ipfs">{{fs|safe}}</select>
+          
+          
+          <input type="text" name="ids" id="ids" style="display:none"/>
+          <input type="text" name="ids2" id="ids2" style="display:none" />
+          <input type="button" name="submit" id="button" value="Обновить" onclick="allobzvon()"/>
+        </div> 
+         </form>
+         
+         
+         
+         
+         
+         
+         
+     <script type="text/javascript">
+     
+     
+     
+     </script>  
+     <script type="text/javascript" src="../../../media/ajax/jquery.form.js"></script>
+   
+
+    <script type="text/javascript">
+function hd(){
+		 
+	
+	 if	($('input[name="src_ip"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(1), #stats_table tbody td:nth-child(1)").hide();
+		
+		}
+	
+	if	($('input[name="src_num"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(2), #stats_table tbody td:nth-child(2)").hide();
+		
+		}
+		
+		if	($('input[name="dest_num"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(3), #stats_table tbody td:nth-child(3)").hide();}
+		
+		if	($('input[name="created"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(4), #stats_table tbody td:nth-child(4)").hide();}
+		
+		if	($('input[name="pdd"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(5), #stats_table tbody td:nth-child(5)").hide();}
+		
+		if	($('input[name="billsec"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(6), #stats_table tbody td:nth-child(6)").hide();}
+		
+		if	($('input[name="callstate"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(7), #stats_table tbody td:nth-child(7)").hide();}
+		
+		if	($('input[name="b_callstate"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(8), #stats_table tbody td:nth-child(8)").hide();}
+		
+		if	($('input[name="state"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(9), #stats_table tbody td:nth-child(9)").hide();}
+		
+		if	($('input[name="b_state"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(10), #stats_table tbody td:nth-child(10)").hide();}
+		
+		if	($('input[name="uuid"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(11), #stats_table tbody td:nth-child(11)").hide();}
+		
+		if	($('input[name="ip_freeswitch"]').attr('checked')){
+		
+		}else
+		{$("#stats_table thead th:nth-child(12), #stats_table tbody td:nth-child(12)").hide();}
+		
+}
+
+
+
+function allobzvon()
+{
+	var qString = $("#start").serialize();
+	$.post(
+	  "/fs/online_calls/",
+	  qString,
+	  onAjaxSuccessShowAll
+	);
+	}
+
+function allobzvon1()
+{
+var qString = $("#start").formSerialize();
+
+$.post(
+  "/fs/online_calls/",
+  qString,
+  onAjaxSuccessShowAll1
+);
+	}
+
+function onAjaxSuccessShowAll(html)
+{
+	$("#resultshowall").empty();
+
+
+	$("#resultshowall").append(html);
+	hd();
+	
+	a=(document.getElementById("timeres").value)*1000;
+	
+	setTimeout('allobzvon()',a);
+}
+
+function onAjaxSuccessShowAll1(html)
+{
+	$("#resultshowall").empty();
+
+
+
+$("#resultshowall").append(html);
+hd();
+}
+</script>
+<script type="text/javascript">
+function init() {
+	allobzvon();
+
+
+
+
+}
+
+init()
+</script>
+
+    <div id="resultshowall"></div>
+    
+		
+	
+		
+		
+		
+        
+        
+  </div>
+{% endblock %}

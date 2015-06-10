@@ -1,0 +1,510 @@
+﻿{% extends 'base_public.html' %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+<script>
+
+	function cost_tariff(type) {
+		static_ip = document.getElementById('select_static_ip').value;
+		str_get = '?'
+		if (static_ip == 'yes')
+			{
+				str_get += '&count_static_ip='+1;//document.getElementById('select_ip').value;
+			}
+		if (document.getElementById("select_tariff").value != "Выберите тариф")
+			{
+				str_get += '&tariff='+document.getElementById("select_tariff").value;
+			}	
+		$.ajax({	
+				  url: "/internet/change_tariff/" +type+ "/" + str_get, 
+				  beforeSend: function () 
+					{
+						
+						if (document.getElementById("select_tariff").value != "Выберите тариф")
+							{
+								if (document.getElementById('option_change_tariff'))
+									{
+										var option_change_tariff = document.getElementById('option_change_tariff');
+										option_change_tariff.parentNode.removeChild(option_change_tariff);
+									}
+							}
+
+					},
+				  complete: function(html)
+					{							
+						var cost = html.responseText;
+						document.getElementById("cost").innerHTML = cost;
+					},
+			  })
+	}
+	
+	
+	function change_city(type) {
+		$.ajax({
+			
+				  	url: "/internet/change_city/"+type+"/?city="+document.getElementById("select_city").value,
+					beforeSend: function () 
+					{
+						if (document.getElementById('option_change_city'))
+							{
+								var option_change_city = document.getElementById('option_change_city');
+								option_change_city.parentNode.removeChild(option_change_city);
+							}
+					},
+					complete: function(html)
+					{			
+						var streets = html.responseText;
+						var mas_street = streets.split(',');	
+						document.getElementById("tr_street").style.display = "table-row";
+						/*$(this).data('tr','#tr_street'.css('opacity'));
+						$(this).animate({opacity: 1}, 500 );*/
+						$("#tr_street").show("slow");
+						document.getElementById("tr_house").style.display = "none";
+						select_obj = document.getElementById("select_street");
+						for (var i=select_obj.options.length-1; i >= 0; i--)
+						{
+							select_obj.remove(i);
+						}
+						select_obj.options[select_obj.options.length] = new Option("Выберите улицу", "Выберите улицу");
+						select_obj.options[select_obj.options.length-1].setAttribute("id", "option_change_street");
+						for (var x in mas_street) {
+							select_obj.options[select_obj.options.length] = new Option(mas_street[x], mas_street[x]);
+						}
+
+					}, 
+			
+			  })
+	}
+	
+	function change_street(type) {
+		$.ajax({
+			
+				  	url: "/internet/change_street/"+type+"/?city="+document.getElementById("select_city").value+"&street="+document.getElementById("select_street").value,
+					beforeSend: function () 
+					{
+						if (document.getElementById('option_change_street'))
+							{
+								var option_change_street = document.getElementById('option_change_street');
+								option_change_street.parentNode.removeChild(option_change_street);
+							}
+					},
+					complete: function(html)
+					{			
+						var houses = html.responseText;
+						var mas_house = houses.split(',');	
+						document.getElementById("tr_house").style.display = "table-row";
+						select_obj = document.getElementById("select_house");
+						for (var i=select_obj.options.length-1; i >= 0; i--)
+						{
+							select_obj.remove(i);
+						}
+						select_obj.options[select_obj.options.length] = new Option("Выберите дом", "Выберите дом");
+						select_obj.options[select_obj.options.length-1].setAttribute("id", "option_change_house");
+						for (var x in mas_house) {
+							select_obj.options[select_obj.options.length] = new Option(mas_house[x], mas_house[x]);
+						}
+
+					}, 
+			
+			  })
+	}
+	
+	
+	function change_house() {
+		if (document.getElementById('option_change_house'))
+			{
+				var option_change_house = document.getElementById('option_change_house');
+				option_change_house.parentNode.removeChild(option_change_house);
+			}
+	}
+	
+	
+	function checkForm (type) {
+		var title;
+		var elem;
+		var dutyField = "Выберите ";
+		var check = true;
+		
+		function checkError (field, str) 
+			{
+			document.getElementById('alert').innerHTML = str;
+			document.getElementById('alert_tr').style.display = 'table-row';
+			check = false;
+			}
+			
+		if (check) {
+			 title = 'тариф';
+			 
+			 elem = document.getElementById('select_tariff').value;
+			 if (elem == 'Выберите тариф') {
+				 document.getElementById('select_tariff').focus();
+				 checkError('select_tariff', dutyField + title);
+				}
+		}
+		
+		if (check) {
+			 title = 'город';
+			 
+			 elem = document.getElementById('select_city').value;
+			 if (elem == 'Выберите город') {
+				 document.getElementById('select_city').focus();
+				 checkError('select_city', dutyField + title);
+				}
+		}
+		
+		if (check) {
+			 title = 'улицу';
+			 
+			 elem = document.getElementById('select_street').value;
+			 if (elem == 'Выберите улицу') {
+				 document.getElementById('select_street').focus();
+				 checkError('select_street', dutyField + title);
+				}
+		}
+		
+		if (check) {
+			 title = 'дом';
+			 
+			 elem = document.getElementById('select_house').value;
+			 if (elem == 'Выберите дом') {
+				 document.getElementById('select_house').focus();
+				 checkError('select_house', dutyField + title);
+				}
+		}
+		
+		if (check) {
+			title = 'оборудование';
+			/*
+			elem = document.getElementById('select_equipment').value;
+			if (elem == 'yes')
+				{
+					ch_switch = document.getElementById('checkbox_switch').checked;
+					ch_router = document.getElementById('checkbox_router').checked;
+					ch_AP = document.getElementById('checkbox_AP').checked;
+					ch_NIC = document.getElementById('checkbox_NIC').checked;
+					if ((ch_switch == false) && (ch_router == false) && (ch_AP == false) && (ch_NIC == false))
+						{
+				 			checkError('select_equipment', dutyField + title);
+						}
+					
+				}*/
+		}
+		
+		if (check) {
+			step_auth(type)
+		}
+		return check;
+	}
+
+
+	function step_auth(type)
+	{
+   		select_tariff = document.getElementById('select_tariff').value;
+   		select_city = document.getElementById('select_city').value;
+   		select_street = document.getElementById('select_street').value;
+   		select_house = document.getElementById('select_house').value;
+		equip = document.getElementById('select_equipment').value;
+		static_ip = document.getElementById('select_static_ip').value;
+		str_equip = ''
+		str_static_ip = ''
+		if (equip == 'yes')
+			{
+				/*if (document.getElementById('checkbox_switch').checked == true)
+					{str_equip += '&equip_switch=true'}
+				if (document.getElementById('checkbox_router').checked == true) 
+					{str_equip += '&equip_router=true'}
+				if (document.getElementById('checkbox_AP').checked == true)
+					{str_equip += '&equip_AP=true'}
+				if (document.getElementById('checkbox_NIC').checked == true) 
+					{str_equip += '&equip_NIC=true'}*/
+                str_equip += '&equip_AP=true' //Убрать
+			}
+		if (static_ip == 'yes')
+			{
+				//str_static_ip = '&count_static_ip='+document.getElementById('select_ip').value;
+                str_static_ip = '&count_static_ip='+1; //Убрать
+			}
+			
+		var str = $("#inet_zakaz").serialize();
+		$.ajax({
+                url: "/internet/step_auth/False/"+type+"/?"+str+"&tariff="+select_tariff+"&city="+select_city+"&street="+select_street+"&house="+select_house+str_equip+str_static_ip,
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+ 					
+                    $("#id_popup").html(html);
+					  
+                },
+                error: function(data){
+                    console.log(data.responseText)
+                }
+            });
+	}
+	
+	
+	function step_zakaz(type)
+	{
+		$.ajax({
+                url: "/internet/step_zakaz/False/"+type+"/",
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+ 					
+                    $("#id_popup").html(html);
+					  
+                }  
+            });
+	}
+	
+	
+	function step_final(req)
+	{
+		var str = $("#form_auth").serialize();
+		$.ajax({
+                url: "/internet/step_"+req+"/?"+str,
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+ 					
+                    $("#id_popup").html(html);
+					  
+                }  
+            });
+	}
+	
+	function show_tooltip(tool) 
+	{
+		var tt  = $(tool),
+			tti = $('i', tool),
+			ttb = $('.tooltip-i',tool);
+		if ($(tool).hasClass('show')) {
+			$(tool).removeClass('show');
+			ttb.css('display', 'none');
+			}
+		else {
+			ttb.css('display', 'block');
+			$(tool).addClass('show');
+		}
+	}
+
+	function change_equipment(sel)
+	{
+		if (sel.value == 'yes')
+			{document.getElementById("tr_equipment").style.display = "table-row";}
+		else
+			{document.getElementById("tr_equipment").style.display = "none";}
+	}
+	
+	function change_static_ip(sel, type)
+	{
+		/*if (sel.value == 'yes')
+			{document.getElementById("tr_static_ip").style.display = "table-row";}
+		else
+			{document.getElementById("tr_static_ip").style.display = "none";}*/
+		cost_tariff(type);
+	}
+	
+	  function sub(){
+   $("#form_href").submit()
+   }
+
+</script> 
+	
+</script>
+    
+<h1 class="title">{{ title }}</h1>
+
+{{pannel|safe}}
+
+{% if type_face == 'individual' %}
+<div class="ugc">&nbsp;
+<p>Наша компания предоставляет широкополосный безлимитный доступ к сети Интернет для физических лиц. Подключение осуществляется как по технологи Ethernet, так и по беспроводному Wi-Fi соединению.</p>
+
+<p>Безлимитный интернет &ndash; это интернет без границ! Вы сможете находиться в сети без каких-либо ограничений по трафику и времени. Стоимость является фиксированной и не зависит от объема входящего и исходящего трафика.</p>
+
+<p>Подключая интернет у нас, Вы также получаете <strong>бесплатное</strong> цифровое телевидение с большим числом телевизионных каналов. IP-TV предоставляет возможность смотреть лучшие российские и зарубежные&nbsp; каналы с высоким качеством изображения и звука.</p>
+
+<h4>Тарифы для физических лиц</h4>
+
+<p>Все тарифы для физических лиц являются безлимитными и учет по трафику не производится.</p>
+</div>
+{% endif %}
+{% if type_face == 'legal_entity' %}
+<div class="ugc">
+<br />
+<p>
+	Компания GlobalHome предоставляет высокоскоростной доступ в&nbsp;интернет&nbsp;юридическим лицам на основе беспроводной сети Wi-Fi, &nbsp;по витой паре (Ethernet) или оптоволоконному кабелю.&nbsp;</p>
+<p>
+	Безлимитный интернет &nbsp;расширит возможности Вашего бизнеса и позволит получить неограниченный доступ к информации и многочисленным ресурсам сети Интернет. У Вас появится возможность объединить все офисы в одну единую корпоративную сеть и подключить многоканальную телефонию.</p>
+<p>
+	Подключая интернет у нас Вы получаете:</p>
+<ul>
+	<li>
+		высокоскоростной безлимитный доступ в интернет;</li>
+	<li>
+		качественное стабильное соединение;</li>
+	<li>
+		возможность подключения многоканальной телефонии в офис;</li>
+	<li>
+		удобная система оплаты;</li>
+	<li>
+		круглосуточная техническая поддержка.</li>
+</ul>
+<h2>
+	Безлимитные тарифы на интернет</h2>
+<p>
+	Все тарифы для юридических лиц являются безлимитными и учет по трафику не производится.</p>
+</div>
+{% endif %}
+{% if type_face == 'cottage_settlement' %}
+<div class="ugc">&nbsp;
+<p>Высокоскоростной доступ в Интернет от Global Home &ndash; оптимальное решение для частных домов и коттеджных поселков, где отсутствует проводная инфраструктура.</p>
+
+<p>Мы поможем Вам организовать беспроводную зону Wi-Fi и свободно выходить в сеть Интернет из любой точки дома и на всей территории участка. Также, при наличии инфраструктуры для прокладки кабеля, мы предлагаем подключить Интернет по технологи Ethernet.</p>
+
+<p>При подключении интернета у нас Вы получаете:</p>
+
+<ul>
+	<li>высокоскоростной безлимитный доступ в интернет;</li>
+	<li>возможность подключить многоканальную телефонию;</li>
+	<li>бесплатное IP-телевидение;</li>
+	<li>удобная система оплаты;</li>
+	<li>круглосуточная техническая поддержка.</li>
+</ul>
+
+<h4>Тарифы на интернет</h4>
+
+<p>Все тарифы являются безлимитными и учет по трафику не производится. Скорость доступа при данных тарифных планов &nbsp;является негарантированной. Скорость подключения является симметричной для входящего и исходящего канала.</p>
+</div>
+{% endif %}
+
+<table class="type-2">
+	<thead>
+		<tr>
+			<th>Тарифный план</th>
+			<th>Скорость Мбит/с</th>
+			<th>Стоимость, <em>руб./мес.{% if type_face == 'legal_entity' %}<span class="fn" style="color:#F00">*</span>{% endif %}</em></th>
+		</tr>
+	</thead>
+	<tbody>
+    {% for tariff in inet_tariff %}
+		<tr>
+			<td>{{ tariff.name }}</td>
+			<td>{{ tariff.speed_inet }}</td>
+			<td>
+                {% if tariff.cost == 0.0 %}
+                    бесплатно<span style="color:red;">*</span>
+                {% else %}
+                    {{ tariff.cost }}
+                {% endif %}
+            </td>
+		</tr>
+    {% endfor %}
+	</tbody>
+</table>
+
+<div class="form-submit-right">
+    <a href="#zakaz" class="bt bt-blue2" onclick="step_zakaz('{{ type_face }}')">Заказать</a>
+</div>
+
+{% if type_face == 'legal_entity' %}
+<div class="ugc">
+	<p><span class="fn">*</span> <small>все цены указаны без учета НДС</small></p>
+</div>
+{% endif %}
+
+{% if type_face == 'individual' %}
+<div class="ugc">
+    {% if notes %}
+        <p>
+            {% for mark, note in notes %}
+                <span class="fn">{{ mark }}</span>
+                <em>{{ note }}</em>
+            {% endfor %}
+        </p>
+    {% endif %}
+<h4>Как подключить безлимитный интернет</h4>
+<p>Чтобы подключить интернет для физических лиц, достаточно просто позвонить в нашу компанию и оставить заявку. Подключение и настройки оборудования осуществляется в течение 3 дней после заказа услуги и производятся бесплатно. Более подробно о подключении читайте <a href="http://globalhome.su/content/article/internet_ip-tv/">здесь</a>.</p>
+<h4>Оплата</h4>
+<p>Вы можете оплатить услуги интернета любым удобным для Вас <a href=" http://globalhome.su/content/article/payment_methods/">способом</a>. В случае неоплаты услуги вовремя, доступ в интернет будет заблокирован и отключен через 1 месяц. Для разблокировки или повторного подключения необходимо просто пополнить Ваш лицевой счет.  Также у Вас есть возможность заморозить свой счет сроком на 1 месяц.</p>
+
+<ul>
+	<li><a href="http://globalhome.su/internet/legal_entity/">Тарифы для юридических лиц </a></li>
+	<li><a href="http://globalhome.su/internet/cottage_settlement/">Тарифы для коттеджных поселков</a></li>
+	<li><a href="http://globalhome.su/content/article/optovolokno_internet_dlya_operatorov/">Тарифы для операторов связи </a></li>
+	<li><a href="http://globalhome.su/content/article/vpn_server_proxy/">Тарифы на прокси сервер</a></li>
+</ul>
+</div>
+
+
+{{ obj.text|safe }}
+{% with obj.get_children as children %}
+    {% if children %}
+        <ul>
+        {% for child in children %}
+            <li><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+{% if coordhotspot %}
+<div class = "ugc">
+<h4 ><a href="/internet/individual/coverage_map/">Смотреть карту покрытия</a> </h4>
+</div>
+{% endif%}
+<a href="#" class="overlay" id="show_numbers"></a>
+<div class="popup_personal mngs" id='ajall'>
+    <a class="popup_personal-close" href="#close"></a>
+</div>
+
+
+
+{% endif %}
+{% if type_face == 'legal_entity' %}
+<div class="ugc">
+<p>
+	<a href="/internet/cover_zone/"><strong>Просмотреть зону покрытия доступную для подключения услуги &laquo;Доступ в интернет&raquo;</strong></a></p>
+<h2>
+	Как подключить интернет для <strong>юридических лиц</strong></h2>
+<p>
+	Чтобы подключить интернет для юридических лиц, достаточно просто позвонить в нашу компанию и оставить заявку. Наши сотрудники в кротчайшие сроки выполнят все необходимые работы. Более подробно о подключении читайте&nbsp; <a href="http://globalhome.su/content/article/internet_office/">здесь</a>.</p>
+
+<ul>
+	<li><a href="/internet/individual/">Тарифы для физических лиц</a></li>
+	<li><a href="/internet/cottage_settlement/">Тарифы для коттеджных поселков</a></li>
+	<li><a href="/content/article/optovolokno_internet_dlya_operatorov/"> Тарифы для операторов связи </a></li>
+	<li><a href="/content/article/vpn_server_proxy/">Тарифы на прокси сервер</a></li>
+</ul>
+</div>
+{% endif %}
+{% if type_face == 'cottage_settlement' %}
+<div class="ugc">
+<h4>Как подключить интернет в коттедж</h4>
+
+<p>Чтобы подключить интернет в коттедж или коттеджный поселок, достаточно просто позвонить в нашу компанию для согласования времени и места подключения. Наши сотрудники в кротчайшие сроки выполнят все работы для обеспечения доступа к сети Интернет. Более подробно о подключении читайте&nbsp;<a href="http://globalhome.su/content/article/internet_v_chastnyi_dom/">здесь</a>.</p>
+
+<ul>
+	<li><a href="/internet/individual/">Тарифы для физических лиц</a></li>
+	<li><a href="/internet/legal_entity/">Тарифы для юридических лиц </a></li>
+	<li><a href="/content/article/optovolokno_internet_dlya_operatorov/">Тарифы для операторов связи </a></li>
+	<li><a href="/content/article/vpn_server_proxy/">Тарифы на прокси сервер</a></li>
+</ul>
+</div>
+{% endif %}
+
+<a href="#" class="overlay" id="zakaz"></a>
+    <div class="popup_personal" style="min-width: 400px;">
+        <a class="popup_personal-close" href="#close"></a>
+        <div id="id_popup">
+        </div>
+    </div>
+
+{% endblock %}

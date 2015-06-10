@@ -1,0 +1,29 @@
+#statys{
+	width: 16px;
+	height: 16px;
+	float: right;
+	margin-right: 8px;
+	margin-top: 22px;
+	display:none
+}
+.id_status{
+	width: 20px;
+	border: 0px;
+	position: absolute;
+	margin-bottom: 300px;
+	z-index: 9999;
+	margin-top:-44px; 
+	/*margin-top:-124px; */
+	margin-left: 214px;
+    border: 0px;
+}
+#id_status{
+	border: 0px;
+	box-shadow: inset 0 0 0 0px #cae1f8;
+	background: none;
+	width: 15px;
+	position: absolute;	
+	cursor:default;
+	
+}
+

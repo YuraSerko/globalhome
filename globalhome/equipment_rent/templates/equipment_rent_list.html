@@ -1,0 +1,192 @@
+
+{% extends 'base_private.html' %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+
+
+{{ block.super }}
+
+<h1 class="title">Мое оборудование заявки на услуги</h1>
+
+{% if not package_objs %}
+    <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>У Вас нет заявок на предоставление оборудования.</p>
+        </div>
+    </div>
+{% else %}
+    <table class="type-2" >
+        <thead>
+              <tr >
+                <th width="5%">Номер заявки</th>
+                <th width="25%">Наименование оборудования</th>
+                <th>Дата создания заявки</th>
+                <th>Стоимость услуги, руб.</th>
+                <th>Способ доставки</th>
+                <th>Дата доставки</th>
+                <th>Статус заявки</th>
+                <th>Отмена заявки</th>
+              </tr> 
+        </thead>
+    	<tbody>
+        {% for package_obj in package_objs  %}   
+                {% for key1, value1 in  pack_spis_equipment.items %}
+                    {% for key, value in packet_cost.items %}
+                       {%  if package_obj.id == key1 and package_obj.id == key %}
+                          {% for key2, value2 in addr_tel_dict.items %}
+                            {% if package_obj.id == key2 %}
+                            <tr>                              
+                                <td> {{ package_obj.id }}</td>
+                                <td style="line-height: 8px;"> {{ value1|safe }}</td>
+                                <td> {{ package_obj.date_create }}</td>
+                                <td> {{ value }} </td>
+                                <td> {{ value2 }} </td>
+                             	{% if not package_obj.deliver_takeaway_date %}
+                                <td>Не определена</td>
+                            	{% else %}
+                             	<td> {{ package_obj.deliver_takeaway_date }}</td>
+                             	{% endif %}
+                                <td> {{ package_obj.package_status }}
+                                <td><a href="/account/equipment_rent_list/del_package/{{ package_obj.id }}">Отмена</a></td> 
+            	            </tr>
+            	            {% endif %}
+            	           {% endfor %} 
+            	        {% endif %}
+            	   {% endfor %}     
+			  {% endfor %}	
+         {% endfor %} 
+        
+        </tbody>
+        </table>
+{% endif %}
+
+<a href="#" class="overlay" id="zayavka"></a>
+<div class="popup_personal">
+    <a class="popup_personal-close" href="#close"></a>
+    <div id="id_popup_zayavka">
+    </div>
+</div>
+
+<a href="#" class="overlay" id="zakaz"></a>
+<div class="popup_personal">
+    <a class="popup_personal-close" href="#close"></a>
+    <div id="id_popup_zakaz">
+    </div>
+</div>
+
+<a href="#" class="overlay" id="configuration"></a>
+<div class="popup_personal">
+    <a class="popup_personal-close" href="#close"></a>
+    <div id="configuration_popup">
+    </div>
+</div>
+
+<h1 class="title">Мое оборудование действующие услуги</h1>
+
+{% if not cont_zayavki_act %}
+    <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>У Вас нет оборудования взятого в аренду.</p>
+        </div>
+    </div>
+{% else %}
+    <table class="type-2">
+        <thead>
+              <tr>
+                <th>Номер заказа</th>
+                <th>Наименование оборудования</th>
+                <th>Дата создания заказа</th>
+                <th>Стоимость услуги, руб.</th>
+                <th>Статус услуги</th>
+                <th>Деативация</th>
+              </tr> 
+        </thead>
+    	<tbody>
+          
+         {% for i in cont_zayavki_act %}
+          {% for key, value in tariff_device_dict.items %}
+              {% if key == i.tariff.id %}
+                   {% for d in devices %} 
+                       {% if d.id == value  %}
+                            <tr>
+                              <td>{{ i.id }}</td>
+                              <td>{{ d.name }}</td>
+                              <td>{{ i.date_create }}</td>
+                              <td>{{ i.cost }}</td>
+                              <!--  <td><a href="/account/equipment_rent_list/zakaz/{{ i.id }}/">Деактивация</a></td> -->
+                              {% if i.date_deactivation %}
+                        	    <td style="text-align:left"><i class="valid"></i><font color="#00CC00" style="vertical-align: top; margin-left: 2px;">{{ i.status_zakaza }} до {{ i.date_deactivation|date:"d.m.Y" }}</font></td> 
+                        	    <td><i class="not_valid"></i><font color="#FF0000" style="vertical-align: top; margin-left: 2px;">Недоступна</font></td>
+                    		  {% else %}
+                        	    <td style="text-align:left"><i class="valid"></i><font color="#00CC00" style="vertical-align: top; margin-left: 2px;">{{ i.status_zakaza }}</font></td>
+                        	    <td><a href="/account/equipment_rent_list/zakaz/{{ i.id }}?zakaz_id={{i.id}}">Деактивация</a></td>
+                    		  {% endif %}
+            	           </tr>
+            	       {% endif %}
+            	   {% endfor %}
+              {% endif %}
+          {% endfor %}
+        {% endfor %}
+            	     
+        </tbody>
+        </table>
+{% endif %}
+
+
+<h1 class="title">Мои заявки на доставку оборудования</h1>
+{% if not delivery %}
+    <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>У Вас нет заказов на доставку обордуования</p>
+        </div>
+    </div>
+{% else %}
+<table class="type-2">
+        <thead>
+              <tr>
+                <th>Номер заказа на доставку</th>
+                <th>Ном.заказа &nbsp &nbsp &nbsp Наименование оборудования</th>
+                <th>Оплачено</th>
+                <th>Статус доставки</th>
+              </tr> 
+        </thead>
+    	<tbody>
+        {% for key, value in delivery.items %}
+          
+             {% for j in zak_del_all %}
+                {% if j.id == key %}
+        	    	
+        	   		 	<tr>        	    
+                          <td>{{ key }}</td>
+                          <td>{{ value|safe }}</td>
+                          {% if j.paid == False %}
+                          <td>Не оплачено</td>
+                          {% endif %} 
+                          {% if j.paid == True %}
+                          <td>Оплачено</td>
+                          {% endif %}                              
+                          <td>{{ j.delivery_status }}</td>
+						</tr>
+				 	
+			     {% endif %}
+			  {%  endfor %}
+		   
+		{% endfor %}	
+</tbody>
+</table>
+{% endif %}
+<a class="bt bt-blue2" href="/change/" style="margin-bottom: 0px;">Добавить оборудование</a>
+{% endblock %}
+
+
+
+

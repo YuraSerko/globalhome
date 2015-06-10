@@ -1,0 +1,286 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-24 14:03+0200\n"
+"PO-Revision-Date: 2012-06-12 10:50+0400\n"
+"Last-Translator: 123 <1234>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: .\forms.py:32
+#: .\templates\call_forwarding_delete_rule.html.py:10
+#: .\templates\call_forwarding_list.html.py:45
+msgid "Enabled"
+msgstr "Включено"
+
+#: .\forms.py:37
+#: .\templates\call_forwarding_delete_rule.html.py:14
+#: .\templates\call_forwarding_list.html.py:46
+msgid "From number"
+msgstr "С номера"
+
+#: .\forms.py:46
+msgid "Type forward"
+msgstr "Тип переадресации"
+
+#: .\forms.py:56
+msgid "Wait time before forwarding"
+msgstr "Время ожидания ответа до переадресации"
+
+#: .\forms.py:42
+#: .\templates\call_forwarding_delete_rule.html.py:18
+#: .\templates\call_forwarding_list.html.py:47
+msgid "To number"
+msgstr "На номер"
+
+#: .\forms.py:50
+msgid "Specify time of day"
+msgstr "Указать время дня"
+
+#: .\forms.py:55
+msgid "Begin time, inclusive"
+msgstr "Начало, включительно"
+
+#: .\forms.py:60
+msgid "End time, not inclusive"
+msgstr "Конец, не включительно"
+
+#: .\forms.py:68
+msgid "Specify day of week"
+msgstr "Указать день недели"
+
+#: .\forms.py:144
+#: .\templates\call_forwarding_list.html.py:100
+msgid "You have no internal numbers. You should create one first"
+msgstr ""
+
+#: .\forms.py:252
+msgid "Please enter another number!"
+msgstr "Пожалуйста, введите другой номер!"
+
+#: .\forms.py:258
+#: .\forms.py:260
+msgid "Please enter some valid time or disable time block"
+msgstr "Пожалуйста, введите верное время или отключите блок условия времени"
+
+#: .\forms.py:264
+msgid "Please enter some valid time interval or disable time block"
+msgstr "Пожалуйста, введите верный интервал времени или отключите блок уловия времени"
+
+#: .\forms.py:280
+msgid "Please select some days of the week or disable this block"
+msgstr "Пожалуйста, выберите хотябы один день недели или отключите блок условия по дню недели"
+
+#: .\forms.py:290
+#, python-format
+msgid "Error! Time of day or days of week is conflicting with <a href=\"%(link)s\" onclick=\"%(onclick)s\">this</a> rule!"
+msgstr "Ошибка! Время дня или дни недели конфликтуют с <a href=\"%(link)s\" onclick=\"%(onclick)s\">этим</a> правилом!"
+
+#: .\forms.py:383
+msgid "This changes conflicts with existing rules!"
+msgstr "Ваши изменения конфликтуют с существубщими правилами!"
+
+#: .\models.py:173
+#: .\templates\call_forwarding_edit_rule.html.py:100
+msgid "Mon"
+msgstr "Пнд"
+
+#: .\models.py:175
+#: .\templates\call_forwarding_edit_rule.html.py:101
+msgid "Tue"
+msgstr "Втр"
+
+#: .\models.py:177
+#: .\templates\call_forwarding_edit_rule.html.py:102
+msgid "Wed"
+msgstr "Срд"
+
+#: .\models.py:179
+#: .\templates\call_forwarding_edit_rule.html.py:103
+msgid "Thu"
+msgstr "Чтв"
+
+#: .\models.py:181
+#: .\templates\call_forwarding_edit_rule.html.py:104
+msgid "Fri"
+msgstr "Птн"
+
+#: .\models.py:183
+#: .\templates\call_forwarding_edit_rule.html.py:105
+msgid "Sat"
+msgstr "Сбт"
+
+#: .\models.py:185
+#: .\templates\call_forwarding_edit_rule.html.py:106
+msgid "Sun"
+msgstr "Вск"
+
+#: .\models.py:188
+msgid "Monday"
+msgstr "Понедельник"
+
+#: .\models.py:190
+msgid "Tuensday"
+msgstr "Вторник"
+
+#: .\models.py:192
+msgid "Wednesday"
+msgstr "Среда"
+
+#: .\models.py:194
+msgid "Thursday"
+msgstr "Четверг"
+
+#: .\models.py:196
+msgid "Friday"
+msgstr "Пятница"
+
+#: .\models.py:198
+msgid "Saturday"
+msgstr "Суббота"
+
+#: .\models.py:200
+msgid "Sunday"
+msgstr "Воскресенье"
+
+#: .\models.py:271
+#: .\models.py:273
+msgid "Every day"
+msgstr "Каждый день"
+
+#: .\models.py:277
+msgid "Always"
+msgstr "Всегда"
+
+#: .\views.py:24
+msgid "Call forwarding rules"
+msgstr "Правила переадресации звонков"
+
+#: .\views.py:90
+msgid "Adding call forwarding rule"
+msgstr "Добавление правила переадресации звонков"
+
+#: .\views.py:124
+msgid "Rule was succesfuly added."
+msgstr "Правило было успешно добавлено"
+
+#: .\views.py:146
+msgid "Editing call forwarding rule"
+msgstr "Редактирование правила переадресации звонков"
+
+#: .\views.py:188
+msgid "Rule was succesfuly saved."
+msgstr "Правило было успешно сохранено."
+
+#: .\views.py:204
+msgid "Deleting call forwarding rule"
+msgstr "Удаление правила переадресации звонков"
+
+#: .\views.py:231
+msgid "Rule was succesfuly deleted."
+msgstr "Правило было успешно удалено"
+
+#: .\templates\call_forwarding_delete_rule.html.py:7
+msgid "Are you sure you want to delete this rule?"
+msgstr "Вы уверены, что хотите удалить это правило?"
+
+#: .\templates\call_forwarding_delete_rule.html.py:11
+#: .\templates\call_forwarding_delete_rule.html.py:28
+msgid "Yes"
+msgstr "Да"
+
+#: .\templates\call_forwarding_delete_rule.html.py:11
+msgid "No"
+msgstr ""
+
+#: .\templates\call_forwarding_delete_rule.html.py:22
+#: .\templates\call_forwarding_list.html.py:48
+msgid "Condition"
+msgstr "Условие"
+
+#: .\templates\call_forwarding_delete_rule.html.py:29
+#: .\templates\call_forwarding_edit_rule.html.py:129
+#: .\templates\call_forwarding_list.html.py:94
+msgid "Cancel"
+msgstr "Отмена"
+
+#: .\templates\call_forwarding_edit_rule.html.py:40
+msgid "You can temporarily disable or enable this rule without deleting him"
+msgstr "Вы можете временно отключить или включить это правило без его удаления"
+
+#: .\templates\call_forwarding_edit_rule.html.py:63
+msgid "Please select the number which during a call must be forwarded"
+msgstr "Пожалуйста, выберите номер, при звонке на который должна происходить переадресация"
+
+#: .\templates\call_forwarding_edit_rule.html.py:85
+msgid "Please select the type of forward"
+msgstr "Пожалуйста, выберите условие, при котором должна происходить переадресация"
+
+#: .\templates\call_forwarding_edit_rule.html.py:71
+msgid "Please specify the number to which you want to do call forwarding"
+msgstr "Пожалуйста, укажите номер в международном формате (7495xxxxxxx) или sip адрес (xxx@sip.globalhome.su), на который вы хотите сделать переадресацию звонков"
+
+#: .\templates\call_forwarding_edit_rule.html.py:78
+msgid "You can specify the time of day when call forwarding will works.<br>Or you can disable this option. Then call forwarding will work all day."
+msgstr "Вы можете указать время дня, когда переадресация звонков будет работать.<br>Или вы можете отключить эту опцию. Тогда переадресация будет работать весь день."
+
+#: .\templates\call_forwarding_edit_rule.html.py:111
+msgid "You can specify the days of week when call forwarding will works.<br>Or you can disable this option. Then call forwarding will work all week."
+msgstr "Вы можете указать дни недели, когда переадресация звонков будет работать.<br>Или Вы можете отключить эту опцию. Тогда переадресация будет работать всю неделю."
+
+#: .\templates\call_forwarding_edit_rule.html.py:120
+#: .\templates\call_forwarding_list.html.py:76
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\templates\call_forwarding_edit_rule.html.py:125
+#: .\templates\call_forwarding_list.html.py:89
+msgid "Add rule"
+msgstr "Добавить правило"
+
+#: .\templates\call_forwarding_edit_rule.html.py:127
+#: .\templates\call_forwarding_list.html.py:93
+msgid "Save changes"
+msgstr "Сохранить изменения"
+
+#: .\templates\call_forwarding_list.html.py:40
+msgid "Table of call forwarding rules"
+msgstr "Таблица правил переадресации звонков"
+
+#: .\templates\call_forwarding_list.html.py:49
+msgid "Editing"
+msgstr "Редактирование"
+
+#: .\templates\call_forwarding_list.html.py:50
+msgid "Deleting"
+msgstr "Удаление"
+
+#: .\templates\call_forwarding_list.html.py:75
+msgid "Edit"
+msgstr "Редактировать"
+
+#: .\templates\call_forwarding_list.html.py:84
+msgid "You have no call forwarding rules!"
+msgstr "У Вас нет правил переадресации звонков!"
+
+#~ msgid "Call forwarding"
+#~ msgstr "Переадресация звонков"
+#~ msgid "Edit call forwarding rule"
+#~ msgstr "Редактировано правило переадресации звонков"
+#~ msgid "Add call forwarding rule"
+#~ msgstr "Добавить правило переадресации звонков"
+#~ msgid "Rule deleting"
+#~ msgstr "Удаление правила"
+#~ msgid "Continue"
+#~ msgstr "Продолжить"
+

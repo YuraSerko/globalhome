@@ -1,0 +1,149 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+{{ block.super }}
+
+<form method="post">
+	{% if personal_form %}
+        <div class="ugc_profile">
+		    <warning style="color:red">ВАЖНО!</warning>
+            <p>Заполнение профиля необходимо для дальнейшего подписания документов. Если Вы по каким-то причинам не желаете заполнять профиль, Вы можете отменить это действие, нажав кнопку "Отклонить услугу" внизу страницы. Не заполнение профиля подразумевает отказ Вам в предоставлении услуги.</p>
+        </div>
+        <div id="id_personal">
+            <div class="form_django" style="padding: 0;">
+                {% for field in personal_form %}
+                    {% form_field field block %}
+                {% endfor %} 
+                <h2>{% trans "Physical address" %}</h2>
+                {% for field in physical_address_form %}
+                    {% form_field field block %}
+                {% endfor %} 
+            </div>      
+        </div>
+    {% endif %}
+    {% if corporate_form %}
+        <div class="ugc_profile">
+		    <warning style="color:red">ВАЖНО!</warning>
+            <p>Заполнение профиля необходимо для дальнейшего подписания документов. Если Вы по каким-то причинам не желаете заполнять профиль, Вы можете отменить это действие, нажав кнопку "Отклонить услугу" внизу страницы. Не заполнение профиля подразумевает отказ Вам в предоставлении услуги.</p>
+        </div>
+         <div class="profile_edit" id="id_corporate">
+            <div class="ugc_profile">
+                <p></p>
+            </div>
+            <div class="form_django" style="padding: 0;">
+                {% for field in corporate_form %}
+                    {% form_field field block %}
+                {% endfor %}
+                <h2>{% trans "Legal address" %}</h2>
+                {% for field in legal_address_form %}
+                    {% form_field field block %}
+                {% endfor %}
+                <h2>{% trans "Postal address" %}</h2>
+                {% for field in postal_address_form %}
+                    {% form_field field block %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    {% if personal_form_part %}
+        <div class="profile_edit" id="id_personal">
+            <div class="ugc_profile">
+                <p>После внесения данных в эти поля, последующие изменения в них будут недоступны!</p>
+            </div>
+            
+            <div class="form_django" style="padding: 0;">
+                {% for field in personal_form_not_edit %}
+                    {% form_field field block %}
+                {% endfor %} 
+            </div>      
+        </div>
+            
+        <div class="profile_edit" id="id_personal">
+            <div class="ugc_profile">
+                <p></p>
+            </div>
+            <div class="form_django" style="padding: 0;">
+                {% for field in personal_form_additional %}
+                    {% form_field field block %}
+                {% endfor %}
+                <h2>{% trans "Physical address" %}</h2>
+                {% for field in physical_address_form %}
+                    {% form_field field block %}
+                {% endfor %} 
+            </div>
+        </div>
+    {% endif %}
+
+    {% if corporate_form_part %}
+         <div class="profile_edit" id="id_corporate">
+            <div class="ugc_profile">
+                <p>После внесения данных в эти поля, последующие изменения в них будут недоступны!</p>
+            </div>
+            <div class="form_django" style="padding: 0;">
+                {% for field in corporate_form_main %}
+                    {% form_field field block %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="profile_edit" id="id_corporate">
+            <div class="ugc_profile">
+            	<p>Для изменения данных в этих полях необходимо просто нажать кнопку "Сохранить"!</p>
+            </div>
+            <div class="form_django" style="padding: 0;">
+                {% for field in corporate_form_ignored %}
+                    {% form_field field block %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="profile_edit" id="id_corporate">
+            <div class="ugc_profile">
+                <p>Для изменения данных в этих полях необходимо будет подписать дополнительное соглашение!</p>
+            </div>
+            <div class="form_django" style="padding: 0;">
+                {% for field in corporate_form_additional %}
+                    {% form_field field block %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="profile_edit" id="id_corporate">
+            <div class="ugc_profile">
+                <p>Для изменения данных в этих полях необходимо будет подписать дополнительное соглашение!</p>
+            </div>
+            <div class="form_django" style="padding: 0;">
+                <h2>{% trans "Legal address" %}</h2>
+                {% for field in legal_address_form %}
+                    {% form_field field block %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="profile_edit" id="id_corporate">
+            <div class="ugc_profile">
+            	<p>Для изменения данных в этих полях необходимо просто нажать кнопку "Сохранить"!</p>
+            </div>
+            <div class="form_django" style="padding: 0;">
+                <h2>{% trans "Postal address" %}</h2>
+                {% for field in postal_address_form %}
+                    {% form_field field block %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    {% if access_to_personal_information %}
+    <div class="form-submit-left">
+        <label for="i_agree">
+            При нажатии кнопки "Сохранить" Вы автоматически соглашаетесь<br />на предоставление доступа к Вашей личной информации
+        </label>
+    </div>
+    {% endif %}
+    <div class="form-submit-right">
+    	{% if cancel %}
+        <input type="submit" class="bt bt-blue2" name="cancel" value="Отклонить услугу">
+        {% endif %}
+        <input type="submit" class="bt bt-blue2" name="submit" value="Сохранить">
+    </div>
+</form>
+{% endblock %}

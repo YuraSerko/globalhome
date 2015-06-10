@@ -1,0 +1,218 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-24 14:21+0200\n"
+"PO-Revision-Date: 2012-07-03 09:52+0200\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: .\consts.py:9
+msgid "Contract"
+msgstr "Договор"
+
+#: .\consts.py:10
+msgid "Order form"
+msgstr "Бланк заказа"
+
+#: .\consts.py:11
+msgid "Act of handover"
+msgstr "Акт приема-передачи"
+
+#: .\models.py:18
+msgid "Financial document template"
+msgstr "Шаблон финансового документа"
+
+#: .\models.py:19
+msgid "Financial documents templates"
+msgstr "Шаблоны финансовых документов"
+
+#: .\models.py:22
+msgid "Document name"
+msgstr "Имя документа"
+
+#: .\models.py:30
+msgid "Applied to"
+msgstr "Применимый к"
+
+#: .\models.py:23
+msgid "Document type"
+msgstr "Тип документа"
+
+#: .\models.py:24
+msgid "Display name"
+msgstr "Отображаемое имя"
+
+#: .\models.py:25
+msgid "Description"
+msgstr "Описание"
+
+#: .\models.py:26
+msgid "Template"
+msgstr "Шаблон"
+
+#: .\models.py:27
+msgid "Slug"
+msgstr ""
+
+#: .\models.py:69
+#: .\models.py:75
+#: .\models.py:168
+msgid "Financial document"
+msgstr "Финансовый документ"
+
+#: .\models.py:70
+msgid "Financial documents"
+msgstr "Финансовые документы"
+
+#: .\models.py:73
+#: .\models.py:169
+msgid "Assigned by"
+msgstr ""
+
+#: .\models.py:74
+msgid "Assigned at"
+msgstr ""
+
+#: .\models.py:76
+msgid "Assigned to"
+msgstr ""
+
+#: .\models.py:77
+msgid "User can cancel this application"
+msgstr "Пользователь может отменить заявку"
+
+#: .\models.py:83
+#, python-format
+msgid "Sign application for the document %(document)s by user %(user)s"
+msgstr "Заявка на подписание документа %(document)s пользователем %(user)s"
+
+#: .\models.py:162
+msgid "Financial document sign application"
+msgstr "Заявка на подписание документа"
+
+#: .\models.py:163
+msgid "Financial documents sign applications"
+msgstr "Заявки на подписание документов"
+
+#: .\models.py:166
+msgid "Signed by"
+msgstr "Подписан пользователем"
+
+#: .\models.py:167
+#: .\templates\list_signed.html.py:14
+msgid "Signed at"
+msgstr "Подписан"
+
+#: .\models.py:170
+msgid "Text when signing"
+msgstr "Текст при подписании"
+
+#: .\models.py:173
+msgid "signed by"
+msgstr "подписан"
+
+#: .\models.py:177
+msgid "Signed financial document"
+msgstr "Подписанный финансовый документ"
+
+#: .\models.py:178
+msgid "Signed financial documents"
+msgstr "Подписанные финансовые документы"
+
+#: .\views.py:22
+msgid "List of signed documents"
+msgstr "Список подписанных документов"
+
+#: .\templates\app_sign.html.py:50
+msgid "I sign this document"
+msgstr "Я подписываю этот документ"
+
+#: .\templates\app_sign.html.py:55
+msgid "Sign"
+msgstr "Подписать"
+
+#: .\templates\app_sign.html.py:57
+msgid "Cancel application"
+msgstr "Отменить заявку"
+
+#: .\templates\list_signed.html.py:13
+msgid "Document"
+msgstr "Документ"
+
+#: .\templates\list_signed.html.py:26
+msgid "You have no signed documents"
+msgstr "У Вас нет подписанных документов"
+
+msgid "stop_date"
+msgstr "Окончание рассылки"
+
+msgid "start_date"
+msgstr "Начало рассылки"
+
+msgid "Type_user"
+msgstr " Группа пользователей"
+
+msgid "message"
+msgstr "Текст сообщения"
+
+msgid "subject"
+msgstr "Заголовок"
+
+msgid "user_id"
+msgstr "ID пользователя"
+
+msgid "date"
+msgstr "Дата отправки"
+
+msgid "spis_file"
+msgstr "Список файлов"
+
+msgid "status_mails"
+msgstr "Статус сообщения"
+
+msgid "all_msg"
+msgstr "Всего писем"
+
+msgid "success_msg"
+msgstr "Успешно отправлено"
+
+msgid "failed_msg"
+msgstr "Отправка не удалась"
+
+msgid "attached_file"
+msgstr "Файлы"
+
+msgid "Send_message"
+msgstr"Отправленное письмо"
+
+msgid "Send_messages"
+msgstr"Отправленные письма"
+
+msgid "active_user"
+msgstr"Активные"
+
+msgid "juridical"
+msgstr"Юридические"
+
+msgid "individual"
+msgstr"Физические"
+
+msgid "admins"
+msgstr"Администраторы"
+
+msgid "sender_id"
+msgstr "ID отправителя"
+
+#~ msgid "Python module with document's sign actions"
+#~ msgstr "Python модуль с действиями подписания"
+

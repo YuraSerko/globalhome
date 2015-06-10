@@ -1,0 +1,19 @@
+#changelist table tr {
+    display: none;
+}
+#changelist table thead tr {
+    display: table-row;
+}
+
+.open, .closed {
+    width: 15px;
+    height: 15px;
+    float: left;
+    cursor: pointer;
+}
+.open {
+    background: url(../img/disclosure-down.png) no-repeat;
+}
+.closed {
+    background: url(../img/disclosure-right.png) no-repeat;
+}

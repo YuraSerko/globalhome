@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load account_menu %}
+{% block extrahead %}
+<link rel="shortcut icon" href="/media/moscowdata/favicon.ico">
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/style_private_moscowdata.css">
+<!--script src="{{ MEDIA_URL }}js/script_private.js"></script-->
+	<!--link rel="stylesheet" href="{{ MEDIA_URL }}css/jquery-ui.css"-->
+<!--link rel="stylesheet" href="{{ MEDIA_URL }}css/style_private.css"-->
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/jquery-ui_private.css">
+
+<script src="{{ MEDIA_URL }}js/jquery_private.js"></script>
+<!--script src="{{ MEDIA_URL }}js/script_tab_change.js" ></script-->
+<script src="{{ MEDIA_URL }}js/jquery-ui_private.js"></script>
+<script src="{{ MEDIA_URL }}js/script_private_moscowdata.js"></script>
+
+
+{% block extra_head %}{% endblock %}
+{% endblock %}
+
+{% block header %}
+
+{% account_top_menu %}
+{% endblock %}
+
+{% block left_menu %}
+
+
+{% account_profile_menu %}
+<div class="cols-section"><div id = "article_Menu" class="cols-section-i">
+	
+{% endblock %}
+
+{% block footer %}   
+		<script>
+		//======================================Transform Tabs Color===============================
+		function OnClick(tabhid){
+	 //Получение заголовка по id
+	 var tabh = document.getElementById(tabhid);
+	
+	 if (tabh==null)
+		 return;
+	 
+	 //Ссылка на элемент tab-header
+	 var tabheader=tabh.parentNode;
+	
+	 if (tabheader==null)
+		 return;
+	 
+	 //Получаем все заголовки
+	 var tabhs;
+	 tabhs = SelectChildren(tabheader,'div');
+	
+	 if (tabhs.length == 0)
+		 return;
+	 
+	 //Изменяем стиль ранее выбранного заголовка
+	 for(var i = 0; i < tabhs.length; i++)
+		 if (tabh.style.backgroundColor = '#eee')
+			tabhs[i].style.background = 'linear-gradient( #5E1400, #673C29)';
+			
+	 //Изменяем стиль выбранного заголовка
+	 tabh.style.background = 'linear-gradient( #EE1717, #B41111)';
+	
+	 var tabcontrol;
+	 
+	 //Получаем ссылку на весь элемент tab-control
+	 try {
+		 tabcontrol = tabheader.parentNode;
+	 } catch (ex)
+	 {
+		 return;
+	 }
+	
+	 var tabbody;
+	 
+	 //Получаем ссылку на раздел содержимого закладок
+	 try {
+		 tabbody = tabcontrol.getElementsByClassName('tab-body')[0];
+	 } catch (ex)
+	 {
+		 return;
+	 }
+	 
+	 //Получаем все элементы содержимого закладок
+	 var tabs;
+	 tabs = SelectChildren(tabbody,'div');
+	
+	 if (tabs.length == 0)
+		 return;
+	
+	 //Получаем содержимое выбранной закладки по ее id, сформированному по id заголовка
+	 var selectedtab= document.getElementById('b'+tabh.id);
+	
+	 if (selectedtab==null)
+		 return; 
+	
+	 //Скрываем содержимое ранее выбранной закладки
+	 for(var i = 0; i < tabs.length; i++)
+		 if (tabs[i].style.display == 'block')
+			tabs[i].style.display = 'none';
+	
+	 //Показываем содержимое выбранной закладки
+	 selectedtab.style.display = 'block';
+	}
+	
+	/*Функция выбора дочерних элементов по имени тэга*/
+	function SelectChildren(node, childname)
+	{
+	 var result = [];
+	
+	 for(var i = 0; i < node.childNodes.length; i++)
+		{
+		 var child = node.childNodes[i];
+		 if (child.nodeType==1) //Элемент
+			if (child.tagName.toLowerCase()==childname.toLowerCase())
+			   result.push(child); 
+		}
+	
+	 return result; 
+	}
+
+		
+	//=================================================================	
+		
+		
+		function offsetPosition(e) {
+  var offsetTop = 0;
+  do {offsetTop  += e.offsetTop;} while (e = e.offsetParent);
+  return offsetTop;
+}
+var aside = document.getElementById('aside_Menu'),
+    OP = offsetPosition(aside),
+    article = document.getElementById('article_Menu'),
+    OPa = offsetPosition(article);
+	wheight  = document.body.scrollHeight;
+	//var wheight=(window.innerHeight)?window.innerHeight:
+   // ((document.all)?document.body.offsetHeight:null); 
+
+window.onscroll = function() { 
+	//alert(wheight);
+	if(wheight>1300 )			{ //Если контента немного, то функция не выполняется
+  if (window.pageYOffset > article.offsetHeight - aside.offsetHeight + OPa) {
+    aside.className = 'stop';
+    aside.style.top = (article.offsetHeight - aside.offsetHeight - OP + OPa) + 'px';
+  } else {
+    aside.style.top = '0';
+    aside.className = (OP < window.pageYOffset ? 'prilip' : 'cols-side-i');//Добавить стиль side
+  }
+					}
+}
+		
+		</script>
+
+
+<!--style = "position: absolute; top: 1200px;"-->
+<div   class="footer-wrap"><div class="footer-inner">
+	<footer class="footer">
+		<div class="foo-copy">
+			<p>© Телеком-Вист {% now "Y" %}</p>
+		</div>
+	</footer>
+</div></div>
+{% endblock %}

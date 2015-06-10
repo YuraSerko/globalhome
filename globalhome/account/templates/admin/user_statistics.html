@@ -1,0 +1,172 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/interface-style1.css" />
+  <link rel="stylesheet" href="/static/admin_tools/css/jquery/jquery-ui.css" type="text/css" media="screen, projection"/>
+  <link rel="stylesheet" href="/static/admin_tools/css/dashboard.css" type="text/css" media="screen, projection"/>
+  {{ media.css }}
+   <script type="text/javascript" src="/static/admin_tools/js/jquery/jquery.min.js"></script>
+   <script type="text/javascript" src="/static/admin_tools/js/jquery/jquery-ui.min.js"></script>
+   <script>
+      $(function() {
+        $(".group-tabs").tabs();
+      });
+   </script>
+
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+
+{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="../../../">
+        {% trans "Home" %}
+      </a>
+      &rsaquo; 
+      Статистика
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block content %}
+
+    <div id="module_6" class="dashboard-module draggable collapsible deletable">
+    <h2>Статистика</h2>
+    <div class="dashboard-module-content">
+        <div class="group group-tabs">
+			<ul>
+				<li class="group-tabs-link">
+					<a href="#module_6_1">Пользователи</a>
+				</li>
+				<li class="group-tabs-link">
+					<a href="#module_6_2">Заказы</a>
+				</li>
+				<li class="group-tabs-link">
+					<a href="#module_6_3">Городские номера</a>
+				</li>
+			</ul>
+			<div id="module_6_1" class="dashboard-module">
+				<div class="dashboard-module-content">
+					<p>Пользователи: <strong>{{ count_all_users }}</strong> (в этом месяце: +{{ count_month_user }}, на этой неделе: +{{ count_week_user }}, сегодня: +{{ count_today_user }})</p>
+				</div>
+			</div>
+			<div id="module_6_2" class="dashboard-module">
+				<div class="dashboard-module-content">
+
+                <table>
+						<thead>
+							<tr>
+								<th>Период</th>
+								<th>Всего</th>
+								<th>Активных</th>
+								<th>Блокированых</th>
+								<th>Деактивированных</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>За весь период</td>
+								<td>{{ count_all_zakazy }}</td>
+								<td>{{ count_all_active_zakazy }}</td>
+								<td>{{ count_all_blocked_zakazy }}</td>
+								<td>{{ count_all_deactivate_zakazy }}</td>
+							</tr>
+							<tr>
+								<td>За текущий месяц</td>
+								<td>{{ count_all_current_month_zakazy }}</td>
+								<td>{{ count_all_current_active_month_zakazy }}</td>
+								<td>{{ count_all_blocked_current_month_zakazy }}</td>
+								<td>{{ count_all_deactivate_current_month_zakazy }}</td>
+							</tr>
+							<tr>
+								<td>За текущую неделю</td>
+								<td>{{ count_all_current_week_zakazy }}</td>
+								<td>{{ count_all_active_current_week_zakazy }}</td>
+								<td>{{ count_all_blocked_current_week_zakazy }}</td>
+								<td>{{ count_all_deactivate_current_week_zakazy }}</td>
+							</tr>
+							<tr>
+								<td>За сегодня</td>
+								<td>{{ count_all_today_zakazy }}</td>
+								<td>{{ count_all_active_today_zakazy }}</td>
+								<td>{{ count_all_blocked_today_zakazy }}</td>
+								<td>{{ count_all_deactivate_today_zakazy }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div id="module_6_3" class="dashboard-module">
+			<div class="dashboard-module-content">
+				<table>
+					<thead>
+						<tr>
+							<th>Период</th>
+							<th>Всего</th>
+							<th>Активных</th>
+							<th>Блокированых</th>
+							<th>Деактивированных</th>
+							<th>Оплаченных</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>За весь период</td>
+							<td>{{ count_all_zakazy1 }}</td>
+							<td>{{ count_all_active_zakazy1 }}</td>
+							<td>{{ count_all_blocked_zakazy1 }}</td>
+							<td>{{ count_all_deactivate_zakazy1 }}</td>
+							<td>{{ count_all_paid_zakazy1 }}</td>
+						</tr>
+						<tr>
+							<td>За текущий месяц</td>
+							<td>{{ count_all_current_month_zakazy1 }}</td>
+							<td>{{ count_all_active_current_month_zakazy1 }}</td>
+							<td>{{ count_all_blocked_current_month_zakazy1 }}</td>
+							<td>{{ count_all_deactivate_current_month_zakazy1 }}</td>
+							<td>{{ count_all_paid_today_zakazy1 }}</td>
+						</tr>
+						<tr>
+							<td>За текущую неделю</td>
+							<td>{{ count_all_current_week_zakazy1 }}</td>
+							<td>{{ count_all_active_current_week_zakazy1 }}</td>
+							<td>{{ count_all_blocked_current_week_zakazy1 }}</td>
+							<td>{{ count_all_deactivate_current_week_zakazy1 }}</td>
+							<td>{{ count_all_paid_current_month_zakazy1 }}</td>
+						</tr>
+						<tr>
+							<td>За сегодня</td>
+                            <td>{{ count_all_today_zakazy1 }}</td>
+							<td>{{ count_all_active_today_zakazy1 }}</td>
+							<td>{{ count_all_blocked_today_zakazy1 }}</td>
+							<td>{{ count_all_deactivate_today_zakazy1 }}</td>
+							<td>{{ count_all_paid_current_week_zakazy1 }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		</div>
+    </div>
+</div>
+{% endblock %} 

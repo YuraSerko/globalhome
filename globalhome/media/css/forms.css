@@ -1,0 +1,268 @@
+/* --------------------------------------------------------------
+
+   forms.css
+   * Sets up some default styling for forms
+   * Gives you classes to enhance your forms
+
+   Usage:
+   * For text fields, use class .title or .text
+   * For inline forms, use .inline (even when using columns)
+
+-------------------------------------------------------------- */
+
+label       { font-weight: bold; }
+fieldset    { padding:1.4em; margin: 0 0 1.5em 0; border: 1px solid #ccc; }
+legend      { font-weight: bold; font-size:1.2em; }
+
+
+/* Form fields
+-------------------------------------------------------------- */
+
+input[type=text], input[type=password],
+input.text, input.title,
+textarea, select {
+  background-color:#afaeae;
+  border:1px solid #921515;
+  -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+input[type=text]:focus, input[type=password]:focus,
+input.text:focus, input.title:focus,
+textarea:focus, select:focus {
+  border-color:#ffffff;
+  -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  
+}
+
+input[type=text], input[type=password],
+input.text, input.title,
+textarea, select {
+  margin:0;
+}
+
+input.text,
+input.title   { width: 300px; padding:5px; }
+input.title   { font-size:1.5em; }
+
+input[type=checkbox], input[type=radio],
+input.checkbox, input.radio {
+  position:relative; top:.25em;
+}
+
+form.inline { line-height:3; }
+form.inline p { margin-bottom:0; }
+
+
+/* Success, notice and error boxes
+-------------------------------------------------------------- */
+
+.error,
+.notice,
+.success    { padding: .8em; margin-bottom: 1em; border: 2px solid #ddd; }
+
+.error      { background: #6d6262; color: #f9d9d9; border-color: #ea7d81; -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;}
+.notice     { background: #7c7c5d; color: #514721; border-color: #FFD324; -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;}
+.success    { background: #7ad17d; color: #1e330b; border-color: #37c810; -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;}
+.error a    { color: #f9d9d9; }
+.notice a   { color: #514721; }
+.success a  { color: #264409; }
+
+/* FIELDS */
+
+.field-required-label{
+	color: #F00;
+}
+
+.form-field {
+    margin: 0 0 10px 0;
+}
+
+.field-notes, .field-errors {
+    font-size: 0.8em;
+}
+
+.field-errors {
+    color: #a82d38;
+}
+
+div.form-field.inline .field-label {
+    float: left;
+    text-align: right;
+}
+
+div.form-field.inline .field-content {
+    float: left;
+}
+
+/* COMMON FORMS */
+.submit-row {
+    
+    text-align: right;
+    background: white url(../img/backgrounds/2.gif) 0 100% repeat-x;
+    border: 1px solid #bc1a0a;
+    margin: 5px 0;
+    overflow: hidden;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.submit-row input {
+    margin: 0 0 0 5px;
+}
+
+.submit-row p {
+    margin: 0.3em;
+}
+
+.submit-row p.deletelink-box {
+    float: left;
+}
+
+/* FORM BUTTONS */
+
+.button, input[type=submit], input[type=button], .submit-row input {
+    background: white url(../img/backgrounds/nav-bg1.gif) bottom repeat-x;
+    padding: 3px;
+    color: black;
+    border: 1px solid #bbb;
+    border-color: #ddd #aaa #aaa #ddd;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.button:active, input[type=submit]:active, input[type=button]:active {
+    background-image: url(../img/backgrounds/nav-bg-reverse.gif);
+    background-position: top;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    border: 1px solid #919191;
+    background: url(../img/backgrounds/default-bg.gif) repeat-x;
+    font-weight: bold;
+    color: white;
+    float: right;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.button.default:active, input[type=submit].default:hover {
+    background-image: url(../img/backgrounds/default-bg-reverse.gif);
+    background-position: top;
+}
+
+/* FORM ERRORS */
+form div.error { background:#6d6262; }
+form div.error ul.errorlist {
+  background: #6d6262 url(../img/icons/exclamation.png) no-repeat scroll 6px 50%;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+form div.error ul.errorlist li {
+    padding-left: 30px;
+}
+
+
+/* EXTRA STYLES */
+.help {
+ 	
+	 font-size: 10px;
+	 padding: 0 0 0 12px;
+	 margin: 0;
+	 display: block;
+	 color: #939393;
+}
+.captcha-fields {
+    float: left;
+    width: 230px;
+}
+
+#form-field-wrapper-captcha #id_captcha_1, #form-field-wrapper-captcha img.captcha {
+    width: 110px;
+    height: 30px;
+}
+
+#form-field-wrapper-captcha img.captcha {
+    height: 31px;
+    border: solid 1px #bbbbbb;
+}
+
+#form-field-wrapper-captcha img.captcha {
+    float: left;
+}
+#form-field-wrapper-captcha #id_captcha_1 {
+    float: left;
+    margin-left: 4px;
+}
+
+/*
+Front form for unreg user
+*/
+
+form.reglog .form-field input[type=text], form.reglog .form-field input[type=password] {
+    height: 30px;
+    width: 230px;
+    font-size: 20px;
+}
+form.reglog1 .form-field input[type=text], form.reglog1 .form-field input[type=password] {
+    height: 20px;
+    width: 130px;
+    font-size: 18px;
+}
+/*
+Registration form on homepage
+*/
+
+#homepage-regform {
+    float: left;
+}
+
+#homepage-regform .form-field {
+    float: left;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+#homepage-regform .help {
+    margin-left: 3px;
+}
+
+#homepage-regform input.submit {
+    margin-top: 5px;
+}
+
+#tooltip {
+    padding: 5px 10px;
+    background: #cad7e0;
+    border: 1px solid #b2bdc3;
+    opacity: 0.90;
+    width: auto;
+    heigth: auto;
+}
+
+#create-ticket-button {
+/*
+    font-weight: bold;
+    background: #0C6294;
+    color: #ffffff;
+    border: solid 2px #33769D;
+    border-radius: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+*/
+}
+

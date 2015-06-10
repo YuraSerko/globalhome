@@ -1,0 +1,276 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+{% block content %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/multiselect.js"></script>
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/multiselect.css">
+<link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+<style>
+    .field-errors { left: 68%; }
+    .field-required-label { color: red; }
+    .itemkanumber > p {
+        float: left !important;
+        margin-top: 0px !important;
+    }
+    .itemkaextnumber > p {
+        float: left !important;
+        margin-top: 0px !important;
+    }
+    .field ul {list-style-type: none;}
+    .field li {float: left; margin-right: 20px;}
+    select[type="comm"] {
+        width: 145px;
+    }
+</style>
+<script type="text/javascript" language="javascript" charset="utf-8">
+    function updateElementIndex(el, prefix, ndx) {
+        var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        var replacement = prefix + '-' + ndx + '-';
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+        replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+    function deleteForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        if (formCount > 1) {
+            $(btn).parent('.itemka'+prefix+'').remove();
+            var forms = $('.itemka'+prefix+'');
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+            var i = 0;
+            for (formCount = forms.length; i < formCount; i++) {
+                $(forms.get(i)).children().children().each(function () {
+                    if ($(this).attr('type') == 'text' || $(this).attr('type') == 'comm') updateElementIndex(this, prefix, i);
+                });
+            }
+        }    
+        return false;
+    }
+
+    function addForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        if (formCount < 10 && formCount != 0) {
+            if (prefix=='number' || prefix=='group' || prefix=='extnumber') {
+                    var row = $(".itemka"+prefix+":first").clone(false).get(0);
+                    $(row).removeAttr('id').hide().insertBefore("#add_id_"+prefix).slideDown(300);
+                    $(".errorlist", row).remove();
+                    $(row).children().removeClass("error");
+                    $(row).children().children().each(function () {
+                        updateElementIndex(this, prefix, formCount);
+                        $(this).val("");
+                    });
+                    $(row).find(".delete").click(function () {
+                        return deleteForm(this, prefix);
+                    });
+                    $("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+            } else {
+                    var row = $(".itemka"+prefix+":first").clone(false).get(0);
+                    $(row).removeAttr('id').hide().insertBefore("#add_id").slideDown(300);
+                    $(".errorlist", row).remove();
+                    $(row).children().removeClass("error");
+                    $(row).children().children().each(function () {
+                        updateElementIndex(this, prefix, formCount);
+                        $(this).val("");
+                    });
+                    $(row).find(".delete").click(function () {
+                        return deleteForm(this, prefix);
+                    });
+                    $("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+                    $("#id_" + prefix + "-INITIAL_FORMS").val(formCount + 1);
+                }
+        } else if (formCount != 0) {
+            alert("Извините, достигнуто максимальное число номеров.");
+        }
+        return false;
+    }
+
+    function ask(asd, pre) {
+        return addForm(asd, pre);
+    }
+
+    function del_asks(asd, pre) {
+        return deleteForm(asd, pre);
+    }
+
+    function time_enabled_ckeck() {
+        if ($('input[name=time_enabled]').is(':checked')) {
+            $('#div_time_begin').css('display', 'block');
+            $('#div_time_end').css('display', 'block');
+            $('#div_time_hint').css('display', 'none');
+        } else {
+            $('#div_time_begin').css('display', 'none');
+            $('#div_time_end').css('display', 'none');
+            $('#div_time_hint').css('display', 'block');
+        }
+    }
+
+    function day_enabled_check() {
+        if ($('input[name=day_enabled]').is(':checked')) {
+            $('#div_day').css('display', 'block');
+        } else {
+            $('#div_day').css('display', 'none');
+        }
+    }
+
+    function more_options_check() {
+        if ($('input[name=more_options]').is(':checked')) {
+            $('#div_file_client_announce').css('display', 'block');
+            $('#div_file_work_announce').css('display', 'block');
+            $('#div_file_chime').css('display', 'block');
+            $('#div_say_queue_position').css('display', 'block');
+            $('#div_more_hint').css('display', 'none');
+        } else {
+            $('#div_file_client_announce').css('display', 'none');
+            $('#div_file_work_announce').css('display', 'none');
+            $('#div_file_chime').css('display', 'none');
+            $('#div_say_queue_position').css('display', 'none');
+            $('#div_more_hint').css('display', 'block');
+        }
+    }
+
+    $(document).ready(function(){
+        $('label[for=id_work_day_5]').css('color', '#f00');
+        $('label[for=id_work_day_6]').css('color', '#f00');
+        time_enabled_ckeck();
+        day_enabled_check();
+        more_options_check();
+        $('input[name=day_enabled]').change(function () { day_enabled_check(); });
+        $('input[name=time_enabled]').change(function () { time_enabled_ckeck(); });
+        $('input[name=more_options]').change(function () { more_options_check(); });
+    })
+
+    function load_file(){
+        var form = document.getElementById("add-form");
+
+        // нужно для отправки select`а
+        var select = document.getElementById('id_agents_to');
+        for (var i = 0; i < select.options.length; i++) {
+            select.options[i].selected = true;
+        }
+
+        $('<input />').attr('type', 'hidden')
+            .attr('name', 'save')
+            .attr('value', 'save')
+            .appendTo('#add-form');
+        form.submit();
+        document.location.replace("#load_file");
+    }
+</script>
+<p class="breadcrumbs"><a href="/account/service_choice/">Выбор раздела</a><span>→</span><a href="/account/">Телефония</a><span>→</span><a href="/account/queue">Очередь</a><span>→</span>Подключение очереди</p>
+<h1 class="title">{{ title }}</h1>
+<div class="ugc">
+    <p>Заполните необходимые параметры очереди</p>
+</div>
+{% if form_errors %}
+        {% for e in form_errors %}
+            <div class="status status-error">    
+                <i class="ico"></i>
+                <div class="status-i">
+                    <p>{{ e }}</p>
+                </div>
+             </div>
+        {% endfor %}
+{% endif %}
+<strong>{{ form.non_field_errors }}</strong>
+    <form id="add-form" method="post" action="" enctype="multipart/form-data">
+        <div class="form-sections form_ivr">
+            <div class="form-section" id="div_name">
+                {% form_field form.name block %}
+                <div class="hint"><i></i>{% trans "Название очереди" %}</div>
+            </div>
+            <div class="form-section" id="div_file_hello">
+                {% form_field form.hello block %}
+                <div class="hint"><i></i>{% trans  "Приветствие проигрывается при попадании в очередь" %}</div>
+            </div>
+            <div class="form-section" id="div_file_hold">
+                {% form_field form.hold block %}
+                <div class="hint"><i></i>{% trans "Фоновая музыка проигрывается во время ожидания в очереди" %}</div>
+            </div>
+            <div class="form-section" id="div_time_enabled">
+                {% form_field form.time_enabled block %}
+                <div id="div_time_begin">
+                    {% form_field form.time_begin block %}
+                    <div class="hint"><i></i>{% trans "Время с которого очередь принимает клиентов" %}</div><br/>
+                </div>
+                <div id="div_time_end">
+                    {% form_field form.time_end block %}
+                    <div class="hint"><i></i>{% trans "Время после которого очередь не принимает клиентов" %}</div>
+                </div>
+                <div class="hint" id="div_time_hint"><i></i>{% trans "Время работы очереди" %}</div>
+            </div>
+            <script></script>
+            <div class="form-section" id="div_day_enabled">
+                {% form_field form.day_enabled block %}
+                <div id="div_day">{% form_field form.work_day block %}
+                    <div class="hint" id="div_day_hint"><i></i>{% trans "Выберите дни недели, в которые очередь будет работать" %}</div>
+                </div>
+            </div>
+            <script>init_day();</script>
+            <div class="form-section" id="div_more_options">
+                {% form_field form.more_options block %}
+                <div id="div_file_client_announce">
+                    {% form_field form.client_announce block %}
+                    <div class="hint"><i></i>{% trans "Проигрывается перед соединением с оператором" %}</div><br/>
+                </div>
+                <div id="div_file_work_announce">
+                    {% form_field form.work_announce block %}
+                    <div class="hint"><i></i>{% trans "Проигрывается в нерабочие дни и время" %}</div><br/>
+                </div>
+                <div id="div_file_chime">
+                    {% form_field form.chime_list block %}
+                    <div class="hint"><i></i>{% trans "Периодическое сообщение проигрывается с заданым интервалом" %}</div><br/>
+
+                    {% form_field form.chime_freq block %}
+                    <div class="hint"><i></i>{% trans "Интервал для периодического сообщения" %}</div><br/>
+                </div>
+                <div id="div_say_queue_position" style="margin-top:15px;">
+                    {% form_field form.say_queue_position block %}
+                    <div class="hint"><i></i>{% trans "Произносить номер позиции в очереди клиенту" %}</div><br/>
+                </div>
+                <div class="hint" id="div_more_hint"><i></i>{% trans "Дополнительные параметры очереди" %}</div>
+            </div>
+            <script>init_more_options();</script>
+            <div class="form-section">
+                {{ formset_intnumber.management_form }}
+                {% for form1 in formset_intnumber.forms %}
+                    <div class="itemkanumber">
+                        {{ form1.as_p }}
+                        <a href="javascript:void(0);" onClick="del_asks(this, 'number');"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a>
+                        <br></br></br>
+                    </div>
+                {% endfor %}
+                <button name="add" id="add_id_number" class="bt bt-blue2" type="button" onclick="ask(this, 'number');" style="width: 270px;">Ещё внутренний номер...</button>
+                <div class="hint" id="div_more_hint"><i></i>Подключение очереди к внутреннему номеру</div>
+            </div>
+            <div class="form-section">
+                {{ formset_extnumber.management_form }}
+                {% for form2 in formset_extnumber.forms %}
+                    <div class="itemkaextnumber">
+                        {{ form2.as_p }}
+                        <a href="javascript:void(0);" onClick="del_asks(this, 'extnumber');"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a>
+                        <br></br></br>
+                    </div>
+                {% endfor %}
+                <button name="add" id="add_id_extnumber" class="bt bt-blue2" type="button" onclick="ask(this, 'extnumber');" style="width: 270px;">Ещё городской номер...</button>
+                <div class="hint" id="div_more_hint"><i></i>Подключение очереди к городскому номеру</div>
+            </div>
+            <div class="form-section">
+                {% form_field form.agents block %}
+                <script type="text/javascript">jQuery.each($("select[multiple]"), function () {SelectFilter.init(this.id, "Locations", 0, "static/css/");});</script>
+                <div class="hint" id="div_more_hint"><i></i>Операторы могут подключиться к очереди и принимать звонки</div>
+            </div>
+        </div>
+        <div class="form-sections-submit">
+            <input id="cancel-button" type="submit" class="bt bt-blue2" value='{% trans "Cancel" %}' name="cancel" />
+            <input class="bt bt-blue2" type="button" onClick="load_file()" value="{{ button }}"/>
+        </div>
+    </form>
+    <a href="#" class="overlay" id="load_file"></a>
+    <div class="popup_personal">
+        <a class="popup_personal-close" href="#close"></a>
+        <table class="type-4 modal" style="width: 440px;">
+            <caption><h1 class="title" style="margin: 0;">Ожидайте, идет загрузка файла!</h1></caption>
+            <tbody><tr><td style="text-align: center;"><img src="{{ MEDIA_URL }}images/loading.gif"></td></tr></tbody>
+        </table>
+    </div>
+{% endblock %}

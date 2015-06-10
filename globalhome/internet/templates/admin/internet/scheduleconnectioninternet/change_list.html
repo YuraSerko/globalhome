@@ -1,0 +1,190 @@
+﻿{% extends "admin/change_list.html" %}
+
+{% block content %}
+<script src="{{ MEDIA_URL }}js/jquery-1.7.2.min.js"></script>
+<style>
+
+#changelist {
+display:none;}
+
+.dist_1{background:#00ffff!important; height:8px;}/*ясенево*/
+.dist_17{background:#de6464!important; height:8px;}/*Царицыно */
+.dist_16{background:#eded41!important; height:8px;}/*Хорошёво-Мневники*/
+.dist_15{background:#00b500!important; height:8px;}/*Орехово-Борисово Южное*/
+.dist_14{background:#ff0000!important; height:8px;}/*Обручево*/
+.dist_13{background:#00beda!important; height:8px;}/*Коньково*/
+.dist_10{background:#f131ff!important; height:8px;}/*Бирюлёво-восточное*/
+.dist_12{background:#ff7aab!important; height:8px;}/*Котловка*/
+.dist_11{background:#0040bf!important; height:8px;}/*восточное-измайлово*/
+.dist_18{background:#ddbd82!important; height:8px;}/*Преснинский  */
+.dist_19{background:#550028!important; height:8px;}/*Басманный район  */
+
+
+.list {
+    list-style-type: none; 
+   }
+.uli {
+ 	margin-left: 3px; /* Отступ слева в браузере IE и Opera */
+ 	padding-left: 0px; /* Отступ слева в браузере Firefox */
+}
+.lock{
+	background: #3a7cbd;
+	border: solid 1px;
+	/*width:50px;*/
+	text-align:center;
+}
+
+th{
+	border: solid 1px;
+	white-space: nowrap;
+	cursor:default; 
+}
+
+
+td{
+	border: solid 1px black;
+	width: 100px;
+	color:#ffc;
+	cursor:default;
+	text-align:center;}
+
+.title_tr td{
+	background: #417690;
+	color:#ffc;
+	cursor:default;
+	width: 350px;
+
+}
+
+.tr th{
+	background: #417690;
+	text-align:center;
+	color:#ffc;
+	border: solid 1px black;
+}
+ 
+.tr td{
+padding:0px;}
+/*.tr td:hover {background: green;}*/
+.table{
+
+
+	margin-top: 1%;
+	margin-left:20px;
+}
+
+.checked{background: #ff9000!important;}
+.sected{background: green!important;}
+
+.zakaz:hover::after{
+
+	content: attr(data-title); /* Выводим текст */
+    position: absolute; /* Абсолютное позиционирование */
+    
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */
+    font-family: Arial, sans-serif; /* Гарнитура шрифта */
+    font-size: 11px; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+    border: 1px solid #333; /* Параметры рамки */
+}
+
+.weekend{background:#C6D6DE;
+} 	
+
+.out_div{width:100%;
+	height:23px;}
+.in_div{display:inline-block;
+width:8%;
+margin-right:1%;
+height:23px;
+}
+.in_div:last-child{margin-right:0;}
+
+
+</style>
+<script>
+$(function(){
+//подсветка собсна объектов расписания
+if('{{zakazi_str}}'){
+var zakazi_str = '{{zakazi_str}}'
+var arr = zakazi_str.split('; ')
+for(var i=0; i<arr.length; i++) {
+var zakazi = arr[i].split('%')
+$('#' + zakazi[1]).find('[name= "dist_' + zakazi[2] +'"]').addClass('dist_' + zakazi[2])
+														  .addClass('zakaz')
+														  .attr('href','/admin/internet/scheduleconnectioninternet/' + zakazi[0] + '/'  )
+														  .attr('data-title',zakazi[3])
+														  
+
+}
+}
+//подсетка выходных дней
+if('{{weekday_str}}'){
+var weekday_str = '{{weekday_str}}' 
+var weekday_str_arr = weekday_str.split('; ')
+for(var i=0; i<weekday_str_arr.length; i++) {
+$('[id^="'+ weekday_str_arr[i] +'"]').addClass('weekend')
+}}
+
+
+
+
+})
+</script>
+
+{{ block.super }}
+
+
+{% endblock %}
+
+
+{% block sidebar  %}
+
+
+
+
+
+
+
+
+<ul class = "uli">
+<li class = "list"><img src="{{ MEDIA_URL }}images/markers_for_schedule/jasenevo.png" width="24" height="21" align=absmiddle /> - Район Ясенево </li>
+<li class = "list"><img src="{{ MEDIA_URL }}images/markers_for_schedule/Bir-vostochnoe.png" width="24" height="21" align=absmiddle /> - Район Бирюлёво-восточное </li>
+<li class = "list"><img src="{{ MEDIA_URL }}images/markers_for_schedule/vostochn-izmailovo.png" width="24" height="21" align=absmiddle /> - Район Восточное-измайлово </li>
+<li class = "list"><img src="{{ MEDIA_URL }}images/markers_for_schedule/Kotlovka.png" width="24" height="21" align=absmiddle /> - Район Котловка </li>
+<li class = "list"><img src="{{ MEDIA_URL }}images/markers_for_schedule/konkovo.png" width="24" height="21" align=absmiddle /> - Район Коньково </li>
+<li class = "list"><img src="{{ MEDIA_URL }}images/markers_for_schedule/obruchevo.png" width="24" height="21" align=absmiddle /> - Район Обручево </li>
+<li class = "list"><img src="{{ MEDIA_URL }}images/markers_for_schedule/oreh-boris-uznoe.png" width="24" height="21" align=absmiddle /> - Район Орехово-Борисово Южное </li>
+<li class = "list"><img src="{{ MEDIA_URL }}images/markers_for_schedule/hor-mnevniki.png" width="24" height="21" align=absmiddle /> - Район Хорошёво-Мневники </li>
+<li class = "list"><img src="{{ MEDIA_URL }}images/markers_for_schedule/caricino.png" width="24" height="21" align=absmiddle /> - Район Царицыно </li>
+<li class = "list"><img src="{{ MEDIA_URL }}images/markers_for_schedule/presn.png" width="24" height="21" align=absmiddle /> - Район Пресненский </li>
+<li class = "list"><img src="{{ MEDIA_URL }}images/markers_for_schedule/basmaniy.png" width="24" height="21" align=absmiddle /> - Район Басманный </li>
+</ul>
+</div>
+
+ 
+
+<div class = 'table'>
+
+<table>
+<tbody>
+
+<tr class = 'title_tr'><th class = 'lock'></th><td >9-12</td><td>12-15</td><td >15-18</td></tr> 
+{% for date in date_list%}<tr class = 'tr'><th>{{date}}</th>
+<td id ='{{date}}_9-12'><div class='out_div'><a class='in_div ' name = 'dist_1' ></a><a class='in_div ' name = 'dist_10' ></a><a class='in_div ' name = 'dist_11'></a><a class='in_div ' name = 'dist_12'></a><a class='in_div' name = 'dist_13'></a><a class='in_div' name = 'dist_14'></a><a class='in_div' name = 'dist_15'></a><a class='in_div' name = 'dist_16'></a><a class='in_div' name = 'dist_17'></a><a class='in_div' name = 'dist_18'></a><a class='in_div' name = 'dist_19'></a></div></td>
+<td id ='{{date}}_12-15'><div class='out_div'><a class='in_div ' name = 'dist_1' ></a><a class='in_div ' name = 'dist_10' ></a><a class='in_div ' name = 'dist_11'></a><a class='in_div ' name = 'dist_12'></a><a class='in_div' name = 'dist_13'></a><a class='in_div' name = 'dist_14'></a><a class='in_div' name = 'dist_15'></a><a class='in_div' name = 'dist_16'></a><a class='in_div' name = 'dist_17'></a><a class='in_div' name = 'dist_18'></a><a class='in_div' name = 'dist_19'></a></div></td>
+<td id ='{{date}}_15-18'><div class='out_div'><a class='in_div ' name = 'dist_1' ></a><a class='in_div ' name = 'dist_10' ></a><a class='in_div ' name = 'dist_11'></a><a class='in_div ' name = 'dist_12'></a><a class='in_div' name = 'dist_13'></a><a class='in_div' name = 'dist_14'></a><a class='in_div' name = 'dist_15'></a><a class='in_div' name = 'dist_16'></a><a class='in_div' name = 'dist_17'></a><a class='in_div' name = 'dist_18'></a><a class='in_div' name = 'dist_19'></a></div></td></tr>{% endfor %}
+</tbody>
+</table> 
+</div>
+
+
+
+
+
+
+ 
+
+
+{% endblock %}

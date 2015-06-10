@@ -1,0 +1,93 @@
+/*КАЛЕНДАРЬ*/
+.datepicker {
+width: 120px;
+margin: 0;
+padding: 4px 8px;
+background: #fff url(/media/images/cal.gif) no-repeat 96% 50%;
+box-shadow: inset 0 1px 0 rgba(0,0,0,.06);
+border: 1px solid #d4d4d4;
+border-radius: 4px;
+color: #2a2a2a;
+font: 12px Arial, sans-serif;
+cursor: pointer;
+}
+/*КАЛЕНДАРЬ*/
+/*FINANSY*/
+      #first_rate_value_chosen{
+    margin-left: 100px ;
+}
+.head{
+    text-align: center;
+    margin-left: -85px;
+}
+.b-table{
+    margin-left: 190px;
+}
+.widget__title{
+    color:  #535353 !important;
+}
+#big_rate{
+    font-size: 20px;
+    display: inline;
+}
+            .date_value{
+                color: #898989;
+
+            }
+.green{
+                                        color: green;
+                                }
+                                .red_change{
+                                    color: red;
+                                }
+                                header{
+                                    margin-left: -50px;
+                                }
+                                .b-table_margin{
+                                    margin-left: -50px;
+                                }
+                                .widget__title {
+                                    
+                                    display: block;
+                                    margin: 0px 0 10px;
+                                    border-bottom: 1px solid transparent;
+                                    color: #222222;
+                                    line-height: 1;
+                                    font-weight: bold;
+                                    font-size: 16px;
+                                    text-transform: uppercase;
+                                    }
+                                    .b-table th, .b-table .b-table-th {
+
+                                        color: #566473;
+                                        background-color: #ecf0f1 !important;
+                                        font-size: 14px;
+                                        font-weight: bold;
+                                        }
+                                        thead {
+                                            display: table-header-group;
+                                            vertical-align: middle;
+                                            border-color: inherit;
+                                                }
+tr {
+display: table-row;
+vertical-align: inherit;
+border-color: inherit;
+}
+strong, b {
+font-weight: bold;
+}
+
+p {
+color: #535353;
+}
+.b-table th, .b-table td {
+text-align: left;
+ }
+ .b-table th, .b-table td {
+     text-align: left;
+   vertical-align: top;
+  padding: 10px 5px 10px 14px;
+ border-bottom: 2px solid #ecf0f1;
+}
+/*END_FINANSY*/

@@ -1,0 +1,247 @@
+ <script type="text/javascript" src="{{ MEDIA_URL }}js/error.js"></script>
+ <script type="text/javascript" src="{{ MEDIA_URL }}js/equipment_rent.js"></script>
+ 
+<style>
+.count_panel {
+	width: 76px;
+	height: 20px;
+	padding: 2px;
+	padding-top: 6px;
+	margin: 0;
+	/*border: 2px solid #999;
+	border-radius: 5px;*/
+}
+
+.add,
+.remove {
+	position: inherit;
+	display: inline;
+	width: 20px;
+	height: 16px;
+	font-size:9px;
+}
+
+.add {
+	float: right;
+}
+
+.remove {
+	float: left;
+}
+.ip {
+	display: inline !important;
+	width: 18px;
+	margin-left: 8px;
+	margin-top: -2px;
+	align: center;
+	text-align: center;
+	border-radius:5px;
+	color: #3a7cbd;
+}
+.type-4 td
+{padding: 1px 2px 3px;}
+.type-4 th
+{padding: 1px 2px 3px;}
+</style>
+
+<form id="equipment_rent_zakaz" method="post"   ">
+    <div id = "my" style= "border-style: solid; border-radius: 7px; border-color: #bebebe; border-width: 1px; overflow: auto;">
+    <table class="type-4 modal" style="width:560px; border-style:none;">
+        <caption>
+            <h1 class="title">Оформление заказа</h1>
+        </caption>
+     </table>  
+   
+     
+     
+     
+        
+	 <table cols="4" class="type-4 modal" style = "width:500px; margin-left:30px; margin-right:30px; border-width: 1px; border-radius:0px !important; padding:0px !important;"  >
+	   <tbody>
+            <tr style="background: #f3f3f3; ">
+              <th style = "width:250px;">Аренда оборудования</th>
+              <th style = "width:90px;">Аб. плата</th>
+              <th>Количество</th>
+              <th>Стоимость</th>
+            </tr>
+            <tr>
+        </tbody>
+     </table>
+         
+      <div id = "select_device">      
+      <table cols="4" class="type-4 modal" style = "width:500px; margin-left:30px; margin-right:30px; border-width: 1px; border-radius:0px !important;"  >
+	   		<tbody>
+	   		<tr>
+              <td style = "width:250px;">
+                    <select class="value" name= "device_type" id="device_type/1" onchange="change_cost(id, name)" > <!-- передаем id изменившегося элемента, тип изменения -->
+                        {% for ds_query in devices_queryset %}
+                            <option value="{{ ds_query.id }}">{{ ds_query.name }}</option>
+                        {% endfor %}
+                    </select>
+              </td>
+              <td style = "width:81px;"><font id="abonent_fee/1">{{ device.abonent_fee }}</font> руб.<req>*</req>
+              </td>
+             <td style = "width:71px; padding:7px;">
+             	<input name="quantity" id="quantity/1" type="text"  size="50" value= '1' ;"></input>
+             </td>
+               <td><font id="cost/1">{{ device.abonent_fee }}</font> руб.<req>*</req></td>
+            </tr>
+            </tbody>   
+     	 </table> 
+       </div>
+          
+         
+      <table cols="2" class="type-4 modal" style="width: 510px; margin-left:26px; margin-right:10px; border-style:none;"> 
+	     <tbody>
+	    <tr>
+			<td style = "width:150px ;"><input  class="bt bt-grey" type="button" value="Ещё оборудование..." onClick="AddItem();" ID="add"></td>
+			
+		</tr>
+		<tr>
+                <td style = "width:150px;" id = "label_cost">Стоимость всего заказа</td>
+                <td ><label class="value"><font id="cost_all">{{ device.abonent_fee }}</font> руб.<req>*</req></label></td>
+        </tr>
+        <tr> {% comment %}
+                <td style = "width:70px;">Способ доставки<req>**</req> </td>
+
+                <td>
+                    <select id = "delivery" style ="width:200px;" onchange = "need_of_delivery(value) ">
+                        <option value="no_delivery" >Забрать самостоятельно</option>
+                        <option value="delivery">Нужна доставка курьером</option>
+                    </select>
+                </td>
+                {% endcomment %}
+
+                <tr> 
+            <tr> 
+            	<td id = "ad_dil_label" style = "display:none; " >Адрес доставки</td>
+            	<td id = "ad_dil_input" style = "display:none; ">   <input type="hidden" id="delivery" value="no_delivery"><input type = "text" id = "delivery_address" style ="width:200px;"></td>
+            </tr>
+            <tr>
+            	<td id = "ad_tel_label" style = "display:none; " >Номер телефона</td>
+            	<td id = "ad_tel_input" style = "display:none; "><input type = "text" id = "tel_number"  style ="width:200px;"></td>
+            </tr>
+            <tr>
+            <td id = "take_away_address"  colspan ="2" style = "display:table-cell;" >Забрать оборудование можно будет по адресу ул. Миклухо маклая дом 23</td>
+            </tr>
+            <tr>	
+            	<td id = "error" style = "display:table-cell; color:red;"></td>
+            </tr>
+            
+            
+        </tr>
+          
+          </tbody>
+ 	  </table> 
+          
+        
+	     
+		 <table class="type-4 modal" style="width: 560px;  border-style:none;"> 
+	    	 <tbody>
+            {% if not account %}
+                {% if user %}
+                    <tr>
+                        <td colspan="2" style="padding: 0; padding-left: 15px; padding-right: 15px; padding-bottom: 10px; padding-top: 10px; background: #ffe6c5;">
+                            <label style="width: 70%"><input type="hidden" name="face" id="face_2"  value="2">
+                            Вы авторизованы как пользователь: <strong>{{ user }}</strong></label></td>
+                {% else %}
+                    <tr>
+                        <td colspan="2" style="padding: 0; padding-left: 15px; padding-bottom: 10px; padding-top: 10px; background: #ffe6c5;">
+                            <label><input name="face" type="radio" id="face_0"  value="0" checked="checked"><strong>Зарегистрироваться</strong></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding: 0; padding-left: 15px; padding-right: 15px; padding-bottom: 10px; background: #ffe6c5;">
+                           <label><input type="radio" name="face" id="face_1" value="1"><strong>Авторизоваться в системе</strong></label>
+                {% endif %}
+                        </td>
+                    </tr>
+            {% endif %}
+            <tr>
+                <td colspan="2" style="background: #FFF ;">        
+                    <div class="ugc" style="margin: 0; display:inline-block;">
+                        <p><small><req>*</req> Все цены приведены без учёта НДС.</small></p>
+                       {% comment %}
+                        <p><small><req>**</req> Стоимость доставки в пределах г.Москва 300 руб.</small></p>
+                        {% endcomment %}
+                    </div>
+                    {% if conf %}
+	                    <button class="bt bt-blue2" type="button" onclick="step_auth_conf('{{ name }}', '{{ abonent_fee }}', '{{ tariff_id }}', '{{ tariff }}')">Далее</button>
+                    {% else %}
+	    	            <button class="bt bt-blue2" type="button" onclick="step_auth('{{ device.device_id }}', '{{ account }}')">Далее</button>	
+                    {% endif %}
+
+                </td>
+            </tr>
+        </tbody>
+ </table>
+ </div>
+</form>
+
+
+
+
+<script type="text/javascript">
+////////////////////////////////////////////////////////////////////////////////////
+// по окончанию закргузки всех элементов DOM ставим текущим пунктом(select) тот тип оборудования, который был выбран по нажатию кнопки 'Заказать'
+$( document ).ready(function() {
+	
+	var device_id_to_go = {{ device.device_id }};
+	var element = document.getElementById('device_type/1');
+    element.value = device_id_to_go;
+	
+	
+	window.onresize = function ()
+	{
+		$('#my').css("height", "auto");
+		  var h = $('#id_popup').height();
+		  var h1 = $(window).height();
+		  var stpx = h1.toString() + "px";
+		  if (h1-h<0)
+			  {  
+			  	  $('#my').css("overflow-y", "scroll");
+			  	  $('#my').css("height", stpx);}                                        
+		  
+		  if (h1-h>0)
+		  {  
+			  $('#my').css("overflow-y", "hidden");
+		  	  $('#my').css("height", "auto");}    
+	}
+	
+	// событие на изменение количества 
+	
+	  id_quant  = "quantity/1" ;
+	  id_cost = "cost/1" ;
+	  input=document.getElementById(id_quant);
+	  input.oninput = function fun() {
+		 //alert('fun');
+		 id = document.activeElement.id;      //ok
+		 value = document.activeElement.value;  //ok
+		  //добавим проверку введенных данных (поле количество)
+		if (!numeric(value))  {
+			  cur_id = document.activeElement.id;
+			  cur_cost_st = cur_id.split('/');
+			  cur_cost = "cost/" + cur_cost_st[1];
+			  document.getElementById(cur_cost).innerHTML = "0";
+			  document.getElementById('error').innerHTML = 'Введите цифру'
+			  document.getElementById('error').style.display='table-cell';
+			  }
+		 else {
+		 change_cost(id, "quantity");
+		 document.getElementById('error').style.display='none';} 
+	  calc_total_cost();
+	  }
+	  
+	  
+	  //добавим проверку введенных данных (поле номер телефона) 
+	 
+	 
+  
+    	  
+    	  
+});
+
+
+
+</script>
+

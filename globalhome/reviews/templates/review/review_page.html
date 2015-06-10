@@ -1,0 +1,346 @@
+{% extends 'base_public.html' %}
+{% load i18n form_tags lib_tags %}
+
+
+
+span.tab{
+    padding: 0 80px; /* Or desired space*/
+}
+
+{% block extrahead %}
+    {{ block.super }} 
+
+<script type="text/javascript">
+	function checked(key, review) {
+		dictionary={'delete':'Вы уверены, что хотите удалить комментарий \nВсе комментарии, которые были ответами на данный отзыв также удалятся.', 
+					'hide':'Действительно вы хотите скрыть комментарий от всех пользователей\nВсе отзывы, которые были ответами на данный отзыв станут невидимыми для всех пользователей.', 
+					'public':'Вы действительно хотите подтвердить корректность отзыва?'}
+		if (dictionary[key] && confirm(dictionary[key])) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	function link(key, value, comment_obj) {
+		if (key=='parent' || key=='section' || key=='page' || checked(key, comment_obj)){
+			cur_url = window.location.toString();
+			if ((cur_url.indexOf('parent=') +1) && key!='parent'){
+				parent_value = cur_url.substring(cur_url.indexOf('parent=')+'parent='.length)
+				alert(parent_value.split('&')[0]);
+				cur_url = cur_url.replace('parent='+parent_value.split('&')[0], '');
+				cur_url = cur_url.replace('#form', '');
+			}
+			
+			part_for_add = '';
+			if(key == 'section'){
+			link('page',1)}
+			if (index = cur_url.indexOf(key+'=') + 1){	
+				part_for_add = key+'='+value;
+				endindex = cur_url.indexOf('&', index);
+				if (endindex!=-1){
+					part_for_add += cur_url.substr(endindex,cur_url.length);
+				}
+				cur_url = cur_url.substr(0,index-1);
+			}
+			else if(cur_url.charAt(cur_url.length-1)=='?')
+					part_for_add = key+'='+value;
+			else if(cur_url.charAt(cur_url.length-1)=='/')
+				part_for_add = '?'+key+'=' + value;
+			else if(cur_url.charAt(cur_url.length-1)=='&')
+				part_for_add = key+'=' + value;
+			else
+				part_for_add = '&'+key+'='+value;
+			if (part_for_add.indexOf('#form')==-1 && part_for_add.indexOf('parent')+1)
+				part_for_add+='#form';
+			location.href = cur_url + part_for_add;
+		}
+	}
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<p class="breadcrumbs">
+	{% for bredcrumb in  breadcrumbs %}
+		{% for key, value in  bredcrumb.items %}
+			{% if key == 'href' and value %}<a href={{ value }}>
+			{% elif  key == 'value'%} {{ value }}</a>
+			{% elif  key == 'zspan' and value %} <span>{{ value }}</span>
+			{% endif %}
+		{% endfor %}
+	{% endfor %}
+</p>
+{{ block.super }} 
+</td></th></tr>
+
+{% if header1 %}<h1 class="title">{{ header1 }}</h1>{% endif %}
+
+<div class="toggle" style="margin: auto; float: none; width: 250px;">
+{% for reference in references %}
+	<a href="{{reference.href}}" class="toggle-head"> {{reference.label}}</a>
+{% endfor %}
+</div>
+
+{% if page_text %}<div class="ugc"><p>Мы непрерывно работаем над улучшением предоставляемых услуг, поэтому нам важно знать мнение каждого клиента. Вы можете оставить свои отзывы, пожелания или замечания, как об конкретных услугах, так и о работе компании в целом. Пожалуйста, старайтесь быть максимально информативными при написании отзыва.</p></div>{% endif %}
+
+{% if sections %}
+	<p align="right" style = " font-size: 16px; font-style:italic;  ">Выберите раздел отзывов, который вы бы хотели просмотреть:</p>
+	<div class="tab-header">
+	{% for section_key, section_value in sections.items %}
+		<div id="{{section_key}}" style="text-decoration: none; font-size: 16px; display: inline;"  title="{{section_value}}" onclick="OnClickTab('{{section_key}}')"><a href = "#" style = "color: white;text-decoration: none; padding-bottom:40px; ">{{section_value}}</a></div>
+	{% endfor%}
+	</div>
+	<div class="tab-body">
+
+	{% if not objects %}
+		<div id = "none_o" style = "padding:10px; padding-bottom: 10px;">
+		<i style = "margin-left:35%;opacity: 0.6;">Отзывы не найдены...</i><br>
+	{% else %}
+		<div id = "none_o" style = "padding:10px; padding-bottom: 0px;">
+	{% endif %}
+	
+	<!--h1 class="title">{{ title }}</h1-->
+	{% for level, comment_obj, review_section in objects %}
+	<div style="margin-left:{{level}}%">
+		<div style = "opacity: 1; margin-bottom: -10px;  background: #FEFEFE;">
+		<div style = "opacity: 1; margin-bottom: -15px;  background: #EFEFEF;   padding: 0px;">
+			<small><a style = "float: right;padding-left: 8px; padding-right: 8px;  color: #0000FF; " href="javascript:link('parent', {{ comment_obj.id }})" target="_blank" id="response" >Ответить</a></small>
+			{% if user_reviews %}
+				{% if superuser %}
+					{% if comment_obj.is_public %}
+					<a href="javascript:link('hide', {{ comment_obj.id }})" title="Отменить подтверждение администратором"><img style = "float: right; padding-left: 8px; padding-right: 8px;" name="is_public" src="/media/img/icons/icon-yes.gif"  value="public"></a>
+					{% else %}
+					<a href="javascript:link('public', {{ comment_obj.id }})" title="Сделать видимым для всех"><img style = "float: right; padding-left: 8px; padding-right: 8px;" name="is_public" src="/media/img/icons/icon-no.gif"  value="public"></a>
+					{% endif %}
+				{% else %}
+					{% if comment_obj.is_public %}<img style = "float: right; padding-left: 8px; padding-right: 8px;" name="is_public" src="/media/img/icons/icon-yes.gif" title="Этот отзыв подтверждён администратором">
+					{% else %}<img style = "float: right; padding-left: 8px; padding-right: 8px; " name="is_public" src="/media/img/icons/icon-no.gif" title="Отзыв ещё  не подтверждён администратором">{% endif %}
+				{% endif %}
+				
+				{% if comment_obj.user == user or superuser %}
+				
+					<a style="margin-left:10px; color:#0000A0" href="javascript:link('delete', {{ comment_obj.id }})" title="Удалить"><img style = "float: right; " name="is_public" src="/media/img/icons/icon_deletelink.gif" ></a>
+					<a style="margin-left:10px"></a>
+				{% endif %}
+				
+			{% endif %}
+
+			<i align="left"  style = "font-size: 18px; font-weight: 100; margin-left:2%;" class="review_declaration">
+			{% if section %}
+			<small style = "color: #000000; font-size: 11px ;">Пользователь </small><small>{{ comment_obj.user_name }}:</small>
+			{% else %}
+			<small style = "color: #000000; font-size: 11px ;">Пользователь </small><small>{{ comment_obj.user_name }} </small><small style = "color: #000000; font-size: 11px ;"> оставил отзыв для раздела:  {{ review_section }}</small>
+			{% endif %}
+			</i>
+			<style type="text/css">
+				#response:hover{
+					color: #2170A0 !important;
+				}
+
+			</style>
+			<small><i style=" margin-left:10px;" ><small>{{ comment_obj.created_at.date }}</small></i></small>
+		</div>
+		<p style = "opacity: 0.6; color:   black; border-radius: 0px; border: 0px solid #FDE1C5; padding: 8px; margin-bottom: 0; margin-top: 10px;" >{{ comment_obj.comment }}</p>
+		</div>
+	</div>
+	<br>
+	{% endfor %}
+
+	</div>
+</div>
+{% endif %}
+
+
+	
+<div style="font: 16px Arial;">
+
+<span id="form"><span>
+<br>
+{% if user_reviews %}
+	<div style="text-align: right; color: #b5b4b4"><i><small>
+		Отзывы, помеченные с помощью <img name="is_public" src="/media/img/icons/icon-yes.gif" value="public">, видны для всех пользователей и подтверждены администрацией сайта,<br>
+		а помеченные отзывы с помощью <img name="is_public" src="/media/img/icons/icon-no.gif" value="public"> видны только для вас и их не подтвердила админгистрация сайта.
+		<br>Мы благодарим вас за ваши отзывы.
+	</small></i></div>
+{% endif %}
+</div>
+
+<div style="text-align:center;">
+	{% if page.has_previous %}
+	<input type="button" onClick="link('page','{{ page.previous_page_number }}')" class="bt bt-blue2" value="<<"/>
+		{% if page.has_next %}{% else %}
+		<span class="current">  {{ page.number }} из {{ page.paginator.num_pages }} </span>
+		{% endif %}
+	{% endif %}
+	{% if page.has_next %}
+	<span class="current">  {{ page.number }} из {{ page.paginator.num_pages }} </span>
+	<input type="button" class="bt bt-blue2" onClick="link('page','{{ page.next_page_number }}')"value=">>" />
+	{% endif %}
+</div>
+<style type="text/css">
+/*Исключительно для вкладки телефония Содержащий весь контент закладки блок, для предания внутреннего отступа контента*/
+
+.tab-control { /*Основной блок*/
+	border : none;
+	width : 95%;           
+	padding : 0px;
+}
+
+.tab-header { /*Заголовки*/
+	font-size : 14px;
+	text-align: center;
+	color: white;
+	font-size: 14px;
+	border : none;
+	width : 200%;
+	height: 20px;        
+	padding : 0px;
+	margin-top: 30px; 
+}
+
+.tab-header > div { /*Отдельный заголовок*/
+	border-left : 1px solid #ddd;
+	border-radius:10px 10px 0px 0;  
+	background-color : #FF9521;
+	height: 20px;
+	padding : 5px;
+	float : left;
+	cursor : pointer; 
+	width: 148.4px;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+
+.tab-header > div:hover { /*Текущий заголовок*/
+	height: 40px;
+	margin-top: -20px;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+
+.tab-body { /*Содержимое закладок*/
+	border : none;
+	width : 100%;       
+	margin : 0px;         
+	padding : 0px;
+	clear : both; 
+}
+
+.tab-body > div { /*Содержимое отдельной закладки*/
+          border : 1px solid #FF9521; 
+          /*border-left : 1px solid #FF9521; */
+          border-radius:0 5px 5px 5px;  
+	  background-color : white;
+          overflow: auto; /*Прокрутка запрещена, если она нужна, то следует поставить значение auto*/
+          width : 100%;
+          height: 100%;         
+          padding : 1px;
+
+}
+	
+</style>
+	<script>
+	function OnClickTab(tabhid){
+		if(tabhid){
+			href = "?section=".concat(tabhid);
+			url = window.location.href;
+			if(window.location.search)
+				url = url.replace(window.location.search, href);
+			else
+				url = url.concat(href);
+			window.location.href = url;
+			$('#'.concat(tabhid,'a')).attr('href', href);
+		}
+	}
+	href = window.location.search;
+	if (index = href.indexOf("section=") + 1){	
+		endindex = href.indexOf('&', index);
+		if (endindex==-1)
+			endindex = href.indexOf('#', index);
+		if (endindex!=-1)
+			tabhid = href.substr(index+"section=".length-1, 1);
+		else 
+			tabhid = href.substr(index+"section=".length-1, href.length);
+	}
+		else tabhid = 0;
+	 var tabh = document.getElementById(tabhid);
+	 
+	 
+	 //Ссылка на элемент tab-header
+	 var tabheader=tabh.parentNode;
+	
+	 
+	 
+	 //Получаем все заголовки
+	 var tabhs;
+	 tabhs = SelectChildren(tabheader,'div');
+	
+	
+	 
+	 //Изменяем стиль ранее выбранного заголовка
+	 for(var i = 0; i < tabhs.length; i++)
+		 if (tabh.style.backgroundColor = '#eeeeee')
+			tabhs[i].style.background = 'linear-gradient( #2884EA, #55B1FF)';
+			
+	 //Изменяем стиль выбранного заголовка
+	 tabh.style.background = 'linear-gradient( #FFA632, #FF9521)';
+	
+	 var tabcontrol;
+	 try {
+		 tabcontrol = tabheader.parentNode;
+	 } catch (ex)
+	 {
+		 //return;
+	 }
+	 var tabbody;
+	 try {
+		 tabbody = tabcontrol.getElementsByClassName('tab-body')[0];
+	 } catch (ex)
+	 {
+		// return;
+	 }
+	 var tabs;
+	 tabs = SelectChildren(tabbody,'div');
+	
+	
+
+	
+	/*Функция выбора дочерних элементов по имени тэга*/
+	function SelectChildren(node, childname)
+	{
+	 var result = [];
+	
+	 for(var i = 0; i < node.childNodes.length; i++)
+		{
+		 var child = node.childNodes[i];
+		 if (child.nodeType==1) //Элемент
+			if (child.tagName.toLowerCase()==childname.toLowerCase())
+			   result.push(child); 
+		}
+
+	 return result; 
+	}
+</script>
+
+{% endblock %}                                     
+     
+
+
+
+
+
+
+
+
+
+

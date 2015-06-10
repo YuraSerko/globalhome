@@ -1,0 +1,243 @@
+{% extends 'base_private.html' %}
+{% load i18n %}
+{% block extra_head %}	
+<script type="text/javascript">	
+
+	function onClick(clickedId){
+		order_by = clickedId
+		uri = document.location.href
+		index = uri.indexOf("order_by=")
+		if (index < 0){
+			uri = setURLParameter(uri, "order_by", "datetime")
+			uri = setURLParameter(uri, "order_type", "DESC")
+		}
+		field_name = getURLParameter(uri, "order_by")
+		if (field_name == order_by){
+			if (getURLParameter(uri, "order_type") == "DESC")
+				uri = setURLParameter(uri, "order_type", "ASC")
+			else
+				uri = setURLParameter(uri, "order_type", "DESC")
+		} else uri = setURLParameter(uri, "order_type", "DESC")
+		uri = setURLParameter(uri,"order_by",order_by)
+		window.location.href = uri
+	}	
+	
+	$(document).ready( function(){
+		index = document.location.href.indexOf("order_by=")
+		if (index == -1){
+			uri = document.location.href
+			uri = setURLParameter(uri, "order_by", "datetime")
+			uri = setURLParameter(uri, "order_type", "DESC")
+			row = document.getElementById("datetime")
+			row.innerHTML = row.innerHTML + " &#9660;"
+		}
+		else{
+			sortedRow = getURLParameter(document.location.href, "order_by")
+			order_type = getURLParameter(document.location.href, "order_type")
+			row = document.getElementById(sortedRow)
+			text = row.innerHTML
+			if (order_type == "DESC")
+				row.innerHTML = text + " &#9660;"
+			else row.innerHTML = text + " &#9650;"
+		}
+	})
+	
+	function setURLParameter(uri, key, value) {
+		var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
+		separator = uri.indexOf('?') !== -1 ? "&" : "?";
+		if (uri.match(re)) {
+			return uri.replace(re, '$1' + key + "=" + value + '$2');
+		}
+		else {
+			return uri + separator + key + "=" + value;
+		}
+	}
+	
+	function getURLParameter(uri, name) {
+		return decodeURI(
+			(RegExp(name + '=' + '(.+?)(&|$)').exec(uri)||[,null])[1]
+		);
+	}
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+<h1 class="title">Статистика по номеру {{ tel_number }}</h1>
+     
+   
+        <div class="ugc">
+            <p>Здесь можно посмотреть входящие или  исходящие звонки. Вам нужно заполнить необходимые поля и нажать кнопку  "Показать"</p>
+        </div>
+        
+       {{ block.super }}
+        
+      <form>
+        {{ form.errors }}
+     	 <div class="filter">
+            <div class="filter-body">
+                <div class="filter-body-left">
+                    Дата:
+                    <label>
+                        <span class="label">с:</span>
+                        {{ form.date_from }}
+                    </label>
+                    <label>
+                        <span class="label">по:</span>
+                        {{ form.date_to }}
+                    </label>
+					<div class="form-item" style="padding:12px 0 0 0">
+						Звонки:
+						<label>
+							{{ form.call_length_type }}
+						</label>
+						<label>
+							{{ form.call_type }}
+						</label>
+					</div>
+                </div>
+				
+                {% if is_juridical %}
+                <div class="filter-body-right">
+                    <div class="form-item">
+                        <label>
+                            <span class="label">Вызывающий абонент:</span>
+                            {{ form.caller_number }}
+                        </label>
+                    </div>
+                    <div class="form-item">
+                        <label>
+                            <span class="label">Вызываемый абонент:</span>
+                            {{ form.called_number }}
+                        </label>
+                    </div>
+					<div class="form-item">
+                        <label>
+                            <span class="label">Группа:</span>
+                            {{ form.group }}
+                        </label>
+                    </div>	
+                </div>
+                {% endif %}
+            </div>
+       		<input type="hidden" name="filter" value="1">
+            <div class="filter-ctrl">
+                <input type="submit" class="bt bt-blue2" value="{% trans 'Show' %}">
+                <input type="submit" class="bt bt-blue2" value="{% trans 'Clear' %}" onclick="location.href='{% url "account_phone_statistics" tel_number_id %}'; return false;">
+            </div>
+        </div>
+		
+	{% if statistics %}		
+		<table class="type-2">
+			<thead>
+				<tr>
+					<th>Общее количество звонков</th>
+					<th>Процент состоявшихся разговоров</th>
+					<th>Средняя продолжительность разговора(мин.)</th>
+					<th>Общая продолжительность разговоров(мин.)</th>
+					<th>Общая стоимость разговоров, RUR</th>
+				
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{ statistics.count }}</td>
+					<td>{{ statistics.count_held|floatformat:0 }}%</td>
+					<td>{{ statistics.time }}</td>
+					<td>{{ statistics.total_time|floatformat:0 }}</td>
+					<td>{{ statistics.price|floatformat:2 }}</td>
+					
+				</tr>
+			</tbody>
+		</table>
+	{% endif %}
+		
+	{% if transactions %}
+    <table class="type-b" id="balance">
+        <thead>
+            <tr>
+                <th id="caller_number" onClick="onClick(this.id)">Вызывающий абонент</th>
+                <th id="called_number" onClick="onClick(this.id)">Вызываемый абонент</th>
+                <th id="zone" onClick="onClick(this.id)">Зона / Номер, принявший звонок</th>
+				<th id="group_name" onClick="onClick(this.id)">Группа</th>
+				<th id="datetime" onClick="onClick(this.id)">Начало звонка</th>
+                <th id="session_end" onClick="onClick(this.id)">Конец звонка</th>
+                <th id="billable_session_length" onClick="onClick(this.id)">Длительность разговора (сек.)</th>
+                <th id="price" onClick="onClick(this.id)">Цена за минуту</th>
+                <th id="summ" onClick="onClick(this.id)">Списано, RUR</th>
+				<th>Запись разговора</th>
+            </tr>
+        </thead>
+        <tbody>
+		
+        {% for trans in transactions %}
+            <tr>
+                <td>{{ trans.caller_number }}</td>
+                <td>{{ trans.called_number }}</td>
+                <td>
+					{% if trans.outgoing %}
+						{% if not trans.tel_zone = null %} 
+							{{ trans.tel_zone }}
+						{% endif %}
+					{% else %}
+						{% if not trans.answer_number = null %}
+							{{trans.answer_number}}
+						{% endif %}
+					{% endif %}
+				</td>
+				<td>
+					{% if trans.group_name != null %}{{ trans.group_name }}{% else %}без группы{% endif %}
+				</td>
+                <td style="width:10px">{{ trans.datetime|date:"d.m.Y H:i:s" }}</td>
+                <td>{{ trans.session_end|date:"d.m.Y H:i:s" }}</td>
+                <td>{{ trans.billable_session_length }}</td>
+                <td>{{ trans.price }}</td>
+                <td>{{ trans.summ|floatformat:4 }}</td>
+				<td>
+					{% if trans.file != None %}
+						<object id="monFlash" type="application/x-shockwave-flash" data="/media/vkplay2/template_maxi/template_maxi/player_mp3_maxi.swf" width="200" height="20">
+									<param name="wmode" value="transparent" />
+									<param name="movie" value="/media/vkplay2/template_maxi/template_maxi/player_mp3_maxi.swf" />
+									<param name="FlashVars" value="mp3=/account/listen_file_transaction/{{ trans.answer_number }}/{{ trans.file }}&amp;bgcolor1=ffffff&amp;bgcolor2=cccccc&amp;buttoncolor=999999&amp;buttonovercolor=6495ED&amp;slidercolor1=cccccc&amp;slidercolor2=999999&amp;sliderovercolor=6495ED&amp;textcolor=0&amp;showvolume=1" />
+						</object>
+					{% elif trans.redirect_file != None %}
+						<object id="monFlash" type="application/x-shockwave-flash" data="/media/vkplay2/template_maxi/template_maxi/player_mp3_maxi.swf" width="200" height="20">
+									<param name="wmode" value="transparent" />
+									<param name="movie" value="/media/vkplay2/template_maxi/template_maxi/player_mp3_maxi.swf" />
+									<param name="FlashVars" value="mp3=/account/listen_file_transaction/{{ trans.redirect_answer_user }}/{{ trans.redirect_file }}&amp;bgcolor1=ffffff&amp;bgcolor2=cccccc&amp;buttoncolor=999999&amp;buttonovercolor=6495ED&amp;slidercolor1=cccccc&amp;slidercolor2=999999&amp;sliderovercolor=6495ED&amp;textcolor=0&amp;showvolume=1" />
+						</object>
+					{% else %}
+						{% if use_record %}
+							{% if trans.record_id > 0 %}
+								{% if trans.record_enabled %}
+									Нет записи
+								{% else %}
+									<a href="{% url "edit_record_talk" trans.record_id %}">Активировать</a>
+								{% endif %}
+							{% elif trans.redirect_record_id > 0 %}
+								{% if trans.redirect_record_enabled %}
+									Нет записи
+								{% else %}
+									<a href="{% url "edit_record_talk" trans.redirect_record_id %}">Активировать</a>
+								{% endif %}
+							{% else %}
+								<a href="{% url "create_record_talk" %}">Подключить</a>
+							{% endif %}						
+						{% else %}
+							<a href="{% url "list_record_talk_tariff" %}">Подключить услугу</a>
+						{% endif %}
+					{% endif %}				
+				</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+     <div class="ctrls">
+            {% include 'paginator.html' %}
+      </div><!--ctrls-->
+      
+   	{% endif %}
+    </form>
+{% endblock %}

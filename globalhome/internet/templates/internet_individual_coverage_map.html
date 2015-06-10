@@ -1,0 +1,149 @@
+﻿{% extends 'base_public.html' %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class = "ugc">
+    <h1 class="title">Карта покрытия интернет для физических лиц</h1>
+</div>
+<div id="search">
+<div class="search-input">
+<div class = "cut">
+<div class="sel">
+
+<select id="id_sity" onchange="query()" > 
+{% for city in allcities %}
+<option  value={{city.city}}>{{city.city}}</option>
+{%endfor%}
+ </select>
+</div>
+</div>
+<input type="text" id="id_search" placeholder="Введите улицу">
+</div>
+<div class="search-button " title="Поиск адресов"></div>
+<div id="mod">
+<div class="close_button "></div>
+<div id="result"></div>
+</div>
+</div>
+<script>
+function clear(){
+$("#mod").hide()
+$("#id_search").val('')
+}
+function query(){ 
+var items = { item:$('#id_search').val(),
+              city:$('#id_sity').val(),
+             }
+		$.ajax({
+               url: "/internet/interactive_search_point/2/",
+               type: "POST",
+               data: items,
+               cache: true,
+			   async: true,
+               success: function(html){
+                   $("#result").html(html)
+                }  
+           });
+            $("#mod").show()
+            var val = $("#id_search").val()
+            if (val=='')
+               $("#mod").hide()        
+}
+
+$(".close_button" ).click(clear)
+$("#id_search").keyup(query)
+ </script>
+
+<script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+
+<div id="map" style=" height: 600px; margin-bottom:57px; display:block"></div>      
+
+ <script type="text/javascript">
+ var a='';
+ function ajax_points()
+ {   
+	 $.ajax ({
+         url: "/internet/indivdual/ajax_internet_indivdiual_points",
+         cash: false,
+         async:true,
+         complete: function(html)
+           {
+        	 
+        	var st = html.responseText;
+          	ymaps.ready(init);
+            var myMap, 
+                myPlacemark, myPlacemark1;
+                
+
+            function init(){
+
+                myMap = new ymaps.Map ("map", {
+                    center: [55.76, 37.64],
+                    zoom:12,
+                    behaviors: ["default", "scrollZoom"],
+                });         
+                myMap.controls.add(
+                new ymaps.control.ZoomControl()
+                );
+               arr_one_elem = st.split(':'); 
+               for (var i = 0; i<arr_one_elem.length; i++)
+           	   { 
+           	     arr_one_elem_splitted  = arr_one_elem[i].split(',');
+           	     myPlacemark = new ymaps.Placemark([arr_one_elem_splitted[1],arr_one_elem_splitted[0]],{balloonContent:arr_one_elem_splitted[2],}, {
+                 preset:"twirl#lightblueDotIcon",
+                 iconImageOffset: [0, -43],
+                 hideIconOnBalloonOpen: false,
+                 balloonOffset:[12,-9]
+                                           
+             		});
+           
+
+            // Добавляет метку на карту
+             myMap.geoObjects.add(myPlacemark); 
+
+           	  } //заканчивается for
+               myMap.setBounds(myMap.geoObjects.getBounds());
+            }//заканчивается function init	
+            }//заканчивается function complete
+         });
+
+
+	 
+ }
+ 
+       
+        
+
+        
+function val_a(a, street_id){
+ 
+	var street = $(a).parent().parent().html()
+    var street_id_str = street_id.toString();
+    var street_cut_id = street.indexOf(street_id_str);
+    var street_cut = street.substr(0, street_cut_id);
+    var id_value = street_cut.lastIndexOf('value="');
+    var str_coord = street_cut.substr(id_value+7, street_cut.length);
+    var cs = str_coord.split(',')
+    myMap.setCenter(cs, 17, {
+    checkZoomRange: true
+            })          
+	} //конец val_a
+ 
+        
+$(document).ready(function(){
+	ajax_points();	 
+});        
+        
+        
+        
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,342 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-26 17:37+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: .\admin.py:25 .\models.py:151 .\views.py:31
+#: .\templates\admin\localphone_service\assign_service_packet.html.py:57
+msgid "Local numbers"
+msgstr "Местные номера"
+
+#: .\admin.py:38
+msgid "Add local numbers"
+msgstr "Добавить местные номера"
+
+#: .\admin.py:51
+msgid "Error range!"
+msgstr "Неверный диапазон!"
+
+#: .\admin.py:83
+#, python-format
+msgid "Number %s is incorrect format!"
+msgstr "Номер %s в неверном формате!"
+
+#: .\admin.py:91
+#, python-format
+msgid "Number %s already exists!"
+msgstr "Номер %s уже существует!"
+
+#: .\admin.py:102
+#, python-format
+msgid "%s numbers successfully added"
+msgstr "%s номеров успешно добавлены"
+
+#: .\admin.py:109
+msgid "Edit local number"
+msgstr "Редактировать местный номер"
+
+#: .\admin.py:123
+msgid "Local number successfully reserved"
+msgstr "Местный номер успешно зарезервирован"
+
+#: .\admin.py:128
+msgid "Local number successfully freed"
+msgstr "Местный номер успешно освобожден"
+
+#: .\forms.py:10
+msgid "Available local numbers"
+msgstr "Доступные местные номера"
+
+#: .\forms.py:31 .\templates\add.html.py:15
+#: .\templates\admin\localphone_service\assign_service_packet.html.py:14
+msgid "Please select at least one number!"
+msgstr "Пожалуйста выберите по крайней мере один номер!"
+
+#: .\localphones_functional.py:143
+msgid "User have insufficient funds to perform this operation!"
+msgstr "У пользователя недостаточно средств для завершения этой операции!"
+
+#: .\localphones_functional.py:145
+msgid "Numbers successfully assigned"
+msgstr "Номера успешно назначены"
+
+#: .\models.py:20
+msgid "Is free"
+msgstr "Свободен"
+
+#: .\models.py:21
+msgid "Is reserved"
+msgstr "Зарезервирован"
+
+#: .\models.py:24 .\templates\admin\localphones\edit.html.py:108
+msgid "Assigned at"
+msgstr "Дата назначения"
+
+#: .\models.py:26
+msgid "Account"
+msgstr "Аккаунт"
+
+#: .\models.py:150 .\templates\list.html.py:14
+#: .\templates\admin\localphone_service\sp_application_edit.html.py:4
+#: .\templates\admin\localphone_service\sp_assigned_edit.html.py:4
+msgid "Local number"
+msgstr "Местный номер"
+
+#: .\views.py:60
+#, python-format
+msgid "Edit local number %s"
+msgstr "Редактировать местный номер %s"
+
+#: .\views.py:91
+msgid "Changes have been successfully applied"
+msgstr "Изменения были успешно применены"
+
+#: .\views.py:114
+msgid "Ordering local phone numbers"
+msgstr "Заказ местных телефонных номеров"
+
+#: .\views.py:164
+msgid "You have insufficient funds to perform this operation!"
+msgstr "У Вас недостаточно средств для завершения этой операции!"
+
+#: .\views.py:201
+msgid "Detaching local number"
+msgstr "Отсоединение местного телефонного номера"
+
+#: .\views.py:219
+msgid "Internal service error. Please contact the support."
+msgstr "Внутренняя ошибка. Пожалуйста, свяжитесь со службой поддержки."
+
+#: .\templates\add.html.py:23
+msgid "The cost of adding one number"
+msgstr "Цена добавления одного номера"
+
+#: .\templates\add.html.py:33
+#: .\templates\admin\localphone_service\assign_service_packet.html.py:26
+msgid "Please select your desired local numbers"
+msgstr "Пожалуйста выберите желаемые местные номера"
+
+#: .\templates\add.html.py:61
+msgid "Checkout"
+msgstr "Оформить заказ"
+
+#: .\templates\add.html.py:62 .\templates\delete.html.py:20
+#: .\templates\edit.html.py:30 .\templates\admin\localphones\add.html.py:141
+#: .\templates\admin\localphones\edit.html.py:194
+#: .\templates\admin\localphones\edit.html.py:223
+msgid "Cancel"
+msgstr "Отмена"
+
+#: .\templates\add.html.py:67 .\templates\list.html.py:54
+msgid ""
+"Unfortunately at the moment there are no free city numbers. Please contact "
+"technical support."
+msgstr ""
+
+#: .\templates\delete.html.py:15
+msgid "Are you sure you want to detach local phone number"
+msgstr "Вы уверены что хотите отсоединить местный телефонный номер"
+
+#: .\templates\delete.html.py:19
+msgid "Yes"
+msgstr ""
+
+#: .\templates\edit.html.py:18
+msgid ""
+"This number is not mapped to any one group. To receive calls on this number "
+"you should assign it to an existing or new group."
+msgstr ""
+"Этот номер не назначен ни на одну группу. Чтобы получать звонки на этот "
+"номер вы должны назначить его на существующую или новую группу."
+
+#: .\templates\edit.html.py:26 .\templates\admin\localphones\edit.html.py:187
+#: .\templates\admin\localphones\edit.html.py:219
+msgid "Delete number"
+msgstr "Удалить номер"
+
+#: .\templates\edit.html.py:29 .\templates\admin\localphones\edit.html.py:191
+msgid "Save changes"
+msgstr "Сохранить изменения"
+
+#: .\templates\edit.html.py:35
+msgid "You do not have any group of numbers. You must first create one."
+msgstr ""
+"У Вас нет ни одной группы номеров. Вы должны сначала создать хотя бы одну."
+
+#: .\templates\list.html.py:15 .\templates\admin\localphones\add.html.py:124
+#: .\templates\admin\localphones\edit.html.py:104
+#: .\templates\admin\localphones\edit.html.py:165
+msgid "Region"
+msgstr "Регион"
+
+#: .\templates\list.html.py:16
+msgid "Group name"
+msgstr "Имя группы"
+
+#: .\templates\list.html.py:17 .\templates\list.html.py:27
+msgid "Edit"
+msgstr "Редактировать"
+
+#: .\templates\list.html.py:18 .\templates\list.html.py:28
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\templates\list.html.py:36
+msgid "You have no local numbers. You can add them below."
+msgstr "У Вас нет местных номеров. Вы можете добавить его ниже."
+
+#: .\templates\list.html.py:44 .\templates\list.html.py:49
+msgid "Add numbers"
+msgstr "Добавить номер"
+
+#: .\templates\admin\free_minutes_service\assign.html.py:7
+#: .\templates\admin\free_minutes_service\edit.html.py:7
+msgid "Minutes left"
+msgstr "Минут осталось"
+
+#: .\templates\admin\free_minutes_service\assign.html.py:11
+#: .\templates\admin\free_minutes_service\edit.html.py:11
+msgid "To number"
+msgstr "На номер"
+
+#: .\templates\admin\free_minutes_service\edit.html.py:15
+msgid "To zone"
+msgstr "На зону"
+
+#: .\templates\admin\localphone_service\assign_service_packet.html.py:56
+msgid "No free numbers!"
+msgstr "Нет свободных номеров!"
+
+#: .\templates\admin\localphone_service\assign_service_packet.html.py:57
+msgid "To fix it go here:"
+msgstr "Чтобы исправить это пройдите по ссылке:"
+
+#: .\templates\admin\localphone_service\sp_application_edit.html.py:9
+msgid "To group"
+msgstr "В группу"
+
+#: .\templates\admin\localphones\add.html.py:60
+#: .\templates\admin\localphones\edit.html.py:58
+msgid "Home"
+msgstr ""
+
+#: .\templates\admin\localphones\add.html.py:71
+#: .\templates\admin\localphones\add.html.py:139
+msgid "Add"
+msgstr "Добавить"
+
+#: .\templates\admin\localphones\add.html.py:82
+#: .\templates\admin\localphones\edit.html.py:80
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\templates\admin\localphones\add.html.py:99
+msgid "Adding new local numbers"
+msgstr "Добавление новых местных номеров"
+
+#: .\templates\admin\localphones\add.html.py:103
+msgid "Start range"
+msgstr "Начало диапазона"
+
+#: .\templates\admin\localphones\add.html.py:109
+msgid "End range"
+msgstr "Конец диапазона"
+
+#: .\templates\admin\localphones\add.html.py:115
+msgid "Number state"
+msgstr "Состояние номера"
+
+#: .\templates\admin\localphones\add.html.py:118
+#: .\templates\admin\localphones\functional_configure.html.py:11
+msgid "Reserved"
+msgstr "Зарезервирован"
+
+#: .\templates\admin\localphones\add.html.py:119
+#: .\templates\admin\localphones\functional_configure.html.py:10
+msgid "Free"
+msgstr "Свободен"
+
+#: .\templates\admin\localphones\edit.html.py:100
+#: .\templates\admin\localphones\edit.html.py:161
+#: .\templates\admin\localphones\edit.html.py:202
+msgid "Number"
+msgstr "Номер"
+
+#: .\templates\admin\localphones\edit.html.py:112
+msgid "Assigned to"
+msgstr "Назначен пользователю"
+
+#: .\templates\admin\localphones\edit.html.py:122
+msgid "Group"
+msgstr "Группа"
+
+#: .\templates\admin\localphones\edit.html.py:131
+msgid "Assigned service packet"
+msgstr "Назначенный пакет услуг"
+
+#: .\templates\admin\localphones\edit.html.py:142
+msgid "Phone number in the appointment process!"
+msgstr "Телефонный номер в процессе назначения!"
+
+#: .\templates\admin\localphones\edit.html.py:146
+msgid "Service packet application"
+msgstr "Заявка на пакет услуг"
+
+#: .\templates\admin\localphones\edit.html.py:157
+msgid "It is a free number."
+msgstr "Это свободный номер."
+
+#: .\templates\admin\localphones\edit.html.py:193
+msgid "Make reserved"
+msgstr "Зарезервировать"
+
+#: .\templates\admin\localphones\edit.html.py:198
+msgid "It is a reserved number."
+msgstr "Это зарезервированный номер."
+
+#: .\templates\admin\localphones\edit.html.py:206
+msgid "Please select region to make number free"
+msgstr "Пожалуйста, выберите регион, чтобы сделать номер свободным"
+
+#: .\templates\admin\localphones\edit.html.py:222
+msgid "Make free"
+msgstr "Освободить"
+
+#: .\templates\admin\localphones\functional_configure.html.py:7
+msgid "When you detach local number - make it"
+msgstr "Когда отсоединяется номер - сделать его"
+
+#~ msgid "There's nothing to configure"
+#~ msgstr "Тут нечего настраивать"
+
+#~ msgid "With this service is associated the number"
+#~ msgstr "С этой услугой связан номер"
+
+#~ msgid "Free minutes"
+#~ msgstr "Свободные минуты"
+
+#~ msgid "%(minutes)s minutes left to %(number)s"
+#~ msgstr "%(minutes)s минут осталось у номера %(number)s"
+
+#~ msgid "Wrong value!"
+#~ msgstr "Неверное значение!"
+
+#~ msgid "Minutes changed"
+#~ msgstr "Минуты изменены"

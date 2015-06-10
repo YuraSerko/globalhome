@@ -1,0 +1,210 @@
+{% extends "admin/change_form.html" %}
+
+
+
+{% block content %}
+
+
+
+<div style ="  width: 50%; height:auto; float:left">
+{{ block.super }}
+</div>
+{% endblock %}
+
+
+
+{% block sidebar  %}
+
+
+
+
+
+<script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+
+<div id="map" style=" height: 450px; width:50%  ; float:left"></div>       
+
+ <style>
+  	.list {
+    list-style-type: none; /* Убираем маркеры */
+  	 }
+ .uli {
+ 	margin-left: 10px; /* Отступ слева в браузере IE и Opera */
+ 	padding-left: 0px; /* Отступ слева в браузере Firefox */
+	}
+   .ymaps-i-ua_js_yes{border: solid 2px #ccc;}
+   #legend:first-child{position:relative;  top:10px; left:10px;}
+  </style>
+<div id="legend"; style=" border:solid 2px #ccc; width:50%; margin-left:50%; padding-bottom: 10px; margin-top:10px; padding-top:455px; ">
+<ul class = "uli">
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotgrey.png" width="21" height="24" align=absmiddle />
+0 Планируется подключение </li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotdarkgreen.png" width="21" height="24" align=absmiddle />
+1 Установлены центральные ящики </li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotviolet.png" width="21" height="24" align=absmiddle />
+2 Дом подключен к интернет
+</li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotnight.png" width="21" height="24" align=absmiddle />
+3 Протянуты кабели </li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotgreen.png" width="21" height="24" align=absmiddle />
+4 Установлены ящики на этажах и сделана оконцовка
+</li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotpink.png" width="21" height="24" align=absmiddle />
+5 Установлены микротики и коммутаторы </li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotred.png" width="21" height="24" align=absmiddle />
+6 Дом запущен в тест
+</li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotlightblue.png" width="21" height="24" align=absmiddle />
+<img src="/media/img/yamapsplacemarks/wifi.png" width="21" height="24" align=absmiddle />
+7 Дом запущен в продакшн
+</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+ <script type="text/javascript">
+        ymaps.ready(init);
+        var myMap, 
+            myPlacemark, myPlacemark1;
+            
+
+        function init(){
+  
+
+            myMap = new ymaps.Map ("map", {
+                center: [55.76, 37.64],
+                zoom:12,
+                behaviors: ["default", "scrollZoom"],
+            }); 
+        
+
+            myMap.controls.add(
+            new ymaps.control.ZoomControl()
+            );
+
+           
+			
+            
+            // добавляем и смещаемся на текущую точку
+            {% if curcoordhotspot %}
+ 		    {% if curcoordhotspot.readiness_degree == 0 %}
+                   pr= "twirl#greyDotIcon"
+               {% endif %}   
+ 		    {% if curcoordhotspot.readiness_degree == 1 %}
+                   pr= "twirl#darkgreenDotIcon"
+               {% endif %}  
+ 		    {% if curcoordhotspot.readiness_degree == 2 %}
+                   pr= "twirl#violetDotIcon"
+               {% endif %}  
+            {% if curcoordhotspot.readiness_degree == 3 %}
+                   pr= "twirl#nightDotIcon"
+            {% endif %}  
+             {% if curcoordhotspot.readiness_degree == 4 %}
+                   pr= "twirl#greenDotIcon"
+               {% endif %}  
+ 		    {% if curcoordhotspot.readiness_degree == 5 %}
+                   pr= "twirl#pinkDotIcon"
+               {% endif %}  
+            {% if curcoordhotspot.readiness_degree == 6 %}
+                   pr= "twirl#redDotIcon"
+            {% endif %} 
+            {% if curcoordhotspot.readiness_degree == 7 %}
+                  {% for n in curcoordhotspot.persons.all %}
+                      {% if n.id == 2 %}
+                      	 pr= "twirl#lightblueDotIcon"
+                      {% endif %}
+                      {% if n.id == 5 %}
+                      	 pr= "twirl#wifiIcon"
+                      {% endif %}
+                      {% if n.id == 2 and   n.id == 5 %}
+                      	 pr= "twirl#wifiIcon"
+                      {% endif %}
+                  {% endfor %}
+            {% endif %}   
+            myPlacemark = new ymaps.Placemark([{{curcoordhotspot.y|escapejs}},{{curcoordhotspot.x|escapejs}}],
+                {
+                balloonContentHeader: "{{curcoordhotspot.street.street_type|escapejs}}"+ " " + "{{curcoordhotspot.street.street|escapejs}}"+ ", "+"{{ curcoordhotspot.house.house|escapejs }}",
+ 				balloonContentBody: '{{curcoordhotspot.notes|escapejs}}',}, {
+                preset:pr,
+                iconImageOffset: [-15, -83],
+                hideIconOnBalloonOpen: false,
+                balloonOffset:[10,-50],
+                balloonMaxWidth:155,
+                iconImageSize: [70, 80],           
+            });
+            myMap.setCenter([{{curcoordhotspot.y|escapejs}},{{curcoordhotspot.x|escapejs}}], 17, {
+         	   checkZoomRange: true
+                 })
+                {% endif %}
+          
+           // Добавляет все метки на карту
+            myMap.geoObjects.add(myPlacemark); 
+ 		    {% for e in coordhotspot  %} 
+ 		       
+ 		    {% if e != curcoordhotspot %}
+ 		    
+ 		    {% if e.readiness_degree == 0 %}
+                   pr= "twirl#greyDotIcon"
+               {% endif %}   
+ 		    {% if e.readiness_degree == 1 %}
+                   pr= "twirl#darkgreenDotIcon"
+               {% endif %}  
+ 		    {% if e.readiness_degree == 2 %}
+                   pr= "twirl#violetDotIcon"
+               {% endif %}  
+            {% if e.readiness_degree == 3 %}
+                   pr= "twirl#nightDotIcon"
+            {% endif %}  
+             {% if e.readiness_degree == 4 %}
+                   pr= "twirl#greenDotIcon"
+               {% endif %}  
+ 		    {% if e.readiness_degree == 5 %}
+                   pr= "twirl#pinkDotIcon"
+               {% endif %}  
+            {% if e.readiness_degree == 6 %}
+                   pr= "twirl#redDotIcon"
+            {% endif %} 
+            {% if e.readiness_degree == 7 %}
+                  {% for n in e.persons.all %}
+                      {% if n.id == 2 %}
+                      	 pr= "twirl#lightblueDotIcon"
+                      {% endif %}
+                      {% if n.id == 5 %}
+                      	 pr= "twirl#wifiIcon"
+                      {% endif %}
+                      {% if n.id == 2 and   n.id == 5 %}
+                      	 pr= "twirl#wifiIcon"
+                      {% endif %}
+                  {% endfor %}
+            {% endif %}   
+            myPlacemark = new ymaps.Placemark([{{e.y|escapejs}},{{e.x|escapejs}}],
+                {
+                balloonContentHeader: "{{e.street.street_type|escapejs}}"+ " " + "{{e.street.street|escapejs}}"+ ", "+"{{ e.house.house|escapejs }}",
+				balloonContentBody: '{{e.notes|escapejs}}',}, {
+                preset:pr,
+                iconImageOffset: [0, -43],
+                hideIconOnBalloonOpen: false,
+                balloonOffset:[12,-13],
+                balloonMaxWidth:155,
+                
+                             
+            });
+           // Добавляет метку на карту
+            myMap.geoObjects.add(myPlacemark); 
+            {% endif %}
+            {% endfor%} 
+            
+          
+           
+ 
+        }
+        
+  
+    </script>
+
+
+{% endblock %}

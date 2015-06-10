@@ -1,0 +1,29 @@
+{% extends 'base_private.html' %}
+{% load form_tags i18n %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+<div class="ugc">
+    <p>Для изменения текущего номера исправте необходимые поля.</p>
+</div>
+	<div class="form_django">
+    <form action="" method="post">
+        {% if form %}
+                {% for f in form %}
+                    {% form_field f block %}
+                {% endfor %}
+            <div class="form-submit">
+                <div class="form-submit-left">
+                    <small><span class="req">*</span> — пункты обязательные для заполнения</small>
+                </div>
+                <div class="form-submit-right">
+                    <input type="submit" class="bt bt-blue2" value='{% trans "Cancel" %}' name="cancel" /> 
+                    <input type="submit" id="add-button" class="bt bt-blue2" value='{% trans "Save changes" %}' name="save" />
+                </div>
+            </div>
+        {% endif %}
+    </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,465 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+
+
+
+{% block content %} 
+ 
+ {% block sendin %}
+  {{block.super}}
+         {% endblock %}
+ 
+<div class='page_wrapper'>
+  
+ 
+  
+  <div id='centr_field'>
+				<div class="main_spisok">
+							
+					<ul>
+						<li id="tel_li"><a id='tel' href="http://globalhome.su/homepage/localphones/" target="_blank">Телефония</a></li>
+						<li id='data_li'><a id='data' href="http://moscowdata.ru/" target="_blank">Дата-центр</a></li>
+						<li id='gh_li'><a id='ghspot' href="http://globalhome.su/content/article/hot_spot/" class="punkt" target="_blank">HotSpot GlobalHome</a></li>
+						<li id="inet_li"><a id='inet' href="http://globalhome.su/internet/" target="_blank">Интернет</a></li>
+					</ul>
+					
+				</div>
+	
+				<div id="searchwrapper">	
+					{%if trial%}
+					<form action = '/' method = 'GET' class="forma"  name = 'search_form' id="s_form" onsubmit = 'javascript:log();'>
+					{% else%}
+					<form action = '/' method = 'GET' class="forma"  name = 'search_form' id="s_form" >
+					{% endif%}
+					<input tabindex="4" type="text" class="searchbox" name="query" value="{{query}}"  id = 'ya_input' />
+					<input  type="submit"   class="searchbox_submit" value="Найти"  /><span class="tri"></span>					
+					</form>
+					<input type = 'hidden' id = 'addr_hid' value = '{{address}}'>
+					
+					<script>
+						
+					</script>
+					
+					{% if  trial  %}<p class = 'trial_mes'> В данный момент сеть находится в тестовом режиме,<br> для использования сети нажмите
+					<!--<a href="{{ linkloginonly }}?dst={{ linkorigesc }}&username=T-{{ macesc }}" class = 'trial_a'><span>здесь</span></a><br>-->
+					  <br><a class='over_button' href="{{ linkloginonly }}?dst={{ linkorigesc }}&username=T-{{ macesc }}">здесь</a><a onmousedown = 'javascript: window.location.hash="#hs_login2"' class = 'trial_a' style = 'cursor:pointer;'><span>здесь</span></a><br>
+					<!--<a onmousedown = 'javascript: window.location.hash="#hs_login2"' class = 'trial_a' style = 'cursor:pointer;'><span>здесь</span></a><br>-->
+					<span>До окончания тестового периода осталось {{ trial }} дней</span><br></p>
+					{% endif %}		
+				</div>
+			</div>	
+  
+  
+  <div class=' news_page_wrapper'>
+		<div class="container">
+  <div class="m_news">
+        <div class="span1">
+          <a href="#" class="thumbnail active" data-show="a-1"><img src="http://placehold.it/64x64&text=1"/>
+				
+			<h4>
+				Заголовок №1
+			</h4>	
+			
+		  </a>
+		  
+        </div>
+        <div class="span1">
+          <a href="#" class="thumbnail" data-show="a-2"><img src="http://placehold.it/64x64&text=2"/>
+			<h4>
+				Заголовок №2
+			</h4>	
+		  
+		  </a>
+        </div>
+        <div class="span1">
+          <a href="#" class="thumbnail" data-show="a-3"><img src="http://placehold.it/64x64&text=3"/>
+		  
+			<h4>
+				Заголовок №3
+			</h4>	
+		  </a>
+        </div>
+        <div class="span1">
+          <a href="#" class="thumbnail" data-show="a-4"><img src="http://placehold.it/64x64&text=4"/>
+		  
+		  <h4>
+				Заголовок №4
+			</h4>
+		  
+		  
+		  </a>
+        </div>
+		
+		
+      </div>
+  <div class="row">
+     
+	
+    <div class="span8 image-header-container">
+      <div class="image-header">
+        <img src="http://placehold.it/605x345&text=News_photo+1" class="active" alt="" data-id="a-1">
+        <img src="http://placehold.it/605x345&text=News_photo+2" alt="" data-id="a-2">
+        <img src="http://placehold.it/605x345&text=News_photo+3" alt="" data-id="a-3">
+        <img src="http://placehold.it/605x345&text=News_photo+4" alt="" data-id="a-4">
+		
+      </div>
+	  <div class="span4 excerpt-container">
+      <div class="excerpt-frame"></div>
+      
+      <div class="excerpt active" data-id="a-1">
+        <h2>Some Title Here <span class="highlight">With Highlight</span></h2>
+        <p><small>
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </small></p>
+      </div>
+      
+      <div class="excerpt" data-id="a-2">
+        <h2>Lorem Ipsum <span class="highlight">Is Here</span></h2>
+        <p><small>
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </small></p>
+      </div>
+      
+      <div class="excerpt" data-id="a-3">
+        <h2>Some More Filler Text <span class="highlight">With A Highlight</span></h2>
+        <p><small>
+          Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </small></p>
+      </div>
+      
+      <div class="excerpt" data-id="a-4">
+        <h2>Lorem <span class="highlight">Ipsums</span></h2>
+        <p><small>
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur.
+        </small></p>
+      </div>
+      
+     
+	  
+	  
+    </div>
+	  
+	  
+    </div>
+  </div>
+  
+</div>
+		
+		
+		<div class='news_wrap'>
+		
+						
+						<div  class='news_one'>
+							
+								<section class='img_cont'>
+									<a href='#'><img src='http://resize.yandex.net/3f9b7fe9b4f94af76baa3511b6ada8e3?key=42c71f0cd18e33b8d4192ae416f3447c&url=http%3A%2F%2Favatars.yandex.net%2Fget-ynews%2F386ba448f65de44138bf9b7c38817e06%2Forig&width=90&height=90&typemap=gif%3Agif%3Bpng%3Apng%3B*%3Ajpeg&crop=yes&enlarge=0&goldenratio=yes' alt='#'></a>
+								</section>
+								<section class='news_cont'>
+								<ul>
+									<h3 class='news_head'><a>Работники МТЗ вместе с охранником пытались украсть 30 тонн чугуна</a></h3>
+									<p class='news_desc'>Двое сотрудников Минского тракторного завода вместе с охранником попытались вывезти 30 тонн чугуна, общая стоимость которого составила 137 миллионов белорусских рублей.</p>
+									<time class='news_times'>23:10 02-04-2014</time>
+								<ul>
+								</section>
+						
+						</div>
+					
+					<div class='news_one'>
+						<section class='img_cont'>
+							<img src='http://resize.yandex.net/3f9b7fe9b4f94af76baa3511b6ada8e3?key=42c71f0cd18e33b8d4192ae416f3447c&url=http%3A%2F%2Favatars.yandex.net%2Fget-ynews%2F386ba448f65de44138bf9b7c38817e06%2Forig&width=90&height=90&typemap=gif%3Agif%3Bpng%3Apng%3B*%3Ajpeg&crop=yes&enlarge=0&goldenratio=yes' alt='#'>
+						</section>
+						<section class='news_cont'>
+							<h3 class='news_head'><a>Работники МТЗ вместе с охранником пытались украсть 30 тонн чугуна</a></h3>
+							<p class='news_desc'>Двое сотрудников Минского тракторного завода вместе с охранником попытались вывезти 30 тонн чугуна, общая стоимость которого составила 137 миллионов белорусских рублей.</p>
+							<time class='news_times'>13:10 02-01-2014</time>
+						</section>
+					</div>
+					<div class='news_one ddt' >
+							<section class='img_cont'>
+								<img src='http://resize.yandex.net/3f9b7fe9b4f94af76baa3511b6ada8e3?key=42c71f0cd18e33b8d4192ae416f3447c&url=http%3A%2F%2Favatars.yandex.net%2Fget-ynews%2F386ba448f65de44138bf9b7c38817e06%2Forig&width=90&height=90&typemap=gif%3Agif%3Bpng%3Apng%3B*%3Ajpeg&crop=yes&enlarge=0&goldenratio=yes' alt='#'>
+							</section>
+							<section class='news_cont'>
+								<h3 class='news_head'><a>Работники МТЗ вместе с охранником пытались украсть 30 тонн чугуна</a></h3>
+								<p class='news_desc'>Двое сотрудников Минского тракторного завода вместе с охранником попытались вывезти 30 тонн чугуна, общая стоимость которого составила 137 миллионов белорусских рублей.</p>
+								<time class='news_times'>22:10 02-02-2014</time>
+							</section>
+					</div>
+					<div class='news_one'>
+							<section class='img_cont'>
+								<img src='http://resize.yandex.net/3f9b7fe9b4f94af76baa3511b6ada8e3?key=42c71f0cd18e33b8d4192ae416f3447c&url=http%3A%2F%2Favatars.yandex.net%2Fget-ynews%2F386ba448f65de44138bf9b7c38817e06%2Forig&width=90&height=90&typemap=gif%3Agif%3Bpng%3Apng%3B*%3Ajpeg&crop=yes&enlarge=0&goldenratio=yes' alt='#'>
+							</section>
+							<section class='news_cont'>
+								<h3 class='news_head'><a>Работники МТЗ вместе с охранником пытались украсть 30 тонн чугуна</a></h3>
+								<p class='news_desc'>Двое сотрудников Минского тракторного завода вместе с охранником попытались вывезти 30 тонн чугуна, общая стоимость которого составила 137 миллионов белорусских рублей.</p>
+								<time class='news_times'>23:14 02-01-2014</time>
+							</section>
+					</div>
+					
+					<div class='news_one'>
+							<section class='img_cont'>
+								<img src='http://resize.yandex.net/3f9b7fe9b4f94af76baa3511b6ada8e3?key=42c71f0cd18e33b8d4192ae416f3447c&url=http%3A%2F%2Favatars.yandex.net%2Fget-ynews%2F386ba448f65de44138bf9b7c38817e06%2Forig&width=90&height=90&typemap=gif%3Agif%3Bpng%3Apng%3B*%3Ajpeg&crop=yes&enlarge=0&goldenratio=yes' alt='#'>
+							</section>
+							<section class='news_cont'>
+								<h3 class='news_head'><a>Работники МТЗ вместе с охранником пытались украсть 30 тонн чугуна</a></h3>
+								<p class='news_desc'>Двое сотрудников Минского тракторного завода вместе с охранником попытались вывезти 30 тонн чугуна, общая стоимость которого составила 137 миллионов белорусских рублей.</p>
+								<time class='news_times'>23:14 02-01-2014</time>
+							</section>
+					</div>
+					
+					<div class='news_one'>
+							<section class='img_cont'>
+								<img src='http://resize.yandex.net/3f9b7fe9b4f94af76baa3511b6ada8e3?key=42c71f0cd18e33b8d4192ae416f3447c&url=http%3A%2F%2Favatars.yandex.net%2Fget-ynews%2F386ba448f65de44138bf9b7c38817e06%2Forig&width=90&height=90&typemap=gif%3Agif%3Bpng%3Apng%3B*%3Ajpeg&crop=yes&enlarge=0&goldenratio=yes' alt='#'>
+							</section>
+							<section class='news_cont'>
+								<h3 class='news_head'><a>Работники МТЗ вместе с охранником пытались украсть 30 тонн чугуна</a></h3>
+								<p class='news_desc'>Двое сотрудников Минского тракторного завода вместе с охранником попытались вывезти 30 тонн чугуна, общая стоимость которого составила 137 миллионов белорусских рублей.</p>
+								<time class='news_times'>23:14 02-01-2014</time>
+							</section>
+					</div>
+		</div>
+		
+		
+		<!--
+		<div class='news_main'>
+			<div>
+				<section>
+					<a href='#'><img src='http://resize.yandex.net/47fc1fe088c10022209b7ec990a75489?key=91bd1ccee44b186d4bab6fe7d40d51a0&url=http%3A%2F%2Favatars.yandex.net%2Fget-ynews%2F08d6adfe0747ee46ae94509ec2b6b157%2Forig&width=350&height=270&typemap=gif%3Agif%3Bpng%3Apng%3B*%3Ajpeg&crop=yes&enlarge=0&goldenratio=yes' alt='#'></a>
+				
+				</section>
+				<section>
+				
+				
+				</section>
+			</div>
+		</div>
+		<div class='news_wrap'>
+		
+						
+						<div  class='news_one'>
+							
+								<section class='img_cont'>
+									<a href='#'><img src='http://resize.yandex.net/3f9b7fe9b4f94af76baa3511b6ada8e3?key=42c71f0cd18e33b8d4192ae416f3447c&url=http%3A%2F%2Favatars.yandex.net%2Fget-ynews%2F386ba448f65de44138bf9b7c38817e06%2Forig&width=90&height=90&typemap=gif%3Agif%3Bpng%3Apng%3B*%3Ajpeg&crop=yes&enlarge=0&goldenratio=yes' alt='#'></a>
+								</section>
+								<section class='news_cont'>
+								<ul>
+									<h3 class='news_head'><a>Работники МТЗ вместе с охранником пытались украсть 30 тонн чугуна</a></h3>
+									<p class='news_desc'>Двое сотрудников Минского тракторного завода вместе с охранником попытались вывезти 30 тонн чугуна, общая стоимость которого составила 137 миллионов белорусских рублей.</p>
+									<time class='news_times'>23:10 02-04-2014</time>
+								<ul>
+								</section>
+						
+						</div>
+					
+					<div class='news_one'>
+						<section class='img_cont'>
+							<img src='http://resize.yandex.net/3f9b7fe9b4f94af76baa3511b6ada8e3?key=42c71f0cd18e33b8d4192ae416f3447c&url=http%3A%2F%2Favatars.yandex.net%2Fget-ynews%2F386ba448f65de44138bf9b7c38817e06%2Forig&width=90&height=90&typemap=gif%3Agif%3Bpng%3Apng%3B*%3Ajpeg&crop=yes&enlarge=0&goldenratio=yes' alt='#'>
+						</section>
+						<section class='news_cont'>
+							<h3 class='news_head'><a>Работники МТЗ вместе с охранником пытались украсть 30 тонн чугуна</a></h3>
+							<p class='news_desc'>Двое сотрудников Минского тракторного завода вместе с охранником попытались вывезти 30 тонн чугуна, общая стоимость которого составила 137 миллионов белорусских рублей.</p>
+							<time class='news_times'>13:10 02-01-2014</time>
+						</section>
+					</div>
+					<div class='news_one ddt' >
+							<section class='img_cont'>
+								<img src='http://resize.yandex.net/3f9b7fe9b4f94af76baa3511b6ada8e3?key=42c71f0cd18e33b8d4192ae416f3447c&url=http%3A%2F%2Favatars.yandex.net%2Fget-ynews%2F386ba448f65de44138bf9b7c38817e06%2Forig&width=90&height=90&typemap=gif%3Agif%3Bpng%3Apng%3B*%3Ajpeg&crop=yes&enlarge=0&goldenratio=yes' alt='#'>
+							</section>
+							<section class='news_cont'>
+								<h3 class='news_head'><a>Работники МТЗ вместе с охранником пытались украсть 30 тонн чугуна</a></h3>
+								<p class='news_desc'>Двое сотрудников Минского тракторного завода вместе с охранником попытались вывезти 30 тонн чугуна, общая стоимость которого составила 137 миллионов белорусских рублей.</p>
+								<time class='news_times'>22:10 02-02-2014</time>
+							</section>
+					</div>
+					<div class='news_one'>
+							<section class='img_cont'>
+								<img src='http://resize.yandex.net/3f9b7fe9b4f94af76baa3511b6ada8e3?key=42c71f0cd18e33b8d4192ae416f3447c&url=http%3A%2F%2Favatars.yandex.net%2Fget-ynews%2F386ba448f65de44138bf9b7c38817e06%2Forig&width=90&height=90&typemap=gif%3Agif%3Bpng%3Apng%3B*%3Ajpeg&crop=yes&enlarge=0&goldenratio=yes' alt='#'>
+							</section>
+							<section class='news_cont'>
+								<h3 class='news_head'><a>Работники МТЗ вместе с охранником пытались украсть 30 тонн чугуна</a></h3>
+								<p class='news_desc'>Двое сотрудников Минского тракторного завода вместе с охранником попытались вывезти 30 тонн чугуна, общая стоимость которого составила 137 миллионов белорусских рублей.</p>
+								<time class='news_times'>23:14 02-01-2014</time>
+							</section>
+					</div>
+					
+		
+		</div>-->
+   </div>
+</div> 
+   
+	<div id="all_result" class="yandex_search_result">
+			{% if not emp%}
+			<div class="results">
+			{{ya_spr|safe}}
+			{% for re_obj in ya_res%}
+			
+			{% if event %}
+			<span class='count_numb'>{{re_obj.num}}</span><a href = '{{re_obj.href}}' class = 'ya_links' onmousedown = 'check_window(event,this)'>{{re_obj.title}}<p >{{re_obj.snip}}</p></a><br>
+			{%else%}
+			<span class='count_numb'>{{re_obj.num}}</span><a href = '{{re_obj.href}}' class = 'ya_links' target="_blank">{{re_obj.title}}<p >{{re_obj.snip}}</p></a><br>
+			{% endif %}
+			
+			{% endfor%}
+			
+			<div class="all_pag">
+    		<span class="all_pag">
+        	{% if ya_res.has_previous %}
+            <a href="?query={{query}}&page={{ ya_res.previous_page_number }}" class = 'prev'></a>
+        	{% endif %}
+        	
+ 			{% for pg in ya_res.paginator.page_range%}
+ 			  {% if pg >= m_r %}
+ 				 {% if pg == ya_res.number %}
+ 					<a href = '?query={{query}}&page={{pg}}' class = ' pagin current_page'>{{pg}}</a>
+ 				 {% else %}
+ 					<a href = '?query={{query}}&page={{pg}}' class = 'pagin'>{{pg}}</a>
+ 				 {%endif%}
+ 			  {%endif%} 
+ 			{% endfor%}
+        	
+
+        {% if ya_res.has_next %}
+        
+            <a href="?query={{query}}&page={{ ya_res.next_page_number }}" class = 'next'></a>
+        {% endif %}
+    </span>
+</div>
+			</div>
+	{% else %}
+	<p class="empty_search">Задан пустой поисковый запрос.</p>
+	{%endif%}
+			</div>
+
+ 
+ 
+ 
+ <!--  <div id = 'res_test_1'></div>-->
+	<a href="#" class="overlay" id="hs_login" ></a>
+    <div class="main_modal">
+   	<form name="login_1" action="" method="POST"  > 
+    	<div id="modal">
+			<a href="#close" id='krest' onclick = 'clear_cookies()'></a>
+			<div id="mleft">
+				<article class="left_modal_article">
+					<h2>Возможности</h2>
+						<ul>
+						<li>безлимитный доступ в Интернет<br>до {{ hotspot_speed }} Мбит/сек;</li>
+						<li>свободное перемещение в зоне покрытия;</li>
+						</ul>
+					<h2>Стоимость подключения</h2>		
+					<p>10 руб/сутки</p>
+
+					<h2>Как подключиться</h2>
+					<ul>
+					<li>найти беспроводную сеть GlobalHome и<br> подключиться к ней <a href="http://globalhome.su/content/article/hot_spot/">(смотрите карту покрытия) </a>;</li>
+					<li>при открытии любого веб-сайта в вашем браузере,<br> отобразится страница авторизации с логотипом GlobalHome;</li>
+					<li>ввести логин и пароль полученный при оплате<br> карты доступа и нажать «Войти».</li>
+					</ul>
+					
+					<p class="esli_p">Если у Вас возникли проблемы с подключением к Wi-Fi<br> - обратитесь в нашу службу технической поддержки.</p>
+					<a class="podr_info" href="http://globalhome.su/content/article/hot_spot/">Подробнее...</a>
+				</article>
+			</div>
+			<div id='mright'>
+					<h1 class="side_h1"><span>HotSpot Wi-Fi</span><br>вход в интернет</h1>
+					<div id = 'win_error'></div>
+					<div id="error_log" >{% if error == 'invalid username or password' %} <div class = 'error_masege'>Неправильный логин или пароль</div>{% endif %}</div>
+					<form name = 'login_1' class="form_login_modal">
+					<input class="reg_field name" type="text" name="username" id = 'm_username' placeholder="логин"/>
+					<input class="reg_field pass" type="password" name = 'password' id = 'm_password'placeholder="пароль" />
+					<input class="reg_enter" type = 'button' id = 'log_submit' value="Вход"/>
+					</form>
+					<p class = 'trial_mes'> В данный момент сеть<br> находится в тестовом режиме<br></p>
+					<a href="http://globalhome.su/content/article/payment_methods_cards/" class='mbuy'>Купить логин</a>
+
+			</div>
+
+		</div>
+    	</form>
+    	</div>
+    	
+    	
+		{% block hs_login2 %}
+            {{ block.super }}
+        {% endblock%}
+	
+		<a href="#" class="overlay" id="review_window" ></a>
+		<div class="main_modal_tip">
+			<div class="modal_tip">
+				<a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+				<div id = 'review' >
+				<h2>Оставить отзыв или предложение </h2>
+				<div class = 'err'></div>
+				<form name ='review_form' action = '\'>
+				<ul>
+					{% for field in rew_form %}    
+                        <li>{% form_field field block %}</li>
+                    {% endfor %}				 
+				 <li><input type = 'button' id = 'com_cont_sub' value = "Оставить"  onclick = 'win("review_form")'></li>
+				 <li><input type = "hidden" name = 'ident_field' id = 'ident_field' value = "review"></li>
+				 <div class='loading'></div>
+				 </ul>
+				</form>
+				</div>				
+			</div>
+		</div>
+		
+		<a href="#" class="overlay" id="complaint_window" ></a>
+		<div class="main_modal_tip">
+			<div class="modal_tip">
+				<a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+				<div id = 'review' >
+				<h2>Пожаловаться на качество </h2>
+				<div class = 'err'></div>
+				<form name ='complaint_form' action = '\'>
+				<ul>
+					{% for field in comp_form %}    
+                        <li>{% form_field field block %}</li>
+                    {% endfor %}				 
+				 <li><input type = 'button' id = 'com_cont_sub' value = "Оставить"  onclick = 'win("complaint_form")'></li>
+				 <li><input type = "hidden" name = 'ident_field' id = 'ident_field' value='complaint'></li>
+				 <div class='loading'></div>
+				 </ul>
+				</form>
+				</div>				
+			</div>
+		</div>
+		
+	 	
+    	
+
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+});
+
+
+</script>
+
+<script>
+      div="_ph1968";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1968&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+	<script>
+      div="_ph1971";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1971&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+{% endblock %}

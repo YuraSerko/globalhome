@@ -1,0 +1,50 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+{% block content %}
+
+	<script>  
+        function add_value(findoc_id)
+        {
+            document.getElementById('hidden_findoc_id').value = findoc_id;
+            document.forms["contract_cancellation"].submit();
+        }
+    </script>
+    
+    <h1 class="title">Расторжение договора</h1>
+    
+    {{ block.super }}
+    
+    {% if findocs %}
+
+    	<form id="contract_cancellation" action="" method="post">
+            <table class="type-2 type-bth">
+                <thead>
+                    <th>{% trans "Document" %}</th>
+                    <th>{% trans "Signed at" %}</th>
+                    <th>Расторжение</th>
+                </thead>
+                <tbody>
+                    {% for fd in findocs %}
+                        <tr>
+                            <td><a href="/account/findocs/signed/{{ fd.id }}/">{{ fd.findoc }}</a></td>
+                            <td>{{ fd.signed_at|date:"d.m.Y H:i:s" }}</td>
+                            {% if fd.cancellation_date %}
+                            <td>Расторгнут с {{ fd.cancellation_date|date:"d.m.Y H:i:s" }}</td>
+                            {% else %}
+                            <td><a href="#" onclick="add_value({{ fd.id }})">Расторгнуть</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="hidden" id="hidden_findoc_id" name="findoc_id" value=""/>
+        </form>
+    {% else %}
+        <div class="status status-info">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>{% trans "You have no signed documents" %}</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

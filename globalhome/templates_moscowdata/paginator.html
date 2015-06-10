@@ -1,0 +1,31 @@
+{% load i18n %}
+
+{% ifnotequal paginator.pages 1 %}
+
+<div class="paginator">
+
+     <div class="ctrls">
+        <div class="paging">
+            <ul>
+                <li class="start"><a href="{{ paginator.first_link }}">◀</a></li>
+                <li class="prev"><a href="{{ paginator.previous_link }}">&lt;</a></li>
+                {% for group in paginator.windowed_page_links %}
+                    {% for p in group %}
+                        {% if p.current %}
+                            <li>{{ p.page }}</li>
+                        {% else %}
+               				<li><a href="{{ p.link }}">{{ p.page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if not forloop.last %}
+						<li>...</li>
+                    {% endif %}
+                {% endfor %}   
+                <li class="next"><a href="{{ paginator.next_link }}">&gt;</a></li>
+                <li class="end"><a href="{{ paginator.last_link }}">▶</a></li>         	
+            </ul>
+        </div><!--paging-->
+    </div><!--ctrls-->
+
+</div>
+{% endifnotequal %}

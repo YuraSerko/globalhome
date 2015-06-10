@@ -1,0 +1,88 @@
+.shag {
+	padding: 11px 0 0 8px;
+	color: #636363;
+	font-size: 12px;
+	line-height: 14px;
+}
+
+.shag .asd {
+	padding: 0;
+	list-style: none;
+	counter-reset: manual;
+}
+
+.shag .asd .mli {
+	position: relative;
+	padding: 14px 0 0;
+	border-top: 1px dotted #a0a0a0;
+	
+}
+
+.shag .asd .mli:first-child {
+	padding: 0;
+	border: 0 none;
+}
+
+.shag .asd .mli:before {
+	position: absolute;
+	top: 12px;
+	left: -3px;
+	width: 14px;
+	height: 14px;
+	padding: 1px 0 0 1px;
+	background: #4990d3;
+	border-radius: 50%;
+	color: #fff;
+	font-size: 10px;
+	font-weight: 700;
+	text-align: center;
+	text-indent: 0;
+	counter-increment: manual;
+	content: counter(manual);
+}
+
+.shag .asd .mli:first-child:before {
+	top: -2px;
+}
+
+.shag .asd ul {
+	list-style: none;
+	counter-reset: list;
+}
+
+.shag .asd ul .mli {
+	padding: 0;
+	border: 0 none;
+	text-indent: 0;
+}
+
+.shag .asd ul .mli:before {
+	position: static;
+	background: none;
+	color: #636363;
+	font-size: 14px;
+	font-weight: 400;
+	counter-increment: list;
+	content: counter(list, lower-latin) ") ";
+}
+
+
+	.itemkanumber > p {
+		float:left !important;
+		margin-top:0px !important;
+		}
+	.itemkanumber_for_list > p {
+		float:left !important;
+		margin-top:0px !important;
+		}
+	.itemkagroup > p {
+		float:left !important;
+		margin-top:0px !important;
+		}
+	.itemkaextnumber > p {
+		float:left !important;
+		margin-top:0px !important;
+		}
+	li {
+  	  list-style-type: none; /* Убираем маркеры */
+   }

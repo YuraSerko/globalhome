@@ -1,0 +1,23 @@
+.down_arrow:before{
+	display:block;
+	border-color: white transparent transparent transparent !important;
+	border-width: 0.35em;
+	border-style: solid;
+	width: 0px;
+    height: 0px;
+    left: -12px !important; /*Регулировка расположения стрелки вниз, чтобы не менялось место*/
+    top: 16px !important;
+	
+}
+.clear_arrow a {
+    height: auto !important;
+	}
+	.clear_arrow li a:before {
+    border-width: 0 !important;
+    display: inline !important;
+	}
+	
+	a.none_arrow:before{
+		border-color: transparent !important;
+	}
+	

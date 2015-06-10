@@ -1,0 +1,90 @@
+<script src="{{ MEDIA_URL }}js/jquery-1.7.2.min.js"></script> 
+<link type="text/css" href="{{ MEDIA_URL }}css/egplant_cost.css" rel="stylesheet" />
+<link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+
+
+{% if not "number_act_arenda_obor" in	application_text %}
+ <table class="type-4" style="height: 600px;">
+        	<caption>
+            </caption>
+             <p id = "response"  colspan ="2" style = "display:none;" ></p>
+             <tbody>
+             	<td style="padding: 0;">
+                    <div class="document" id="signed-findoc-text" style="clear: all; height: 800px; width:600px; overflow: hidden;">
+                        {{ application_text|safe }}
+                     <input type = "button" id="sign-button" style = "margin-left: 540px!important; position:absolute; background: #2186F0; color:white; border-radius: 5px;" value="Подписать" name="sign" onclick="sign_fun({{user_id}}, {{zakaz_id}})" style="display: inline-block;">  
+                    </div>
+                </td>
+             </tbody>
+             <div class="form-submit-right">
+             <!-- <a  class="bt bt-blue2" style = "margin-top: 700px; margin-left: 400px!important; position:absolute;" href="/equipment_rent/sign_doc/?user_id={{user_id}}&pack_id={{pack_id}}&admin_slug={{admin_slug}}"  target="_blank">Подписать договор</a>
+             -->  
+             <!--  <input type = "button" id="sign-button" style = "margin-top: 700px; margin-left: 540px!important; position:absolute; background: #2186F0; color:white; border-radius: 5px;" value="Подписать" name="sign" onclick="sign_fun({{user_id}}, {{zakaz_id}})" style="display: inline-block;">
+             -->
+             </div> 
+             
+	 </table>
+{% else %}
+ <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>Договор уже подписан</p>
+        </div>
+    </div>
+{% endif %}	
+
+
+
+<script type="text/javascript">
+function sign_fun(user_id, zakaz_id){
+   document.getElementById("response").style.display='table-cell';
+   //$('html, body').animate({scrollTop:0}, 'fast');
+   //document.body.style.overflow='hidden';
+   get = '?user_id=' + user_id + '&zakaz_id=' + zakaz_id ;
+   
+$.ajax ({	
+	url:"/admin/data_centr/zakazy/sign_findoc_zakazy_admin/2/1/" + get, //действие 2 - подписать, документ -1 по счету
+	cache:false,
+	async:false,
+	complete:function(html)
+	{
+	// если только один договор и все удачно 
+	if (html.responseText == 'ok')
+		{href = window.opener.location.toString();
+		window.opener.location = href + "?complete=true";
+		window.close();
+		}
+	document.getElementById("signed-findoc-text").innerHTML = html.responseText;	
+	},
+	error: function(){
+	 		 href = window.opener.location.toString();
+    	     window.opener.location = href + "?complete=false";
+    		 window.close();	
+			 }		 
+})
+
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function fun_sign2(user_id, zakaz_id){
+   document.getElementById("response").style.display='table-cell';
+   get = '?user_id=' + user_id + '&zakaz_id=' + zakaz_id ;
+$.ajax ({
+	url:"/admin/data_centr/zakazy/sign_findoc_zakazy_admin/2/2/" + get, //действие 2 - подписать, документ -2 по счету
+	cache:false,
+	async:false,
+	complete:function(html)
+	{
+	if (html.responseText == 'ok')
+		{href = window.opener.location.toString();
+		window.opener.location = href + "?complete=true";
+		window.close();
+		}
+	},
+	error: function(){
+	 		 href = window.opener.location.toString();
+    	     window.opener.location = href + "?complete=false";
+    		 window.close();	
+			 }		 
+})
+}
+</script>

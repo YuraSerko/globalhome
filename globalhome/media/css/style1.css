@@ -1,0 +1,96 @@
+ul.ul-blue {
+    margin: 0;
+    padding: 0;
+}
+ul.ul-blue li {
+    list-style: none;
+    background: url(/media/img/layout/big_blue_marker.gif) no-repeat 0 4px;
+    padding: 5px 0 5px 30px;
+    color: #474747;
+    line-height: 16px;
+}
+
+/* MENU STYLES */
+
+.underlined a:hover {
+    text-decoration: underline;
+}
+
+.exit {
+	  color: red;
+}
+
+.bold {
+	  font-weight: 600;
+}
+
+/*
+Announce
+*/
+
+#content .summary {
+    margin: 0 0 20px 0;
+}
+
+#content .summary h3 {
+    margin-bottom: 5px;
+    padding-bottom: 0;
+}
+
+#content .summary .date {
+
+}
+
+#content h1 {
+    color: #15adff;}
+
+#weq {
+padding-left: 50px;
+padding-top: 50px;
+padding-right: 50px;
+}
+#weq1 {
+padding-left: 50px;
+padding-top: -50px;
+padding-right: 50px;
+}
+/*
+End announce
+*/
+
+/*
+Content
+*/
+#content {
+    font-size: 1.2em;
+}
+/*
+End content
+*/
+
+#homepage-header h2, #homepage-middle-part h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.homepage-column h3 {
+    font-size: 1.2em;
+    line-height: 1.2em;
+    font-weight: bold;
+}
+
+.homepage-column .text, .homepage-column .date {
+    margin-top: 5px;
+    font-size: 1.0em;
+    line-height: 1.5em;
+}
+
+.homepage-column .date {
+    font-size: 1.0em;
+    color: #000000;
+}
+
+.hasDatepicker {
+    background: white url(/media/img/icons/calendar.png) no-repeat right 1px;
+    width: 100px;
+    }

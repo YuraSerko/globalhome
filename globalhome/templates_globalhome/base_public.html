@@ -1,0 +1,518 @@
+{% extends 'base.html' %}
+{% load i18n page_tags form_tags %}
+
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/style_public.css">
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" >
+    <script src="{{ MEDIA_URL }}js/jquery.min.js"></script>
+    <script src="{{ MEDIA_URL }}js/jquery_public.js"></script>
+    <script src="{{ MEDIA_URL }}js/script_public.js"></script>
+
+{% endblock %}
+
+{% block account_change %}
+
+
+
+
+
+
+<script>
+$( document ).ready(function() {
+	$('#form-field-wrapper-email').find("span").after('<span class="tooltip" onclick="show_tooltip(this);" title="Нажмите для получения справки"><i></i><span class="tooltip-i" style="display: none;">Будет использоваться для авторизации</span></span>'); 
+	$('.tooltip-i').css('z-index', '999');
+	$('.tooltip-i').css('margin-left', '-180px');
+});
+
+function show_tooltip(tool) 
+{
+	var tt  = $(tool),
+		tti = $('i', tool),
+		ttb = $('.tooltip-i',tool);
+	if ($(tool).hasClass('show')) {
+		$(tool).removeClass('show');
+		ttb.css('display', 'none');
+		}
+	else {
+		ttb.css('display', 'block');
+		$(tool).addClass('show');
+	}
+}
+
+
+$(function () {
+	
+    IS_IPAD = navigator.userAgent.match(/iPad/i) != null;
+    IS_IPHONE = (navigator.userAgent.match(/iPhone/i) != null) || (navigator.userAgent.match(/iPod/i) != null);
+
+    if (IS_IPHONE) {
+
+        $('.nav ul li ul li a').on('click touchend', function() { 
+           
+var link = $(this).attr('href');   
+            window.open(link,'_blank'); 
+
+            return false;   
+        });     
+    }
+});
+
+</script>
+
+<script>
+	function func_reg() {
+		$('#button_reg').attr('disabled', 'disabled');
+		$("#reg_form").attr('onKeyDown', '');
+		$("#reg_form").serialize();
+		$("#reg_form").submit();
+		return false;
+}
+
+
+
+</script>
+
+<div class="tint"></div>
+<div class="popup">
+	<i class="popup-close" ></i>
+
+	<div class="popup-info">
+		<h2>Добро пожаловать на сайт компании GlobalHome!</h2>
+		<p><b>Мы рады предложить вам наш список услуг.</b></p>
+		<p>Если вы на сайте в первый раз, то вам необходимо зaрегистрироваться. Сама регистрация очень проста и не занимает много времени.Нужно указать ваш e-mail, на который придет ссылка на активацию аккаунта, после чего вы можете заходить в личный кабинет и добавлять услуги.</p>
+		<p>Для доступа в личный кабинет необходимо ввести e-mail или логин(для старых пользователей) и пароль, указанный при регистрации.</p>
+	</div>
+    
+	<div class="popup-form register-form">
+		<h2><i></i>Регистрация</h2>
+		<form class="clearfix" name="reg_form" id="reg_form" action = "" method="post" onKeyDown="javascript:if(13==event.keyCode){func_reg();}">
+            <fieldset>
+                 <div class="popup-form-item">
+                    {% if reg_compite %}
+                    <script>
+                    	$(document).ready(function(){	
+                    		$("#div_success_reg_complete").fadeIn('fast');
+                    		$("#tint_success_reg_complete").fadeIn('fast');
+                    	})
+                    	
+                    </script>
+                    	<!-- div class="reg_success">
+                        	<reg_success>Регистрация завершена, на ваш почтовый ящик выслано письмо для активации аккаунта.</reg_success>
+                        </div-->
+                                              
+                    {% endif %}
+                    {{ form_reg.media }}
+                   {% for field in form_reg %}    
+                        {% form_field field block %}
+                    {% endfor %}
+                </div>
+                <input name="registr" style="display: none;"/>
+                <input type="button" class="submit" id="button_reg" value="Регистрация" class="bt_register" onclick="func_reg()" />
+            </fieldset>
+        </form>
+	</div>
+	  
+	<div class="popup-form login-form">
+		<h2><i></i>Вход в кабинет</h2>
+        <form class="clearfix" name="log_form" id="log_form" action="#" method="post" onKeyDown="javascript:if(13==event.keyCode){var form = document.getElementById('log_form'); form.submit(); return false;}">
+            <fieldset>
+                <div class="popup-form-item">
+                    {% if error_login %}
+                        <div class="error">
+                            <error_login>Заполните правильно все поля!</error_login>
+                        </div>
+                    {% endif %}
+                    {% if not_active %}
+                     	<div class="error">{{ top_errors|safe }}</div>
+                    {% endif %}
+                    {% for field2 in form_login %}
+                    	{% form_field field2 block %}
+                    {% endfor %}       
+                </div>
+            	<input type="hidden" name="login_m" />
+            </fieldset>
+        </form>         
+          
+        <form class="clearfix" name="reset_form" action="#" method="post" onKeyDown="javascript:if(13==event.keyCode){document.forms["reset_form"].submit();return false;}">
+            <fieldset>     
+                <div class="popup-form-forgot">
+                    <a href="#" class="popup-form-forgot-h">
+                        <span>Забыли пароль</span>
+                        <span style="display:none;">Спрятать</span>
+                    </a>
+                    
+                    <div class="popup-form-forgot-i">
+                        <h4>Востановление пароля</h4>
+                        <p>Введите имя пользователя, и на электронный ящик, указанный Вами при регистрации, будет выслано письмо с новым паролем.</p>
+                        <label>
+                            {% if reset_password_error %}
+                            <div class="error2">
+                                <error_login>{{ reset_password_error }}</error_login>
+                            </div>
+                          {% endif %}
+                          
+                          {% if reset_password_success %}
+                              <p class="message box success">
+                                  {{ reset_password_success }}
+                              </p>
+                          {% endif %}
+                          {% for field_reset in form_reset %}
+                              {% form_field field_reset block %}
+                          {% endfor %}
+                        </label>
+                        <input type="submit" name="reset_password" value="Отправить" class="submit" />
+                    </div>
+                </div>
+                
+                <div class="popup-form-item">
+                    <small><i class="req">*</i> – поля обязательные для заполнения</small>
+                </div>
+                  
+            </fieldset>
+        </form>    
+        
+		<input type="button" class="submit" name="login_m" value="Войти" class="bt_register" onclick="{var form = document.getElementById('log_form'); form.submit(); return false;}" />
+	</div>
+</div><!--popup-->
+
+
+
+<!-- сообщение о том, что регистрация прошла успешно -->
+	<!-- a href="#" class="overlay" id="success_reg_complete"></a-->
+	<div class="tint" id = "tint_success_reg_complete"></div>
+    <div id = "div_success_reg_complete" style="width:500px; top: 40%!important;left: 38%!important; display:none;position:fixed; z-index: 600; background: white;  border-radius: 3px;">
+        <a class="popup_personal-close" href="#close"></a>
+	    <div class = "notification_email_send">
+		            <div id = "message_reg_success_block_header" >
+		           		<div id = "notification_email_send_main_block">
+		        	 		<font  color = "green"> 
+			        	 		Регистрация завершена, на ваш почтовый ящик выслано письмо для активации аккаунта.
+			         		</font>
+		     			</div>
+		     			<br>  
+		                    <div class = "not_email_button_block">
+		                          <div class = "not_email_button_block_inter"> 
+		                             <button class="bt bt-blue2" onclick ='$("#div_success_reg_complete").fadeOut("fast"); $("#tint_success_reg_complete").fadeOut("fast");'>OK</button>
+		                          </div>
+		                    </div> 
+		            </div> 	
+		</div> 
+   </div> 
+<!-- окончание сообщения о том, что регистрация прошла успешно -->
+
+{% endblock %}
+
+{% block header %}
+
+
+	<div class="header-wrap"><div class="header-inner">
+		<header class="header">
+			<h2 class="logo"><a href="http://globalhome.su/"><img src="{{ MEDIA_URL }}images/logo.png" alt="Global Home – IP телефония и услуги дата-центра в Москве и Санкт-Петербурге"></a></h2>
+		{% if not panel_off %}
+            {% if user_name %}
+
+			<div class="user user-logged"><i class="icon"></i>
+				<span class="username">Привет<br><a href="#" title="Ваше имя"><i></i>{{ user_name }}!</a></span>
+				<span class="logout"><a href={% if not user.get_profile.is_card %}"/account/service_choice/"{% else %}"/account/"{% endif %}>Личный кабинет</a></span>
+			</div>
+
+            {% else %}
+            
+                {% if login_er %}
+					<script>
+                     $(function load()
+                     {
+                        $('.tint, .popup').fadeIn('fast');
+                        $('.login-form').find('input:first').focus();
+                        return false
+                     });
+                    </script>
+                {% endif %}
+                
+                {% if reg_er %}
+					<script>
+                     $(function load()
+                     {	
+                        $('.tint, .popup').fadeIn('fast');
+                        $('.register-form').find('input:first').focus();
+                        return false
+                     });
+                    </script>
+                {% endif %}
+                
+                {% if reset_er %}
+					<script>
+                    // Forgot
+                    $(function load()
+                    {
+                        $('.tint, .popup').fadeIn('fast');
+						$('.popup-form-forgot').addClass('popup-form-forgot-opened');
+						$('.popup-form-forgot').find('span').toggle();
+                        $('.popup-form-forgot-i').show();
+                        $('.popup-form-forgot-i').find('input:first').focus();
+                    });
+                    </script>
+                {% endif %}
+                
+                <div class="user"><i class="icon"></i>
+                    <a href="#" class="link-js link-login" ">Вход</a>
+                    <span>|</span>
+                    <a href="#" class="link-js link-register" ">Регистрация</a>
+                   
+                </div>
+            {% endif %}
+        {% endif %}
+		</header>
+
+		<nav class="nav">
+			<ul>
+				<li class="nav-drop">
+					<a href="#"><span>Услуги</span></a>
+					<ul>		
+                    				
+                       <li class="nav-drop">
+							<a href="/content/phone_service/">Телефония</a>
+							<ul>
+								<li><a href="/homepage/localphones/">Многоканальный номер</a></li>
+								<li><a href="/content/article/nomer_8-800/">Номер 8-800</a></li>
+								<li><a href="/content/article/virtual_number/">Виртуальный номер</a></li>
+								<li><a href="/content/article/moscow_nomer/">Московский номер</a></li>
+								<li><a href="/content/article/peterburg_nomer/">Петербургский номер</a></li>                                 
+                                <li class="nav-drop">
+                                    <a href="#">Звонки с компьютера</a>
+                                    <ul>
+                                        <li><a href="/content/webphone/">Звонки с сайта</a></li>
+                                        <li><a href="/content/article/3cxphone_setup/">Звонки с SIP-телефона</a></li>
+                                    </ul>
+                                </li>
+								<li><a href="/content/article/office_ats/">Офисная АТС</a></li>
+								<li><a href="/content/article/ip_telephony/">IP телефония</a></li>
+							</ul>
+						</li>
+                        
+						<li class="nav-drop">
+							<a href="/content/data_centr/">Дата-центр</a>
+							<ul>
+								<li><a href="/content/article/data_centr/">Услуги дата-центра</a></li>
+								<li><a href="/content/rack/">Аренда серверных стоек</a></li>
+								<li><a href="/content/colocation/">Размещение серверов</a></li>
+								<li><a href="/content/dedicated/">Аренда сервера</a></li>
+								<li><a href="/content/vds/">Виртуальные серверы</a></li>
+							</ul>
+						</li>
+						<li><a href="/change/">Аренда оборудования</a></li>
+                        
+                        <li class="nav-drop">
+                            <a href="/internet/">Интернет</a>
+                            <ul>
+                                <li><a href="/internet/individual/">Интернет для физических лиц</a></li>
+                                <li><a href="/internet/legal_entity/">Интернет для юридических лиц</a></li>
+                                <li><a href="/internet/cottage_settlement/">Интернет для коттеджных поселков</a></li>
+                                <li><a href="/content/article/optovolokno_internet_dlya_operatorov/">Интернет для операторов связи</a></li>
+                                <li><a href="/content/article/vpn_server_proxy/">Интернет через прокси-сервер</a></li>
+								<li><a href="/content/article/hot_spot/">HotSpot Wi-Fi</a></li>
+                                <li class="nav-drop">
+                                    <a href="/wifi/">Построение Wi-Fi сети</a>
+                                    <ul>
+                                        <li><a href="http://globalhome.su/content/article/hot_spot_cafe/">Wi-Fi для ресторанов</a></li>
+                                        <li><a href="http://globalhome.su/content/article/wifi-hotel/">Wi-Fi для гостинец</a></li>
+                                        <li><a href="http://globalhome.su/content/article/wifi-obschezhitie/">Wi-Fi для общежитий</a></li>
+                                        <li><a href="http://globalhome.su/content/article/wifi-bolnicy/">Wi-Fi для больниц</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+   					</ul>
+				</li>
+				<li class="nav-drop">
+				<a href="#"><span>Тарифы</span></a>
+					<ul>
+						<li><a href="/homepage/localphones/">Городские номера</a></li>
+						<li><a href="/content/article/mgmn/">Исходящие звонки</a></li>
+						<li><a href="/change/">Аренда оборудования</a></li>
+                        <li class="nav-drop">
+                            <a href="/internet/">Интернет</a>
+                            <ul>
+                                <li><a href="/internet/individual/">Интернет для физических лиц</a></li>
+                                <li><a href="/internet/legal_entity/">Интернет для юридических лиц</a></li>
+                                <li><a href="/internet/cottage_settlement/">Интернет для коттеджных поселков</a></li>
+                                <li><a href="/content/article/optovolokno_internet_dlya_operatorov/">Интернет для операторов связи</a></li>
+                                <li><a href="/content/article/vpn_server_proxy/">Интернет через прокси-сервер</a></li>
+                            </ul>
+                        </li>
+						<li class="nav-drop">
+							<a href="#">Дата-центр</a>
+							<ul>
+								<li><a href="/content/rack/">Аренда серверных стоек</a></li>
+								<li><a href="/content/colocation/">Размещение серверов</a></li>
+								<li><a href="/content/dedicated/">Аренда сервера</a></li>
+								<li><a href="/content/vds/">Виртуальные серверы</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>	
+				<li class="nav-drop">
+					<a href="/content/payment/"><span>Оплата</span></a>
+						<ul>
+							<li><a href="/content/article/payment_methods/">Пополнение счета</a></li>
+							<li><a href="/content/article/payment_methods_cards/">Покупка карт доступа</a></li>
+						</ul>
+				</li>
+				<li class="nav-drop">
+					<a href="/reviews/"><span>Отзывы</span></a>
+						<ul>
+						
+							{% if user_name %}<li><a href="/reviews/my_reviews/">Мои отзывы</a></li>{% endif %}
+							<li><a href="/reviews/all_reviews/">Просмотреть отзывы</a></li>
+							<li><a href="/reviews/write_review/">Оставить отзыв</a></li>
+						</ul>
+				</li>
+				<li><a href="/content/news/"><span>Новости</span></a></li>				
+                <li class="nav-drop">
+					<a href="#"><span>О компании</span></a>
+						<ul>
+                            <li><a href="/content/article/company/">Информация о компании</a></li>
+                            <li><a href="/content/article/feedback/">Контакты</a></li>
+                            <li><a href="/content/type_service/">Помощь</a></li>
+                            <li class="nav-drop">
+                                <a href="#">Справочная информация</a>
+                                    <ul>
+                                        <li><a href="/content/article/glossary/">Список терминов</a></li>
+                                    </ul>
+                            </li>
+                            <li class="nav-drop">
+							<a href="#">Договоры</a>
+							<ul>
+								<li><a href="/content/article/contract_telem_services/">Договор телематических улуг</a></li>
+								<li><a href="/content/article/contract_data_pre-paid/">Договор услуги передачи данных с предоплатой</a></li>
+								<li><a href="/content/article/akt_pp_service/">Акт приема-передачи выполненных  работ</a></li>
+								<li><a href="/content/article/akt_pp_colocation/">Акт приема-передачи оборудования</a></li>
+								<li><a href="/content/article/dogovor_telefonnaya_svyaz/">Договор местной телефонной связи</a></li>
+								<li><a href="/content/article/soglashenie_dogovor/">Дополнительное соглашение о расторжении договора</a></li>
+                                <li><a href="/content/article/add_pre-paid/">Приложение к договору передачи данных с предоплатой</a></li>
+							</ul>
+						    </li>
+						</ul>
+				</li>
+				<li><a href="/search/"><span>Поиск</span></a></li>
+			</ul>
+		</nav>
+
+		<div class="phone-shape"><div class="phone-shape-inner"><i class="l"></i><i class="r"></i><i class="m"></i></div></div>
+	</div></div><!--header-->
+{% endblock %}
+
+{% block left_menu %}
+			<div class="cols-side"><div class="cols-side-i">
+				<div class="navside">
+					<ul>
+			
+					{% for section in left_block %}
+					 {% if section.multiple  %}
+					 <li class="multiple"><i></i><a href="{{ section.url }}">{{ section.name }}</a>
+					 <ul>
+						{% for subsection in section.childs %}
+							{% if subsection.multiple %}	
+								<li class="multiple"><i></i><a href="{{ subsection.url }}">{{ subsection.name }}</a><ul>
+								{% for element in subsection.childs %}
+									<li><i></i><a href="{{ element.url }}">{{ element.name }}</a></li>
+								{% endfor %}
+								</ul></li>
+							{% else %}
+								<li><i></i><a href="{{ subsection.url }}">{{ subsection.name }}</a></li>
+							{% endif %}
+						{% endfor %}
+					 </ul>
+					 {% else %}
+						<li><i></i><a href="{{ section.url }}">{{ section.name }}</a></li>
+					 {% endif %}
+
+					{% endfor %}
+					
+					
+
+
+					</ul>
+					{% if news_win %}
+				<div class="tit"><a href="/content/news/">Новости</a></div>	
+				<div class="news_body"> 
+				  
+				{% for obj in objects %}
+				<div class="item_news">
+				<div class="news_date_win"> {{ obj.created_at|date:" d.m.Y" }}</div>
+        		<h4 class="title_news" title="{{ obj.name }}"><div>{{ obj.name }}</div> </h4>
+    			
+    			<div class="news_text_win">
+        			{{ obj.text|safe }}
+    			</div>
+    			
+    			</div>
+    			
+        {% endfor %}
+        
+        
+				</div> 
+				{%endif%}
+				</div> 
+				<!--navside-->
+				
+			</div></div><!--cols-side-->
+			
+{% endblock %}  
+{% block rigth_menu %}            
+			<div class="cols-extra"><div class="cols-extra-i">
+
+				<div class="callnow">
+					<a href="/content/webphone/"><img src="{{ MEDIA_URL }}images/call.png" alt="Звонки с сайта"></a>
+				</div>
+
+				<div class="contacts-side">
+					<h4>Контакты:</h4>
+					<ul>
+						<li class="tel"><i class="ico"></i>
+							<a href="tel:+74956600875" class="link-tel">+7 (495) 66 00 875</a> <small>(Москва)</small><br>
+							<a href="tel:+78124495911" class="link-tel">+7 (812) 44 959 11</a> <small>(Санкт-Петербург)</small>
+						</li>
+
+						<li class="icq"><i class="ico"></i>
+							<span>492-284-475</span><br>
+							<span>627-417-042</span>
+						</li>
+
+						<li class="skype"><i class="ico"></i><a href="skype:globalhome.su?chat">globalhome.su</a></li>
+
+						<li class="mail"><i class="ico"></i><a href="#">sales@globalhome.su</a></li>
+
+						<li class="social"><i class="ico"></i>
+							<a href="http://www.facebook.com/pages/Globalhome/403831809694605" rel="nofollow" target="_blank" class="link-fb">Facebook</a>
+							<a href="http://vk.com/club41317337" rel="nofollow" target="_blank" class="link-vk">ВКонтакте</a>
+							<a href="https://twitter.com/globalhomesu" rel="nofollow" target="_blank" class="link-tw">Twitter</a>
+						</li>
+						{% comment %}
+						<li class="adsense">
+						  <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+							<!-- test -->
+							<ins class="adsbygoogle"
+							     style="display:inline-block;width:120px;height:240px"
+							     data-ad-client="ca-pub-1422687476563367"
+							     data-ad-slot="6549693930"></ins>
+							<script>
+							(adsbygoogle = window.adsbygoogle || []).push({});
+							</script>
+						  </div>
+						</li>
+						{% endcomment %}
+					</ul>
+										
+				</div>
+				
+			</div></div><!--cols-extra-->
+			
+
+			
+			
+			
+			
+{% endblock %}

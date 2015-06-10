@@ -1,0 +1,28 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+    <h1 class="title">{{ title }}</h1>
+    {% if findocs %}
+        <table class="type-1 type-dl">
+            <caption>Документы</caption>
+            <tbody>
+                {% for fd in findocs %}
+                    <tr>
+                        <th><a href="{{ fd.id }}/">{{ fd.findoc }}</a></th>
+                        <td>{{ fd.signed_at|date:"d.m.Y" }} <i class="sep"></i> {{ fd.signed_at|date:"H:i:s" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="status status-info">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>{% trans "You have no signed documents" %}</p>
+            </div>
+        </div>
+    {% endif %}
+    
+{% endblock %}

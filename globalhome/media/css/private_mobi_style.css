@@ -1,0 +1,28 @@
+#hotspot_card_button{
+    background: #2884EA;
+    color: white;
+    border-radius: 5px;
+    height: 30px;
+
+}
+.form-row {
+overflow: hidden;
+padding: 8px 12px;
+font-size: 11px;
+border-bottom: 1px solid #eee;
+}
+.module {
+border: 1px solid #ccc;
+margin-bottom: 5px;
+background: white;
+}
+ table {
+border-collapse: collapse;
+}
+ table {
+border-right: 1px solid #eee;
+}
+table {
+border-color: #ccc;
+}
+

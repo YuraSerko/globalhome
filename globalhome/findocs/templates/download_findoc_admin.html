@@ -1,0 +1,29 @@
+<script src="{{ MEDIA_URL }}js/jquery-1.7.2.min.js"></script> 
+<link type="text/css" href="{{ MEDIA_URL }}css/egplant_cost.css" rel="stylesheet" />
+<link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+
+
+ {% if not "application_number_tdc" in	application_text %}
+ <table class="type-4" style="height: 600px;">
+        	<caption>
+                    <div class="form-submit-left">
+                        <a type = "button" class="bt bt-blue2" href="/media/doc/{{display}}.zip" target="_blank">СКАЧАТЬ</a>
+                    </div>
+            </caption>
+             <tbody>
+             	<td style="padding: 0;">
+                    <div class="document" id="signed-findoc-text" style="clear: all; height: 800px; width:600px; overflow: hidden;">
+                        {{ application_text|safe }}
+                    </div>
+                </td>
+             </tbody>
+	 </table>
+{% else %}
+ <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>Пакет уже активирован</p>
+        </div>
+    </div>
+{% endif %}
+

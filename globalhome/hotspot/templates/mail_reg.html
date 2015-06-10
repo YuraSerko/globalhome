@@ -1,0 +1,370 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %} 
+<link href="/media/css/mail_mobi.css" rel="stylesheet" type="text/css" href="">    
+    
+{% endblock %}
+
+{% block content %} 
+ 
+
+  {% block sendin %}
+  {{block.super}}
+         {% endblock %}
+ 
+
+
+
+  
+  <article id="right">
+		
+		<style>
+			.advert_2{
+					float: right;
+					margin: 20px;
+					width: 240px;
+					margin-right: -80px;
+					height: 400px;
+					/*border: 1px solid black;*/
+				}
+		</style>
+	<div class = "advert_2"><script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement|add:17}}"></script></div>
+		
+			<div id='centr_field'>
+
+            {% block cap %}
+                {{ block.super }}
+                
+                {% endblock %} 
+				        <!-- мои данные  -->  
+						
+												
+            			<div  style="text-align:center"><b><div class = "title_mail" >Регистрация почтового ящика для домена globalhome.mobi</div>
+            			<form action = '/mail/' id = "mail_reg_form" method="POST" style=" width:500px; margin-left: 195px; margin-top: 20px; ">
+						<div style = "color:red; height: 30px;text-align: center;padding-top: 10px;" id = 'note'> 
+						</div>
+						
+						<label>Логин:</label>
+						<input type="text" name="u_login" size="30" width="150" maxlength="70" id = 'login'   style = "position:relative; focus:red;"></input>
+						<font class="email_label" style = "position:absolute;">@globalhome.mobi</font>
+						<br>
+						<font style="font-size:14px; " id = "login_check_result"></font>
+						<br>
+						
+						
+						<label>Пароль:</label> 
+						<input type="password" name="u_password" size="30" width="150" maxlength="70" id = 'password'/><br>
+						<font style="font-size:14px;" id = "password_check_result" color = "red"></font>		
+						<br/>
+						
+						
+						<label>Повторите пароль:</label>
+						<input type="password" name="u_password_repeat" size="30" width="150" maxlength="70" id = 'password_repeat'/>
+						<font style="font-size:14px;" id = "password_repeat_result"></font>	
+						<br/><br/> 
+						</div> 
+						</form>
+						
+						<div id = 'but' style = "text-align:center;  width:500px;margin-left: 195px;">
+						<button class="bt bt-blue2" onclick = "register()" >Зарегистрировать</button>
+						<!-- <button onclick = "change_in_border()"> изменить input</button>  -->
+						<br>
+						
+						<br>
+						<!--  <p id = "note" style = " color:red" ></p> -->
+						
+            			</div>
+            			
+            			
+            			<!--  окончание моих данных -->
+            				
+			</div>	
+	</article> 
+
+
+
+<style>
+
+.input_red{
+ outline: 1px solid red;
+}
+.input_yellow{
+outline: 1px solid Gold;
+}
+</style>
+
+
+<script>
+
+
+
+
+
+
+
+//global
+var reg_available = false;
+//======================================================================================================
+function pas_check_fun (str) { return /^[a-zA-Z0-9!@#$%^&*()_\-+]+z/.test(str + "z"); } //orig
+function log_check_fun (str) { return /^[a-zA-Z0-9_.]+z/.test(str + "z"); }
+//======================================================================================================
+	function register(){
+	 
+	   		// проверим поля для сообщений
+	   		if   (      ($('#lstatus').text()=='Логин свободен')     && 
+	   				    ($('#password_check_result').text() =='')    && 
+	   				    ($('#password_repeat_result').text() == '')               )  
+	   			 	
+	   				{reg_available = true;
+	   			 	}
+	   		
+	   		if (reg_available) {
+	
+			var items = {
+				login:$('#login').val(),
+				password:$('#password').val()
+			}
+			$.ajax({
+				url: '/ajax_mail_reg/',
+				type: 'POST',
+				data: items,
+				cash: true,
+				async:true,
+				success: function(html){
+				
+				//alert(html);
+			    if (html == 'Регистрация завершена успешно')		
+					{html = '<font  style = " color:black!important;" >' + html + '</font>';
+			    	$('#note').html(html);
+					$('#mail_reg_form').submit();	
+					}
+			    
+			    else {
+			    	$('#note').html(html);
+			    	$('#password').val('');
+			    	$('#password_repeat').val('');
+			    	$('#lstatus').html('');
+			    	$('#password_check_result').html('');
+			    	$('#password_repeat_result').html('');
+			    	document.getElementById('mail_reg_form').style.border = 'solid red';
+			    	document.getElementById('mail_reg_form').style.borderWidth = '1px 1px 0px 1px';
+			    	document.getElementById('but').style.border = 'solid red';
+			    	document.getElementById('but').style.borderWidth = '0px 1px 1px 1px';
+			    	}
+			    
+				
+				}
+				
+			})
+		
+	   		}
+
+	   
+	}
+
+//================================================================================
+
+
+	
+
+$("#password").focus(remove_border);		
+$("#login").focus(remove_border);
+$("#password_repeat").focus(pass_rep_focus);
+
+function remove_border(){
+	document.getElementById('mail_reg_form').style.border = 'none';
+	document.getElementById('but').style.border = 'none';
+	$('#note').html('');
+}
+
+
+
+
+
+$("#login").keyup(check_user);
+$("#password").keyup(check_password);
+$("#password_repeat").keyup(check_pasword_repeat);	
+
+//==========================================================================================
+
+function check_user()
+	{
+	
+	$('#login_check_result').html('');
+	$('#login').removeClass('input_red');
+	
+	var ajax_check = true;
+	var blank = false;
+	
+	//если поле пустое
+	if ($('#login').val() == '')
+		{    $('#login_check_result').html('<div style="color:red;">Логин не может быть пустым</div>'); 
+		ajax_check = false; blank =true;
+		$('#login').addClass('input_red');}
+		
+	
+	
+	
+
+	//если символ недопустим
+	if ( (!log_check_fun(      $('#login').val()         ) ) && !(blank))
+		
+	   {         $('#login_check_result').html('<div style="color:red;">Некорректный символ. Можно использовать только латинские буквы и цифры.<br>\
+			        Нельзя использовать пробелы, можно использовать символы ".", "-", "_".</div>');
+	   ajax_check = false; 
+	   $('#login').addClass('input_red');}
+	
+	
+	
+	
+	// если символ допустим и поле непустое проверяем ajax наличие такого пользователя
+	if ( (ajax_check) && !(blank)) {
+	var items = {
+			login:$('#login').val(),
+			}
+		$.ajax({
+			url: '/ajax_mail_check_user/',
+			type: 'POST',
+			data: items,
+			cash: true,
+			async:true,
+			success: function(html){
+				$('#login_check_result').html(html);
+				// если логин занят 
+				if ( html == '<div id = "lstatus" style="color:red;">Логин занят</div>')
+					 { $('#login').addClass('input_red');}
+			}
+		})
+	}
+	
+	
+		
+		
+		
+	}
+//==========================================================================================
+function check_password()
+{   
+	
+	$('#password_check_result').html('');
+	$('#password_repeat_result').html('');
+	$('#password').removeClass('input_red');
+	$('#password_repeat').removeClass('input_red');
+	
+	blank_p = false;
+	count_p = true;
+	bad_symbol_p = false;
+	
+	//если поле пустое
+	if ($('#password').val() == '')
+		{$('#password_check_result').html('<div style="color:red;">Пароль не может быть пустым</div>');  blank_p = true;
+		$('#password').addClass('input_red');
+		}
+	
+	
+	
+	
+	//если символ недопустим
+	if ( (!pas_check_fun(      $('#password').val()         ) ) && !(blank_p))
+		
+	   {         $('#password_check_result').html('<div style="color:red;">  Некорректный символ. В пароле можно использовать латинские буквы, <br>\
+			     цифры и символы из списка: ! @ # $ % ^ & * ( ) _ - +</div>');  bad_symbol_p = true; 
+			     $('#password').addClass('input_red');
+	   }
+	
+	
+	
+	
+
+	
+	// если пароль не пустой и все символы допустимы проверяем длину пароля
+	if ((!blank_p) && (!bad_symbol_p)){	
+		if (($('#password').val().length)<6)
+			{	$('#password_check_result').html('<div style="color:red;">Пароль должен быть не менее 6 символов</div>');
+			$('#password').addClass('input_red');}
+		
+		
+		
+		if (($('#password').val().length)>20)
+	    	{	 $('#password_check_result').html('<div style="color:red;">Пароль должен быть не более 20 символов</div>');
+	    	$('#password').addClass('input_red');}
+		
+		
+	}
+	
+	//если пароль не пустой все символы допустимы и длина от 6 до 20 проверяем буквы+цифры
+	if           ((($('#password').val().length)>=6)&&(($('#password').val().length)<=20)&&(!blank_p) && (!bad_symbol_p) )
+	{
+	pas = $('#password').val();
+ 	if  (/[0-9]+/.test(pas))
+ 		 {}
+ 	else {$('#password_check_result').html('<div style="color:red;">Пароль не может состоять только из букв. Добавте цифры.</div>');
+ 	$('#password').addClass('input_red');}
+ 	
+ 	if  (/[a-z]+/.test(pas))
+ 		{}
+ 	else
+		{$('#password_check_result').html('<div style="color:red;">Пароль не может состоять только из цифр. Добавьте буквы.</div>');
+		$('#password').addClass('input_red');}
+
+	}
+	
+	
+	
+	
+	
+	//проверяем совпадение пароля и подтверждения пароля
+	
+	if (    ($('#password').val() != $('#password_repeat').val() )   && ($('#password_repeat').val() !='')   )
+			{
+			$('#password_repeat_result').html('<div style="color:Gold;">Пароль и подтверждение пароля не совпадают</div>');
+			$('#password_repeat').addClass('input_red');
+			}
+}
+
+//=======================================================================================================================================
+function check_pasword_repeat(){
+	$('#password_repeat_result').html('');
+	$('#password_repeat').removeClass('input_yellow');
+	
+	if ($('#password').val() != $('#password_repeat').val() && ($('#password_repeat').val()!='')    )
+			{
+			$('#password_repeat_result').html('<div style="color:Gold;">Пароль и подтверждение пароля не совпадают</div>');
+			$('#password_repeat').addClass('input_yellow');
+			}
+	
+}
+
+
+
+//=======================================================================================================================================
+function pass_rep_focus(){
+	remove_border();
+	check_pasword_repeat();
+}
+
+//========================================================================================================================================	
+</script>
+
+
+
+
+    {% block login_1 %}
+    {{block.super}}
+         {% endblock %}
+
+          {% block review_window %}
+      {{block.super}}
+      {% endblock %} 
+        
+      {% block complaint_window %}
+      {{block.super}}
+      {% endblock %}
+
+       {% block hs_login2 %}
+      {{block.super}}
+      {% endblock %}
+     
+{% endblock %}
+

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="jCanvas.js"></script>
+<style>
+	.box_empty div {
+		background: none repeat scroll 0 0 #0066CC;
+		color: #FF0000;
+		float: left;
+		height: 50px;
+		margin-left:;
+		width: 50px;
+		border-radius:40px;
+		border:1px solid gray;
+	}
+	.gol{
+	
+	}
+	.head{
+		background:aqua;
+		width:50px;height:50px;
+		margin:0 auto;
+		border-radius:40px
+	}
+	.trunk {
+		display: block;
+		width: 400px;
+	}
+	.perv{
+		margin-left:0 !important;
+	
+	}
+	
+	
+</style>
+</head>
+<body>
+<button class='add_drop'>Press me</button>
+<button class='del_click'>click to del</button>
+<input type='text' id='number'>
+<div id='trunk' class='trunk'>
+<div class='gol'><div class='head'></div></div>
+<canvas id="myCanvas" width="400" height="450" ></canvas>
+	<div class='box_empty'>
+	
+	<div class='perv'></div>
+	<div></div>
+	
+	</div>
+
+</div>
+
+
+<!--
+<div id="voice_menu" class="trunk  ui-draggable">
+						<div class="tree">
+							
+								<div id="new_call" class="objects">
+									<div class="box">
+										<div class="polaroid">
+											<a><img width="40px" height="40px" alt="voice_menu" src="/media/img/icons/shem/voice_menu.png"></a>
+										</div>
+									</div>
+									<div class="description hover">Голосовое меню</div>
+									<div class="icon_action hover"> 
+										<a class="replace"></a>
+										<a class="del"></a>
+									</div>
+								</div>	
+							
+						</div>
+							
+	
+							
+		
+		
+		
+						<canvas height="150" width="400" class="canva hover" id="voice_menu_canvas"></canvas>
+						<div class="drop_line hover">
+							<div class="box-empty  ui-droppable" id="voice_menu_drop_first">
+																<p></p>
+																<img width="16px" height="16px" alt="plus" src="/media/img/icons/shem/plus.png" title="Добавить сюда новый узел" class="plus_canvas" id="img_1st" style="position: static;">
+																<br>
+							</div>
+							<div class="box-empty  ui-droppable" id="voice_menu_drop_2">
+																<p></p>
+																<img width="16px" height="16px" alt="plus" src="/media/img/icons/shem/plus.png" title="Добавить сюда новый узел" class="plus_canvas" id="img_2st" style="position: static;">
+																<br>
+							</div>
+						</div>
+					
+		
+	</div>-->
+<script>
+	$('.add_drop').click(function(){
+		$('<div></div>').appendTo('.box_empty')//здесь должен быть dropline,а в скобках drop
+		
+		
+		
+		//ширина канваса изначально
+		wid = $('#myCanvas').width()
+		
+		//увеличиваем текщую ширину на 20 процентво
+		 
+		$('#myCanvas').attr('width',wid+200+'px')
+		rock()
+		
+		//увеличиваем ширину транк и дроплайна
+		$('.trunk').css('width',wid+200+'px')
+		//$('.box_empty').css('width',wid*1.2)
+		
+		//переопределяем переменную после увеличения канваса
+		
+		wid = $('#myCanvas').width()
+		//определяем какой нужен марджин лефт(ширина канваса поделить на количество дропов в дроплайне плюс один)
+		//marg = wid*0.7/($('.box_empty').children().length)+'px';
+		marg = 150+'px'
+		$('.box_empty').children().css('margin-left', marg)
+		$('.box_empty').css('width', marg+1+'%')
+		
+		count=((marg)*($('.box_empty').children().length))
+		
+	
+	
+	})
+	$('.del_click').click(function(){
+		wid = $('#myCanvas').width()
+		if(wid != 400){
+		$('.box_empty div:last-child').remove()  //указать что последний drop нужно удалить
+		alert('true')
+		$('#myCanvas').attr('width',wid-200+'px')
+		$('.trunk').css('width',wid-200+'px')
+		$('#myCanvas').width('')
+		
+		rock()
+		
+		}
+		else{
+			wid = $('#myCanvas').width()
+			$('#myCanvas').attr('width','400px')
+			$('.trunk').attr('width','400px')
+			rock()
+		}
+	})
+	
+		function rock(){
+		var canvas = document.getElementById('myCanvas');
+		var context = canvas.getContext('2d');
+		var rectWidth = (canvas.offsetWidth)/4;
+		var rectHeight = 100;
+		var rectX = (canvas.offsetWidth)/2;
+		var rectY = (canvas.offsetHeight)/2;
+		var cornerRadius = 120;
+		context.lineWidth = 3;
+		context.strokeStyle = 'gray';
+		
+	 
+	
+		var statDotX = 20
+		var statDotY = 430
+		
+	
+		function init(){
+        var canvas = document.getElementById('myCanvas');
+        var ctx = canvas.getContext('2d');
+		
+        var width = canvas.width;
+        var height = canvas.height;
+        ctx.moveTo(width/2,0)
+		ctx.lineTo(width/2,height/2);
+		
+	
+		var rectSize = 50;
+        var position = 0;
+        while(position < width) {
+            ctx.fillRect(position,height+10,rectSize,rectSize); //изменить на минус чтобы смотреть прямоуголник
+			ctx.moveTo(width/2,height/2);
+			ctx.lineTo(position+25,height+20);
+			ctx.stroke();
+			position += rectSize + 150; 
+			}
+		}
+			init()
+	
+}
+rock()
+			
+	
+		
+	
+</script>
+</body>
+</html>
+

@@ -1,0 +1,115 @@
+<form action="/account/demands_dc/activation_zakaz/" method="post">
+	<input type="hidden" id="hidden_id" name="hidden_id" value="{{ zakaz_obj.id }}"/>
+    <table class="type-4 modal">
+        <caption>
+            <h1 class="title" style="margin: 0;">{{ title_modal }}</h1>
+        </caption>
+        <tbody>
+            <tr>
+                <td><label>Тип услуги</label></td>
+                <td><label class="value">{{ zakaz_obj.service_type }}</label></td>
+            </tr>
+            <tr>
+                <td><label>Тариф</label></td>
+                <td><label class="value">{{ zakaz_obj.tariff }}</label></td>
+            </tr>
+            {% if zakaz_obj.equipment %}
+            <tr>
+                <td><label>Название оборудования</label></td>
+                <td><label class="value">{{ zakaz_obj.equipment }}</label></td>
+            </tr> 
+            {% endif %} 
+            {% if zakaz_obj.cpu %}
+            <tr>
+                <td><label>Процессор</label></td>
+                <td><label class="value">{{ zakaz_obj.cpu }}</label></td>
+            </tr>
+            {% endif %}
+            {% if zakaz_obj.ram %}	
+            <tr>
+                <td><label>Память</label></td>
+                <td><label class="value">{{ zakaz_obj.ram|safe }}</label></td>
+            </tr>
+            {% endif %}
+            {% if zakaz_obj.hdd %}
+            <tr>
+                <td><label>Диск</label></td>
+                <td><label class="value">{{ zakaz_obj.hdd|safe }}</label></td>
+            </tr>
+            {% endif %}
+            {% if zakaz_obj.unit %}
+            <tr>
+                <td><label>Высота сервера / кол-во unit`ов</label></td>
+                <td><label class="value">{{ zakaz_obj.unit }}</label></td>
+            </tr>
+            {% endif %}
+            {% if zakaz_obj.size_equipment %}
+            <tr>
+                <td><label>Размер оборудования, см</label></td>
+                <td><label class="value">{{ zakaz_obj.size_equipment }}</label></td>
+            </tr>
+            {% endif %}
+            {% if zakaz_obj.electricity %}
+            <tr>
+                <td><label>Электричество, Вт</label></td>
+                <td><label class="value">{{ zakaz_obj.electricity }}</label></td>
+            </tr>
+            {% endif %}
+            {% if zakaz_obj.socket %}
+            <tr>
+                <td><label>Количество розеток, шт</label></td>
+                <td><label class="value">{{ zakaz_obj.socket }}</label></td>
+            </tr>
+            {% endif %}
+            {% if zakaz_obj.count_ip %}
+            <tr>
+               <td><label>Количество IP-адресов:</label></td>
+               <td><label class="value">{{ zakaz_obj.count_ip }}</label></td>
+             </tr>
+            {% endif %}
+            {% if zakaz_obj.inet %}
+            <tr>
+               <td><label>Интернет</label></td>
+               <td><label class="value">{{ zakaz_obj.inet }}</label></td>
+             </tr>
+            {% endif %}
+            {% if zakaz_obj.ip %}
+            <tr style="background: #f3f3f3;">
+                <td colspan="2"><label><strong>Выданные IP-адреса</strong></label></td>		
+            </tr>
+            <tr>
+            	<td></td>
+                <td><label class="value">{{ zakaz_obj.ip|safe }}</label></td>
+            </tr>
+            {% endif %}
+            {% if i.os != none and i.os != "0" %}
+              <tr>
+                <td><label>Операционная система</label></td>
+                <td><label class="value">{{ i.os }}</label></td>
+              </tr>
+            {% endif %} 
+              <tr>
+                <td><label>Стоимость</label></td>
+                <td><label class="value">{{ zakaz_obj.cost }} руб.<req>*</req></label></td>
+              </tr>
+             <tr>
+                <td colspan="2">        
+                    <div class="ugc" style="margin: 0; display:inline-block;">
+                        <p><small><req>*</req> Все цены приведены с учетом НДС.</small></p>
+                    </div>
+                    {% if button_activate %}
+                    	{% if server_adrress %}
+                    		<button class="bt bt-blue2" type="submit">Активировать заявку</button>
+                        {% else %}
+                        	</td>
+                            </tr>
+                            <tr>
+                            <td colspan="2">
+                        	<strong style="color: red;">В настоящий момент идет подготовка оборудования.<br /> По окончании подготовки, мы вышлем Вам уведомительное сообщение о готовности.</strong>
+                        {% endif %}
+                    {% endif %}
+                </td>
+             </tr>
+         </tbody>
+    </table>  
+</form>

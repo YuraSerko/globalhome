@@ -1,0 +1,39 @@
+
+
+/*MAIL MOBI CSS*/
+
+#mail_reg_form label, #mail label{
+                    margin: 0 0 2px;
+                    color: #767676;
+                    font-weight: 700;
+                    display: block;
+                }
+                .email_label{
+                    margin: 0 0 2px;
+                    color: #767676;
+                    font-weight: 700;
+                }
+                 a.href_mail {
+                        white-space: nowrap;
+                        font-size: 125%;
+                        top: 0;
+                        }
+                        
+                         a.href_mail {
+                        margin-left: 0;
+                        }
+                         a.href_mail {
+                        position: relative;
+                        top: 12px;
+                        color: gray;
+                        text-decoration: underline;
+                        /* margin-left: 39%; */
+                        }
+                        a.href_mail:hover{
+                            text-decoration: none;
+                        }
+                        .title_mail{
+                                color: #767676;
+                                font-size: 18px;
+                            }
+/*MAIL MOBI CSS*/

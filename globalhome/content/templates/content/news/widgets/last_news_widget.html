@@ -1,0 +1,11 @@
+{% for obj in news %}
+    <div class="homepage-column">
+    	<div class="homepage-column-inner">
+            <h3 class="bottom"><a href="{{ obj.get_absolute_url }}">{{ obj.name }}</a></h3>
+            <div class="date">{{ obj.created_at|date }}</div>
+            <div class="text">
+                {{ obj.summary|safe }}
+            </div>
+        </div>
+    </div>
+{% endfor %}

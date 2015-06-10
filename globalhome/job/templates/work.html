@@ -1,0 +1,284 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %} 
+
+
+ {% block sendin %}
+ {{block.super}}
+         {% endblock %}
+ 
+
+  
+ 
+  
+<article id="right">
+	
+				
+			
+				
+				
+				  {% block burat2 %}
+                  {{block.super}}
+                  {% endblock %}
+				
+				
+			
+			
+	<div id='centr_field'>
+				{% block cap %}
+				{{block.super}}
+         		{% endblock %} 
+                
+    
+	 	<!-- мои данные -->
+		{% block work_login %}
+		 	{{block.super}}
+		{% endblock %}
+		
+		
+		<div id="work_menu_block">
+			<div><button style="background-image: url(/media/images/work_menu1.png)!important;  background-repeat: no-repeat; background:white;" id = "but1" onClick= 'location.href="work_acount/work_vacancy_search"' >Поиск вакансий</button></div>
+			<div><button style="background-image: url(/media/images/work_menu1.png)!important;  background-repeat: no-repeat; background:white;" id = "but2" onClick= 'location.href="work_acount/work_resume_search"'>Поиск резюме</button></div>
+			<div><button style="background-image: url(/media/images/work_menu1.png)!important;  background-repeat: no-repeat; background:white;" id = "but3" onClick= 'location.href="work_acount/resume"'>Мои резюме</button></div>
+			<div  class = "last"><button style="background-image: url(/media/images/work_menu1.png)!important;  background-repeat: no-repeat; background:white;" id = "but4" onClick= 'location.href="work_acount/vacancy"'>Мои вакансии</button></div>
+			
+		</div>
+		
+		
+		
+		<div id = "last_res_vac">
+		
+		
+			<div id ="last_vacancies">
+				{% if res_dict_vac  %}
+					<div class= 'last_title'>Последние вакансии</div>
+				{% endif %}
+				{% for k, v in res_dict_vac.items %}
+				<div class = "vac_block">
+					<div class = "name">
+						<div class= "name_blue"><a href = "/work_account/work_vacancy_view/{{v.0}}/">{{ v.1 }}</a></div>
+						<div class = "org_name">{{ v.2 }}({{ v.3 }})</div>
+					</div>
+					<div class =  'salary'>
+						{% if v.4 != None and v.5 != None %}
+							{{ v.4 }}-{{ v.5 }} руб.
+						{% endif %}
+						{% if v.4 == None and v.5 != None %}
+							до {{ v.5 }} руб.
+						{% endif %}
+						{% if v.4 != None and v.5 == None %}
+							от {{ v.4 }} руб.
+						{% endif %}
+						{% if v.4 == None and v.5 == None %}
+							договорная
+						{% endif %}
+					<p>{{ v.7 }}
+					</div>
+					<div class = 'publication'>
+						{{ v.6|date:"d. m. Y" }}
+					</div>
+				</div>
+				<br>
+				{% endfor %}
+				
+				
+				{% if res_dict_resume  %}
+				<div class= 'last_title'>Последние резюме</div>
+				{% endif %}
+				{% for k, v in res_dict_resume.items %}
+					<div class = "resume_block">
+						<div class = "name">
+							<div class= "name_blue"><a href = "/work_account/work_resume_view/{{v.0}}/">{{ v.1 }}</a></div>
+							<div class = "resume_city">{{ v.2 }}</div>
+						</div>
+						
+						<div class = "salary">
+							{% if v.3 != None %}
+								{{ v.3 }} {{ v.4 }}
+							{% else %}
+								договорная
+							{% endif %}
+							<p>{{ v.5 }}	
+						</div>
+						
+						<div class = 'publication'>
+							{{ v.6|date:"d. m. Y" }}
+						</div>
+					</div>
+					
+					</div>
+				<br>
+				{% endfor %}
+			</div>
+			
+			<!-- окончание блока мои данные -->
+			
+			<div id="last_resumes">
+				
+			</div>
+			
+			
+		</div>
+		
+		
+		
+   </div>
+			
+</article>
+  
+ 
+<style>
+
+#work_menu_block{
+	width:815px;
+	}  
+	
+/*.work_menu_button button{
+	height:50px;} */
+#work_menu_block{
+	}	
+	
+#work_menu_block div button{	
+	display: inline;
+	text-align: center;
+	width: 189px; /* was 170px; */
+	height:33px; /* was not set*/
+	background:#3882E3;
+	color:white;
+	border:2px solid white;
+	font-size:22px;
+	 }
+
+.but_border{
+	border:2px solid #7aafe9!important;
+	}
+
+#work_menu_block div{
+	display: inline;
+	margin-right: 15px; /* was 40*/
+	text-align: center;
+}
+		 
+.last{	
+	margin-right:0px!important;
+	 }
+
+.name{
+	display:inline-block;
+	width:33%;}
+	
+.salary{
+	display:inline-block;
+	width:33%;
+	vertical-align: top;}	
+	
+.publication{
+	display:inline-block;
+	/*width:33%;*/
+	float:right;}	
+
+.last_title	
+	{
+	font-size: 26px;
+	margin-top: 20px;
+	margin-bottom: 10px;}
+	
+.name_blue a{
+	font-size: 20px;
+	color: #7aafe9!important;
+	font-weight:bold;
+	text-decoration: none;
+	}
+	
+.org_name, .resume_city{
+	font-size:18px;
+	}	
+	
+.vac_block {
+	border:1px solid lightgray;
+	width:815px;
+	padding:2px;
+	}
+	
+.resume_block{
+	border:1px solid lightgray;
+	width:815px;
+	padding:2px;
+	}
+</style>	
+
+
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+
+
+// окончание моего javascript
+
+</script>
+<!--
+<script>
+      div="_ph1968";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1968&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+	<script>
+      div="_ph1971";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1971&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>-->
+    
+    <a href="#" class="overlay" id="hs_login2" ></a>
+		<div class="main_modal_tip">
+			<div class="modal_tip">
+				<a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+				<h2>Вы воспользовались услугами Бесплатной* Wi-Fi сети<br> <a href='http://globalhome.su/content/article/hot_spot/' target="_blank">HotSpot GlobalHome </a><h2>
+				<ul>
+					<li>Скорость доступа к интернет ресурсам составляет до 15 мбит\с.</li>
+					<li>Для более подробной информации нажмите<a href="http://globalhome.su/content/article/hot_spot/" target="_blank">здесь</a></li>
+					<li>Для открытия сайта или получения нужной информации введите запрос в поисковой строке.  Далее перейдите по ссылке в выдаче информации.</li>
+				</ul>
+				<p>* - на период тестирования.</p>
+				
+				<div class="lower_part">
+				
+				{%if trial%}
+					<form action = '/' method = 'GET' class="forma modal" id='' name = 'search_form' onsubmit = 'javascript:log();'>
+					{% else%}
+					<form action = '/' method = 'GET' class="forma modal"  name = 'search_form' >
+					{% endif%}
+					<input tabindex="4" type="text" class="searchbox modal" name="query" value=""  id = 'ya_input_log' />
+					<input  type="submit"   class="searchbox_submit modal"   value="Найти"  /><span class="tri"></span>
+						
+					</form>
+				</div>	
+			</div>
+		</div>
+		
+		{% block login_1 %}
+		{{block.super}}
+         {% endblock %}
+		
+		 {% block complaint_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+         {% block review_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+{% endblock %}

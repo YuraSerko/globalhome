@@ -1,0 +1,21 @@
+{% extends 'account/profile.html' %}
+{% load i18n form_tags lib_tags %}
+{% block content %}
+
+<form action="" method="post">
+<fieldset>
+<!-- <p class="help">{% trans "Phone number will not be changed" %}</p> -->
+{% for f in form %}
+{% form_field f block %}
+{% endfor %}
+</fieldset>
+<div class="submit-row">
+<p class="deletelink-box">
+  <a class="delete_link" href="./delete/">{% trans "Delete phone and group" %}</a>
+</p>
+  <input class="default" type="submit" name="submit" value="{% trans 'Save' %}" />
+</div>
+</form>
+
+{% endblock %}
+

@@ -1,0 +1,30 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+<form method="POST" action=".">
+    <div class="confirm2">
+        <h4>Вы уверены, что хотите удалить внутренний номер {{ number }}?</h4>
+        {% if spis_group %}
+            <p>Вместе с номером будут удалены следующие группы:</p>
+            <ul>
+                {% for group in spis_group %}
+                    <li style="color: #3a7cbd"><span>{{ group.name }}</span></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    
+    <div class="confirm">
+        <div class="form-submit">
+            <div class="form-submit-right">
+                <input type="submit" class="bt bt-blue2" value='Отмена' name="cancel" />
+                <input type="submit" class="bt bt-blue2" value='Удалить' name="delete" />
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

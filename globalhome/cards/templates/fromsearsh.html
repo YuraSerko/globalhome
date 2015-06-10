@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>My Web site</title>
+	<meta name="generator" content="Studio 3 http://aptana.com/">
+	<meta name="author" content="Администратор">
+	<!-- Date: 2011-03-14 -->
+</head>
+<body>
+  
+</body>
+  <ul>
+    {% for post in posts %}
+      <li>
+        <h2>{{ post.name }}</h2>
+        <h3>{{ post.time|date }}</h3>
+        <h4>{{ post.text }}</h4>
+      </li>
+    {% endfor %}
+  </ul>
+  <table>
+  </table>
+</html>

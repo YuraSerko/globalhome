@@ -1,0 +1,217 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+
+
+
+   
+{% endblock %}
+ {% block content %}
+
+  <base target="_blank">
+        <script type="text/javascript">
+function game_slider(class_name){
+  $('.'.concat(class_name)).each(function() {  
+
+ 
+ var dot = $('#delete_dot', this);
+
+ var item  = $('DIV.news-item-block', this);
+ 
+
+ var text = $('.news-item-text_block ', this);
+ var he = $('.class_name > div > div.news-item-text_block.close > p'.replace('class_name', class_name)).css('height');
+
+
+    item.click(function() {
+     if (text.hasClass('opened') ){
+        text.removeClass('opened');
+        text.addClass('close');    
+        text.css('height', '35');
+        item.css('height', '400') 
+        dot.css('display', 'block');
+      }  
+      else if(text.hasClass('close')) {
+        dot.css('display', 'none');
+         text.addClass('opened');
+         text.removeClass('close');
+         text.css('height', 'auto'); 
+          item.css({
+    height: function( index, value ) {
+      return parseFloat( value )+parseFloat(he.replace('px', '')) ;
+    }
+  });   
+
+      }    
+    });
+
+              //}
+
+});
+
+}
+</script>
+
+
+  {% block sendin %}
+  {{block.super}}
+         {% endblock %}
+         {% block login_1 %}
+  {{block.super}}
+         {% endblock %}
+    <article id="right">
+
+<div id = "time_gl_mobi_games_page"><div class="time"></div><div id="date_gl_mobi">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<div style = "display:inline" class = "date">14.03.2014</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Москва</div>
+   
+    <script>
+    setInterval(time, 1000);
+    function time(){
+      var t = new Date();
+      var min = t.getMinutes()
+      m = "";
+      if (min < 10){
+        m = "0";
+      }
+       s ="";
+      sec = t.getSeconds();
+      if (sec < 10){
+        s = "0";
+      }
+      $('.time').text(t.getHours()+":"+m+t.getMinutes()+":"+s+t.getSeconds())
+      $('.date').text("{{date_d}}")
+    }
+    </script>
+    
+    </div>      
+
+           <div class="weather_games"><a href = "/weather/">Погода</a></div>  
+           <div class="send_games"><a href = "#">Почта</a></div> 
+           <div class="financy_games"><a href = "/hotspot/currency/">Финансы</a></div>          
+           
+           <style>
+           @media only screen and (min-width: 1200px){
+			.advert_2{
+					float: right;
+					margin: 20px;
+					width: 120px;
+					height: 600px;
+					/*border: 2px solid #4282D2;*/
+				}
+				
+				}
+		</style>
+	<div class = "advert_2">
+		<script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement|add:17}}"></script>
+	</div>
+           
+    <div id='centr_field'>
+	   {% block cap %}
+                {{ block.super }}
+                
+                {% endblock %} 
+        
+                           
+    </div>  
+      
+  
+ 
+
+
+                               <h2 class="head_games">{{header_games_title}}</h2>
+              <div style="height:30px;"></div>
+            
+        <div style="margin-bottom: 400px; "   id = "mobil">
+        
+			   <div class="left_col" >
+      {% for i, s in enumerate %}    
+      {% if i|divisibleby:"2" %}    
+      <div class="l_shut-{{i}}">
+    <div {% if i|divisibleby:"4" %} id="black" {% endif %} class="news-item-block">
+    <div style = " width: 300px; " class="news-item-img" {% if event %}  onclick="check_window(event,this)"{% endif %}>
+
+    
+     {% if not ios and not android  %}<a  href="#null">{% if event %}<div style="position: relative;">{% endif %}{{s.banner|safe}}{% if event %}<a rel="nofollow" onclick="check_window(event,this)" target="_blank" href="#null" style="display:block;position:absolute;width:100%;height:100%;z-index:5;top:0px;left:0px;"></a></div>{% endif %}{% endif %} {% if android or ios %} 
+     <div class ="opaci_ty" style="position: relative;"> <a style="opacity: 0; position: absolute; width: 100%; height: 250px; left: 0; top: 0; background: url(/media/images/banner_games/s.gif) left top no-repeat;" href="{{s.http}}" target="_blank"></a>
+     <img src = "{{s.img}}"> </div>{% endif %} 
+   </a> 
+
+  </div>
+  <center>
+  <h2 {% if event %} onclick="check_window(event,this)"{% endif %} style = " position: relative; top: 120px; left: 0px;" class = "game_name_item_block"><a target="_blank" href="{{s.http}}">{{s.game_name}}</a></h2></center>
+   <div style = "position: relative; top: 140px;" class="news-item-text_block close"><p>
+    {{s.description}}
+    </p>
+    </div>
+    <h3 style = "cursor: pointer; position: relative; top: 135px; left: 275px;height: 20px; width: 20px;" id = "delete_dot" class = "game_name_item_block"><a>.&nbsp;.&nbsp;.</a></h3>
+    </div>
+    </div>
+    <div style="clear: both; height: 10px; background: white;"></div>
+       
+        {% endif %}
+        {% endfor %}
+        </div>
+         <div class="right_col">
+        {% for i, s in enumer %}
+        {% if i|divisibleby:"2" %}
+            {% else %}
+            
+            <div class="l_shut-{{i}}">
+    <div id="{% cycle '' 'black' %}" class="news-item-block">
+    <div style = "width: 300px; " class="news-item-img" {% if event %}  onclick="check_window(event,this)"{% endif %}> 
+ 
+      
+          {% if not ios and not android %}<a  href="#null">{% if event %}<div style="position: relative;">{% endif %}{{s.banner|safe}}{% if event %}<a rel="nofollow" onclick="check_window(event,this)" target="_blank" href="#null" style="display:block;position:absolute;width:100%;height:100%;z-index:5;top:0px;left:0px;"></a></div>{% endif %}</a> {% endif %} {% if android or ios %} 
+     <div class ="opaci_ty" style="position: relative;"> <a style="opacity: 0; position: absolute; width: 100%; height: 250px; left: 0; top: 0; background: url(/media/images/banner_games/s.gif) left top no-repeat;" href="{{s.http}}" target="_blank"></a>
+     <img src = "{{s.img}}"> </div>{% endif %} 
+    
+   
+
+
+  </div><center>
+  <h2 {% if event %} onclick="check_window(event,this)"{% endif %}style = " position: relative; top: 120px; left: 0px;" class = "game_name_item_block"><a target="_blank" href="{{s.http}}">{{s.game_name}}</a></h2></center>
+   <div style = "position: relative; top: 140px;" class="news-item-text_block close"><p>
+    {{s.description}}
+    </p>
+    </div>
+    <h3 style = "cursor: pointer; position: relative; top: 135px; left: 275px;height: 20px; width: 20px;" id = "delete_dot" class = "game_name_item_block"><a>.&nbsp;.&nbsp;.</a></h3>
+    </div>
+    </div>
+    <div style="clear: both; height: 10px; background: white;"></div>
+        {% endif %}
+            <script>
+              game_slider('l_shut-{{i}}');
+              </script>
+        {% endfor %}
+        </div>
+              
+			   </div><!--Mobil-->
+          
+        
+           
+           
+ <script type="text/javascript">
+  $('.game_name_item_block').css('height', '15px');
+  $('.game_name_item_block a').css('height', '15px');
+  
+  $('.game_name_item_block').css('margin-bottom', '140px')
+
+  </script>
+
+
+
+		</article>
+		
+     {% block review_window %}
+      {{block.super}}
+      {% endblock %} 
+        
+      {% block complaint_window %}
+      {{block.super}}
+      {% endblock %}
+      
+      {% block hs_login2 %}
+      {{block.super}}
+      {% endblock %}
+
+{% endblock %}

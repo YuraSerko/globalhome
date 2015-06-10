@@ -1,0 +1,155 @@
+{% extends 'base_private.html' %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+<h1 class="title">Мои деактивированные заказы</h1>
+
+<form method="post" action=".">
+    {% if check_zakazy == 'true' %}
+    
+        <div class="status status-info">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>Архив заказов пуст.</p>
+            </div>
+        </div>
+        
+    {% else %}
+    
+       <table class="type-2">
+            <thead>
+                <tr>
+                    <th>Номер заказа</th>
+                    <th>Тип услуги</th>
+                    <th>Дата заказа</th>
+                    <th>Дата деактивации</th>
+                    <th>Стоимость услуги, руб.</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for j in zakazy %}
+                    <tr>
+                        <td>{{ j.id }}</td>
+                        <td><a href="/account/demands_dc/demands_dc_archive/#zakaz{{ j.id }}">{{ j.service_type }}</a></td>
+                        <td>{{ j.date_activation }}</td>
+                        <td>{{ j.date_deactivation }}</td>
+                        <td>{{ j.cost }}</td>
+                     </tr>
+                {% endfor %}
+        	</tbody>
+     	</table>
+        
+    {% endif %}
+</form>
+
+{% for i in zakazy %}
+	<a href="#" class="overlay" id="zakaz{{ i.id }}"></a>
+    <div class="popup_personal">
+        <a class="popup_personal-close" href="#close"></a>
+        <form action="#" id="preview{{ i.id }}" name="preview{{ i.id }}" method="post">
+            <input type="hidden" id="hidden_id" name="hidden_id" value="{{ i.id }}"/>
+            
+            <table class="type-4 modal">
+            	<caption>
+                	<h1 class="title" style="margin: 0;">Просмотр деактивированного заказа</h1>
+                </caption>
+                 <tbody>
+                    <tr>
+                        <td><label>Тип услуги</label></td>
+                        <td><label class="value">{{ i.service_type }}</label></td>
+                    </tr>
+                    {% if i.tariff != none %}
+                    <tr>
+                        <td><label>Тариф</label></td>
+                        <td><label class="value">{{ i.tariff|safe }}</label></td>
+                    </tr>
+                    {% endif %}
+                    {% if i.equipment != none and i.equipment != '' %}
+                    <tr>
+                        <td><label>Название оборудования</label></td>
+                        <td><label class="value">{{ i.equipment }}</label></td>
+                    </tr>
+                    {% endif %} 
+                    {% if i.unit != none %}
+                    <tr>
+                        <td><label>Высота сервера / кол-во unit`ов</label></td>
+                        <td><label class="value">{{ i.unit }}</label></td>
+                    </tr>
+                    {% endif %} 
+                    {% if i.port != none %}
+                    <tr>
+                        <td><label>Кол-во портов коммутатора 100 Мбит/сек</label></td>
+                        <td><label class="value">{{ i.port }}</label></td>
+                    </tr>
+                    {% endif %} 
+                    {% if i.ip != none and i.ip != '' %}
+                    <tr>
+                        <td><label>Выданные IP адреса:</label></td>
+                        <td><label class="value">{{ i.ip|safe }}</label></td>
+                    </tr>
+                    {% endif %} 
+                    {% if i.socket != none %}
+                    <tr>
+                        <td><label>Кол-во розеток</label></td>
+                        <td><label class="value">{{ i.socket }}</label></td>
+                    </tr>
+                    {% endif %} 
+                    {% if i.electricity != none %}
+                    <tr>
+                        <td><label>Электропитание, Вт</label></td>
+                        <td><label class="value">{{ i.electricity }}</label></td>
+                    </tr>
+                    {% endif %} 
+                    {% if i.cpu != none and i.cpu != "0" %}
+                    <tr>
+                        <td><label>Процессор</label></td>
+                        <td><label class="value">{{ i.cpu }}</label></td>
+                    </tr>
+                    {% endif %} 
+                    {% if i.ram != none and i.ram != "0" %}
+                    <tr>
+                        <td><label>Оперативная память</label></td>
+                        <td><label class="value">{{ i.ram }}</label></td>
+                    </tr>
+                    {% endif %} 
+                    {% if i.hdd != none and i.hdd != "0" %}
+                    <tr>
+                        <td><label>Объем жесткого диска</label></td>
+                        <td><label class="value">{{ i.hdd }}</label></td>
+                    </tr>
+                    {% endif %} 
+                    {% if i.os != none and i.os != "0" %}
+                    <tr>
+                        <td><label>Операционная система</label></td>
+                        <td><label class="value">{{ i.os }}</label></td>
+                    </tr>
+                    {% endif %} 
+                    {% if i.cost != none %}
+                    <tr>
+                        <td><label>Стоимость</label></td>
+                        <td><label class="value">{{ i.cost }} руб.<req>*</req></label></td>
+                    </tr>
+                    {% endif %} 
+                    <tr>
+                       <td colspan="2">        
+                           <div class="ugc" style="margin: 0; display:inline-block;">
+                               <p><small><req>*</req> Все цены приведены без учёта НДС.</small></p>
+                           </div>
+                       </td>
+                    </tr>
+                 </tbody>
+            </table>
+        </form>
+	</div>
+{% endfor %}
+
+{% endblock %}
+
+
+
+

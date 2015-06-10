@@ -1,0 +1,18 @@
+<div class="form-row form-field {% if field.field.required %} required {% endif %}{% if field.errors %} error {% endif %}{% if last or forloop.last %} last-child {% endif %}{% if hidden %} hidden {% endif %}{% block extra_class_name %}{% endblock %}" id="{% block wrapper_id %}{% if field.form.prefix %}{{ field.form.prefix }}-{% endif %}form-field-wrapper-{{ field.name }}{% endblock %}">
+ {% if field.errors %}<div class="field-errors">{{ field.errors }}</div>{% endif %}
+   {% block label %}{% endblock %}
+   <div class="field">   
+   {% block field %}
+
+    {% block field-content %}
+      {{ field|safe }}{% if field.help_text %}<span class="help" id="id_{{ field.name }}_help" title="{{ field.help_text }}" style="display:inline;">&nbsp;</span>{% endif %}
+      <script type="text/javascript">
+          $('#id_{{ field.name }}').hint('{{ field.label|safe }}', {'labelCss': {'color': '#4e4e4e'}});
+         $('#id_{{ field.name }}_help').hoverbox();
+      </script>
+    {% endblock %}
+   {% endblock %}
+   </div>
+</div>
+{% block footer %}{% endblock %}
+<div style="clear: both"></div>

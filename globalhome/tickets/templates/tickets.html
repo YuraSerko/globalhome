@@ -1,0 +1,491 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+<link href="/media/css/video_styles.css" rel="stylesheet" type="text/css">
+
+<!-- script src="/media/js/ponominalu.js" ></script-->
+<link href = "/media/css/ponominalu.css" rel = "stylesheet">
+<!-- base href = "ponominalu.ru" -->
+{% endblock %}
+{% block content %} 
+
+
+ {% block sendin %}
+ {{block.super}}
+         {% endblock %}
+
+	<article id="right">
+			
+				
+		{% block burat2 %}
+		{{block.super}}
+		{% endblock %}
+		
+		 <div id='centr_field'>
+			{% block cap %}
+			{{block.super}}
+			{% endblock %} 
+			
+							
+							<!-- Данные по билетам для страницы -->
+							<style>
+							
+							</style>
+							
+							<!-- =========================================================== -->
+							
+							<!-- ============================= Разделение по регионам ============================ -->
+							
+							{% comment %}
+							{{regions|get_item:1 }}
+							{% endcomment %}
+							
+							
+								
+							
+							<div class = "select_region">
+							<select onload='region_city_chosen(this)' onchange = "region_city_chosen(this)">
+							<option value="{{region}}">{{region_value}}</option> 
+							{% for k, v in regions.items %}
+								
+								<option value = "{{k}}">{{v}}</option>
+								
+								{% endfor %}
+							</select>
+							</div>
+							
+							<form name = "regions" method = "POST" action = '/tickets/'>
+							<input type = "hidden" id = "region_id" name = "region_id">
+							</form>
+							<script>
+								function region_city_chosen(obj){
+									value = obj.value
+									reg = document.getElementById('region_id')
+									reg.value = value
+									document.regions.submit()
+									//alert($(obj).val())
+									
+									/*$.ajax({
+										url: "/tickets/", data: {
+										region_id: value
+										}, type: "POST", cache: false, async: false, success: function(data){}
+										});*/
+									
+								}
+							</script>
+							
+							
+							<!-- ================================================= -->
+							
+							
+							
+							<!-- Поиск -->
+							<div class = "find_ticket">
+							<form class = "">
+							<input class="longsear ticket_search" id="eventInput" autocomplete="off" type="text" name="q_search" value="">
+							<button type="submit" class="ok" >Найти билет</button>
+							</form>
+							</div>
+							
+							
+							
+							<!--=============== Меню по тегам =========== Перенес из блока 'if ticket_page'  с самого начала-->
+							{% if category %}
+									<div style = "clear: both;"></div>
+									<div class="genres ticket_genres">
+            	<ul class="clearfix">
+                   		{% for c in category %}
+                   			{% if c.title == 'Рекомендуем' or c.title == 'Фестивали лета' or c.title == 'Это может быть интересно' or c.title == 'Главные события' %}
+
+                   			{% else %}
+                         <li><a class="active_href" href="#null">{{c.title}}</a><ul class = "urlopen">
+
+                         {% for t in tags %}
+                         {% if c.id == t.category_id %}
+                         <li class = "urlopen_li"><a href = "/tickets/grouptag/{{t.alias}}/{{region}}"> {{t.title}}</a></li>
+                         {% endif %}
+
+
+						{% endfor %}
+
+                         </ul>
+
+                         </li>
+                        {% endif %}
+                        {% endfor %}
+
+
+                </ul>
+
+            </div>	
+
+            		{% endif %}
+            <!-- ============================== -->
+							
+							
+							
+							
+							{% if search_results %}
+							<div style = "clear: both;"></div>
+
+							
+							<h2 id = "results_search">РЕЗУЛЬТАТЫ ПОИСКА</h2>
+								<table><tr>
+								{% for result in search_results %}
+									
+	
+										<td><div class = "title_event">{% if dates %} {{result.title}} {{result.str_date}} {% else %}{{result.title}} {% endif %}</div>
+										<div class="image_wrapper">
+										<a href="/tickets/event/{{result.event.alias}}/{{region}}" itemprop="url"><img height = '161px' width = "218px" class="round7px" src="http://media.cultserv.ru/media/library/scaled/218x161/{{result.original_image}}" itemprop="image" data-src="http://media.cultserv.ru/media/library/scaled/218x161/{{result.original_image}}" alt="{{result.title}}" title="{{result.title}}"></a>
+										</div>
+										</td>
+											{% if forloop.counter|divisibleby:3 %}
+										</tr><tr>
+											{% endif %}
+											
+									
+									
+									
+								{% endfor %}
+								</tr>
+									</table>
+								
+								
+								
+								
+							{% endif %}
+							
+							
+							{% if no_search_results %}
+							<div style = " clear: both;"></div>
+							<div id = "nothing_found">НИЧЕГО НЕ НАЙДЕНО</div>
+							{% endif %}
+							
+<!-- =========================================================== -->
+
+
+			
+            
+							
+							{% if ticket_page %} <!-- ticket_page -->
+							
+					
+
+
+					<!-- ============ Все события ============-->
+					{% if all_events %}
+					<div>
+					{% load endless %}
+					{% paginate 12 all_events %}
+					<div style = " clear: both;"></div>
+					<table><tr>
+						{% for event in all_events %}
+						
+						 
+						 <td><div class = "title_event">{{event.title}}</div>
+										<div class="image_wrapper">
+										<a href="/tickets/event/{{event.event.alias}}/{{region}}" itemprop="url"><img height = '161px' width = "218px" class="round7px" src="http://media.cultserv.ru/media/library/scaled/218x161/{{event.original_image}}" itemprop="image" data-src="http://media.cultserv.ru/media/library/scaled/218x161/{{event.original_image}}" alt="{{event.title}}" title="{{event.title}}"></a>
+										</div>
+										</td>
+									{% if forloop.counter|divisibleby:3 %}
+										</tr><tr>
+									{% endif %}
+						 
+						 {% endfor %}
+						 </tr></table>
+						 <div class = "numbers_of_paginator">{% show_pages %}</div>
+					</div>
+
+					{% else %}
+					<div style = " clear: both;"></div>
+					
+					<div class = "no_events">К сожалению пока нет событий по данному региону</div>
+					{% endif %}
+
+
+
+													{% endif %} <!-- ticket_page -->
+								<!-- ======================================= -->
+
+
+								
+								<!-- Страница списка событий по тегам групп -->
+								{% if grouptag %}
+
+								<table><tr>
+								 <div style = " clear: both;"></div>
+								{% for gt in grouptag %}
+								
+								 
+								 
+										{% comment %}
+									{{gt.title}}
+									<!--div class="aimg"-->  
+										<a href="/tickets/event/{{gt.alias}}" itemprop="url"><img class="round7px" src="http://media.cultserv.ru/media/library/scaled/218x161/{{gt.original_image}}" itemprop="image" data-src="http://media.cultserv.ru/media/library/scaled/218x161/{{gt.original_image}}" alt="{{gt.title}}" title="{{gt.title}}"></a>			
+									<!--/div-->
+									{% endcomment %}
+
+										<td><div class = "title_event">{{gt.title}}</div>
+										<div class="image_wrapper">
+										<a href="/tickets/event/{{gt.event.alias}}/{{region}}" itemprop="url"><img height = '161px' width = "218px" class="round7px" src="http://media.cultserv.ru/media/library/scaled/218x161/{{gt.original_image}}" itemprop="image" data-src="http://media.cultserv.ru/media/library/scaled/218x161/{{gt.original_image}}" alt="{{gt.title}}" title="{{gt.title}}"></a>
+										</div>
+										</td>
+									{% if forloop.counter|divisibleby:3 %}
+										</tr><tr>
+									{% endif %}
+									{% endfor %}
+									</tr>
+									</table>
+																	
+								{% endif %}
+								
+								{% if no_results %}
+								<div style = " clear: both;"></div>
+							<div id = "no_result">Нет искомых событий</div>
+								{% endif %}
+								
+								
+								
+<!-- ===============================Страница покупки билетов=========================================== -->
+								{% if buy_ticket_page %}
+								
+								<div style = "clear: both;"></div>
+								<style>
+									/*перенес в ponominalu.css*/
+								</style>
+								
+								{% for event in buy_event %}
+								
+<!--================================ Выводиться первый на страницу ==========================================-->
+								{% if forloop.first %}
+								<h1 class="payments_h" itemprop="name">
+									Билеты на {% if event.add_title %}{{event.add_title}}{% endif %} {{event.title}}
+									</h1>
+									
+									{% comment %}
+									<div>Данные для проверки<!-- Удалить потом !!!! -->
+								{{event.str_time}} <!-- Удалить потом !!!! -->
+								{{event.str_date}} <!-- Удалить потом !!!! -->
+								{{event.id}} <!-- Удалить потом !!!! -->
+								</div><!-- Удалить потом !!!! -->
+									{% endcomment %}
+								
+								<h2 class="likeH4 dIBlock" style="line-height:31px;font-family: 'PT Sans Narrow'; font-weight: bold; font-size: 24px;text-transform: none;">
+										<time itemprop="startDate" datetime="2014-10-24T19:00">
+												{{event.str_date}} &nbsp; {{event.str_time}} <!-- 24 октября 2014 19:00 -->
+												</time>
+													</h2>
+													
+													
+										<a itemprop="url" class="venuelink" href="/tickets/venue/{{event.venue.alias}}/{{region}}" data-venueid="10">
+											{{event.venue.title}}
+										</a>
+								
+									<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+rel="stylesheet" type="text/css" /> <!-- Для подключения знака росийского рубля -->
+										<iframe id="autoHeight" id="" name="myframe" style = "overflow-y: hidden;" scrolling="auto"  width = "900px" src="http://ponominalu.ru/partners/show_widget.php?refcode={{ref_code}}&alias={{event.event.alias}}&date=undefined&logo="></iframe>
+									
+									<!-- Описание площадки -->
+								<!-- div style = "display: inline-block;" class = "venue_description">
+								<a itemprop="url" class="venuelink" href="/tickets/venue/{{event.venue.alias}}/{{region}}" data-venueid="10">
+											{{event.venue.title}}
+										</a>
+										{% if event.venue.title %}
+										<div><a target = "_blank" href = "http://media.cultserv.ru/venue/{{event.venue.image}}"><img class = "venue_description" src="http://media.cultserv.ru/venue/{{event.venue.image}}" alt="Схема зала {{event.venue.title}}" title="Схема зала {{event.venue.title}}" style="max-height: 150px; max-width: 220px;"></a></div>
+										{% endif %}
+										
+									{% if event.venue.address %}	
+									<div>
+										<p class = "venue_adress">{{event.venue.address}}</p>
+									</div>
+									{% endif %}
+									
+								</div--><!-- Конец описания площадки -->
+									<div class = "venue_clear divide"></div> <!-- Раздел между шапкой названием и таблицей билетов -->
+									<table class = "main"><tr><td>
+								<div class = "tickets_left_table preorder_ins">
+								<h2 class = "payments_h_tc">ЦЕНЫ НА БИЛЕТЫ</h2>
+								<table class = "table_tickets_buy">
+								<tr><td>Категория</td><td>Билеты</td><td>Цена</td></tr>
+								{% for sec in event.sectors_m2m.all %}<tr><td> {{sec.title}}</td><td> {{sec.count}}   </td><td class = "price">{% if sec.min_price == sec.max_price %} {{sec.max_price}} &#8399; {% else %}{{sec.min_price}} - {{sec.max_price}} &#8399;{% endif %}  </td>{% if sec.admission == 'False' %}<td><a class = "choose_ticket" href="/tickets/event/{{event.event.alias}}/{{event.str_date}}/{{event.str_time}}/sector/{{sec.sectors_id_pomominalu}}"> выбрать билет</a></td>{% else %}
+								<td><!-- +++++= -->
+								<div class="costoggler">
+								
+								<table class="costogltb">
+                							<tbody><tr>
+                								<td>
+                								<div class="cminus">
+                									<a href="#"></a>
+                								</div></td>
+                								<td>
+                								<div class="costinp" style="background-position: 0px 0px;">
+                									<input type="hidden" name="sectors[0].max_price" value="500">
+                									<input type="hidden" name="sectors[0].id" value="14231">
+                									<input type="text" name="sectors[0].count" value="" data-id="14231" data-price="500" data-max="11186">
+                								</div></td>
+                								<td>
+                								<div class="cplus">
+                									<a href="#"></a>
+                								</div></td>
+                							</tr>
+                						</tbody></table> 
+                						</div>   <!-- +++++= -->  </td>{% endif %}</tr>{% endfor %}
+								
+								
+								
+								</table>
+								
+								<p class="costitog">
+									
+								</p>
+									
+								</div>
+								<!--/td-->
+
+								
+								</td>
+								
+					<!--========================= Виджет пономиналу =============================-->
+								<td>
+								<!-- Закомментил что бы сделать резиновым -->
+								<!-- iframe id="autoHeight" id="" name="myframe" style = "overflow-y: hidden;" scrolling="auto"  width = "900px" src="http://ponominalu.ru/partners/show_widget.php?refcode={{ref_code}}&alias={{event.event.alias}}&date=undefined&logo=">
+								
+									</iframe-->
+								</td>
+								
+								
+
+									<td>
+									<!-- Бывшее описание площадки -->
+								</td>
+									
+									{% comment %}
+									
+									{% endif %}
+								{% endfor %}
+								{% endcomment %}
+								
+								
+								</tr>
+								</table>
+								
+						
+								
+								
+								<div class = "venue_clear"></div> <!-- Очистка последующих элементов -->
+								
+								{% if event.description_event %}
+								<!-- Добвляет домен в начало всех ссылок  -->
+								
+								<!-- ======================= -->
+								<div class = "event_description for_link_price_ticket">
+								<h1 class="payments_h" itemprop="name">
+									 {{event.title}}
+									 
+									</h1>
+									<div style = "margin: 10px;">
+										<a itemprop="url" class="venuelink" href="/tickets/venue/{{event.venue.alias}}/{{region}}" data-venueid="10">
+											{{event.venue.title}}
+										</a>
+									</div>
+									<!-- Выводиться иногда id события -->
+									
+									{% if event.description_event %}
+									{{event.description_event|safe}}
+									{% endif %}
+									
+								</div>
+								{% endif %}
+
+								{% comment %}
+								{% else %}
+									<!-- Если объектов больше то здесь вывод дат одного и того же события -->	
+									<div style = "font-size: 18px; font-weight: bold; margin: 10px;">Есть еще другие даты !!!</div>
+								{% endcomment %}
+									
+									
+								{% endif %}
+								
+								{% endfor %}
+								
+								
+								{% endif %}
+								
+								
+<!--================================ Представление выбора мест сектора билетов ========================-->
+								{% if sector_view %}
+								
+								<div class = "venue_clear" style = "clear:both;")></div>
+								
+
+								{% for event in event_object %}			
+								
+								<h1 class="payments_h" itemprop="name">
+									Билеты на {% if event.add_title %}{{event.add_title}}{% endif %} {{event.title}}
+									</h1>
+								
+								<h2 class="likeH4 dIBlock" style="line-height:31px;font-family: 'PT Sans Narrow'; font-weight: bold; font-size: 24px;text-transform: none;">
+										<time itemprop="startDate" datetime="2014-10-24T19:00">
+												{{event.str_date}} &nbsp; {{event.str_time}} <!-- 24 октября 2014 19:00 -->
+												</time>
+													</h2>
+													
+													
+										<a itemprop="url" class="venuelink" href="/tickets/venue/{{event.venue.alias}}/{{region}}" data-venueid="10">
+											{{event.venue.title}}
+										</a>
+										
+									
+									
+								
+								
+		<!-- ============================== Вывод имеющихся билетов и Таблица имеющихся мест ========================== -->
+																							
+									
+								<div>{{sector_seats|safe}}</div>
+								
+								
+								
+								
+								{% endfor %} <!-- ========= Объект события ============== -->
+								
+								
+								
+								{% endif %}
+<!-- ============================================================================================== -->
+<!-- =================================== Страница описания площадки ======================================================= -->
+			{% if venue_view_page %} 
+			<div style = "clear: both;"></div>
+			<h1 class="payments_h" itemprop="name">
+									{{venue_event.title}}
+									</h1>
+			
+								
+			
+			<div class = "venue_description_text">
+			{% if venue_event.address %}
+			<p class=""><b>Адрес: </b>{{venue_event.address}}</p>
+			<br>
+			{% endif %}	
+			
+			{{venue_event.description_text|safe}}
+			</div>
+				
+			{% endif %}
+								
+</div> <!-- Окончание div centr_field -->
+</article>
+		{% block login_1 %}
+		{{block.super}}
+		{% endblock %}
+		
+		{% block complaint_window %}
+		{{block.super}}
+		{% endblock %}
+		
+		{% block review_window %}
+		{{block.super}}
+		{% endblock %}
+		
+{% endblock %}

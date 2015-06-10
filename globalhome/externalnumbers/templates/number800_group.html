@@ -1,0 +1,28 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" /> 
+    <link type="text/css" href="{{ MEDIA_URL }}css/egplant_cost.css" rel="stylesheet" />
+
+{% block content %}
+
+<p class="breadcrumbs"><a href="/account/service_choice/">Выбор раздела</a> <span>→</span><a href="#">Телефония</a><span>→</span>Редактирование</p>
+
+<h1 class="title">Изменение группы номера {{ number }}</h1>
+
+<form  method="POST" action="">
+    <div class="form_django">
+        <div class="add_group2">
+            {% form_field form.user_groups block %}
+        </div>
+        <div class="form-submit">
+            <div class="form-submit-right">
+                <input class="bt bt-blue2" type="submit" name="cancel" value="Отмена">
+                <input class="bt bt-blue2" type="submit" name="submit" value="Сохранить">
+            </div>
+        </div>
+    </div>
+</form>
+      
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %} 
+ 
+
+  {% block sendin %}
+  {{block.super}}
+         {% endblock %}
+
+
+  <article id="right">
+      
+            <div id='centr_field'>
+
+            {% block cap %}
+                {{ block.super }}
+                
+                {% endblock %} 
+                    <style>
+                        .articles{
+                          
+                        }
+                        .title {
+margin: 0 0 26px;
+color: #535353;
+font-size: 26px;
+font-weight: 400;
+margin-right: 20px;
+float: none;
+}
+.logos {
+position: relative;
+zoom: 1;
+margin-right: -50px !important;
+padding: 10px 0 20px;
+}
+.ugc p, .ugc ul, .ugc ol {
+margin: 0 0 14px;
+}
+
+.ugc ul li:before {
+    content: " –";
+     margin-left: 30px;
+ 
+}
+.logos img {
+margin-right: 4%;
+vertical-align: middle;
+}
+.ugc table {
+width: 100%;
+margin: 30px 0;
+border-collapse: collapse;
+}
+
+
+.ugc table#mobi_article tr td{
+	vertical-align: top;
+}
+.ugc table#mobi_article tr td h2{
+	margin-top: 16px;
+	margin-bottom: 16px;
+}
+
+                    </style>
+                <div class="articles">{{obj.text|safe}}</div>
+
+                
+      
+    </article> 
+    
+    {% block login_1 %}
+    {{block.super}}
+    {% endblock %}
+
+    {% block review_window %}
+    {{block.super}}
+    {% endblock %} 
+        
+    {% block complaint_window %}
+    {{block.super}}
+    {% endblock %}
+
+    {% block hs_login2 %}
+    {{block.super}}
+    {% endblock %}
+     
+{% endblock %}
+ 

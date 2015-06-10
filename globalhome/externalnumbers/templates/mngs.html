@@ -1,0 +1,218 @@
+{% extends 'base_public.html' %}
+{% load i18n form_tags %}
+
+{% block extrahead %}
+ 
+	{{ block.super }}
+	<link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+	<link type="text/css" href="{{ MEDIA_URL }}css/egplant_cost.css" rel="stylesheet" />
+	<script type="text/javascript" src="/media/js/Localnumbers_relocating.js"></script>
+	<script src="{{ MEDIA_URL }}js/jquery-1.11.1.min.js"></script>
+	<script src="{{ MEDIA_URL }}js/jquery-ui-1.9.1.custom.min.js"></script>
+	<script>
+	
+	
+	 function hot_key()
+    {
+        $.ajax({
+                url: "/hot_key/",  
+                cache: false,
+                async: false,
+                success: function(html){
+                    $("#ajall").html(html);
+                }  
+            });
+        
+        }
+   
+  
+    $(function(){
+	var location = window.location.hash
+	if(location == "#add_ext_number"){ 
+	hot_key()}
+	
+	
+	})
+     
+    function step_4(id){
+        var str = $("#form_step_1").serialize();
+        $.ajax({
+                url: "/step_4/?"+str+"/",  
+                cache: false,
+                async: false,
+                  
+                success: function(html){
+                  $("#ajall").html(html);
+                      
+                }  
+            });
+    }
+    
+    function get_numb(a,b)
+    {
+        $.ajax({
+                url: "/step_1/"+a+"/"+b+"/",  
+                cache: false,
+                async: false, 
+                success: function(html){
+                    
+                    $("#ajall").html(html);
+                      
+                }  
+            });
+        
+        }
+    function set_n()
+    {	var str = $("#form_step_1").serialize();
+    
+        $.ajax({
+                url: "/step_final/?"+str+"/",  
+                cache: false,
+                success: function(html){
+                    
+                     $("#ajall").html(html);
+                      
+                }  
+            });
+        
+        }
+    function hzh1()
+    {
+    $(":checkbox[name=checked_settings[]]:checked").each(function() {
+        if ($('#'+this.id).attr('class')=="res"){
+        $('#best').append($('#'+this.value+"_p"));
+        this.checked="";
+        $('#'+this.id).attr('name','numbers');
+        $('#'+this.id).attr('class','tes');}
+    })
+        
+    }
+    function hzh2()
+    { 
+    $(":checkbox[name=checked_settings[]]:checked").each(function() {
+        if ($('#'+this.id).attr('class')=="tes"){
+        $('#starts').append($('#'+this.value+"_p"));
+        this.checked="";
+        $('#'+this.id).attr('name','numbers1');
+        $('#'+this.id).attr('class','res');}
+    })
+    }	
+    
+     function sub(){
+   $("#form_href").submit()
+   }
+    </script>  
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<h1 class="title">Подключить местный многоканальный номер</h1>
+
+
+{{pannel|safe}}
+<div class="ugc">
+    <p>Наша компания предосталяет  подключение к услугам местной телефонной связи с предоставлением номеров в кодах ABC 495, 499 и 812</p>
+
+    <h4>Стоимость подключения:</h4>
+    
+    <table class="t-spec">
+    <thead>
+        <tr>
+            <th>Вид городского номера</th>
+            <th>Стоимость подключения<br>(руб.)<span class="fn">*</span></th>
+            <th>Абоненская плата в месяц<br>(руб.)<span class="fn">*</span></th>
+            <th>Включено минут на городские номера</th>
+            <th>Стоимость минуты при превышении<br>(руб.)<span class="fn">*</span></th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="tr-section">
+            <th colspan="6">Код 495:</th>
+        </tr>
+        {% for pi in group %}      
+        <tr>
+            <td align="center">{{pi.name}}</td>
+            <td>{{pi.price}}</td>
+            <td>{{pi.abon}}</td>
+            <td>{{pi.prepaid_minutes}}</td>
+            <td>0,49</td>
+            <td><a id='nbtn' href="#add_ext_number" name="modal" onclick="hot_key()">Подключить</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Тарифы на код 495 отсутсвуют</td>
+        </tr>
+        {% endfor %}
+        <tr class="tr-section">
+            <th colspan="6">Код 499:</th>
+        </tr>    
+        {% for pi in group2 %}  
+        <tr>
+            <td align="center">{{pi.name}}</td>
+            <td>{{pi.price}}</td>
+            <td>{{pi.abon}}</td>
+            <td>{{pi.prepaid_minutes}}</td>
+            <td>0,49</td>
+            <td><a href="#add_ext_number" id='nbtn' name="modal" onclick="hot_key()">Подключить</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Тарифы на код 499 отсутсвуют</td>
+        </tr>    
+        {% endfor %}
+        <tr class="tr-section">
+            <th colspan="6">Код 812:</th>
+        </tr>
+        {% for pi in group1 %}      
+        <tr>
+            <td align="center">{{pi.name}}</td>
+            <td>{{pi.price}}</td>
+            <td>{{pi.abon}}</td>
+            <td>{{pi.prepaid_minutes}}</td>
+            <td>0,49</td>
+            <td><a id='nbtn' href="#add_ext_number" name="modal" onclick="hot_key()">Подключить</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Тарифы на код 812 отсутсвуют</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    <p>Все номера являются многоканальными. Количество входящих или исходящих линий не ограничено. Не ограничено –  это значит, что количество линий и зависит только от количества подключенных к нам Ваших телефонов (абонентских устройств).</p>
+<p>При этом если телефон всего один и во время разговора приходит еще один вызов, то в трубке вы услышите звуковой сигнал и можете предыдущий разговор перевести в режим «Удержания звонка» и ответить на новый звонок. Также, Вы сразу <strong>бесплатно</strong> подключаетесь к виртуальной <a href="/content/article/office_ats/">Офисной АТС</a> с широким функционалом!</p>
+<p>Абонентская плата, количество включенных минут, стоимость превышения <strong>не увеличивается </strong>. (изменяется) от количества использованных линий и устанавливается только на городской номер.</p>
+<p>Совершать звонки Вы сможете после оплаты отправленных Вам счетов. Для физических лиц – внесения предоплаты для совершения звонков.</p>
+
+  <h4 >Как подключить городской номер</h4>
+
+<a href="/content/article/city_number/">Подключив городской номер</a>, Вы сразу сможете принимать звонки на него. Совершать звонки Вы сможете после оплаты отправленных Вам счетов. Для физических лиц – внесения предоплаты для совершения звонков.
+
+
+<p>Способы оплаты Вы можете посмотреть <a href="/content/article/payment_methods/">здесь</a>.</p>
+    <br/> 
+    <p>Если у Вас еще остались вопросы – <a href="/content/article/feedback/">просто позвоните нам</a>!</p>
+
+    <br/>
+    <p><b>Наши телефоны:</b></p>
+    <p class="lh">
+        +7 495 66 00 875 (Москва, многоканальный);<br/>
+        +7 812 449 59 11 (Санкт-Петербург, многоканальный);<br/>
+        +375 25 7417584 (Беларусь).
+
+    </p>
+
+<br/>
+    <p><a href="/content/article/mgmn/">Стоимость междугородних и международных разговоров исходя из действующих тарифов.</a></p>
+    <p><span class="fn">*</span> <small>все цены указаны без учета НДС</small></p>
+</div><!--ugc-->
+<form>
+</form>
+<a href="#" class="overlay" id="add_ext_number" ></a>
+<div class="popup_personal mngs" id='ajall' >
+</div>
+{% endblock %}

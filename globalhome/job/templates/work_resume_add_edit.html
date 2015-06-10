@@ -1,0 +1,2282 @@
+{% extends 'base_private.html' %}
+{% load i18n %}
+
+
+
+
+
+{% block content %}
+   	  <link href="/media/css/chosen.css" rel="stylesheet" type="text/css" >  		 
+  	  <script src="/media/js/chosen.jquery.js"></script>
+	  <script src="/media/js/chosen_select.js"></script>
+	   <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+                
+    
+	 	<!-- мои данные -->
+	 	
+	 	<!-- блок пожелания к работе  -->
+		<div id = "work_wishes" style="border:1px solid gray;">
+	 		
+		 		<div class = "work_title_block_blue">
+		 			<div class="work_form_title_block" >Пожелания к работе</div>
+		 			<div class = "edit_current_block" ><a id = "href_wishes" href="#null" onclick = "edit_block(1)" return false;>Редактировать блок</a></div>
+				</div>
+				<div id = "work_wishes_to_unwrap" style = "display:none;">
+				<div class = "form_work">
+					
+					<div class = "work_fill_advice">
+						Укажите основную должность, на которую вы претендуете, например, менеджер или программист
+					</div>
+					<br>
+					<form action = '' method="post" name = "work_wishes_form" id="work_wishes_form">
+						<input name ="form_number" style = 'display:none'></input>						
+						<table class = "table_work">						
+							<tr>
+				        	 	<td class="work_input_label last">
+				        	 		Желаемая должность / Название резюме <font class = "red_cl">*</font>
+				        	 	</td>				        	 		
+				        	 	<td >
+				        	 		{{ form_work_wishes.desirable_position }}					        	 	
+				        	 	</td>				        	 	
+				        	 	
+			        	 	</tr>
+			        	 				        	 				        	 			        	 	
+			        	 	<tr >
+				        	 	<td class="work_input_label" >Зарплата</td>	
+				        	 	<td class = 'last'>
+				        	 		{{ form_work_wishes.salary }}	{{ form_work_wishes.salary_um }}
+				        	 	</td>
+				        	 	
+				        	 	
+			        	 	</tr>
+			        	 	
+			        	 	<tr>
+				        	 	<td class="work_input_label" >
+				        	 		Дополнительные названия резюме 
+				        	 	</td>				        	 		
+				        	 	<td >
+				        	 		{{ form_work_wishes.additional_name }}				        	 	
+				        	 	</td>	
+			        	 	</tr>
+			        	 	
+			        	 	<!--полоска-->
+			        	 	<tr>
+			        	 		<td colspan = "3" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	
+			        	 	
+			        	 				        	 	
+			        	 	<tr >
+				        	 	<td class="work_input_label" >Режим работы<font class="red_cl">*</font></td>
+				        	 	
+				        	 </tr>
+				        	 <tr>
+				        	 		<td colspan ="3">
+				        	 		<div class= "ul_work_wishes_inline">{{ form_work_wishes.work_mode }}</div>
+				        	 		</td>
+				        	 		
+				        	 </tr>
+				        	 	
+			        	 	
+			        	 	
+			        	 	<!--полоска-->
+			        	 	<tr>
+			        	 		<td colspan = "3" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	
+			        	 	<tr >
+				        	 	<td class="work_input_label" >Тип занятости<font class="red_cl">*</font></td>	</td>	
+				        	 	
+			        	 	</tr>
+			        	 	<tr>
+				        	 		<td colspan ="3">
+				        	 		<div class= "ul_work_wishes_inline">{{ form_work_wishes.employment_type }}</div>
+				        	 		</td>
+				        	 		
+				        	 </tr>
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "4" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	<tr >
+				        	 	<td class="work_input_label" >Тип работы<font class="red_cl">*</font></td>	</td>	
+				        	 	<tr>
+				        	 		<td colspan ="3">
+				        	 		<div class= "ul_work_wishes_inline">{{ form_work_wishes.work_type }}</div>
+				        	 		</td>
+				        	 		
+				        	 </tr>
+			        	 	</tr>
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "4" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>	        
+			        	 	<tr>
+				        	 	<td class="work_input_label">Командировки</td>	
+				        	 	
+			        	 	</tr>
+			        	 	<tr>
+			        	 		<td class = "last"  colspan ="3">
+				        	 		<div class= "ul_work_wishes_inline">{{ form_work_wishes.business_trip }}</div>
+				        	 	<td>
+			        	 	</tr>
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "4" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>	
+			        	 	<tr>
+				        	 	<td class="work_input_label" >Сфера деятельности<font class="red_cl">*</font></td>	
+				        	 	<td class = "last">
+				        	 		<div></div>
+				        	 			<select multiple="multiple" id="id_specialization" name="specialization">
+				        	 			{% for sp  in work_wishes_select_specialization %}
+				        	 			 	{% ifchanged %}
+				        	 					</optgroup><optgroup label='{{ sp.activity_field.activity_field }}'>
+				        	 				{% endifchanged %}
+				        	 				<option value = '{{ sp.id }}'>{{ sp.specialization }}</option>
+				        	 			{% endfor %}
+				        	 			</select>	
+				        	 			
+				        	 	</td>
+			        	 	</tr>
+			        	 	
+			        	 	<tr>
+				        	 	<td class="work_input_label">Регион поиска <font class = "red_cl">*</font></td>	
+				        	 	<td class = "last">
+				        	 		{{ form_work_wishes.living_city }}
+				        	 	</td>
+			        	 	</tr>
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "4" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>	
+			        	 	<tr>
+			        	 	
+			        	 	
+			        	 	
+			        	 	
+			        	 	
+			        	 	<br>
+			        	 	<tr><td>
+			        	 		<div style = 'margin-left:10px'>
+			        	 			<font style = "font-size:20px; font-weight:bold;">Oпыт работы</font>
+			        	 			<p><input type="checkbox" id="no_experience" >Без опыта</input>
+			        	 		</div>
+			        	 		<div style = "display:none">{{ form_work_wishes.no_exp }}</div>
+			        	 	</td></tr>
+			        		
+			        	 	<tr> <!-- куда будем клонировать -->
+			        	 	<td colspan = "2">
+			        	 	<div id = 'work_experience_yes_no'> 
+			        	 	<!-- то, что будем клонировать  -->
+			        	 	<div style = "display:block">
+									{{ formset_experiences.management_form }}
+							</div>
+							{% for exp_form in formset_experiences.forms %}
+                            <div class="itemka_workplace">
+			        	 	<table  class = 'table_work_child'  >
+			        	 	<tr>
+			        	 		<td>
+
+				        	 			<tr>
+											<td class="work_input_label" >Период работы<font class="red_cl">*</font></td>
+											<td><div class = 'from_to'>с</div>
+											{{ exp_form.work_start_date }}
+												
+										</tr>
+										<tr>
+											<td></td>
+											<td>
+												{{ exp_form.till_now }}По настоящее время
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td class="last">
+												{% if exp_form.till_now.value == True %}
+												<div class = "date_to" style = 'display:none'><div class = 'from_to'>по</div> {{ exp_form.work_end_date }} </div>
+												{% else %}
+												<div class = "date_to" style = 'display:block'><div class = 'from_to'>по</div> {{ exp_form.work_end_date }} </div>
+												{% endif %}
+											</td>
+										</tr>
+										
+				        	 			<tr>				        	 				
+											<td class="work_input_label" >Город<font class="red_cl">*</font></td>	
+											<td class = "last">
+												{{ exp_form.city }}
+											</td>
+										</tr>
+										<tr>				        	 				
+											<td class="work_input_label" >Название организации<font class="red_cl">*</font></td>	
+											<td>
+												{{ exp_form.org_name }}
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td class = "last"><input type="checkbox" id="org_existance" >Скрывать от работодателей</input><td>
+										</tr>
+										<tr>				        	 				
+											<td class="work_input_label" >Сайт компании</td>	
+											<td class = "last">
+												{{ exp_form.org_site }}
+											</td>
+										</tr>
+										<tr>
+							        	 	<td class="work_input_label" >Отрасль деятельности<font class="red_cl">*</font></td>	
+							        	 	<td class = "last">
+							        	 	   {{ exp_form.branch_activity }}
+							        	 	</td>
+			        	 				</tr>
+			        	 				
+										<tr>				        	 				
+											<td class="work_input_label" >Должность<font class = "red_cl">*</font></td>	
+											<td class = "last">
+												{{ exp_form.position }}
+											</td>
+										</tr>
+
+										<tr>				        	 				
+											<td class="work_input_label" >Уровень занимаемой позиции<font class = "red_cl">*</font></td>	
+											<td class = "last">											
+												{{ exp_form.taken_position_level }}
+												
+											</td>
+										</tr>
+										<tr>
+											<td class = "work_input_label">Обязанности и достижения<font class = "red_cl">*</font></td>
+											<td class = "last">
+				        	 					{{ exp_form.duties_achievements }}
+				        	 					{{ exp_form.id }} <!-- hidden -->
+				        	 					 <!-- hidden -->
+				        	 										        	 	
+				        	 				</td>
+										</tr>
+										<tr>
+											<td class = "work_input_label" style="display:none">id Скрытое поле<font class = "red_cl">*</font></td>
+											<td class = "personal_data_fk last" style="display:none">
+				        	 					{{ exp_form.personal_data }}
+				        	 					
+				        	 					        	 	
+				        	 				</td>
+										</tr>
+										
+				        	 					
+				        	 					
+										<tr>
+			        	 					<td>
+					        	 				<div class = 'delb'>
+						        	 				<a href="javascript:void(0);" onclick="del_asks(this, 'workplace', '{{ exp_form.id.value }}' );">
+															<img src="/media/images/sprite_delete.png" title="Удалить поле">
+													</a>
+												</div>
+												{{ exp_form.deleted }}
+												
+											</td>
+										</tr>
+										<tr>
+						        	 		<td class = "last" colspan = '2'> 
+						        	 			<hr>
+						        	 		</td> <!-- полоса -->
+			        	 				</tr>
+			        	 				
+				        	 		</table>
+				        	 		
+			        	 	</div>	
+			        	 	{% endfor %}
+			        	 	<!-- окончание того, что будем клонировать -->
+			        	 	</div>
+			        	 	</td>
+			        	 	</tr>   <!--  оконч куда клонируем -->
+			        	 	
+			        	 	
+			        	 	<tr>
+			        	 		<td class = "last" colspan='2'>
+			        	 			<button id="add_id_workplace" onclick="ask(this, 'workplace');" type = "button" >Добавить место работы</button>
+			        	 		</td>
+							</tr>
+
+				        </table>				        		
+					</form>
+				</div>
+				<div class = "work_form_submit_block_pale_blue" >
+					<div class = "center_button"><button id = 'work_wishes_form_sub' class="bt bt-blue2" onclick = "work_wishes_sumbit(this)">Сохранить</button></div>
+				</div>
+				</div> <!-- заканчивается класс   work_wishes_to_unwrap -->
+		</div>
+		<!-- окончание блока пожелания к работе -->
+		
+		
+		
+
+		<br>
+		
+		<!--  блок образование -->
+		<div id = "work_education" style="border:1px solid gray; ">
+				<div class = "work_title_block_blue">
+		 			<div class="work_form_title_block" >Образование и навыки</div>
+		 			<div class = "edit_current_block" ><a id = "href_education" href="#null" onclick = "edit_block(2)" return false;>Редактировать блок</a></div>
+				</div>
+				<div id = "work_education_to_unwrap" style = "display:none; ">
+				<div class = "form_work">
+					
+					<div class = "work_fill_advice">
+						Подробнее опишите тот вид образования, на который Вы делаете упор в своей профессиональной деятельности.
+					</div>
+					<br>
+					<form action method = "post" name = 'education_form' id = 'education_form' action=''>
+						<input name ="form_number" style = "display:none;"></input>								
+						<table class = "table_work">
+							<tr>
+								<td><div class="work_form_title_main" >Образование</div></td>
+							</tr>						
+							<tr>
+				        	 	<td class="work_input_label">Уровень образования<font class = "red_cl">*</font></td>	
+				        	 	<td class = "last">
+										{{ educaton_and_skills_form.education_level }}		
+								</td>
+			        	 	</tr>
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "2" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	<!--окончание полоски-->
+			        	 	<tr> <!-- куда будем клонировать -->
+			        	 	<td colspan = "2">
+			        	 	
+			        	 	<!-- то, что будем клонировать  -->
+			        	 	<div style = "display:block">
+									{{ formset_educational_institution.management_form }}
+							</div>
+							{% for form_educational_institution in formset_educational_institution.forms %}
+                            <div class="itemka_educational_institution">
+			        	 	<table  class = 'table_work_child'  >
+			        	 	<tr>
+			        	 		<td colspan = '2'>
+								        	 	<tr>
+								        	 		<td class="work_input_label" >Учебное заведение<font class = "red_cl">*</font></td>	
+													<td class = "last">
+															{{ form_educational_institution.institution_name }}
+													</td>
+								        		</tr>
+								        		<tr>
+								        	 		<td class="work_input_label" >Факультет/Специальность<font class = "red_cl">*</font></td>	
+													<td class = "last">
+															{{ form_educational_institution.faculty_specialty }}
+															
+													</td>
+								        		</tr>
+								        		<tr>
+								        	 		<td class="work_input_label" >Год окончания<font class = "red_cl">*</font></td>	
+													<td>
+															{{ form_educational_institution.graduate_year }}
+															{{ form_educational_institution.id }} <!-- hidden -->
+													</td>
+													
+								        		</tr>
+								        		<tr>
+								        			<td>
+						        	 					<div class = 'delb'>
+								        	 				<a href="javascript:void(0);" onclick="del_asks(this, 'educational_institution', '{{ form_educational_institution.id.value }}' );">
+																	<img src="/media/images/sprite_delete.png" title="Удалить поле">
+															</a>
+															
+														</div>
+														{{ form_educational_institution.deleted }}
+													</td>
+												</tr>
+								        	 	<!--полоска-->
+								        	 	<tr >
+								        	 		<td colspan = "2" class = "last">
+								        	 			<hr>
+								        	 		</td>
+								        	 	</tr>
+			        	 	</table>
+			        	 	</div>
+			        	 	{% endfor %}
+			        	 	<!-- окончание того, что будем клонировать -->
+			        	 	</td>
+			        	 	</tr>   <!--  оконч куда клонируем -->
+
+			        	 	<tr>
+			        	 		<td class = "last" colspan='2'>
+			        	 			<button id="add_id_educational_institution" onclick="ask(this, 'educational_institution');" type = "button">Добавить место учебы</button>
+			        	 		</td>
+							</tr>
+
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "2" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	<tr>
+								<td><div class="work_form_title_main" >Иностранные языки</div></td>
+							</tr>
+							
+			        	 	<tr> <!-- куда будем клонировать -->
+			        	 	<td colspan = "2">
+			        	 	
+			        	 	
+			        	 	<!-- то, что будем клонировать  -->
+			        	 	<div style = "display:block">
+									{{ formset_proficiency_language.management_form }}
+							</div>
+							{% for form_proficiency_language in formset_proficiency_language.forms %}
+                            <div class="itemka_proficiency_language">
+			        	 	<table  class = 'table_work_child'  >
+								        	 	<tr>
+								        	 		<td class="work_input_label" >Язык и уровнь владения</td>	
+													<td class = "last">
+															{{ form_proficiency_language.language }}
+															{{ form_proficiency_language.proficiency_language_level }}
+															{{ form_proficiency_language.id }} <!-- hidden -->
+													</td>
+													
+								        		</tr>
+								        		
+								        		<tr>
+								        			<td>
+						        	 					<div class = 'delb'>
+									        	 				<a href="javascript:void(0);" onclick="del_asks(this, 'proficiency_language', '{{ form_proficiency_language.id.value }}' );">
+																		<img src="/media/images/sprite_delete.png" title="Удалить поле">
+																</a>
+																
+														</div>
+														{{ form_proficiency_language.deleted }}
+													</td>
+												</tr>
+				        	 		</table>
+			        	 	
+			        	 	</div>
+			        	 	{% endfor %}
+			        	 	<!-- окончание того, что будем клонировать -->
+			        	 	</td>
+			        	 	</tr>   <!--  оконч куда клонируем -->
+			        	 	
+			        	 	
+			        	 	<tr>
+				        	 		<td class = "last" colspan='2'>
+				        	 			<button id="add_id_proficiency_language" onclick="ask(this, 'proficiency_language');" type = "button">Добавить иностранный язык</button>
+				        	 		</td>
+							</tr>
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "2" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	<tr>
+								<td colspan = '2'><div class="work_form_title_main" >Дополнительное образование</div></td>
+							</tr>
+			        	 	<tr> <!-- куда будем клонировать -->
+			        	 	<td colspan = "2">
+			        	 	
+			        	 	
+			        	 	<!-- то, что будем клонировать  -->
+			        	 	<div style = "display:block">
+									{{ formset_additional_education.management_form }}
+							</div>
+							{% for form_additional_education in formset_additional_education.forms %}
+                            <div class="itemka_additional_education">
+			        	 	<table  class = 'table_work_child'  >
+			        	 	<tr>
+			        	 		<td colspan = '2'>
+								        	 	<tr>
+								        	 		<td class="work_input_label" >Учебное заведение</td>	
+													<td class = "last">
+														{{ form_additional_education.institution_name }}
+													</td>											   
+								        		</tr>
+								        		<tr>
+								        	 		<td class="work_input_label" >Название курсов</td>	
+													<td class = "last">
+														{{ form_additional_education.course_name }}
+													</td>											   
+								        		</tr>
+								        		<tr>
+								        	 		<td class="work_input_label" >Год окончания</td>	
+													<td class = "last">
+														{{ form_additional_education.graduate_year_ad }}
+														{{ form_additional_education.id }} <!-- hidden -->
+													</td>											   
+								        		</tr>
+								        		<tr>
+					        	 					<td>
+						        	 					<div class = 'delb'>
+									        	 				<a href="javascript:void(0);" onclick="del_asks(this, 'additional_education', '{{ form_additional_education.id.value }}' );">
+																		<img src="/media/images/sprite_delete.png" title="Удалить поле">
+																</a>
+																
+														</div>
+														{{ form_additional_education.deleted }}
+													</td>
+												</tr>
+										</table>
+				        	 		</div>
+			        	 	{% endfor %}
+			        	 	<!-- окончание того, что будем клонировать -->
+			        	 	</td>
+			        	 	</tr>   <!--  оконч куда клонируем -->
+			        	 	<tr>
+			        	 		<td class = "last" colspan='2'>
+			        	 			<button id="add_id_additional_education" onclick="ask(this, 'additional_education');" type = "button">Добавить курсы</button>
+			        	 		</td>
+							</tr>
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "2" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	<tr>
+			        	 		<td colspan = "2"><div class="work_form_title_main" >Профессиональные навыки</div></td>
+			        	 	</tr>
+			        	 	<tr>
+			        	 		<td colspan = "2" class="last">
+			        	 			{{ educaton_and_skills_form.professional_skills }} 
+			        	 		</td>
+			        	 	</tr>
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "2" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	<tr>
+			        	 		<td class="work_input_label last" >Есть водительские права категории:</td>	
+								<td>
+										A {{ educaton_and_skills_form.driving_license_A }}
+										B {{ educaton_and_skills_form.driving_license_B }}
+										C {{ educaton_and_skills_form.driving_license_C }}
+										D {{ educaton_and_skills_form.driving_license_D }}
+										E {{ educaton_and_skills_form.driving_license_E }}
+								</td>
+			        		</tr>
+			        	 	<tr>
+			        	 		<td class = "last">
+			        	 		{{ educaton_and_skills_form.has_car }} Есть личный автомобиль 
+			        	 		</td>
+			        	 	</tr>
+							<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "2" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	<tr>
+			        	 		<td class = "last" colspan = '2'>
+			        	 		{{ educaton_and_skills_form.has_medical_book }} У меня есть медецинская книжка
+			        	 		</td>
+			        	 	</tr>
+			        	 	<tr>
+									<td class = "work_input_label" style= "display:none">id Скрытое поле<font class = "red_cl">*</font></td>
+									<td class = "personal_data_fk last" style= "display:none">
+				        	 			{{ educaton_and_skills_form.personal_data }}		        	 	
+				        	 		</td>
+							</tr>
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "2" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	<tr>
+								<td><div class="work_form_title_main" >Портфолио</div></td>
+							</tr>
+			        	 	<tr> <!-- куда будем клонировать -->
+			        	 	<td colspan = "2">
+			        	 	
+			        	 	<!-- то, что будем клонировать  -->
+			        	 	<div style = "display:block">
+									{{ formset_portfolio.management_form }}
+							</div>
+							{% for form_portfolio in formset_portfolio.forms %}
+                            <div class="itemka_portfolio">
+			        	 	<table  class = 'table_work_child'  >
+			        	 	<tr>
+			        	 		<td colspan = '2'>
+								        	 	<tr>
+								        	 		<td class="work_input_label" >Ссылка</td>	
+													<td class = "last">
+														{{ form_portfolio.portfolio_link }}
+														{{ form_portfolio.id }} <!-- hidden -->
+													</td>		
+													</td>
+													
+								        		</tr>
+								        		
+								        		<tr>
+					        	 					<td>
+						        	 					<div class = 'delb'>
+									        	 				<a href="javascript:void(0);" onclick="del_asks(this, 'portfolio', '{{ form_portfolio.id.value }}' );">
+																		<img src="/media/images/sprite_delete.png" title="Удалить поле">
+																</a>
+														</div>
+														{{ form_portfolio.deleted }}
+													</td>
+												</tr>
+				        	 		</table>
+				        	 	</div>
+			        	 	{% endfor %}
+			        	 	<!-- окончание того, что будем клонировать -->
+			        	 	</td>
+			        	 	</tr>   <!--  оконч куда клонируем -->
+			        	 	<tr>
+				        	 		<td class = "last" colspan='2'>
+				        	 			<button id="add_id_portfolio" onclick="ask(this, 'portfolio');" type = "button">Добавить портфолио</button>
+				        	 		</td>
+							</tr>
+			        	 	
+			        	 	
+			        	 				        	 	
+	
+				        </table>				        		
+					</form>
+				</div>
+				<div class = "work_form_submit_block_pale_blue" >
+					<div class = "center_button"><button id='education_form_sub' onclick ="education_form_submit(this)" class="bt bt-blue2">Сохранить</button></div>
+				</div>
+				</div> <!-- заканчивается класс   work_education_to_unwrap -->	
+		</div>	
+		<!--  окончание блока образование -->
+		
+		
+		  
+	   	<!-- окончание моих данных -->
+   
+   
+   
+   </div>
+			
+	</article>
+  
+ 
+  
+	
+<style type = "text/css">
+
+/* форма пожелания к работе */
+
+hr{
+display:block;}
+
+#work_wishes{
+	width:750px;
+	
+	}
+
+.work_fill_advice{
+	margin-left:10px;
+	margin-right:10px;
+	}
+	
+.work_title_block_blue {
+	background:#5591DA;
+	height:40px;
+	padding-left:10px;
+	}
+	
+.work_fill_advice{
+	color:#b5b4b4;}
+	
+.work_form_title_main{
+	font-size:20px;
+	line-height: 35px;
+	font-weight: bold;
+	
+	}
+	
+.work_form_title_block{
+	font-size:20px;
+	line-height: 35px;
+	font-weight: bold;
+	color:white;
+	float:left;
+	
+	}
+
+#work_wishes ul{
+	padding:0px!important;}
+	
+.work_input_label{
+	width:250px;
+	vertical-align: top;
+	font-weight:bold;
+	font-size:16px;
+	}
+	
+.table_work td{
+	padding-top: 5px;
+	padding-bottom:5px;
+	vertical-align:top!important}
+
+.table_work .last{
+	padding-bottom: 20px;}
+
+.red_cl{
+	color:red;
+	}
+	
+.work_form_submit_block_pale_blue{
+	/*background:#7DB5F5; */
+	background:#C2DAF7;
+	height:40px;}
+
+.center_button{
+	margin-left:auto;
+	margin-right:auto;
+	width:100px;
+	padding-top: 10px;
+	}
+
+#work_wishes .edit_current_block{
+	float:right;
+	font-size:16px;
+	line-height: 35px;
+	margin-right: 7px;
+	}
+		
+.table_work{
+	width:730px!important;
+	margin-left:10px;
+	}
+	
+.ul_work_wishes_inline ul li{
+	display:inline!important;
+	margin-right: 8px;
+
+}
+
+/*----chosen------*/
+#id_salary_um+div{
+	width:100px!important;}
+	
+#id_desirable_position+div{
+	width:300px!important;}
+	
+#id_additional_name+div{
+	width:300px!important;}
+
+#id_specialization+div{
+	width:300px!important;}
+	
+#id_living_city+div{
+	width:300px!important;}
+/*----end--chosen------*/
+/* окончание формы пожелания к работе */
+
+/* форма опыт работы */
+#work_experience{
+	width:750px!important;
+	}
+
+.table_work	.title_text{
+	font-size:20px;
+	
+	}
+
+.work_form_input_narrow{
+	width:40px;
+	
+	}
+	
+#work_experience .edit_current_block{
+	float:right;
+	font-size:16px;
+	line-height: 35px;
+	margin-right: 7px;
+	}
+	
+.work_form_title_main{
+	float:left;}
+	
+.sel_month .no_select{
+	color:gray;
+	}
+	
+#work_place1{
+	margin:0px!important;}
+
+.from_to{
+	width:15px;
+	display:inline-block;
+	}
+	
+[id$=work_start_date_month] +div{
+width:100px!important;
+}
+
+[id$=work_start_date_year] +div{
+width:80px!important;
+}
+[id$=work_end_date_month] +div{
+width:100px!important;
+}
+
+[id$=work_end_date_year] +div{
+width:80px!important;
+}
+
+[id$=-city] +div{
+width:300px!important;
+}
+
+[id$=-org_name]{
+ width:300px!important;}
+ 
+[id$=-org_site]{
+width:300px!important;}
+
+[id$=-branch_activity]+div{
+	width:300px!important;}
+	
+[id$=position]+div{
+	width:300px!important;}
+	
+[id$=-taken_position_level]+div{
+	width:300px!important;}
+/* окончание формы опыт работы*/
+
+
+/* форма образование и навыки */
+
+#work_education{
+	width:750px;
+}
+
+
+#work_education .edit_current_block{
+	float:right;
+	font-size:16px;
+	line-height: 35px;
+	margin-right: 7px;
+	}
+
+#work_education table,
+#work_wishes table {
+	border-right: 0px !important;}
+
+.table_work_child{
+	width:730px;}
+	
+#id_education_level+div{
+	width:300px!important;}
+	
+[id$=-institution_name]{
+	width:300px!important;}
+	
+[id$=-faculty_specialty]{
+	width:300px!important;}
+	
+[id$=-graduate_year]+div{
+	width:100px!important;}
+	
+[id$=-graduate_year_ad]+div{
+	width:100px!important;}
+
+[id$=-language]+div{
+	width:300px!important;
+	margin-bottom:15px;}
+
+[id$=-proficiency_language_level]+div{
+	width:300px!important;}
+	
+[id$=-institution_name]{
+	width:300px;}
+	
+[id$=-course_name] {
+	width:300px;}
+	
+[id$=-portfolio_link] {
+	width:300px;}
+/* окончание формы образование и навыки */
+
+/* блок личные данные */
+#personal_data .edit_current_block{
+	float:right;
+	font-size:16px;
+	line-height: 35px;
+	margin-right: 7px;
+	}
+
+.edit_current_block a{
+	color:white;}
+/* окончание блока личные данные*/
+
+[id$=-personal_data] {
+display:table-row!important;
+}
+[id$=-personal_data] + div{
+	display:none!important;}	
+
+
+/* chosen  end css */
+
+
+/* стиль для validation error */
+.notificationred{
+	width:140px;
+	color:red;
+	vertical-align:top;
+	margin-left:5px;	
+}
+.input_red{
+ outline: 1px solid red;
+}
+/* end стиль для validation error */
+
+/* стиль для chosen красной рамки */
+.chosen_red_border{
+	border:1px solid red;
+	border-radius: 5px;}
+/* окончание стиля для chosen красной рамки */
+
+/*стиль для сообщения о корректном внесении изменений*/
+.success_note{
+	color: green;
+	font-size: 18px;
+	text-align: center;
+	padding-bottom: 15px;
+	}
+/* окончания стиля о коррентном внесении изменений*/
+
+
+/*стиль для chosen */
+
+/*стиль для chosen */
+.chosen-container-multi .chosen-choices li.search-field input[type="text"]{
+    height:20px!important;
+    padding-top:0px!important;
+}
+
+.chosen-container-single .chosen-single{
+	border-radius: 0px !important;
+	}
+
+.chosen-container-single .chosen-drop {
+	border-radius:0px! important;
+}
+#work_wishes input[type="text"], #work_experience input[type="text"],
+#work_education input[type="text"]
+{ height:19px; 
+  font-size:14px;}
+  
+.chosen-container  input[type="text"]
+{ height:25px!important; 
+  font-size:14px;}
+	
+.chosen-container{
+vertical-align: top;}
+
+.delb + input{
+	display:none;}
+
+/* окончание стиля для chosen */
+</style>
+
+
+<script> 
+//=============================================mobi script =====================================================
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+//===============================================================================================================
+// мой javascript
+$("#id_additional_name").chosen({max_selected_options: 3});
+$("#id_specialization").chosen({max_selected_options: 3});
+$("#id_living_city").chosen({max_selected_options: 3});
+function numeric (str) { return /^[0-9(\)\s]+z/.test(str + "z"); }
+
+//===============================================================================================================
+var form_number; // глобальная переменная
+form_number_str =  '{{ form_number }}'; 
+
+if (form_number_str != 'None'){
+		form_number = parseInt(form_number_str)
+}
+else form_number=0
+
+
+if ((form_number == 1)|| (form_number == 0)){
+			 d = $('#work_wishes_to_unwrap')
+			 l = $('#href_wishes');
+			 b = '#work_wishes_form_sub';
+		 }
+if (form_number == 2)
+		{
+			d = $('#work_education_to_unwrap')
+			l = $('#href_education')
+			b = '#education_form_sub';
+		}
+		
+d.css("display", "block");
+l.html('Свернуть блок');
+
+if ((form_number==1)||(form_number==2)) //переход на кнопку
+{
+	$('html, body').animate({ scrollTop: $(b).offset().top - 30}, 'fast');	
+}
+
+//===============================================================================================================
+
+	
+$(document).ready(function(){
+	
+	
+	// set chosen select multiple
+	$('#id_living_city').css('vertical-align','middle');
+	$('#id_living_city').css('height','50px');
+	$('#id_living_city').chosen();
+	$('#id_additional_name').chosen();
+	
+	
+
+	//work_wishes specialization set
+	specializaiton_x_selected = '{{ work_wishes_specialization_selected }}';
+	spec_sel_array = specializaiton_x_selected.split(',');
+	for (i=0;i<spec_sel_array.length-1;i++){
+		$('#id_specialization').find("option[value="+ spec_sel_array[i] +"]").prop("selected", "selected");
+		$('#id_specialization').trigger("chosen:updated");
+	}
+	$('#id_specialization').chosen();
+	// end work_wishes specialization 
+	
+	
+	interactive_validation_exp_form( ($('#id_workplace-TOTAL_FORMS').val()), 'all'); //валидаци формы
+	interactive_validation_educational_institution_form(($('#id_educational_institution-TOTAL_FORMS').val()), 'all');
+	interactive_validation_work_wishes_form();
+	education_and_scills_interact_val();
+	
+})
+
+//===========================CLONING===================================================================================
+
+	
+function ask(asd, pre) {
+		return addForm(asd, pre);
+    };
+    
+function del_asks(asd, pre, fid) {
+    	return deleteForm(asd, pre, fid);
+    };
+	
+//клонирование элементов
+function updateElementIndex(el, prefix, ndx) {
+	    //prefix = 'number'
+	    // pdateElementIndex(this, prefix, formCount);
+		var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        var replacement = prefix + '-' + ndx + '-';
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+        replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    
+
+      
+       
+    }
+    
+function addForm(btn, prefix) {  //preifx = 'number'
+	
+		
+		var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+		// You can only submit a maximum of 10 todo items 
+		if ((formCount < 10 && formCount != 0 && prefix !='portfolio') || (formCount < 3 && formCount != 0 && prefix =='portfolio'))               {
+			if (prefix=='workplace' || prefix=='educational_institution' || prefix=='proficiency_language' || prefix=='additional_education' || prefix =='portfolio'){
+					// Clone a form (without event handlers) from the first form
+					var row = $(".itemka_"+prefix+":first").clone(false).get(0);
+					// Insert it after the last form
+					$(row).removeAttr('id').hide().insertBefore("#add_id_"+prefix).slideDown(900);
+					// Remove the bits we don't want in the new row/form
+					// e.g. error messages
+					$(".errorlist", row).remove();
+					$(row).children().removeClass("error");
+					// Relabel or rename all the relevant bits
+					$(row).children().children().children().children().children().each(function () {
+						updateElementIndex(this, prefix, formCount);
+						$(this).val("");
+					});
+					
+					
+
+					//update date
+					$(row).find('[id $= "work_end_date_year"]').each(function(){
+						updateElementIndex(this, prefix, formCount);
+						$(this).val("");
+					});
+					//
+					$(row).find('[id $= "work_end_date_month"]').each(function(){
+						updateElementIndex(this, prefix, formCount);
+						$(this).val("");
+					});
+					$('.date_to').css('display', 'block');
+					
+					
+					// Add an event handler for the delete item/form link 
+					$(row).find(".delete").click(function () {
+						return deleteForm(this, prefix);
+					});
+					// Update the total form count
+					$("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+					
+					
+					
+					
+					
+					//clear all input, textarea
+					$(row).find('textarea, input').each(function () {
+					    $(this).val('');
+					    if  ($(this).hasClass('input_red')){
+					    	$(this).removeClass('input_red');
+					   }
+					    
+					});
+
+					//clear all checkboxes
+					$(row).find('input:checkbox').each(function () {
+					    $(this).removeAttr('checked');
+					});
+					
+					
+
+					//clear all select(chosen)
+					$(row).find('select').each(function () {
+						$(this).val([]);
+						$(this).children().first().attr("selected", "selected");	  //sel 1st elem								
+						$(this).next().remove(); //remove chosen
+						$(this).chosen(); //load chosen
+					});
+					
+					//del all notice
+					$(row).find('div.notificationred').remove();
+	
+					//del but delb
+					string_attr = "del_asks(this,'" + prefix +"', 'None')";
+					$(row).find('.delb').find('a').attr('onclick', string_attr);
+					
+					
+					//interactive validate
+					if (prefix=='workplace'){
+						interactive_validation_exp_form( $('#id_' + prefix + '-TOTAL_FORMS').val(), 'add');
+						}
+					
+					
+					if (prefix=='educational_institution'){
+						interactive_validation_educational_institution_form(($('#id_educational_institution-TOTAL_FORMS').val()), 'add');}
+					
+					
+				}
+		
+		}	
+}
+
+
+function deleteForm(btn, prefix, fid) {
+	var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+	if ((formCount > 1) || (  (prefix == 'workplace')&&(formCount==1)   ))   {
+	
+			if (fid!='None'){ //если есть объект в базе
+				$(btn).parent().next().prop('checked',true);//помечаем на удаление
+				form = $(btn).parent().parent().parent().parent().parent().parent('.itemka_'+prefix+'');
+				//на всякий случай заполняем все элементы для прохождения валидности
+				if (prefix == 'workplace'){
+					form.find('select[id $= "-city"]').children(":last").attr("selected", "selected"); 
+					form.find('select[id $= "-branch_activity"]').children(":last").attr("selected", "selected"); 
+					form.find('select[id $= "-taken_position_level"]').children(":last").attr("selected", "selected"); 
+					form.find('input[id $="-org_name"]').val(fid);	
+					form.find('input[id $="-position"]').val(fid);
+					form.find('textarea[id $="-duties_achievements"]').val(fid);
+					form.find('select[id $= "-work_start_date_month"]').children(":last").attr("selected", "selected"); 
+					form.find('select[id $= "-work_start_date_year"]').children(":last").attr("selected", "selected"); 
+					}
+				if (prefix == 'educational_institution'){
+					form.find('input[id $="-institution_name"]').val(fid);
+					form.find('input[id $="-faculty_specialty"]').val(fid);
+					}
+				
+				if (prefix == 'proficiency_language'){	
+					form.find('select[id $= "-language"]').children(":last").attr("selected", "selected"); 
+					form.find('select[id $= "-proficiency_language_level"]').children(":last").attr("selected", "selected"); 
+					}
+				if (prefix == 'additional_education'){	
+					form.find('input[id $="-institution_name"]').val(fid);
+					form.find('input[id $="-course_name"]').val(fid);
+					form.find('input[id $="-graduate_year"]').val(fid);
+					}
+				
+				
+				//скрываем от пользователя
+				form.css('display','none');		
+			}
+	}
+	
+	
+	if  (fid=='None') //нет объекта в базе
+	{ 
+	
+	
+	if ((formCount==1) && (prefix=='workplace')) {
+		form = $(btn).parent().parent().parent().parent().parent().parent('.itemka_'+prefix+'');
+		form.find('select[id $= "-city"]').children(":last").attr("selected", "selected"); 
+		form.find('select[id $= "-branch_activity"]').children(":last").attr("selected", "selected"); 
+		form.find('select[id $= "-taken_position_level"]').children(":last").attr("selected", "selected"); 
+		form.find('input[id $="-org_name"]').val(fid);	
+		form.find('select[id $="-position"]').children(":last").attr("selected", "selected"); 
+		form.find('textarea[id $="-duties_achievements"]').val(fid);
+		form.find('select[id $= "-work_start_date_month"]').children(":last").attr("selected", "selected"); 
+		form.find('select[id $= "-work_start_date_year"]').children(":last").attr("selected", "selected");
+		form.find('input[id $="-deleted"]').attr("checked","checked");
+		
+		form.css('display','none');	
+	}
+	
+	if (formCount > 1)  {   //оригинальный блок удаления элемента
+		
+		$(btn).parent().parent().parent().parent().parent().parent('.itemka_'+prefix+'').remove();
+		var forms = $('.itemka_'+prefix+''); // Get all the forms  
+		// Update the total number of forms (1 less than before)
+		$('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+		
+		var i = 0;
+		// Go through the forms and set their indices, names and IDs
+		for (formCount = forms.length; i < formCount; i++) {
+			$(forms.get(i)).children().children().children().children().children().each(function () {
+				if ($(this).attr('type') == 'text' || $(this).attr('type') == 'comm'|| $(this).is('select')|| $(this).is('textarea') || $(this).attr('type') == 'checkbox')
+					updateElementIndex(this, prefix, i);
+			});
+		}
+	}
+	// специальны 
+    return false;
+	}
+    //окончания оригинального блока удаления элемента
+}
+//===============================================================================================================
+
+
+
+
+//свернуть или развернуть блок для редактирования
+function  edit_block(a){
+	
+	  
+	
+	if (a==1)
+		{
+		 d = $('#work_wishes_to_unwrap')
+		 l = $('#href_wishes');
+		}
+	
+	if (a==2)
+		{
+		d = $('#work_education_to_unwrap')
+		l = $('#href_education')
+		}
+	
+	
+	
+	if (d.css("display")== "none") {
+		d.css("display", "block")
+		l.html('Свернуть блок')
+	}
+	else {
+		d.css("display", "none")
+		l.html('Редактировать блок')}
+	
+
+}
+//===============================================================================================================	
+//проверка всех полей перед submit
+function exp_form_submit(){
+	var submit = true;
+	var focus_control = ''
+
+	quantity = $('#id_workplace-TOTAL_FORMS').val();
+
+	var fields_array_exp_form = {'-city': 'chosen^Выберите город', 
+			 '-org_name': 'input^Введите организацию',
+			 '-branch_activity':'chosen^Отрасль деятельности',
+			 '-position':'chosen^Введите должность',
+			 '-taken_position_level':'chosen^Уровень занимаемой позиции',
+			 '-duties_achievements':'input^Обязанности и достижения',
+			 '-work_start_date_month':'chosen1^Выберите дату',
+			 '-work_start_date_year': 'chosen2^Выберите дату',
+		}
+
+	for(i = 0; i<quantity; i++)
+		{
+			for(var field in fields_array_exp_form){
+				arr_val_type_note = fields_array_exp_form[field].split('^');
+				val_type = arr_val_type_note[0]
+				note = arr_val_type_note[1]
+				n_field = '#id_workplace-' + i.toString() + field; //need field
+					
+				  if (val_type=='chosen'){
+							if ($(n_field).chosen().val()=='') {   // если пусто
+								submit = false;
+								if (focus_control == '') {           //если focus еще не был
+									focus_control = n_field +'^'+val_type; //сохраняем focus
+								 }
+								if(!($(n_field).next().next().hasClass("notificationred"))){ //если нету erro note
+											text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+										    $(n_field).next().after(text_note);
+											$(n_field).next().addClass('chosen_red_border');
+											 }
+								}
+					}
+					
+					if (val_type=='input'){
+							if ($(n_field).val()==''){ //если пусто
+								submit = false;
+								if (focus_control == '') {           //если focus еще не был
+									focus_control = n_field +'^'+val_type; //сохраняем focus
+								 }
+								if (!($(n_field).next().hasClass("notificationred"))) {
+									text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+									$(n_field).after(text_note);
+									$(n_field).addClass('input_red');
+									
+								}
+							}
+					}
+					
+					//date_month
+					 if (val_type=='chosen1'){
+						 
+							if ($(n_field).chosen().val()=='0') {   // если пусто
+								
+								submit = false;
+								if (focus_control == '') {           //если focus еще не был
+									focus_control = n_field +'^'+val_type; //сохраняем focus
+								 }
+								
+								if(!($(n_field).next().hasClass("chosen_red_border"))){ //если нет красной рамки вокруг, то
+										
+											$(n_field).next().addClass('chosen_red_border');//добавили рамку
+											 
+											if(!$(n_field).next().next().next().next().hasClass('notificationred'))	{  //если нету сообщения после года добавляем его
+												
+												text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+										    	$(n_field).next().next().next().after(text_note);
+										}
+								}
+					 }
+				  }		
+				 //date_month_end
+					
+				 
+				 //date_year
+					 if (val_type=='chosen2'){
+						 
+							if ($(n_field).chosen().val()=='0') {   // если пусто
+								
+								submit = false;
+								if (focus_control == '') {           //если focus еще не был
+									focus_control = n_field +'^'+val_type; //сохраняем focus
+								 }
+								
+								if(!($(n_field).next().hasClass("chosen_red_border"))){ //если нет красной рамки вокруг, то
+										
+											$(n_field).next().addClass('chosen_red_border');//добавили рамку
+											 
+											if(!$(n_field).next().next().hasClass('notificationred'))	{  //если нету сообщения после года добавляем его
+												
+												text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+										    	$(n_field).next().after(text_note);
+										}
+								}
+					 }
+				  }		
+				 
+				 //date year end
+				 
+				 
+				 
+				 
+				 
+					
+			}// fields for
+				
+		}//end for
+
+
+
+
+        //set focus
+        if (focus_control!='') {
+			focus_control_array = focus_control.split('^');
+			field = focus_control_array[0];
+			val_type = focus_control_array[1];
+			if (val_type == 'chosen')
+				{
+				$('html, body').animate({ scrollTop: $(field).next().offset().top - 30}, 'fast');
+				}
+			if (val_type == 'input')
+			{
+			 $(field).focus();
+			}
+			
+        }
+
+		
+	   
+
+	return submit;
+}	
+//===============================================================================================================		
+//функция интерактивной валидации формы exp_form
+function interactive_validation_exp_form(param, type)
+{   
+		if (type=='all'){
+			i = 0;
+			end = param;
+	 		}
+		if (type =='add')
+			{i=param-1;
+			 end=param;}
+		
+		for(i;i<end;i++)
+			{
+				//city_field	
+				city_field = '#id_workplace-' + i.toString() + '-city';
+				$(city_field).chosen().change(function()
+						{  
+					 		if (+$(this).val()==0){
+					 			$(this).next().after('<div  class = "notificationred" style="display:inline-block">Выберите город</div>')
+					 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+					 			
+					 			
+					 		}
+					 		else{
+					 					if ($(this).next().next().hasClass("notificationred")){	
+					 					$(this).next().next().remove();
+					 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+					 					}
+					 		}
+						})	
+				 //end cityfield
+				 
+				//id_workplace-org_name
+				org_name_field = '#id_workplace-' + i.toString() + '-org_name';
+				$(org_name_field).keyup(function()
+				{	
+					
+					if (($(this).val() == '') && !($(this).next().hasClass("notificationred")))
+						{
+							$(this).after('<div  class = "notificationred" style="display:inline-block">Ввдедите название организации</div>');
+							$(this).addClass('input_red');
+						}
+					
+					if ($(this).next().hasClass("notificationred") && ($(this).val() != ''))
+						{	
+			 					$(this).next().remove();
+			 					$(this).removeClass('input_red');
+						}
+							
+					
+				})
+				//end id_workplace-org_name
+			
+				//branch_activity field
+				branch_activity_field = '#id_workplace-' + i.toString() + '-branch_activity';
+				$(branch_activity_field).chosen().change(function()
+						{   
+					 		if (+$(this).val()==0){
+					 			$(this).next().after('<div  class = "notificationred" style="display:inline-block">Отрасль деятельности</div>')
+					 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+					 			
+					 		}
+					 		else{
+					 					if ($(this).next().next().hasClass("notificationred")){	
+					 					$(this).next().next().remove();
+					 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+					 					}
+					 		}
+						})	
+			    //end branch activity field
+				
+			    //position field
+				position_field = '#id_workplace-' + i.toString() + '-position';
+				$(position_field).chosen().change(function()
+						{   
+					 		if (+$(this).val()==0){
+					 			$(this).next().after('<div  class = "notificationred" style="display:inline-block">Отрасль деятельности</div>')
+					 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+					 			
+					 		}
+					 		else{
+					 					if ($(this).next().next().hasClass("notificationred")){	
+					 					$(this).next().next().remove();
+					 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+					 					}
+					 		}
+						})	
+				//end position field
+			
+				//taken_position_level
+				taken_position_level_field = '#id_workplace-' + i.toString() + '-taken_position_level';
+				$(taken_position_level_field).chosen().change(function()
+						{   
+					 		if (+$(this).val()==0){
+					 			$(this).next().after('<div  class = "notificationred" style="display:inline-block; width:130px;vertical-align: middle; margin-left:5px;">Выберите уровень позиции</div>');
+					 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+					 			
+					 		}
+					 		else{
+					 					if ($(this).next().next().hasClass("notificationred")){	
+					 					$(this).next().next().remove();
+					 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+					 					}
+					 		}
+						})	
+				//end of taken_position_level
+				
+				//duties_achievements
+				duties_achievements_field = '#id_workplace-' + i.toString() + '-duties_achievements';
+				$(duties_achievements_field).keyup(function()
+				{	
+					
+					if (($(this).val() == '') && !($(this).next().hasClass("notificationred")))
+						{
+							$(this).after('<div  class = "notificationred" style="display:inline-block">Ведите обязанности и достижения</div>');
+							$(this).addClass('input_red');
+						}
+					
+					if ($(this).next().hasClass("notificationred") && ($(this).val() != ''))
+						{	
+			 					$(this).next().remove();
+			 					$(this).removeClass('input_red');
+						}
+							
+					
+				})
+				//end of duties_achievements
+			
+			
+				
+				//date_year
+				date_year = '#id_workplace-' + i.toString() + '-work_start_date_year';
+				$(date_year).chosen().change(function()
+						{  
+					 		if (+$(this).val()==0){
+					 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+					 			if (!$(this).prev().hasClass('chosen_red_border')){
+					 				$(this).next().after('<div  class = "notificationred" style="display:inline-block">Выберите дату</div>')}
+					 			
+					 			
+					 			
+					 		}
+					 		else{
+					 					if ($(this).next().hasClass("chosen_red_border")){	
+					 							$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+					 							if ( !$(this).prev().hasClass('chosen_red_border') ){
+					 								$(this).next().next().remove();
+					 							}
+					 					}
+					 		}
+						})	
+				//end dateyear
+				
+				
+				//date_month
+				date_month = '#id_workplace-' + i.toString() + '-work_start_date_month';
+				$(date_month).chosen().change(function()
+						{  
+					 		if (+$(this).val()==0){
+					 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+					 			
+					 			if (!$(this).next().next().next().next().hasClass("notificationred")){
+					 				$(this).next().next().next().after('<div  class = "notificationred" style="display:inline-block">Выберите дату</div>')
+					 			}
+					 		}
+					 		else{
+					 					if ($(this).next().next().next().next().hasClass("notificationred")){	
+					 					
+					 						$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+					 						if (! $(this).next().next().next().hasClass('chosen_red_border') ){
+					 							$(this).next().next().next().next().remove();  
+					 						}
+					 					}
+					 		}
+						})	
+				//end date_month
+				
+				
+				
+				
+				
+				
+			}//end for
+	  
+		
+}
+//=====================================================================================================================================	
+//функция интерактивной валидации формы work_wishes
+function interactive_validation_work_wishes_form(){
+	 //position
+	 position = '#id_desirable_position'
+	 $(position).bind('change blur', function()
+					{  
+				 		if (+$(this).val()==0){
+				 			
+				 			if (!$(this).next().next().hasClass("notificationred")){	
+					 			$(this).next().after('<div  class = "notificationred" style="display:inline-block">&nbsp;Выберите название</div>')
+					 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+				 			}
+				 		}
+				 		else{
+				 					if ($(this).next().next().hasClass("notificationred")){	
+					 					$(this).next().next().remove();
+					 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+				 					}
+				 		}
+	 })	
+	 //position
+	 
+	 //specialization
+	 spec = '#id_specialization';
+	 $(spec).bind('change blur', function()
+	 {  
+			 		if (+$(this).val()==0){
+			 			
+			 			if (!$(this).next().next().hasClass("notificationred")){	
+				 			$(this).next().after('<div  class = "notificationred" style="display:inline-block; width:130px; margin-left:5px; vertical-align:text-middle!important;">Выберите сферу деятельности</div>')
+				 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+			 			}
+			 		}
+			 		else{
+			 					if ($(this).next().next().hasClass("notificationred")){	
+				 					$(this).next().next().remove();
+				 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+			 					}
+			 		}
+	  })	
+	  //end specialization
+	 
+
+	  //city
+	 city = '#id_living_city';
+	 $(city).bind('change blur', function()
+	 {  
+			 		if (+$(this).val()==0){
+			 			
+			 			if (!$(this).next().next().hasClass("notificationred")){	
+				 			$(this).next().after('<div  class = "notificationred" style="display:inline-block">&nbsp;Выберите город</div>')
+				 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+			 			}
+			 		}
+			 		else{
+			 					if ($(this).next().next().hasClass("notificationred")){	
+				 					$(this).next().next().remove();
+				 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+			 					}
+			 		}
+	  })	
+	  //end city
+	  
+	  
+	  
+	  //salary
+	  salary = '#id_salary';
+	  $(salary).bind('keyup', function(){
+		  if    (   !numeric($(this).val())    &&      ($(this).val() != '')  ) 
+			{
+			  	 if (!$(this).next().next().next().hasClass('notificationred')){
+					$(this).next().next().after('<div  class = "notificationred" style="display:inline-block; vertical-align: top; padding-left:5px;">Только цифры</div>');
+					$(this).addClass('input_red');}
+			}
+		  
+		  else{
+			  if ($(this).next().next().next().hasClass('notificationred')){
+					$(this).next().next().next().remove();
+					$(this).removeClass('input_red');}
+		  	  }
+		  
+      })
+	  
+	  
+}
+
+
+
+
+
+
+//=====================================================================================================================================	
+//проверка всех полей перед submit формы work_wishes
+function validation_work_wishes(){
+	var submit = true;
+	var focus_control = ''
+
+	var fields_array = {'#id_desirable_position': 'chosen^<div  class = "notificationred" style="display:inline-block">Выберите название</div>', 
+			'#id_specialization': 'chosen^<div  class = "notificationred" style="display:inline-block;width:130px; margin-left:5px; vertical-align:text-middle;">Выберите сферу деятельности</div>', 
+			'#id_living_city': 'chosen^<div  class = "notificationred" style="display:inline-block">Выберите город</div>', 
+			'#id_salary': 'input^<div  class = "notificationred" style="display:inline-block; vertical-align: top; padding-left:5px;">Только цифры</div>',
+		}
+
+	
+			for(var field in fields_array){
+				arr_val_type_note = fields_array[field].split('^');
+				val_type = arr_val_type_note[0]
+				note = arr_val_type_note[1]
+				n_field =  field; //need field
+					
+				  if (val_type=='chosen'){
+							if (($(n_field).chosen().val()=='')  || (($(n_field).chosen().val()==null)))        {   // если пусто
+								submit = false;
+								if (focus_control == '') {           //если focus еще не был
+									focus_control = n_field +'^'+val_type; //сохраняем focus
+								 }
+								if(!($(n_field).next().next().hasClass("notificationred"))){ //если нету erro note
+											//text_note = 
+										    $(n_field).next().after(note);
+											$(n_field).next().addClass('chosen_red_border');
+											 }
+								}
+					}
+					
+				  if (val_type=='input')				 
+					  if    (($(n_field).val()!='')  &&   !numeric($(field).val()))     { //если не пусто и нецифра
+							submit = false;
+							if (focus_control == '') {           //если focus еще не был
+								focus_control = field +'^'+val_type; //сохраняем focus
+							 }
+							$(field).addClass('input_red');
+							if (!($(field).next().next().next().hasClass("notificationred"))) {
+								$(field).after(note);
+							}
+					}
+				
+				
+				
+					
+			}// fields for
+				
+		
+
+			
+//work_exp
+			
+	quantity = $('#id_workplace-TOTAL_FORMS').val();
+
+	var fields_array_exp_form = {
+			 '-work_start_date_month':'chosen1^Выберите дату',
+			 '-work_start_date_year': 'chosen2^Выберите дату',
+			'-city': 'chosen^Выберите город', 
+			 '-org_name': 'input^Введите организацию',
+			 '-branch_activity':'chosen^Отрасль деятельности',
+			 '-position':'chosen^Введите должность',
+			 '-taken_position_level':'chosen^Уровень занимаемой позиции',
+			 '-duties_achievements':'input^Обязанности и достижения',
+			
+		}
+
+	for(i = 0; i<quantity; i++)
+		{
+			for(var field in fields_array_exp_form){
+				arr_val_type_note = fields_array_exp_form[field].split('^');
+				val_type = arr_val_type_note[0]
+				note = arr_val_type_note[1]
+				n_field = '#id_workplace-' + i.toString() + field; //need field
+					
+				  if (val_type=='chosen'){
+							if ($(n_field).chosen().val()=='') {   // если пусто
+								submit = false;
+								if (focus_control == '') {           //если focus еще не был
+									focus_control = n_field +'^'+val_type; //сохраняем focus
+								 }
+								if(!($(n_field).next().next().hasClass("notificationred"))){ //если нету erro note
+											text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+										    $(n_field).next().after(text_note);
+											$(n_field).next().addClass('chosen_red_border');
+											 }
+								}
+					}
+					
+					if (val_type=='input'){
+							if ($(n_field).val()==''){ //если пусто
+								submit = false;
+								if (focus_control == '') {           //если focus еще не был
+									focus_control = n_field +'^'+val_type; //сохраняем focus
+								 }
+								if (!($(n_field).next().hasClass("notificationred"))) {
+									text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+									$(n_field).after(text_note);
+									$(n_field).addClass('input_red');
+									
+								}
+							}
+					}
+					
+					//date_month
+					 if (val_type=='chosen1'){
+						 
+							if ($(n_field).chosen().val()=='0') {   // если пусто
+								
+								submit = false;
+								if (focus_control == '') {           //если focus еще не был
+									focus_control = n_field +'^'+val_type; //сохраняем focus
+								 }
+								
+								if(!($(n_field).next().hasClass("chosen_red_border"))){ //если нет красной рамки вокруг, то
+										
+											$(n_field).next().addClass('chosen_red_border');//добавили рамку
+											 
+											if(!$(n_field).next().next().next().next().hasClass('notificationred'))	{  //если нету сообщения после года добавляем его
+												
+												text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+										    	$(n_field).next().next().next().after(text_note);
+										}
+								}
+					 }
+				  }		
+				 //date_month_end
+					
+				 
+				 //date_year
+					 if (val_type=='chosen2'){
+						 
+							if ($(n_field).chosen().val()=='0') {   // если пусто
+								
+								submit = false;
+								if (focus_control == '') {           //если focus еще не был
+									focus_control = n_field +'^'+val_type; //сохраняем focus
+								 }
+								
+								if(!($(n_field).next().hasClass("chosen_red_border"))){ //если нет красной рамки вокруг, то
+										
+											$(n_field).next().addClass('chosen_red_border');//добавили рамку
+											 
+											if(!$(n_field).next().next().hasClass('notificationred'))	{  //если нету сообщения после года добавляем его
+												
+												text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+										    	$(n_field).next().after(text_note);
+										}
+								}
+					 }
+				  }		
+				 
+				 //date year end
+				 
+				 
+				 
+				 
+				 
+					
+			}// fields for
+				
+		}//end for
+
+
+
+			
+			
+			
+//end work_exp
+			
+			
+        //set focus
+        if (focus_control!='') {
+			focus_control_array = focus_control.split('^');
+			field = focus_control_array[0];
+			val_type = focus_control_array[1];
+			if ((val_type == 'chosen') || (val_type == 'chosen1') || (val_type == 'chosen2'))
+				{
+				
+				//$(field).trigger('chosen:activate');
+				$('html, body').animate({ scrollTop: $(field).next().offset().top - 30}, 'fast');
+				}
+			if (val_type == 'input')
+			{
+			 $(field).focus();
+			}
+			
+        }
+
+	 	
+	   
+
+       return submit;
+
+}	
+//===============================================================================================================	
+	
+//функция интерактивной валидации формы educational_institution
+function interactive_validation_educational_institution_form(param, type)
+{   
+		if (type=='all'){
+			i = 0;
+			end = param;
+	 		}
+		if (type =='add')
+			{i=param-1;
+			 end=param;}
+		
+		for(i;i<end;i++)
+			{
+				//institution_name_field	
+				institution_name_field = '#id_educational_institution-' + i.toString() + '-institution_name';
+				$(institution_name_field).keyup(function()
+						{	
+							
+							if (($(this).val() == '') && !($(this).next().hasClass("notificationred")))
+								{
+									$(this).after('<div  class = "notificationred" style="display:inline-block">Ввдедите название учебного заведения</div>');
+									$(this).addClass('input_red');
+								}
+							
+							if ($(this).next().hasClass("notificationred") && ($(this).val() != ''))
+								{	
+					 					$(this).next().remove();
+					 					$(this).removeClass('input_red');
+								}
+									
+							
+						})
+				 //end institution_name_field
+				 
+				 
+				//faculty_specialty_field
+				faculty_specialty_field = '#id_educational_institution-' + i.toString() + '-faculty_specialty';
+				$(faculty_specialty_field).keyup(function()
+						{	
+							
+							if (($(this).val() == '') && !($(this).next().hasClass("notificationred")))
+								{
+									$(this).after('<div  class = "notificationred" style="display:inline-block">Ввдедите факультет/специальность</div>');
+									$(this).addClass('input_red');
+								}
+							
+							if ($(this).next().hasClass("notificationred") && ($(this).val() != ''))
+								{	
+					 					$(this).next().remove();
+					 					$(this).removeClass('input_red');
+								}
+									
+							
+						})
+				 //end faculty_specialty_field
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				graduate_year_field = '#id_educational_institution-' + i.toString() + '-graduate_year';
+						 $(graduate_year_field).bind('change blur', function()
+						 {  
+								 		if (+$(this).val()==0){
+								 			
+								 			if (!$(this).next().next().hasClass("notificationred")){	
+									 			$(this).next().after('<div  class = "notificationred" style="display:inline-block">&nbsp;Введите дату окончания</div>')
+									 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+								 			}
+								 		}
+								 		else{
+								 					if ($(this).next().next().hasClass("notificationred")){	
+									 					$(this).next().next().remove();
+									 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+								 					}
+								 		}
+						  })	 
+				 //end of graduate_year_field
+				 
+				 
+	
+			}//end for
+	  
+		
+}	
+
+//проверка всех полей перед submit формы educationaland skills
+//=========================================================================
+function validate_ed_and_sk(){
+	var submit = true;
+	var focus_control = ''
+	// field educational level
+	if (($('#id_education_level').chosen().val()=='')  || (($('#id_education_level').chosen().val()==null)))        {   // если пусто
+		submit = false;
+		if (focus_control == '') {           //если focus еще не был
+			focus_control = '#id_education_level' +'^'+'chosen'; //сохраняем focus
+		 }
+		if(!($('#id_education_level').next().next().hasClass("notificationred"))){ //если нету erro note
+					text_note = '<div  class = "notificationred" style="display:inline-block">Выберите уровень образования</div>'
+				    $('#id_education_level').next().after(text_note);
+					$('#id_education_level').next().addClass('chosen_red_border');
+					 }
+		}
+	
+	//end of field educational level
+	
+
+	//educational institution
+	quantity = $('#id_educational_institution-TOTAL_FORMS').val();
+
+	var fields_array = {
+			 '-institution_name': 'input^Введите название учебного заведения',
+			 '-faculty_specialty':'input^Введите факультет/специальность',
+			 '-graduate_year':'chosen^Введите дату окончания',
+			 
+		}
+
+	for(i = 0; i<quantity; i++)
+		{
+			for(var field in fields_array){
+				arr_val_type_note = fields_array[field].split('^');
+				val_type = arr_val_type_note[0]
+				note = arr_val_type_note[1]
+				n_field = '#id_educational_institution-' + i.toString() + field; //need field
+
+					
+					if (val_type=='input'){
+							if ($(n_field).val()==''){ //если пусто
+								submit = false;
+								if (focus_control == '') {           //если focus еще не был
+									focus_control = n_field +'^'+val_type; //сохраняем focus
+								 }
+								if (!($(n_field).next().hasClass("notificationred"))) {
+									text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+									$(n_field).after(text_note);
+									$(n_field).addClass('input_red');
+									
+								}
+							}
+					}
+					
+					
+				
+					if (val_type=='chosen'){
+							if ($(n_field).chosen().val()=='') {   // если пусто
+								submit = false;
+								if (focus_control == '') {           //если focus еще не был
+									focus_control = n_field +'^'+val_type; //сохраняем focus
+								 }
+								if(!($(n_field).next().next().hasClass("notificationred"))){ //если нету erro note
+											text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+										    $(n_field).next().after(text_note);
+											$(n_field).next().addClass('chosen_red_border');
+											 }
+								}
+					}
+
+			}// fields for
+				
+		}//end for
+
+		
+		
+		//additional education
+		ad_quantity = $('#id_additional_education-TOTAL_FORMS').val();
+
+		var fields_array = {
+			 '-institution_name': 'input^Введите название учебного заведения',
+			 '-course_name':'input^Введите факультет/специальность',
+			 '-graduate_year_ad':'chosen^Введите дату окончания',
+			 
+		}
+		
+
+		for(i = 0; i<quantity; i++)
+			{   
+			    first = '#id_additional_education-' + i.toString() + '-institution_name';
+			    second = '#id_additional_education-' + i.toString() + '-course_name';
+			    third = '#id_additional_education-' + i.toString() + '-graduate_year_ad';
+			    first_val = $(first).val();
+			    second_val = $(second).val();
+			    third_val = $(third).chosen().val();
+			    if  (!(  ((first_val=='')&&(second_val=='')&&(third_val==''))   ||    ((first_val!='')&&(second_val!='')&&(third_val!=''))  )){
+			    
+				for(var field in fields_array){
+					arr_val_type_note = fields_array[field].split('^');
+					val_type = arr_val_type_note[0]
+					note = arr_val_type_note[1]
+					n_field = '#id_additional_education-' + i.toString() + field; //need field
+					
+						if (val_type=='input'){
+								if ($(n_field).val()==''){ //если пусто
+									submit = false;
+									if (focus_control == '') {           //если focus еще не был
+										focus_control = n_field +'^'+val_type; //сохраняем focus
+									 }
+									if (!($(n_field).next().hasClass("notificationred"))) {
+										text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+										$(n_field).after(text_note);
+										$(n_field).addClass('input_red');
+										
+									}
+								}
+						}
+						
+						
+					
+						if (val_type=='chosen'){
+								if ($(n_field).chosen().val()=='') {   // если пусто
+									submit = false;
+									if (focus_control == '') {           //если focus еще не был
+										focus_control = n_field +'^'+val_type; //сохраняем focus
+									 }
+									if(!($(n_field).next().next().hasClass("notificationred"))){ //если нету erro note
+												text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+											    $(n_field).next().after(text_note);
+												$(n_field).next().addClass('chosen_red_border');
+												 }
+									}
+						}
+
+				}// fields for
+			    }//if	
+			}//end for
+		
+
+        //set focus
+        if (focus_control!='') {
+			focus_control_array = focus_control.split('^');
+			field = focus_control_array[0];
+			val_type = focus_control_array[1];
+			if (val_type == 'chosen')
+				{
+					$('html, body').animate({ scrollTop: $(field).next().offset().top - 30}, 'fast');
+				}
+			if (val_type == 'input')
+			{
+			 $(field).focus();
+			}
+			
+        }
+
+return submit;
+		
+}	   
+//=====================================================================================================================================	
+//интерактивная валидация education_and_skills
+function education_and_scills_interact_val(){
+	ed_lev = '#id_education_level';
+	$(ed_lev).chosen().change(function()
+			{   
+		 		if (+$(this).val()==0){
+		 			$(this).next().after('<div  class = "notificationred" style="display:inline-block">Выберите уровень образования</div>')
+		 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+		 			
+		 		}
+		 		else{
+		 					if ($(this).next().next().hasClass("notificationred")){	
+		 					$(this).next().next().remove();
+		 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+		 					}
+		 		}
+			})	
+	
+}
+//=====================================================================================================================================
+function fun_till_now(control){
+	name = control.name
+	name_arr = name.split('-');
+	number = name_arr[1];
+	
+	if ($(control).is(':checked')){
+		$(control).parent().parent().next().find('.date_to').css('display','none');
+		sel1 = '#id_workplace-'+ number +'-work_end_date_month'
+		sel2 = '#id_workplace-'+number + '-work_end_date_year'
+		$(sel1).prop("selected", false); //очистим все
+		$(sel1).children().first().attr("selected", "selected");
+		$(sel1).trigger("chosen:updated");
+		$(sel2).prop("selected", false); //очистим все
+		$(sel2).children().first().attr("selected", "selected");
+		$(sel2).trigger("chosen:updated");
+		
+	}
+	
+	else{
+		$(control).parent().parent().next().find('.date_to').css('display','block');
+	}
+	
+
+
+}
+
+
+
+//===============================================================================================================	
+//функция на изменение checkbox 'Без опыта'
+$('#no_experience').change(function(){
+	
+	
+	
+	if (   $('#no_experience').prop('checked')   )
+		
+		{ 
+		quantity = $('#id_workplace-TOTAL_FORMS').val();
+		  for(i = quantity-1; i>=0; i--)
+			{	
+				n_field = '#id_workplace-' + i.toString() + '-deleted';
+				$(n_field).prev().find("a").click();
+			}
+		
+		
+		$("#add_id_workplace").css('display', 'none');
+		$('#work_experience_yes_no').css('display', 'none')
+		}
+	else 
+		{
+		$("#add_id_workplace").css('display', 'block');
+		$('#work_experience_yes_no').css('display', 'block')
+		}
+
+    
+  
+});
+
+//==============================================================================================================
+//submit no validation
+function education_form_submit(button_control){
+	submit = validate_ed_and_sk();
+	if (submit==true){
+		$("input[name='form_number']").val('2');
+		$('#education_form').submit();
+		}
+	}
+
+function work_wishes_sumbit(button_control){
+	submit = validation_work_wishes();
+	if (submit==true) {
+		$("input[name='form_number']").val('1');
+		$('#work_wishes_form').submit();
+	}
+}
+
+//==============================================================================================================
+
+	
+// окончание моего javascript or
+
+</script>
+
+
+{% endblock %}	 

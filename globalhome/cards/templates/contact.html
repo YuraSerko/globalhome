@@ -1,0 +1,29 @@
+{% extends 'account/profile.html' %}
+{% load form_tags i18n %}
+{% block content %}
+<form action="" method="post">
+  
+  
+  <table style="color:#999999" align="center" width="40%" border="2">
+       
+      <td >  
+        <div>{{ label_login }}:</div>
+        <div>{{ label_pin }}:</div>
+      </td>  
+       
+      <td style="width:60%" align="left" style="margin-top:1"> 
+        <div><input name="login" type="text" style="width:30%"></div>
+        <div><input name="pin" type="text" style="width:30%"></h4></div>
+      </td> 
+  </table>
+      <h4 ><input width="40%" type="submit" value="Добавить">
+      <a href='/activationcard/'><input type="button" value="Вернуться"></a> 
+      
+      {% if truu %}     
+         <h4><p align="center" style="color: green;">{{ label_truu }}</p></h4>     
+      {% endif %}
+      {% if error %}
+         <h4><p align="center" style="color: red;">{{ label_error }}</p></h4> 
+      {% endif %}
+</form>
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<script>
+	function ShowSubmitRow()
+		{	
+		$("#save_or_not").show()
+		$("#archive").hide()
+		}
+	$(document).ready(function() {
+		$("#save_or_not").hide()
+		$("#deactivate").show()
+		$("#archive").show()
+	})
+</script>
+
+<h1 class="title">{{ title }}</h1>
+{% if notif in 'Тариф успешно изменен Тариф успешно подключен' %}
+<div class="status status-success">
+    <i class="ico"></i>
+    <div class="status-i">
+        <p>{{ notif }}</p>
+    </div>
+</div>
+{% else %}
+{% if notif %}
+<div class="status status-warning">
+    <i class="ico"></i>
+    <div class="status-i">
+        <p>{{ notif }}</p>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% if have_numbers %}
+	<form action="." method="post" id="rules_list_form">
+   {% if record_talk_tariff_active_true %}
+                <table class="type-2">
+                    <thead>
+                        <tr>
+
+                            <th width="18%" scope="col">Название</th>
+                            <th width="20%" scope="col">Абонентская плата, RUR, без НДС</th>
+                            <th width="18%" scope="col">Стоимость минуты записи, RUR</th>
+                            <th width="18%" scope="col">Срок хранения записей(дн.)</th>
+                            <th width="18%" scope="col">Ограничение записи(мин.)</th>
+                            
+                            <th width="18%" scope="col">Активен с </th>
+                            <th width="18%" scope="col">Активен до</th>
+                            {% if change_tariff %}
+                            <th width="7%" scope="col">Изменить</th>
+							{% endif %}
+                        </tr>
+                    </thead>
+   						{% for x in record_talk_tariff_active %}
+                        <tr>
+							<td>{{ x.name }}</td>
+                            <td>{{ x.cost_activation }}</td>
+                            <td>{{ x.cost_for_min }}</td>
+                            <td>{% if x.count_save_day == 0 %}Не хранятся{% else %}{{ x.count_save_day }}{% endif %}</td>
+                            <td>{% if x.record_time == 0 %}Не ограничено{% else %}{{ x.record_time }}{% endif %}</td>
+                            
+                            <td>{% for z in record_talk_tariff_user %}{% if x.id = z.tariff_id %}{{ z.date_activation }}{% endif %}{% endfor %}</td>
+                            <td>{% for z in record_talk_tariff_user %}{% if x.id = z.tariff_id %}{% if z.date_deactivation %}{{ z.date_deactivation }}{% else %}Не ограничено{% endif %}{% endif %}{% endfor %}</td>
+                            
+                            {% if change_tariff %}
+                            <td><a href="/account/record_talk/change_tariff/">Изменить тариф</a></td>
+                            {% endif %}
+
+                    <!--</li> -->
+                        </tr>
+            			{% endfor %}
+   			</table>
+            
+            {% if not not_disabled %}
+            <div id="deactivate" class="form-submit-right">
+                <a class="bt bt-blue2" href="/account/record_talk/deactivate_tariff/">Отключить услугу "Запись разговоров"</a>
+            </div>
+            {% endif %}
+            <br>
+            <br>
+   			<h1 class="title">{{ title1 }}</h1>
+            {{ block.super }}
+            {% if record_talk %}
+            
+             <table class="type-2">
+                    <thead>
+                        <tr>
+                            <th width="8%" scope="col">{% trans "Enabled" %}</th> 
+                            <th width="18%" scope="col">{% trans "On number" %}</th>
+                            <th width="20%" scope="col">Тип звонка</th>
+                            <th width="18%" scope="col">День</th>
+                            <th width="18%" scope="col">Время</th>
+                            <th width="7%" scope="col">{% trans "Editing" %}</th>
+                            <th width="7%" scope="col">{% trans "Deleting" %}</th>
+                            
+                            <th width="7%" scope="col">Прослушать записи</th>
+
+                        </tr>
+                    </thead>
+                    {% for record in record_talk %}
+                        <tr>
+                            <td>
+                          <input type="checkbox" name="{{ record.id }}" {% if record.enabled %}checked{% endif %} onchange="ShowSubmitRow();"/>
+                            </td>
+                            <td>{{ record.number }}</td>
+                            <td>{% if '1' in record.record_type and '2' in record.record_type %}Вce{% else %}{% if '1' in record.record_type %}Входящие{% endif %}{% if '2' in record.record_type %} Исходящие{% endif %}{% endif %}</td>
+                            <td>{% if "[u'1', u'2', u'3', u'4', u'5', u'6', u'7']" == record.record_day %}Каждый день{% else %}{% if '1' in record.record_day %}Понедельник{% endif %}{% if '2' in record.record_day %} Вторник{% endif %}{% if '3' in record.record_day %} Среда{% endif %}{% if '4' in record.record_day %} Четверг{% endif %}{% if '5' in record.record_day %} Пятница{% endif %}{% if '6' in record.record_day %} Суббота{% endif %}{% if '7' in record.record_day %} Воскресенье{% endif %}{% endif %}</td>
+                            <td>{% if None == record.record_time_begin %}Всегда{% else %}{{ record.record_time_begin }} <br>{{ record.record_time_end }}{% endif %}</td>
+                            <td><a href="/account/record_talk/edit/{{ record.id }}/">{% trans "Edit" %}</a></td>
+                            <td><a href="/account/record_talk/delete/{{ record.id }}/">{% trans "Delete" %}</a></td>
+                            
+                            <td><a href="/account/record_talk/listen/{{ record.id }}/">Прослушать</a></td>
+                    <!--</li> -->
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+             <div class="status status-info">
+                    <i class="ico"></i>
+                    <div class="status-i">
+                        <p>У Вас нет номеров с подключенной услугой "Запись разговора"</p>
+                    </div>
+                </div>
+            
+            
+            {% endif %} 
+            <div class="form-submit-left">
+                <a class="bt bt-blue2" href="/account/record_talk/create_record_talk/">{% trans "Add" %}</a>
+            </div>
+       		
+            <div id="save_or_not" class="form-submit-right">
+                <input type="submit" class="bt bt-blue2" name="abort" value="{% trans 'Cancel' %}"/>
+                <input type="submit" class="bt bt-blue2" name="submit" value="{% trans 'Save changes' %}"/>
+            </div>
+            
+            <div id="archive" class="form-submit-right">
+            	<a class="bt bt-blue2" href="/account/record_talk/myarchive/">Архив записей</a>
+          	</div> 
+   {% else %}
+            {% if record_talk_tariff %}
+                {{ block.super }}
+                <table class="type-2">
+                    <thead>
+                        <tr>
+
+                            <th width="18%" scope="col">Название</th>
+                            <th width="20%" scope="col">Абонентская плата, RUR, без НДС</th>
+                            <th width="18%" scope="col">Стоимость минуты записи, RUR</th>
+                            <th width="18%" scope="col">Срок хранения записей(дн.)</th>
+                            <th width="18%" scope="col">Ограничение записи(мин.)</th>
+                            <th width="7%" scope="col">Подключить</th>
+
+                        </tr>
+                    </thead>
+                    {% for record in record_talk_tariff %}
+                        <tr>
+
+                            <td>{{ record.name }}</td>
+                            <td>{{ record.cost_activation }}</td>
+                            <td>{{ record.cost_for_min }}</td>
+                            <td>{% if record.count_save_day == 0 %}Не хранятся{% else %}{{ record.count_save_day }}{% endif %}</td>
+                            <td>{% if record.record_time == 0 %}Не ограничено{% else %}{{ record.record_time }}{% endif %}</td>
+                            <td><a href="/account/record_talk/activation_tariff/{{ record.id }}/">Подключить</a></td>
+
+                    <!--</li> -->
+                        </tr>
+                    {% endfor %}
+                </table>
+                
+            {% endif %}
+            
+         {% endif %}   
+       
+        </form>
+ 
+{% else %}
+
+    <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>{% trans "You have no internal numbers. You should create one first" %}</p>
+        </div>
+    </div>
+    <a class="bt bt-blue2" href="/account/phones/add/">{% trans "Add number" %}</a>
+{% endif %}     
+  
+{% endblock %}

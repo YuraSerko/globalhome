@@ -1,0 +1,89 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/forms1.css" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/interface-style1.css" />
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<script>
+	function download()
+		{
+			year_elem = document.getElementById("year").value;
+			month_elem = document.getElementById("month").value;
+			if ((year_elem != 'None') && (month_elem != 'None'))
+				{
+					document.getElementById("hid_year").value = year_elem;
+					document.getElementById("hid_month").value = month_elem;
+					document.getElementById("form_download_document").submit();
+				}
+			
+		}
+</script>
+{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="../../">
+        {% trans "Home" %}
+      </a>
+       &rsaquo; 
+       <a href="../">
+         {{ app_label|capfirst }}
+      </a>
+      &rsaquo; 
+      {{ app_section }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block content %}
+<form method="get" name="form_download_document" id="form_download_document">
+	<input type="hidden" id="hid_year" name="year" value=""/>
+	<input type="hidden" id="hid_month" name="month" value=""/>
+    <p>Укажите дату выставления документов:</p>
+    Год: <select id="year">
+        <option value="None"> ---- </option>
+        {% for year in spis_years %}
+            <option value="{{ year }}">{{ year }}</option>
+        {% endfor %}
+    </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Месяц: <select id="month">
+        <option value="None"> ---- </option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+    </select>
+    <br />
+    <br />
+    <input type="button" onclick="download()" value="Скачать"/>
+</form>
+{% endblock %} 

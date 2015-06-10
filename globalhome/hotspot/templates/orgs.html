@@ -1,0 +1,1017 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+
+{% block content %} 
+
+
+ {% block sendin %}
+ {{block.super}}
+         {% endblock %}
+ 
+
+  
+
+  
+  <article id="right">
+	
+				
+			
+				
+				
+				  {% block burat2 %}
+                  {{block.super}}
+                  {% endblock %}
+				
+				
+			
+			
+		 <div id='centr_field'>
+				{% block cap %}
+				{{block.super}}
+         {% endblock %} 
+                
+    
+ <style>
+ @media screen and (min-width: 1200px){
+			.advert_2{
+				margin-right: 20px;
+				display: inline-block;
+				position: relative;
+				left: 380px;
+				width: 120px;
+				height: 600px;
+				/*border: 2px solid #4282D2;*/
+				}
+			.block_for_advert{
+				
+				display: inline-block;
+				visibility: hidden;
+				position: relative;
+				left: 360px;
+				width: 20px;
+				height: 600px;
+				/*border: 3px solid #4282D2;*/
+				}
+				
+				
+				.my_data{
+					margin-bottom: 100px;
+				}
+				
+				}
+		</style>
+   
+  
+       <div class = "my_data">
+<!-- мои данные -->  
+
+ <div id= "search" style = "margin-left:700px; margin-bottom:20px; " ><input id = "search_input" style = 'width:310px;' placeholder="Поиск организации"></input></div>    	
+
+ <div id="map" style=" height: 600px; width:700px; float:left; "></div>        
+
+ <div id="right_of_map" style=" height: 600px; width:310px; background:#F5F5F5; margin-left:700px; overflow-x:auto;position: absolute; border-left: solid 5px #F5F5F5;"></div>
+
+ 
+    <!--link rel="stylesheet" href="{{ MEDIA_URL }}css/style_public.css">
+    <script src="{{ MEDIA_URL }}js/jquery_public.js"></script>
+    <script src="{{ MEDIA_URL }}js/script_public.js"></script-->
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+    <title>Пример карты</title>
+  <!--     <script src="http://api-maps.yandex.ru/1.1/index.xml?key=AIYoVlMBAAAAesZdXQIArJVxcqCiRFEFR67Z7Kyg1-HaMtIAAAAAAAAAAAD1u3zQHRdRJRHkJ6I0b4kgTW9mpg==&modules=hotspots" type="text/javascript"></script> -->
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+     <script src="http://api-maps.yandex.ru/2.0/?load=package.standard&lang=ru-RU" type="text/javascript"></script>  
+
+
+
+	
+
+		
+	<div class = "advert_2">
+		<script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement|add:17}}"></script>
+	</div>
+	<div class = "block_for_advert"></div>
+	
+	</div>
+
+
+<!-- форма для ввода параметров для изменения -->
+<a href="#" class="overlay" id="edit_all"></a>
+    <div  class="popup_personal" style="min-width: 550px;">
+        <a class="popup_personal-close" href="#close"></a>
+        <div id="id_popup_all">           
+        	 <div class="form_title_main" id = "form_title_main_all">Редактировать организацию</div>
+        	 <br>
+        	 <br>
+        	 <div class ="form_line">
+        	 	<label class = "input_label_all">Наименование организации</label>	
+        	 	<input class = "form_input_all" name = "name_org_all" id = "name_org_all"></input>
+        	 </div>
+             <br>
+        	 <div class ="form_line">
+        	 	<label class = "input_label_all">Адрес организации</label>	
+        	 	<input class = "form_input_all" name = "address_org_all" id = "address_org_all"></input>
+        	 </div>
+        	 <br>
+             <div class ="form_line">
+        	 	<label class = "input_label_all">Телефон организации</label>	
+        	 	<input class = "form_input_all" name = "tel_org_all" id = "tel_org_all"></input>
+        	 </div>
+             <br>
+             <div class ="form_line">
+        	 	<label class = "input_label_all">Адрес интернет сайта</label>	
+        	 	<input class = "form_input_all" name = "site_org_all" id = "site_org_all"></input>
+        	 </div>
+             <br>
+             <div class ="form_line">
+        	 	<label class = "input_label_all">Время работы организации</label>	
+        	 	<input class = "form_input_all" name = "hours_org_all" id = "hours_org_all"></input>
+        	 </div>
+             <br>
+             <input type="checkbox" id = "org_existance"  onchange = "change_exist()">Организации не существует<br>
+        	 <br>
+        	 <div class ="form_line">
+        	 	<label class = "input_label">Ваше имя</label>	
+        	 	<input class = "form_input" name = "name_all" id = "name_all"></input>
+        	 </div>
+        	 <br>
+        	 <div class ="form_line">
+        	 	<label class = "input_label">E-mail</label>	
+        	 	<input class = "form_input" name = "email_all" id = "email_all"></input>
+        	 </div>
+             <br>
+             <div id = "bottom_notice" class  = 'nothing_change_notice_hidden'><font class = 'red_notice'>Ничего не поменялось внесите изменения</font></div> 
+             <div class = "form_buttons">
+             	<button>Отменить</button>
+             	<button id =accept_all >Отправить</button>
+             </div>      
+             
+        </div> 
+    </div>
+<!-- конец формы для ввода параметров для изменения -->
+
+<!-- для финального сообщения -->
+<a href="#" class="overlay" id="fin_notice"></a>
+    <div  class="popup_personal" style="min-width: 100px;">
+        <a class="popup_personal-close" href="#close"></a>
+        <div id="id_popup_fin">    
+        <div id = "text_notice">Ваша заявка принята к рассмотрению</div>
+		</div> 
+	</div>
+<!-- окончание формы для финального сообшения -->
+
+
+<style type="text/css">
+
+/* для формы редактирования */
+.popup_personal button{
+	margin-right: 13px!important;}
+
+.form_buttons{
+	padding-right: 20px;
+	padding-bottom: 30px;}
+
+.form_title_main{
+	font-weight: 700;
+	margin: 14px 0 6px;
+	font-size:13px;	}
+
+.form_title_2nd{
+	margin: 14px 0 6px;}
+
+.large_form_input{
+	resize:vertical;
+	width:300px;	}
+	
+#id_popup_all{	
+	margin-left:7px;
+	font-size:13px;}
+	
+.input_label_all{
+	width:170px!important;}
+	
+.form_input_all{
+	width:320px;}
+	
+.nothing_change_notice_hidden{
+	display:none;}
+	
+.nothing_change_notice_visible{
+	display:block;
+	}
+.red_notice{
+	color:red;
+	font-size: 16px;}
+/* окончание css для формы редактирования   */
+
+
+/* стили для кружка номера организаций */
+#for_cicle{    
+width: 21px;
+height: 21px;
+margin: -2px 3px 0;
+background: #fff;
+border-width: 2px;
+border-style: solid;
+-webkit-border-radius: 12px;
+-moz-border-radius: 12px;
+border-radius: 12px;
+font-weight: 400;
+position: absolute;
+margin: .0em 0 0;
+color: #000;
+font-size:13px;
+text-align:center;
+border: 2px solid #3066D3;
+    }   
+/* окончание стилей для кружка номера организаций */
+
+
+/* css для сообщения после формы редактирования */
+#text_notice{
+	height:50px;
+	font-size:16px;
+	color:green;
+	margin-top:30px;
+}
+/* окончание css после формы редактирования*/
+
+
+/*css для ballon добавляемыx для 10 точек на карту по смещению и легенды справа*/
+
+.org_name{
+	font-weight:600;
+	color:#1355D7	;	
+}
+
+
+.org_param {
+	margin:0px;
+	padding:0px;
+	font-size:15px;
+}
+
+
+
+.org_param li{
+	list-style-type: none;
+	font-size: 13px;
+	
+}
+
+.org_param .coincidence_params{
+	margin-left: 15px;
+}
+
+.org_param_right li{
+	list-style-type: none;
+	font-size: 13px;
+}
+
+.org_param_right {
+	margin:0px;
+	padding-left:25px;
+	font-size:15px;
+}
+
+.org_param_right .number_coincidence{
+	margin-top: 15px;}
+	
+
+.org_param .last_params{
+	margin-bottom: 20px;}
+/*окончание css для ballon добавляемыx для 10 точек на карту по смещению и легенды справа*/
+
+
+/*css для крестика на balloon*/
+.ymaps-b-balloon__tl{
+	height: 17px;
+	background: white;
+	border-left: solid 1px #DCDCDC;
+	border-radius: 5px 0 0;}
+	
+.ymaps-b-balloon__tr{
+	height:17px;
+	
+	}
+	
+.ymaps-b-balloon__close{
+	right: -12px;}
+/*окончание css для крестика на balloon*/
+
+
+/* css для кнопки */
+.edit_button{
+	float: right;
+	color:green;
+	font-size:13px;
+	top: 0px;
+	margin-top: -20px;
+	}
+/* окончание  css для кнопки */
+</style>
+    
+	
+	<script>
+	//получим org_type
+	var intorg_type = {{ org_type }};
+	var org_type = intorg_type.toString();
+	var cur_mikrotik_coordinates = '{{ cur_microtik_coordinates }}'
+	
+
+	//очередность показа (для списка имен на букву/строку)
+	var current = '0:12'; 
+	var turn;
+	
+	
+	//очередность куда и насколько смещаться(одно имя)
+	var cur_single_name = '0:10';
+	var turn_single_name;
+	
+	var org_name_tosee_all;
+	
+	var former_but_id = '';
+	//var perem = '1111'
+	
+	
+	var myMap;
+	var myev;
+	var myCollection;
+	var oldCollection;
+	ymaps.ready(init);
+	var a = [];
+
+	
+	
+	// координаты микротика
+	
+	function init() {
+		
+	 if (cur_mikrotik_coordinates!='') {
+			var mik_array = cur_mikrotik_coordinates.split(':');
+		 		x = mik_array[0];
+		 		y = mik_array[1];
+		 		desc = mik_array[2];}
+	else 	{
+		 	x = 37.64;   // центр москвы
+	 		y = 55.76;   // центр москвы
+	 		}
+	
+	   myMap = new ymaps.Map('map', {
+	            center: [y, x], //Москва
+	            zoom: 17,
+	            behaviors: ['default', 'scrollZoom']
+	        	}, {
+	            minZoom: 2,
+	            maxZoom: 18,
+	            //behaviors: ['default', 'scrollZoom']
+	     });
+	    var cursor = myMap.cursors.push('arrow');
+	    
+	   
+	  	//переместимся еще раз на центр чтобы синиц. событие
+	  	
+	    yshell =  ( parseFloat(x) + 0.00001).toString();
+	    myMap.setCenter([y, yshell], 17, {
+      	checkZoomRange: true
+        })
+		
+		
+		
+		
+	    // Добавим на карту элемент управления коэффициентом масштабирования.
+	    myMap.controls.add('smallZoomControl', { top: 5 });
+
+	    
+	    // добавим точку(текущий микротик) если нужно
+	    if (cur_mikrotik_coordinates!='') {
+	    	var placemark_cur = new ymaps.Placemark([y, x], {
+	        	balloonContent: desc,
+	    		}, {
+	        	preset: "twirl#redStretchyIcon",
+	        	// Отключаем кнопку закрытия балуна.
+	        	balloonCloseButton: false,
+	        	// Балун будем открывать и закрывать кликом по иконке метки.
+	        	hideIconOnBalloonOpen: false
+	    	});
+	   		myMap.geoObjects.add(placemark_cur);}
+	   
+		
+	    
+        // для активных областей
+        var tileUrlTemplate = '/media/orgs/' + org_type + '/!jsonorg/%z/tile-%x-%y';        
+        keyTemplate = 'testCallback_tile_%c',
+        // URL тайлов картиночного слоя.
+        // Пример URL после подстановки -
+        // '.../hotspot_layer/images/9/tile_x=1&y=2.png'.
+        imgUrlTemplate = '/media/orgs/' + org_type + '/!pngorg/%z/tile-%x-%y.png';
+      
+        
+        // Создадим источник данных слоя активных областей.
+        objSource = new ymaps.hotspot.ObjectSource(tileUrlTemplate, keyTemplate),
+
+        // Создадим источник данных слоя активных областей.
+        objSource = new ymaps.hotspot.ObjectSource(tileUrlTemplate, keyTemplate),
+
+        // Создаем картиночный слой и слой активных областей.
+        imgLayer = new ymaps.Layer(imgUrlTemplate, {tileTransparent: true}),
+        hotspotLayer = new ymaps.hotspot.Layer(objSource, {cursor: 'pointer'});
+
+   	 	// Добавляем слои на карту.  	 	
+   		myMap.layers.add(hotspotLayer);
+   		myMap.layers.add(imgLayer);
+   		
+       	mapObjBounds = myMap.getBounds();
+       	
+       	
+      //Ослеживаем событие изменения области просмотра карты - масштаб и центр карты
+    	myev = function () {	
+    	// ajax (берем из базы 10 точек рандомом и возвращаем их на карту)
+    	if (oldCollection)
+    	 {
+    	  oldCollection.removeAll();}
+    	  mapObjBounds = myMap.getBounds();
+    	  ajax_points(mapObjBounds, myMap);    	
+    	};
+    	myMap.events.add("boundschange", myev);
+
+
+      
+    	
+    	
+    } // заканчивается init
+	
+//================================================================================================	
+	// функция срабатывает на смещение карты или(и) измениение зума
+	// подтягивает рандомные точки и легенду к ним справа
+	function ajax_points(mapObjBounds, myMap)
+	 {   
+		 var get = '?mapObjBounds=' + mapObjBounds;
+	     get += '&org_type=' + org_type;
+ 
+		 $.ajax ({
+	         url: "/hotspot/ajax_orgs_points" + get,
+	         cash: false,
+	         async:true,
+	         complete: function(html)
+	           { 
+ 				
+	        	myCollection = new ymaps.GeoObjectCollection();
+	        	var  legend_string = ' ';
+	        	var st = html.responseText;
+	        	var st1split  = st.split('?');
+	        	for (var i = 0; i<st1split.length-1; i++)
+	        	 {
+	        		 var st2split = st1split[i].split('|');
+	        		 
+	        		 
+	        		
+					 //для буквенных точек
+					 if (st2split[3]== undefined)
+						 {st2split[3]=''}
+					 
+	        		 var placemark2 = new ymaps.Placemark([st2split[1], st2split[0]], {
+	        	      	    balloonContent:  '<ul class = "org_param">'+ st2split[2]+ '</ul>' + st2split[3],
+	        	      	    iconContent: i+1, 
+	        	      	    
+	        	      	  	
+	        	      	  
+	        	      	}, {
+	        	      		preset: 'twirl#blueIcon',  	      	 
+	        	      	    hideIconOnBalloonOpen: false,
+	        	      	  	iconImageOffset: [-9,-38],
+	        	      	  	balloonOffset:[2,-7],
+	        	      	  	balloonAutoPan: false,
+	        	      	  	balloonMaxHeight:230,
+	        	      	  	
+	        	      	});     
+	        		            //сохраним метку в массив
+	        		            a[i+1] = placemark2;
+	        		            myCollection.add(placemark2);
+	        		            //Отслеживаем событие на закрытие balloon
+	        		            placemark2.events.add('balloonclose', function(e) {	        		                 
+	        		                 former_but_id = '';	        		                 
+	        		            });
+	        		            
+	        		            
+	        		            
+	        		            if (st2split[2].indexOf('<div id = "but')!=-1){	
+	        		            
+		        		            but_exist = true;
+		        		            stt =  st2split[2] ;
+		        		            
+		        		            while (but_exist) {
+		        		            if (stt.indexOf('<div id = "but')!=-1)	        		            	
+		        		            		{ 
+		        		            	      
+		        		            		  //находим '<div id = "but'
+		        		            		  ind_start = stt.indexOf('<div id = "but');
+		        		            		  //режем строку после этого символа
+		        		            		  temp_string = stt.slice(ind_start+4, stt.length)
+		        		            		  ind_end_sub = temp_string.indexOf('div>');
+		        		            		  st_of_2nd = temp_string.slice(0,ind_end_sub+4)
+		        		            		  ind_end = st_of_2nd.length + 4 + ind_start  ;
+		        		            		  part1 = stt.slice(0,ind_start)
+		        		            		  part2 = stt.slice(ind_end, stt.length)
+		        		            		  stt = part1+part2;
+		        		            		  
+		        		            		  
+		        		             		}
+		        		            
+		        		            else {but_exist = false;}
+		        		            }
+	        		            }
+	        		            
+	        		            else {stt =  st2split[2] ;}
+	        		            legend_string =  legend_string +'<font id = "for_cicle">' +(i+1).toString()+'</font>' + '<ul class = "org_param_right">' + stt + '</ul>'+ '<br>'  ;
+
+	        	  }
+	        	 oldCollection = myCollection;
+	        	 myMap.geoObjects.add(myCollection);
+	        	 
+	        	 document.getElementById('right_of_map').innerHTML = legend_string;
+	        	 
+	        	
+	            }//заканчивается function complete
+	         });
+	 }
+//===============================================================================================
+    function OpenBalloon(number){
+    a[number].balloon.open();
+    }
+
+//================================================================================================
+//ловим отжатие клавиши в блоке
+$("#search").keyup(query);
+
+//===============================================================================================
+// функция срабатывает на отжатие и и заполняет right_of_map результатами запроса
+function query()
+{      
+	myMap.events.remove("boundschange", myev);
+	if (oldCollection)
+ 		{
+  			oldCollection.removeAll();
+    		$("#right_of_map").empty();
+    	}
+	turn = 1; //первый список
+	current = '0:12';//первый список
+	
+	var get = '?start=' + document.getElementById("search_input").value;
+	get += '&current='+ current;
+	get += '&turn='+ turn;
+	get += '&org_type=' + org_type;
+	$.ajax({
+		 url: "/hotspot/ajax_orgs_points/search" + get,
+        cash: false,
+        async:false,
+        complete: function(html)
+      { var  l_string = '';
+   		var string_start = html.responseText;
+		hat_number  = string_start.indexOf('^');
+		st = string_start.substring(0,hat_number);	
+		buttons = string_start.substring(hat_number+1,string_start.length);      	
+       	document.getElementById('right_of_map').innerHTML =  st + buttons;
+       } // окончание функции complete
+   });
+}
+
+//=========================================================================================
+// функция срабатывает на кнопку назад вперед (поиск только названий банков)
+function query_but()
+{  
+	turn = turn + 1; // нажал на кнопку сразу увеличен счетчик
+	
+	
+	var get = '?start=' + document.getElementById("search_input").value;
+	get += '&current='+ current;
+	get += '&turn=' + turn;
+	get += '&org_type=' + org_type;
+	$.ajax({
+		 url: "/hotspot/ajax_orgs_points/search" + get,
+         cash: false,
+         async:false,
+         complete: function(html)
+       	{var  l_string = '';
+   		var string_start = html.responseText;
+		hat_number  = string_start.indexOf('^');
+		st_new = string_start.substring(0,hat_number);
+		buttons_new = string_start.substring(hat_number+1,string_start.length);
+		
+		//убираем кнопки в текущем блоке
+		$("#next_button").remove();	
+		var ins = 'ins' + turn.toString();
+       	document.getElementById(ins).innerHTML = st_new + buttons_new;
+ 
+       	
+       } // окончание функции complete
+    });
+}
+
+//=========================================================================================
+//функция нажатия на кнопку next
+function nextfun(cur)
+{	
+	current = cur;
+	direction = 'next';
+	query_but();
+}
+//=========================================================================================
+//функция нажатия на кнопку next (одно имя)
+function nextfun_single_name(cur_single_name)  //парметр текущее смещение
+{	
+	
+	current_single_name = cur_single_name;
+	direction_single_name = 'next';
+	query_but_single_name();
+}
+//=========================================================================================
+//функция показывает банки (филиалы по названию) 
+function view_by_name(org_name)
+  { 
+	turn_single_name = 1;
+	current_single_name = '0:10';
+	org_name_tosee_all = org_name;
+	var get = '?org_name=' + org_name;
+	get += '&turn_single_name=' + turn_single_name;
+	get += '&current_single_name='+ current_single_name;
+	get += '&org_type=' + org_type;
+	$.ajax({
+		url: "/hotspot/ajax_orgs_points/seach_by_single_name" + get,
+		cash: false,
+		async: false,
+		complete:function(html)
+		{
+		var  l_string = '';
+  	var string_start = html.responseText;
+  	hat_number  = string_start.indexOf('^');
+  	st = string_start.substring(0,hat_number)
+  	
+  	buttons = string_start.substring(hat_number+1,string_start.length)
+  	//get st
+  	var st1split  = st.split('?');   // описание одного элемента (полное корд и строки)
+  	
+  	for (var i = 0; i<st1split.length-1; i++)
+  	 {   
+  		//строка
+  		 var st2split = st1split[i].split('|');
+  		 l_string =  l_string +'<font id = "for_cicle">'+ (i+1).toString()+'</font>' + '<ul class = "org_param_right">'+ st2split[2] + '</ul>' + '<br>';
+  		//точки
+  	
+  		 var placemark2 = new ymaps.Placemark([st2split[1], st2split[0]], {
+  			 	balloonContent:   '<ul class = "org_param">' + st2split[2] + '</ul>' + st2split[3],
+  	      	    iconContent: i+1, 
+  	      	    
+  	      	  	
+  	      	  
+  	      	}, {
+  	      		preset: 'twirl#blueIcon',  	      	 
+  	      	    hideIconOnBalloonOpen: false,
+  	      		iconImageOffset: [-9,-38],
+      	  		balloonOffset:[2,-7],
+  	      	  	balloonAutoPan: false,
+  	      	  	
+  	      	});     
+  		            //сохраним метку в массив
+  		            a[i+1] = placemark2;
+  		            
+  		            myCollection.add(placemark2);
+  		        	//Отслеживаем событие на закрытие balloon
+		            placemark2.events.add('balloonclose', function(e) {	        		                 
+		                 former_but_id = '';	        		                 
+		            });
+  		            
+  		            
+  	 }//заканчивается for 
+  	l_string = l_string + buttons;
+		document.getElementById('right_of_map').innerHTML = l_string;
+		
+		
+		//добавлеям точки
+		
+		oldCollection = myCollection;
+ 	    myMap.geoObjects.add(myCollection);
+ 	 	myMap.setBounds(myMap.geoObjects.getBounds());
+		} // end of complete
+})
+
+	}
+
+
+//==========================================================================================
+//функция показывает банки (филиалы по названию) нажатие на кнопки вперед назад
+function query_but_single_name()
+{	
+	turn_single_name = turn_single_name + 1; // нажал на кнопку сразу увеличен счетчик
+	
+	csingle_name = current_single_name.split(':')
+	removal = csingle_name[1]
+
+	
+	org_name = org_name_tosee_all;
+	var get = '?org_name=' + org_name;
+	get += '&current_single_name='+ current_single_name;
+	get += '&turn_single_name=' + turn_single_name;
+	get += '&org_type=' + org_type;
+
+	
+	$.ajax({
+		url: "/hotspot/ajax_orgs_points/seach_by_single_name" + get,
+		cash: false,
+		async: false,
+		complete:function(html)
+				{
+		var  l_string = '';
+    	var string_start = html.responseText;
+    	hat_number  = string_start.indexOf('^');
+    	st = string_start.substring(0,hat_number)
+    	
+    	buttons = string_start.substring(hat_number+1,string_start.length)
+    	//get st
+    	var st1split  = st.split('?');   // описание одного элемента (полное корд и строки)
+    	
+    	for (var i = 0; i<st1split.length-1; i++)
+    	 {   
+    		//строка
+    		 var st2split = st1split[i].split('|');
+    		 l_string =  l_string +'<font id = "for_cicle">'+ (parseInt(removal) + (i+1)).toString()+ '</font>' +  st2split[2]+'<br>' ;
+    		//точки
+    		
+    		 var placemark2 = new ymaps.Placemark([st2split[1], st2split[0]], {
+    	      	    balloonContent:  st2split[2]+st2split[3],
+    	      	    iconContent: parseInt(removal) + (i+1), 
+    	      	    
+    	      	  	
+    	      	  
+    	      	}, {
+    	      		preset: 'twirl#blueIcon',  	      	 
+    	      	    hideIconOnBalloonOpen: false,
+    	      	  	iconImageOffset: [-9,-38],
+  	      	  		balloonOffset:[2,-7],
+    	      	  	balloonAutoPan: false,
+    	      	  	
+    	      	});     
+    		            //сохраним метку в массив
+    		            a[i+1 +parseInt(removal)] = placemark2;   		            
+    		            myCollection.add(placemark2);
+    		          	//Отслеживаем событие на закрытие balloon
+    		            placemark2.events.add('balloonclose', function(e) {	        		                 
+    		                 former_but_id = '';	        		                 
+    		            });  
+    		            
+    		            
+    	 }//заканчивается for 
+    	
+    	//убираем кнопки в текущем блоке
+ 		$("#next_button").remove();
+ 		var ins = 'ins' + turn_single_name.toString();
+        document.getElementById(ins).innerHTML = l_string+buttons; 
+
+		//добавлеям точки
+		oldCollection = myCollection;
+   	    myMap.geoObjects.add(myCollection);
+   	 	myMap.setBounds(myMap.geoObjects.getBounds());
+		} // end of complete
+ })
+}
+
+//==============================================================================================================
+function fun_edit_click(org_id)
+{
+		     $.ajax({
+			
+			 url: "/ajax_get_org/" + org_id + "/",
+             cache: false,
+			 async: true,
+             success: function(html){
+            	 info_st = html.split('~')
+				  $('#name_org_all').val(info_st[0]);
+            	  $('#address_org_all').val(info_st[1]);
+            	  $('#tel_org_all').val(info_st[2]);
+            	  $('#site_org_all').val(info_st[3]);
+            	  $('#hours_org_all').val(info_st[4]);
+            	  
+            	  //меняем кнопку
+            	  all = 'save_changes(' + org_id.toString() +   ')' ;
+            	  $('#accept_all').attr('onclick', all);
+            }  
+        });
+		
+		
+		
+  
+}
+//==============================================================================================================
+function    save_changes(org_id)
+{	
+	var array_string = '';
+	var org = org_id;
+	// проверим ajax все поля на существование отличий от оригинала в текущей базе
+	var params = {
+			org_name:$('#name_org_all').val(),
+			address:$('#address_org_all').val(),
+			tel:$('#tel_org_all').val(),
+			site:$('#site_org_all').val(),
+			hours:$('#hours_org_all').val(),
+			org_id:org,
+			}
+	
+	$.ajax({
+		url:'/ajax_user_chage_find_differnce/',
+		type:'POST',
+		data:params,
+		cash:true,
+		async:false,
+		success:function(html)
+			{
+			array_string = html;
+			}
+	});
+	
+	
+	
+	// если хоть одно поле поменялось или организация помечена к удалению
+	if ((array_string!='') || (document.getElementById("org_existance").checked == true))
+	{   
+		array_param = array_string.split(',')
+		var array_dict = {}
+		for (i=0; i<array_param.length-1;i++)
+			
+			{ar=array_param[i].split(':');
+			 array_dict[ar[0]]=ar[1];    }
+		  var items = {
+				org_name:'',
+				address:'',
+				tel:'',
+				site:'',
+				hours:'',
+				u_name:$('#name_all').val(),
+				u_email:$('#email_all').val(),
+				to_del:document.getElementById("org_existance").checked,
+				org_id:org,
+				}
+		  for (var key in items)
+			  
+			  for (var key1 in array_dict)
+				  {
+				  if (key == key1)
+					    
+				  		{
+				  		a = array_dict[key1].toString();
+				  		b = document.getElementById(a).value;			  		
+				  		items[key]=b;}				  		
+				   }
+		
+			  	
+ 	
+ 	
+			$.ajax({
+				url: '/ajax_user_chage_org_one/',
+				type: 'POST',
+				data: items,
+				cash: true,
+				async:false,
+				success: function(html){
+					document.location.href = "#fin_notice";
+				}
+			 });
+	}// конец if html
+	else {  $( "#bottom_notice" ).removeClass( "nothing_change_notice_hidden" ).addClass( "nothing_change_notice_visble" );
+			}
+}
+
+//==============================================================================================================
+function change_exist()
+{
+	$( "#bottom_notice" ).removeClass( "nothing_change_notice_visible" ).addClass( "nothing_change_notice_hidden" )
+
+	if (document.getElementById("org_existance").checked == false)
+		{ $('#name_org_all').attr('disabled', false);
+		$('#address_org_all').attr('disabled', false);
+		$('#tel_org_all').attr('disabled', false);
+		$('#site_org_all').attr('disabled', false);
+		$('#hours_org_all').attr('disabled', false);
+		}
+	else
+		{
+		$('#name_org_all').attr('disabled', true);
+		$('#address_org_all').attr('disabled', true);
+		$('#tel_org_all').attr('disabled', true);
+		$('#site_org_all').attr('disabled', true);
+		$('#hours_org_all').attr('disabled', true);
+		
+		}
+}
+
+
+$('#name_org_all').focus(function() {
+	hide_bottom_notice()
+});
+$('#address_org_all').focus(function() {
+	hide_bottom_notice()
+});
+$('#tel_org_all').focus(function() {
+	hide_bottom_notice()
+});
+$('#site_org_all').focus(function() {
+	hide_bottom_notice()
+});
+$('#hours_org_all').focus(function() {
+	hide_bottom_notice()
+});
+
+function hide_bottom_notice()
+	{$( "#bottom_notice" ).removeClass( "nothing_change_notice_visible" ).addClass( "nothing_change_notice_hidden" )
+	}
+//==============================================================================================================
+    </script>
+  
+    
+   <!-- окончание моих данных -->
+   
+   
+   
+   
+   </div>
+			<!--/div-->	
+			
+			
+	</article>
+  
+  
+   
+	
+
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+
+
+
+</script>
+
+<!--script>
+      div="_ph1968";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1968&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+	<script>
+      div="_ph1971";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1971&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script-->
+    
+    <a href="#" class="overlay" id="hs_login2" ></a>
+		<div class="main_modal_tip">
+			<div class="modal_tip">
+				<a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+				<h2>Вы воспользовались услугами Бесплатной* Wi-Fi сети<br> <a href='http://globalhome.su/content/article/hot_spot/' target="_blank">HotSpot GlobalHome </a><h2>
+				<ul>
+					<li>Скорость доступа к интернет ресурсам составляет до 15 мбит\с.</li>
+					<li>Для более подробной информации нажмите<a href="http://globalhome.su/content/article/hot_spot/" target="_blank">здесь</a></li>
+					<li>Для открытия сайта или получения нужной информации введите запрос в поисковой строке.  Далее перейдите по ссылке в выдаче информации.</li>
+				</ul>
+				<p>* - на период тестирования.</p>
+				
+				<div class="lower_part">
+				
+				{%if trial%}
+					<form action = '/' method = 'GET' class="forma modal" id='' name = 'search_form' onsubmit = 'javascript:log();'>
+					{% else%}
+					<form action = '/' method = 'GET' class="forma modal"  name = 'search_form' >
+					{% endif%}
+					<input tabindex="4" type="text" class="searchbox modal" name="query" value=""  id = 'ya_input_log' />
+					<input  type="submit"   class="searchbox_submit modal"   value="Найти"  /><span class="tri"></span>
+						
+					</form>
+				</div>	
+			</div>
+		</div>
+		
+		{% block login_1 %}
+		{{block.super}}
+         {% endblock %}
+		
+		 {% block complaint_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+         {% block review_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+{% endblock %}

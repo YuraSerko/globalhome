@@ -1,0 +1,102 @@
+.bt-blue2 {
+ display: inline-block;
+position: relative;
+border-spacing: 0;
+bottom: 5px;
+	padding: 5px 11px 3px;
+	margin-bottom: 10px;
+	
+	background: -moz-linear-gradient(top, #d71818 0%, #610606 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d71818), color-stop(100%,#610606));
+	background: -webkit-linear-gradient(top, #d71818 0%,#610606 100%);
+	background: -o-linear-gradient(top, #d71818 0%,#610606 100%);
+	background: -ms-linear-gradient(top, #d71818 0%,#610606 100%);
+	background: linear-gradient(to bottom, #d71818 0%,#610606 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d71818', endColorstr='#610606',GradientType=0 );
+	box-shadow: 0 1px 0 #F67575;
+	border: none;
+	border-radius: 5px;
+	color: #ffffff;
+	font: 700 12px Arial, sans-serif;
+	text-shadow: 0 -1px 0 #7a002e;
+	
+}
+
+
+.bt-blue2:hover {
+	color: #fff;
+}
+.bt {
+    cursor: pointer;
+    display: inline-block;
+   /* margin: 0px;*/
+	margin-top: 20px;
+    text-decoration: none;
+    vertical-align: middle;
+	
+}
+	INPUT.bt.bt-blue2{
+		height: 27px;
+	}
+	.form-submit-right {
+		float: right;
+	
+	
+}
+
+
+	.form-submit-left {
+	float: left;
+	 
+}
+	/*Каптча заказ выделенных серверов*/
+	#form-field-wrapper-captcha > div:nth-child(1) > div:nth-child(3) > img:nth-child(1){
+		opacity: 1;
+		margin-right: 15px;
+	}
+/*notification success registration and email send */
+#message_reg_success_block_header{ 
+	padding-left: 5px;
+    padding-right: 5px;
+    position: relative;
+    float: left;
+   
+}
+#message_reg_success_block_header #notification_email_send_main_block{
+	margin: 5px 25px 7px -10px;  
+	padding: 0 10px 7px;
+	border: 2px solid #090 !important;
+	border-radius: 5px;
+	background: #ffeded;
+	border-color: #090;
+	font-size: 12px;
+	font-family: Arial, sans-serif;
+	font-weight: 700;
+	margin-left:5px;
+	margin-right:30px;
+	margin-top:5px;
+	}
+
+
+
+#message_reg_success_block_header .notification_email_send{       
+     position: relative;
+     float: right;
+     right: 50%;
+}
+
+	
+#message_reg_success_block_header .not_email_button_block_inter{    
+	padding-left: 5px;
+    padding-right: 5px;
+    position: relative;
+    float: left;
+    left: 50%;
+}
+
+#message_reg_success_block_header .not_email_button_block{     
+     position: relative;
+     float: right;
+     right: 50%;
+}
+/*notification success registration and email send */	

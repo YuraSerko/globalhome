@@ -1,0 +1,76 @@
+<form action="/account/internet/demands/activation/{{ zakaz_obj.id }}/">
+    <table class="type-4 modal">
+        <caption>
+            <h1 class="title" style="margin: 0;">{{ title_modal }}</h1>
+        </caption>
+         <tbody>
+            <tr>
+                <td><label>Тариф</label></td>
+                <td><label class="value">{{ zakaz_obj.tariff }}</label></td>
+            </tr>
+            {% if zakaz_obj.count_ip %}
+            <tr>
+                <td><label>Количество IP-адресов</label></td>
+                <td><label class="value">{{ zakaz_obj.count_ip }}</label></td>
+            </tr>
+            {% endif %}
+            {% if zakaz_obj.ip %}
+            <tr style="background: #f3f3f3;">
+                <td colspan="2"><label><strong>Выданные IP-адреса</strong></label></td>		
+            </tr>
+            <tr>
+            	<td></td>
+                <td><label class="value">{{ zakaz_obj.ip|safe }}</label></td>
+            </tr>
+            {% endif %}
+            <tr style="background: #f3f3f3;">
+                <td colspan="2"><label><strong>Адрес подключения</strong></label></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Город</td>
+                <td><label class="value">{{ zakaz_obj.city }}</label></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Улица</td>
+                <td><label class="value">{{ zakaz_obj.street }}</label></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Дом</td>
+                <td><label class="value">{{ zakaz_obj.house }}</label></td>
+            </tr>
+            {% if inet_login %}
+            <tr style="background: #f3f3f3;">
+                <td colspan="2"><label><strong>Доступ в интернет</strong></label></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Логин</td>
+                <td><label class="value">{{ inet_login }}</label></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Пароль</td>
+                <td><label class="value">{{ inet_password }}</label></td>
+            </tr>
+            {% endif %}
+            <tr style="background: #f3f3f3;">
+                <td><label>Стоимость</label></td>
+                <td><label class="value">{{ zakaz_obj.cost }} руб.</label></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                {% if not zakaz %}
+                <button class="bt bt-blue2" type="submit">Активировать заявку</button>
+				{% comment %}
+                <p><font color="#FF0000">! ВАЖНО</font></p>
+                <p>Для активации заявки свяжитесь с нами одним из способов, указав номер заявки и Ваш логин.<br />
+                тел.&emsp;&emsp;+7 (495) 66 00 875(Москва)<br />
+				&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;+7 (812) 44 959 11(Санкт-Петербург)<br />
+                icq&emsp;&emsp;&nbsp;&nbsp;492-284-475<br />
+                &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;627-417-042<br />
+				skype&emsp;globalhome.su</p>
+				{% endcomment %}
+                {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>

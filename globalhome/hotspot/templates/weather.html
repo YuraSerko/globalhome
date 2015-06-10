@@ -1,0 +1,306 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+  
+   
+	
+    <link href="/media/css/chosen.css" rel="stylesheet" type="text/css" >
+    
+{% endblock %}
+
+{% block content %} 
+
+ {% block sendin %}
+  {{block.super}}
+   {% endblock %}
+ 
+ {% block login_1 %}
+	{{block.super}}
+         {% endblock %}
+
+  
+ 
+  
+  <article id="right">
+	
+			
+				
+				
+				{% block burat2 %}
+        {{block.super}}
+        {% endblock %}  
+				
+				<style>	
+				@media only screen and (min-width: 1200px){
+			.advert_2{
+					float: right;
+					margin: 20px;
+					position: relative;
+					right: 20px;
+					width: 240px;
+					margin-right: -200px;
+					height: 400px;
+					/*border: 2px solid #4282D2;*/
+				}
+				}
+		</style>
+	<div class = "advert_2">
+		<script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement|add:17}}"></script>
+	</div>
+			
+			<div id='centr_field'>
+			{% block cap %}
+                {{ block.super }}
+                
+                {% endblock %} 
+				
+                    
+                    
+                    <!-- мои данные -->
+                    {% if no_weather %}
+                    <p>К сожалению по данному городу информация по погоде временно не доступна.</p>
+                    <p>Попробуйте позже.</p>
+                    {% else %}
+                    <!-- сейчас -->
+					<div id = 'current_day' style = "    width:40%; float:left; margin:left:0px">
+						{% for key, value in weather_dict.items %}
+						{% if key == 1 %}
+						<span class ='weather_header_value'><b>{{ current_city_obj.city_rus_name }} </b></span>
+						<span class='weather_header_value'>{{ value.0|date:"d  M  Y" }}</span>
+						<p><span class='weather_header'>Сейчас </span></p> 
+						<div class='{{ value.9 }}' ></div>
+						
+						<table style = "border:0px!important;" >
+						<tr>
+						<td class = 'weather_item_header' style = "margin-left:0px!important">Облачность:</td>
+						<td class ='weather_item_value'> {{ value.2 }}</td>
+						</tr>
+						
+						<tr>
+						<td class = 'weather_item_header'>Температура:</td>
+						<td class = 'weather_item_value'>{{ value.3 }}..{{ value.4 }}°C</p></td>
+						</tr>
+						
+						<tr>
+						<td class = 'weather_item_header'>Скорость ветра:</td> 
+						<td class = 'weather_item_value'>{{ value.5 }}м/с</td>
+						</tr>
+						
+						<tr>
+						<td class = 'weather_item_header'>Направление ветра:</td>
+						<td class = 'weather_item_value'>{{ value.6 }}</td>
+						</tr>
+						
+						<tr>
+						<td class = 'weather_item_header'>Давление:</td>
+						<td class = 'weather_item_value'>{{ value.7 }}, гПа</td>
+						</tr>
+						
+						<tr>
+						<td class = 'weather_item_header'>Влажность:</td> 
+						<td class = 'weather_item_value'>{{ value.8 }}% </td>
+					    </tr>
+					    </table>
+					    <br>
+					    {% endif %}
+					    {% endfor %}
+					</div>
+					
+					
+					
+					<!-- ссылка на другие города -->
+
+					<div id = "right_city_choose" style = "float:right;">
+					<p><span style= "margin-right:10px;">Выбрать город<span></p>
+					<select id = "select_city"  onchange='change_city_fun(this)'>
+        				{% for  ac in all_cities_obj    %}
+        				<option value = {{ac.id}} >  {{ ac.city_rus_name }}  </a></option>
+        				{% endfor %}
+        			</select>
+					<a href='/weather/change'> Список городов</a>
+					</div>
+					
+
+					<!-- прогноз на пять дней -->
+					<table id = "table_5days" class='5days' border="3px"  style = "margin-top:10px;" >
+       						 <thead>
+			              <tr>
+			                <th>Дата</th>
+			                <th colspan = '2'>Облачность</th>
+			                <th>Температура, °C</th>
+			                <th>Скорость ветра, м/с</th>
+			                <th>Направление ветра</th>	
+			                <th>Давление, гПа</th>
+			                <th>Влажность воздуха, %</th>
+			              </tr> 
+        				</thead>
+				    	<tbody>         {% for key, value in weather_dict.items %}
+				    						{% if key > 1 %}
+				    							{% ifchanged %} 
+				    					    		<tr>
+				    					     			<td class = "weather_date" colspan = '8' >
+				    					    			{{ value.0|date:"D. d F Y" }}
+				    					    			</td>
+				    					    		</tr>
+				    				    		{% endifchanged %}
+				                          	<tr>
+				                          	<td align="center">
+				                          	<p>{{ value.1 }}</p></td>
+				                          	<td><div class= '{{value.9}}' ></div></td> <td> {{value.2}} </td> 
+				                         	<td> {{value.3}}..{{value.4}}</td> 
+				                          	<td> {{value.5}}</td>
+				                          	<td> {{value.6}}</td>
+				                          	<td> {{value.7}}</td>
+				                          	<td> {{value.8}}</td>          	
+				            	          	</tr>
+				            	          	{% endif %}
+				            	         {% endfor %}          	     
+				        </tbody>
+						</table>
+						
+						<!-- добавим скрытую форму для того чтобы можно было ее сабмитить по нажатию на одну из ссылок -->
+                		<form  method="POST"  id = "form_city_id" action = "" > {% csrf_token %}
+                		<p><input type="text" id="city_id" name = "city_id" width="20" style = "visibility:hidden";>
+        				</form>	
+        				{% endif %}
+			         	<!--  заканчиваются мои данные -->
+
+	</article> 
+<style>
+
+#table_5days {
+ border: 1px solid !important;
+}
+
+#table_5days th{
+ border: 1px solid #bebebe !important;
+}
+
+ 
+#table_5days > tbody  tr td {
+ border:1px  solid #bebebe !important;
+ } 
+
+.weather_header{
+color:grey;
+font-size:20px;}
+
+.weather_header_value{
+color:black;
+font-size:20px;
+font-weight:600;}
+
+.weather_item_header{
+margin-left:33px;
+color:grey;
+font-size:15px;
+}
+
+.weather_item_value{
+color:black;
+font-size:15px;
+font-weight:600;}
+
+.weather_date{
+background: #EFEBEB;
+font-size:14px;
+font-weight:bold;}
+
+
+.citylink {
+
+font-size: 12px;
+color: black; }
+
+#city_result{
+color:black;
+margin-left: 4px;
+margin-top: 4px;
+font-size: 14px;
+font-family: Tahoma;
+cursor: default;
+
+}
+
+#city_mod{
+display:none;
+margin-top: 1px;
+margin-left: 357px;
+background-color: white;
+max-height:500px;
+min-height:25px;
+width:164px;
+position: absolute ;
+border: solid grey 1px; 
+z-index: 999;
+}
+
+</style>
+
+
+
+
+ <script>
+
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+ 
+});
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+$( document ).ready(function() {
+    var a = '{{ current_city_obj.id }}';
+    b = parseInt(a);
+	var element = document.getElementById('select_city');
+    element.value = b;
+});
+////////////////////////////////////////////////////////////////////////////////////
+function postcityid(qwe,  id)
+{	
+	document.getElementById("city_id").value  = id;
+	$('#form_city_id').submit();	
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+function change_city_fun(obj)
+{   city_id =  $(obj).val();
+	document.getElementById("city_id").value  = city_id;
+	$('#form_city_id').submit();}
+
+</script>
+    
+    {% block hs_login2 %}
+        {{ block.super }}
+    {% endblock%}
+    
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+    
+    <script src="/media/js/chosen.jquery.js"></script>
+	<script src="/media/js/chosen_select.js"></script>
+
+       {% block review_window %}
+      {{block.super}}
+      {% endblock %} 
+        
+      {% block complaint_window %}
+      {{block.super}}
+      {% endblock %}
+    
+{% endblock %}
+ 

@@ -1,0 +1,171 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_modify %}
+{% load admin_urls %}
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+<script type="text/javascript" src="/media/js/add.getquery.js"></script>
+{{ media }}
+{% endblock %}
+
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />{% endblock %}
+
+{% block coltype %}{% if ordered_objects %}colMS{% else %}colM{% endif %}{% endblock %}
+
+{% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} change-form{% endblock %}
+
+
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_label|capfirst|escape }}</a>
+&rsaquo; {% if has_change_permission %}<a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %}
+&rsaquo; {% if add %}{% trans 'Add' %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}
+</div>
+{% endblock %}
+{% endif %}
+
+{% block content %}<div id="content-main">
+<script type="text/javascript">
+function change_group(obj){
+	value = obj.value;
+	$("#id_phone_numbers_group option").each(function(){
+		$("#id_phone_numbers_group option[value="+$(this).val()+"]").remove();
+	});
+	select = $("#id_phone_numbers_group");
+	select.append("<option value>---------</option>");
+	$("#id_phone_numbers_group2 option").each(function()
+	{
+		if($(this).attr("number_group_account_id")==value){
+			select.append($(this));
+		}
+	});
+}
+</script>
+
+{% block object-tools %}
+{% if change %}{% if not is_popup %}
+  <ul class="object-tools">
+    {% block object-tools-items %}
+    <li><a href="{% url opts|admin_urlname:'history' original.pk|admin_urlquote %}" class="historylink">{% trans "History" %}</a></li>
+    {% if has_absolute_url %}<li><a href="{% url 'admin:view_on_site' content_type_id original.pk %}" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif%}
+    {% endblock %}
+  </ul>
+{% endif %}{% endif %}
+{% endblock %}
+<form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.module_name }}_form">{% csrf_token %}{% block form_top %}{% endblock %}
+<div>
+{% if is_popup %}<input type="hidden" name="_popup" value="1" />{% endif %}
+{% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
+{% if errors %}
+    <p class="errornote">
+    {% blocktrans count counter=errors|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+    </p>
+    {{ adminform.form.non_field_errors }}
+{% endif %}
+
+{% block field_sets %}
+
+
+{% for fieldset in adminform %}
+	<fieldset class="module aligned {{ fieldset.classes }}">
+		{% if fieldset.name %}<h2>{{ fieldset.name }}</h2>{% endif %}
+		{% if fieldset.description %}
+			<div class="description">{{ fieldset.description|safe }}</div>
+		{% endif %}
+		{% for line in fieldset %}
+			<div class="form-row{% if line.fields|length_is:'1' and line.errors %} errors{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% endfor %}">
+				{% if line.fields|length_is:'1' %}{{ line.errors }}{% endif %}
+				{% for field in line %}
+					<div{% if not line.fields|length_is:'1' %} class="field-box{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}"{% endif %}>
+						{% if not line.fields|length_is:'1' and not field.is_readonly %}{{ field.errors }}{% endif %}
+						{% if field.is_checkbox %}
+							{{ field.field }}{{ field.label_tag }}
+						{% else %}
+							{{ field.label_tag }}
+							{% if  field.field.name == "phone_numbers_group" %}
+								<select id="id_phone_numbers_group" style=" width:200px;" name="phone_numbers_group">
+								</select>
+								<select id="id_phone_numbers_group2" style=" width:200px; display:none;" name="phone_numbers_group">
+								<option value="" number_group_account_id="0">---------</option>
+								{% for number_group in phone_numbers_group %}
+									<option number_group_account_id="{{ number_group.account_id }}" value={{number_group.id}} {% if field.field.value == number_group.id %}selected="selected"{% endif %}>{{ number_group }}</option>
+								{% endfor %}
+								</select>
+							{% else %}
+							{% if field.is_readonly %}
+								<p>{{ field.contents|linebreaksbr }}</p>
+							{% else %}
+								{{ field.field }}
+							{% endif %}
+							{% endif %}
+						{% endif %}
+						{% if field.field.help_text %}
+							<p class="help">{{ field.field.help_text|safe }}</p>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+		{% endfor %}
+	</fieldset>
+{% endfor %}
+{% endblock %}
+
+{% block after_field_sets %}{% endblock %}
+
+{% block inline_field_sets %}
+{% for inline_admin_formset in inline_admin_formsets %}
+    {% include inline_admin_formset.opts.template %}
+{% endfor %}
+{% endblock %}
+
+{% block after_related_objects %}{% endblock %}
+
+{% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
+
+{% if adminform.first_field and add %}
+   <script type="text/javascript">document.getElementById("{{ adminform.first_field.id_for_label }}").focus();</script>
+{% endif %}
+
+
+<script type="text/javascript">
+$(document).ready(function($) {
+	var config = {
+		'select:not([multiple="multiple"])' : {},
+		'select-deselect'  : {allow_single_deselect:true},
+		'select-no-single' : {disable_search_threshold:10},
+		'#select-no-results': {no_results_text:'Oops, nothing found!'},
+		'#select-width'     : {width:"95%"}
+	}
+	for (var selector in config) {
+		$(selector).chosen(config[selector]);
+	}
+	$("#id_account").attr("onchange", "change_group(this)");
+	$('#id_phone_numbers_group').chosen('destroy');
+	$('#id_phone_numbers_group2').chosen('destroy');
+	$('#id_phone_numbers_group2').css('display', 'none');
+});
+</script>
+
+
+<script type="text/javascript">
+	value = $( "#id_account option:selected" ).val();
+	select = $("#id_phone_numbers_group");
+	select.append("<option value>---------</option>");
+	$("#id_phone_numbers_group2 option").each(function()
+	{
+		if($(this).attr("number_group_account_id")==value){
+			select.append($(this));
+		}
+	});
+</script>
+
+
+{# JavaScript for prepopulated fields #}
+{% prepopulated_fields_js %}
+
+</div>
+</form></div>
+{% endblock %}

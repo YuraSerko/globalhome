@@ -1,0 +1,70 @@
+{% load i18n form_tags lib_tags %}
+
+
+          
+        
+        
+            <div class="form-section" id="div_name">
+                {% form_field form.name block %}
+                <div class="hint"><i></i>{% trans "Название очереди" %}</div>
+            </div>
+            <div class="form-section" id="div_file_hello">
+                {% form_field form.hello block %}
+                <div class="hint"><i></i>{% trans  "Приветствие проигрывается при попадании в очередь" %}</div>
+            </div>
+            <div class="form-section" id="div_file_hold">
+                {% form_field form.hold block %}
+                <div class="hint"><i></i>{% trans "Фоновая музыка проигрывается во время ожидания в очереди" %}</div>
+            </div>
+            <div class="form-section" id="div_time_enabled">
+                {% form_field form.time_enabled block %}
+                <div id="div_time_begin">
+                    {% form_field form.time_begin block %}
+                    <div class="hint"><i></i>{% trans "Время с которого очередь принимает клиентов" %}</div><br/>
+                </div>
+                <div id="div_time_end">
+                    {% form_field form.time_end block %}
+                    <div class="hint"><i></i>{% trans "Время после которого очередь не принимает клиентов" %}</div>
+                </div>
+                <div class="hint" id="div_time_hint"><i></i>{% trans "Время работы очереди" %}</div>
+            </div>
+
+            <div class="form-section" id="div_day_enabled">
+                {% form_field form.day_enabled block %}
+                <div id="div_day">{% form_field form.work_day block %}
+                    <div class="hint" id="div_day_hint"><i></i>{% trans "Выберите дни недели, в которые очередь будет работать" %}</div>
+                </div>
+            </div>
+
+            <div class="form-section" id="div_more_options">
+                {% form_field form.more_options block %}
+                <div id="div_file_client_announce">
+                    {% form_field form.client_announce block %}
+                    <div class="hint"><i></i>{% trans "Проигрывается перед соединением с оператором" %}</div><br/>
+                </div>
+                <div id="div_file_work_announce">
+                    {% form_field form.work_announce block %}
+                    <div class="hint"><i></i>{% trans "Проигрывается в нерабочие дни и время" %}</div><br/>
+                </div>
+                <div id="div_file_chime">
+                    {% form_field form.chime_list block %}
+                    <div class="hint"><i></i>{% trans "Периодическое сообщение проигрывается с заданым интервалом" %}</div><br/>
+
+                    {% form_field form.chime_freq block %}
+                    <div class="hint"><i></i>{% trans "Интервал для периодического сообщения" %}</div><br/>
+                </div>
+                <div id="div_say_queue_position" style="margin-top:15px;">
+                    {% form_field form.say_queue_position block %}
+                    <div class="hint"><i></i>{% trans "Произносить номер позиции в очереди клиенту" %}</div><br/>
+                </div>
+                <div class="hint" id="div_more_hint"><i></i>{% trans "Дополнительные параметры очереди" %}</div>
+            </div>
+            
+            
+            <div class="form-section">
+                {% form_field form.agents block %}
+                
+                <div class="hint" id="div_more_hint"><i></i>Операторы могут подключиться к очереди и принимать звонки</div>
+            </div>
+
+

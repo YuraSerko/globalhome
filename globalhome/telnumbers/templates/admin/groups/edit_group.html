@@ -1,0 +1,139 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/forms1.css" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/interface-style1.css" />
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+{{ form.media }}
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" /> 
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="/admin/">
+          {% trans "Home" %}
+      </a>
+      &rsaquo; 
+      <a href="../../../">
+          {{ app_label|capfirst }}
+      </a>
+      &rsaquo; 
+      <a href="../../">
+          {{ app_section }}
+      </a>
+      &rsaquo;
+      <a href="../../user_groups/{{ target_user.id }}/">
+          {{ target_user }}
+      </a>
+      &rsaquo;
+      {{ group.name }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+    {% if cl.formset.errors %}
+        <p class="errornote">
+        {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+        </p>
+        {{ cl.formset.non_form_errors }}
+    {% endif %}
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+    
+    {% block notifications %}
+      {% if request.notifications %}
+        {% for message in request.notifications %}
+          <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+            {{ message|safe }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock %}
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            err_f = $(".errorlist")
+            if (err_f.length > 0) {
+                for (var i = 0; i < err_f.length; i++) {
+                    err_f.parent().css("background-color", "#ffe1da")
+                }
+            }
+        })
+    </script>
+
+    <div style="width: 700px;">
+	    <form method="POST" action=".">
+	        <table>
+	            <thead>
+	                <tr>
+	                    <td width="20%"></td>
+	                    <td></td>
+	                </tr>
+	            </thead>
+	            {{ form.as_table }}
+	        </table>
+	        
+	        <div class="submit-row">
+	            <a class="deletelink" href="../../delete_group/{{ group.id }}/">{% trans "Delete" %}</a>
+	            &nbsp;
+	            <input type="submit" class="default" value='{% trans "Save changes" %}' name="save" />
+	            {% if not is_popup %}
+	            	&nbsp;
+	            	<input type="submit" class="default" value='{% trans "Cancel" %}' name="cancel" />
+	            {% endif %}
+	            &nbsp;
+	        </div>
+	    </form>
+	</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

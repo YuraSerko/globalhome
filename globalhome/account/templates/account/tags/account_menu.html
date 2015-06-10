@@ -1,0 +1,11 @@
+{% if not window_is_popup %}
+
+
+<div id="top-menu" class="underlined">
+   {% for item in account_menu_items %}
+        <div class="top-menu-item" {% if forloop.last %} last{% endif %}>
+        <a href="{{ item.url }}">{{ item.verbose_name }}</a>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}

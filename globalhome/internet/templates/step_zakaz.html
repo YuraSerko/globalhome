@@ -1,0 +1,188 @@
+<form id="inet_zakaz">
+    <table class="type-4 modal" style="width: 500px;">
+        <caption>
+            <h1 class="title">Оформление заказа</h1>
+            <div class="ugc" style="margin: 0; margin-top: 5px;">
+                <p>Для заказа необходимо заполнить все поля</p>
+            </div>
+        </caption>
+        <tbody>
+            <tr id="alert_tr" style="display: none;">
+                <td colspan="3">
+                    <div class="status status-error">
+                        <i class="ico"></i>
+                        <div class="status-i">
+                            <p id="alert"></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Тип услуги</label></td>
+                <td><label class="value">Доступ в интернет</label></td>
+            </tr>
+            <tr style="background: #f3f3f3;">
+                <td><label for="unit">Тариф</label></td>
+                <td>                        
+                    <select id="select_tariff" onchange="cost_tariff('{{ type_face }}');">
+                        <option id="option_change_tariff">Выберите тариф</option>
+                        {% for tariff in inet_tariff %}
+                        <option value="{{ tariff.id }}">{{ tariff.name }} -
+                            {% if tariff.cost == 0.0 %}
+                                бесплатно<span style="color:red;">*</span>
+                            {% else %}
+                                {{ tariff.cost }} руб./мес.
+                            {% endif %}
+                        </option>
+                        {% endfor %}
+                    </select>
+               </td>
+            </tr>
+            <tr>
+                <td><label><strong>Адрес подключения</strong></label></td>
+                <td><div  class="tooltip fake-link" onClick="show_tooltip(this);return false">Нету Вашего адреса?
+                     <div class="tooltip-i" style="display: none;">
+
+                           <div class="contacts-side"><br/>
+					<ul>
+						<li class="tel"><i class="ico"></i>
+							<a href="tel:+74956600875" class="link-tel">+7 (495) 66 00 875</a> <small>(Москва)</small><br>
+							<a href="tel:+78124495911" class="link-tel">+7 (812) 44 959 11</a> <small>(Санкт-Петербург)</small>
+						</li>
+
+						<li class="icq"><i class="ico"></i>
+							<span>492-284-475</span><br>
+							<span>627-417-042</span>
+						</li>
+
+						<li class="skype"><i class="ico"></i><a href="skype:globalhome.su?chat">globalhome.su</a></li>
+
+						<li class="mail"><i class="ico"></i><a href="#">sales@globalhome.su</a></li>
+
+						<li class="social"><i class="ico"></i>
+							<a href="http://www.facebook.com/pages/Globalhome/403831809694605" rel="nofollow" target="_blank" class="link-fb">Facebook</a>
+							<a href="http://vk.com/club41317337" rel="nofollow" target="_blank" class="link-vk">ВКонтакте</a>
+							<a href="https://twitter.com/globalhomesu" rel="nofollow" target="_blank" class="link-tw">Twitter</a>
+						</li>
+
+					</ul>
+
+				</div>
+
+                     </div>
+                </div></td>
+            </tr>
+            <tr style="background: #f3f3f3;">
+                <td style="text-align: right;">Город</td>
+                <td>
+                    <select id="select_city" onchange="change_city('{{ type_face }}');">
+                        <option id="option_change_city" >Выберите город</option>
+                        {% for city_obj in spis_city %}
+                            <option>{{ city_obj }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr id="tr_street" style="display: none;">
+                <td style="text-align: right; background: #f3f3f3;">Улица</td>
+                <td style="background: #f3f3f3;">
+                    <select id="select_street" onchange="change_street('{{ type_face }}');">
+                    </select>
+                </td>
+            </tr>
+            <tr id="tr_house" style="display: none;">
+                <td style="text-align: right; background: #f3f3f3;">Дом</td>
+                <td style="background: #f3f3f3;">
+                    <select id="select_house" onchange="change_house();">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Нужен ли Вам Wifi-маршрутизатор<span class="tooltip" onClick="show_tooltip(this);" title="Нажмите для получения справки"><i></i>
+                        <span class="tooltip-i" style="display: none;">Предоставляется бесплатно</span>
+                    </span>
+
+                </td>
+                <td>
+                    <select id="select_equipment" ><!-- onchange="change_equipment(this);" -->
+                        <option value="not">Нет</option>
+                        <option value="yes">Да</option>
+                    </select>
+                </td>
+            </tr>
+            <!--
+            <tr id="tr_equipment" style="display: none;">
+                <td>
+                </td>
+                <td>
+                	<input type="checkbox" id="checkbox_switch" value="switch" />Свитч
+                	<input type="checkbox" id="checkbox_router" value="router" style="margin-left: 55px;" checked/>Маршрутизатор<br />
+                	<input type="checkbox" id="checkbox_AP" value="AP" />Точка доступа
+                	<input type="checkbox" id="checkbox_NIC" value="NIC" style="margin-left: 8px;" />Сетевая карта
+                </td>
+            </tr>
+            -->
+            <tr style="background: #f3f3f3;">
+                <td>Нужен ли Вам статический IP-адрес?</td>
+                <td>
+                    <select id="select_static_ip" onchange="change_static_ip(this, '{{ type_face }}');">
+                        <option value="not">Нет</option>
+                    	<option value="yes">Да - {{ port_price }} руб./мес.</option>
+                    </select>
+                </td>
+            </tr>
+
+            <!--
+
+            <tr id="tr_static_ip" style="display: none; background: #f3f3f3;">
+                <td style="text-align: right;">Укажите количество IP-адресов</td>
+                <td>
+                    <select id="select_ip" onchange="cost_tariff('{{ type_face }}');">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                </td>
+            </tr>
+            -->
+            <tr>
+                <td><label for="cost">Стоимость услуги</label></td>
+                <td><label><font id="cost">0</font> руб.{% if type_face == 'legal_entity' %}<req>*</req>{% endif %}</label></td>
+            </tr>
+            {% if account == 'False'%}
+                {% if user %}
+                    <tr>
+                        <td colspan="2" style="padding: 0; padding-left: 15px; padding-right: 15px; padding-bottom: 10px; padding-top: 10px; background: #ffe6c5;">
+                            <label style="width: 70%"><input type="hidden" name="face" id="face_2"  value="2">
+                            Вы авторизованы как пользователь: <strong>{{ user }}</strong></label></td>
+                {% else %}
+                    <tr>
+                        <td colspan="2" style="padding: 0; padding-left: 15px; padding-bottom: 10px; padding-top: 10px; background: #ffe6c5;">
+                            <label><input name="face" type="radio" id="face_0"  value="0" checked="checked"><strong>Зарегистрироваться</strong></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding: 0; padding-left: 15px; padding-right: 15px; padding-bottom: 10px; background: #ffe6c5;">
+                           <label><input type="radio" name="face" id="face_1" value="1"><strong>Авторизоваться в системе</strong></label>
+                {% endif %}
+                        </td>
+                    </tr>
+            {% endif %}
+            <tr>
+                <td colspan="2" style="background: #FFF ;">
+                	{% if type_face == 'legal_entity' %}        
+                    <div class="ugc" style="margin: 0; display:inline-block;">
+                        <p><small><req>*</req> Все цены приведены без учёта НДС.</small></p>
+                    </div>
+                    {% endif %}
+                    <button class="bt bt-blue2" type="button" onclick="checkForm('{{ type_face }}')">Далее</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>

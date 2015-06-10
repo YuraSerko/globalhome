@@ -1,0 +1,22 @@
+{% extends 'base_glhome.html' %}
+{% load account_menu  %}
+{% block extrahead %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/style_private.css">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/jquery-ui_private.css">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/private_mobi_style.css">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/payment.comepay_bank_mobi.css">
+
+<!--script src="{{ MEDIA_URL }}js/jquery_private.js"></script-->
+<script src="{{ MEDIA_URL }}js/jquery-ui_private.js"></script>
+<script src="{{ MEDIA_URL }}js/script_private.js"></script>
+
+{% block extra_head %}{% endblock %}
+{% endblock %}
+
+{% block header %}
+{% account_top_menu %}
+{% endblock %}
+
+{% block left_menu %}
+{% account_profile_menu %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base_private.html' %}
+{% load form_tags i18n %}
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+
+<div class="form_django">
+<form name="user_del" action="/account/internet/vpn/deleting/{{ vpn_id }}/" method="post">
+    <div class="confirm2">
+        <h4>Вы уверены, что хотите удалить VPN аккаунт {{ vpn.login }}?</h4>    
+    </div>
+
+    <div class="confirm">
+        <div class="form-submit">
+            <div class="form-submit-right">
+                <input type="button" class="bt bt-blue2" value='{% trans "Cancel" %}' name="cancel" onclick="location.href='/account/internet/vpn/'"/>
+                <input type="submit" class="bt bt-blue2" value='Удалить' name="delete" />
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+
+{% endblock %}
+
+
+
+
+

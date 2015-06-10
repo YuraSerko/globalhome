@@ -1,0 +1,157 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <meta http-equiv="Content-Type" content="text/html; charset=cp1251" />
+  <link rel="stylesheet" href="/media/css/typography1.css" type="text/css">
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+<style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" /> 
+{% if action_form %}{% if actions_on_top or actions_on_bottom %}
+<script type="text/javascript">
+(function($) {
+    $(document).ready(function($) {
+        $("tr input.action-select").actions();
+    });
+})(django.jQuery);
+
+
+function test()
+{ document.getElementById("slat").value='1';
+
+//document.forms["otp"].elements["Upload"].click();
+}
+</script>
+{% endif %}{% endif %}
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="../../">
+        {% trans "Home" %}
+      </a>
+       &rsaquo; 
+       <a href="../">
+         {{ app_label|capfirst }}
+      </a>
+      &rsaquo; 
+      {{ app_section }}
+    </div>
+  <p>{% endblock %}
+      {% endif %}
+      
+      {% block coltype %}flex{% endblock %}
+      
+      {% block content %}   
+    
+    </p>
+  <form id="otp" enctype="multipart/form-data" action="" name="otp" method="POST">{% csrf_token %}
+  <p>{% if cl.formset.errors %}  </p>
+    
+    <p>&nbsp;</p>
+    <p class="errornote">
+      {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+    </p>
+        {{ cl.formset.non_form_errors }}
+    {% endif %}
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+
+     
+      {% csrf_token %}
+
+{% block notifications %}
+  {% if request.notifications %}
+    {% for message in request.notifications %}
+      <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+        {{ message|safe }}      </div>
+    <p>{% endfor %}
+        {% endif %}
+        {% endblock %}
+        <script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/id_utils.js"></script>
+        
+      <script type="text/javascript" language="javascript" charset="utf-8">
+  function showInfo()
+  {
+    SetDivVisible(GetI("wait_message"), true);
+    return true;
+  }
+        </script>
+        
+        
+        {{ form.as_p }}
+        
+    </p>
+    <p><span class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+    <input type="submit" name="Upload" value = 'Отправить' id="Upload" onclick=" return showInfo();"/>
+    </span></p>
+    <p>
+      <label for="zag">Заголовок письма</label>
+      <input type="text" name="ts" id="ts"  style="width:400px"/>
+    </p>
+    <h1>Текст сообщения</h1>
+    <p>
+      <textarea name="textarea" id="textarea" cols="100" rows="10"></textarea>
+    </p>
+    <p>
+      <input type="file" name="file" id="file" />
+    </p>
+    <p>
+      <select name="klients" id="select">
+        <option value="1" selected="selected">Select</option>
+        <option value="0" >All</option>
+      </select>
+    </p>
+    <div style="width:50%">
+      <table  width="300" border="1" cellspacing="2"  class="data">
+        <tbody>
+        </tbody>
+        <thead>
+          <tr>
+            <th scope="col">Клиент</th>
+            <th scope="col">email</th>
+            <th scope="col" width="10%">Отправка - Да/Нет</th>
+          </tr>
+        </thead>
+        &gt;
+        {% for k in opers %}
+        <tr>
+          <td>{{k.username}}</td>
+          <td>{{k.email}}</td>
+          <td width="10%" align="center">{{k.id|safe}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td></tbody></td>
+        </tr>
+        &gt;
+      </table>
+    <p>
+      <label for="checkbox"></label>
+    </p>
+    <label><br />
+  &nbsp;</label>
+    <p>{{tar}}</p>
+</form>
+ {% endblock %} 

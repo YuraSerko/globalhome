@@ -1,0 +1,398 @@
+{% extends 'base_private.html' %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+<script>
+
+	function cost_tariff(type) {
+		static_ip = document.getElementById('select_static_ip').value;
+		str_get = '?'
+		if (static_ip == 'yes')
+			{
+				str_get += '&count_static_ip='+1;//document.getElementById('select_ip').value;
+			}
+		if (document.getElementById("select_tariff").value != "Выберите тариф")
+			{
+				str_get += '&tariff='+document.getElementById("select_tariff").value;
+			}	
+		$.ajax({	
+				  url: "/internet/change_tariff/" +type+ "/" + str_get, 
+				  beforeSend: function () 
+					{
+						
+						if (document.getElementById("select_tariff").value != "Выберите тариф")
+							{
+								if (document.getElementById('option_change_tariff'))
+									{
+										var option_change_tariff = document.getElementById('option_change_tariff');
+										option_change_tariff.parentNode.removeChild(option_change_tariff);
+									}
+							}
+
+					},
+				  complete: function(html)
+					{							
+						var cost = html.responseText;
+						document.getElementById("cost").innerHTML = cost;
+					},
+			  })
+	}
+	
+	
+	function change_city(type) {
+		$.ajax({
+			
+				  	url: "/internet/change_city/"+type+"/?city="+document.getElementById("select_city").value,
+					beforeSend: function () 
+					{
+						if (document.getElementById('option_change_city'))
+							{
+								var option_change_city = document.getElementById('option_change_city');
+								option_change_city.parentNode.removeChild(option_change_city);
+							}
+					},
+					complete: function(html)
+					{			
+						var streets = html.responseText;
+						var mas_street = streets.split(',');	
+						document.getElementById("tr_street").style.display = "table-row";
+						/*$(this).data('tr','#tr_street'.css('opacity'));
+						$(this).animate({opacity: 1}, 500 );*/
+						$("#tr_street").show("slow");
+						document.getElementById("tr_house").style.display = "none";
+						select_obj = document.getElementById("select_street");
+						for (var i=select_obj.options.length-1; i >= 0; i--)
+						{
+							select_obj.remove(i);
+						}
+						select_obj.options[select_obj.options.length] = new Option("Выберите улицу", "Выберите улицу");
+						select_obj.options[select_obj.options.length-1].setAttribute("id", "option_change_street");
+						for (var x in mas_street) {
+							select_obj.options[select_obj.options.length] = new Option(mas_street[x], mas_street[x]);
+						}
+
+					}, 
+			
+			  })
+	}
+	
+	function change_street(type) {
+		$.ajax({
+			
+				  	url: "/internet/change_street/"+type+"/?city="+document.getElementById("select_city").value+"&street="+document.getElementById("select_street").value,
+					beforeSend: function () 
+					{
+						if (document.getElementById('option_change_street'))
+							{
+								var option_change_street = document.getElementById('option_change_street');
+								option_change_street.parentNode.removeChild(option_change_street);
+							}
+					},
+					complete: function(html)
+					{			
+						var houses = html.responseText;
+						var mas_house = houses.split(',');	
+						document.getElementById("tr_house").style.display = "table-row";
+						select_obj = document.getElementById("select_house");
+						for (var i=select_obj.options.length-1; i >= 0; i--)
+						{
+							select_obj.remove(i);
+						}
+						select_obj.options[select_obj.options.length] = new Option("Выберите дом", "Выберите дом");
+						select_obj.options[select_obj.options.length-1].setAttribute("id", "option_change_house");
+						for (var x in mas_house) {
+							select_obj.options[select_obj.options.length] = new Option(mas_house[x], mas_house[x]);
+						}
+
+					}, 
+			
+			  })
+	}
+	
+	
+	function change_house() {
+		if (document.getElementById('option_change_house'))
+			{
+				var option_change_house = document.getElementById('option_change_house');
+				option_change_house.parentNode.removeChild(option_change_house);
+			}
+	}
+	
+	
+	function checkForm (type) {
+		var title;
+		var elem;
+		var dutyField = "Выберите ";
+		var check = true;
+		
+		function checkError (field, str) 
+			{
+			document.getElementById('alert').innerHTML = str;
+			document.getElementById('alert_tr').style.display = 'table-row';
+			check = false;
+			}
+			
+		if (check) {
+			 title = 'тариф';
+			 
+			 elem = document.getElementById('select_tariff').value;
+			 if (elem == 'Выберите тариф') {
+				 document.getElementById('select_tariff').focus();
+				 checkError('select_tariff', dutyField + title);
+				}
+		}
+		
+		if (check) {
+			 title = 'город';
+			 
+			 elem = document.getElementById('select_city').value;
+			 if (elem == 'Выберите город') {
+				 document.getElementById('select_city').focus();
+				 checkError('select_city', dutyField + title);
+				}
+		}
+		
+		if (check) {
+			 title = 'улицу';
+			 
+			 elem = document.getElementById('select_street').value;
+			 if (elem == 'Выберите улицу') {
+				 document.getElementById('select_street').focus();
+				 checkError('select_street', dutyField + title);
+				}
+		}
+		
+		if (check) {
+			 title = 'дом';
+			 
+			 elem = document.getElementById('select_house').value;
+			 if (elem == 'Выберите дом') {
+				 document.getElementById('select_house').focus();
+				 checkError('select_house', dutyField + title);
+				}
+		}
+		
+		if (check) {
+			title = 'оборудование';
+			{% comment %}
+			/*elem = document.getElementById('select_equipment').value;
+			if (elem == 'yes')
+				{
+					ch_switch = document.getElementById('checkbox_switch').checked;
+					ch_router = document.getElementById('checkbox_router').checked;
+					ch_AP = document.getElementById('checkbox_AP').checked;
+					ch_NIC = document.getElementById('checkbox_NIC').checked;
+					if ((ch_switch == false) && (ch_router == false) && (ch_AP == false) && (ch_NIC == false))
+						{
+				 			checkError('select_equipment', dutyField + title);
+						}
+					
+				}*/
+			{% endcomment %}
+		}
+		
+		if (check) {
+			step_auth(type)	
+		}
+		return check;
+	}
+
+
+	function step_auth(type)
+	{
+   		select_tariff = document.getElementById('select_tariff').value;
+   		select_city = document.getElementById('select_city').value;
+   		select_street = document.getElementById('select_street').value;
+   		select_house = document.getElementById('select_house').value;
+		equip = document.getElementById('select_equipment').value;
+		static_ip = document.getElementById('select_static_ip').value;
+		str_equip = ''
+		str_static_ip = ''
+		if (equip == 'yes')
+			{
+				/*if (document.getElementById('checkbox_switch').checked == true)
+					{str_equip += '&equip_switch=true'}
+				if (document.getElementById('checkbox_router').checked == true)
+					{str_equip += '&equip_router=true'}
+				if (document.getElementById('checkbox_AP').checked == true)
+					{str_equip += '&equip_AP=true'}
+				if (document.getElementById('checkbox_NIC').checked == true)
+					{str_equip += '&equip_NIC=true'}*/
+                str_equip += '&equip_AP=true' //Убрать
+			}
+		if (static_ip == 'yes')
+			{
+				//str_static_ip = '&count_static_ip='+document.getElementById('select_ip').value;
+                str_static_ip = '&count_static_ip='+1; //Убрать
+			}
+			
+		var str = $("#inet_zakaz").serialize();
+		$.ajax({
+                url: "/internet/step_auth/True/"+type+"/?"+str+"&tariff="+select_tariff+"&city="+select_city+"&street="+select_street+"&house="+select_house+str_equip+str_static_ip,
+                cache: false,
+				async: false,
+				  
+                success: function(url){
+					
+ 					window.location = url;
+					  
+                }  
+            });
+	}
+	
+	
+	function step_zakaz(type)
+	{
+		$.ajax({
+                url: "/internet/step_zakaz/True/"+type+"/",
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+ 					
+                    $("#id_popup").html(html);
+					  
+                }  
+            });
+	}
+	
+	
+	function step_final(req)
+	{
+		var str = $("#form_auth").serialize();
+		$.ajax({
+                url: "/internet/step_"+req+"/?"+str,
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+ 					
+                    $("#id_popup").html(html);
+					  
+                }  
+            });
+	}
+	
+	function show_tooltip(tool) 
+	{
+		var tt  = $(tool),
+			tti = $('i', tool),
+			ttb = $('.tooltip-i',tool);
+		if ($(tool).hasClass('show')) {
+			$(tool).removeClass('show');
+			ttb.css('display', 'none');
+			}
+		else {
+			ttb.css('display', 'block');
+			$(tool).addClass('show');
+		}
+	}
+
+	function change_equipment(sel)
+	{
+		if (sel.value == 'yes')
+			{document.getElementById("tr_equipment").style.display = "table-row";}
+		else
+			{document.getElementById("tr_equipment").style.display = "none";}
+	}
+	
+	function change_static_ip(sel, type)
+	{
+		/*if (sel.value == 'yes')
+			{document.getElementById("tr_static_ip").style.display = "table-row";}
+		else
+			{document.getElementById("tr_static_ip").style.display = "none";}*/
+		cost_tariff(type);
+	}
+	
+
+	
+</script>
+    
+<h1 class="title">{{ title }}</h1>
+
+<a href="/internet/cover_zone/">Просмотреть зону покрытия доступную для подключения услуги "Доступ в интернет"</a>
+
+<table class="type-2">
+	<thead>
+		<tr>
+			<th>Тарифный план</th>
+			<th>Скорость Мбит/с</th>
+			<th>Стоимость, <em>руб./мес.{% if type_face == 'legal_entity' %}<span class="fn" style="color:#F00">*</span>{% endif %}</em></th>
+		</tr>
+	</thead>
+	<tbody>
+    {% for tariff in inet_tariff %}
+		<tr>
+			<td>{{ tariff.name }}</td>
+			<td>{{ tariff.speed_inet }}</td>
+			<td>{{ tariff.cost }}</td>
+		</tr>
+    {% endfor %}
+
+<!--		<tr>
+			<td>Любитель</td>
+			<td>2</td>
+			<td>2080</td>
+		</tr>
+		<tr>
+			<td>Домашний</td>
+			<td>3</td>
+			<td>2960</td>
+		</tr>
+		<tr>
+			<td>Малый бизнес</td>
+			<td>5</td>
+			<td>4400</td>
+		</tr>
+		<tr>
+			<td>Средний бизнес</td>
+			<td>10</td>
+			<td>8000</td>
+		</tr>
+		<tr>
+			<td>Крупный бизнес</td>
+			<td>20</td>
+			<td>14400</td>
+		</tr>
+		<tr>
+			<td>Классный</td>
+			<td>30</td>
+			<td>18400</td>
+		</tr>
+		<tr>
+			<td>Без проблем</td>
+			<td>50</td>
+			<td>24000</td>
+		</tr>
+		<tr>
+			<td>Оригинальный</td>
+			<td>100</td>
+			<td>41600</td>
+		</tr>-->
+	</tbody>
+</table>
+
+<div class="form-submit-right">
+    <a href="#zakaz" class="bt bt-blue2" onclick="step_zakaz('{{ type_face }}')">Заказать</a>
+</div>
+
+<a href="#" class="overlay" id="zakaz"></a>
+    <div class="popup_personal" style="min-width: 400px;">
+        <a class="popup_personal-close" href="#close"></a>
+        <div id="id_popup">
+        </div>
+    </div>
+
+{% if type_face == 'legal_entity' %}
+<div class="ugc">
+	<p><span class="fn">*</span> <small>все цены указаны без учета НДС</small></p>
+</div>
+{% endif %}
+
+{% endblock %}

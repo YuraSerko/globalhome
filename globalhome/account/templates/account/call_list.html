@@ -1,0 +1,240 @@
+{% load i18n form_tags lib_tags %}
+{% block content %}
+
+ <script type="text/javascript" src="/media/js/jquery.form.js"></script>
+   
+<script type="text/javascript" language="javascript" charset="utf-8">
+	function del_r()
+	{
+		var x = document.getElementById('selected_numbers');
+		   for (i = x.length - 1; i>=0; i--) {
+			  if (x.options[i].selected) {
+				x.remove(i);
+				}
+		   }
+		refr();
+		$("#del_id").hide();
+	}
+	
+	function add_r()
+	{	
+		arr = document.getElementById("int_numb").value.split(',')
+		for (i = arr.length - 1; i>=0; i--) {
+			if (document.getElementById("id_number").value == arr[i])
+				{
+					alert("Такой номер уже есть в списке !");
+					return
+				}
+		}
+		
+		var x=document.getElementById("selected_numbers");
+		var option=document.createElement("option");
+		option.text=document.getElementById("id_number").value
+		var k=0
+		try
+		  { 
+			x.add(option,x.options[null]);
+		   }
+		catch (e)
+		  {
+		 x.add(option,x.options[null]);}
+		  
+		refr();
+	}
+	
+	function refr()
+	{
+	var x = document.getElementById("selected_numbers");
+	document.getElementById("int_numb").value="";
+	   for (i = x.length - 1; i>=0; i--) {
+		   if (document.getElementById("selected_numbers").options[i].text != '') {
+		document.getElementById("int_numb").value=document.getElementById("int_numb").value+document.getElementById("selected_numbers").options[i].text.split(" ")[0]+",";   
+		}}
+	}
+	
+	
+	function ajax_list_number() {
+		var data = {
+			'list': document.getElementById("choice_list_id").value,
+		};
+		
+		$.get("/account/constructor/checklist/"+document.getElementById("choice_list_id").value+"/", function(data) {
+
+				
+					var y=document.getElementById("id_name");
+					y.value=data.list_name
+					var x=document.getElementById("selected_numbers");
+					$('#selected_numbers').empty();
+					for (i=0;i<data.list_numbers.length;i++)
+  					{
+						var option=document.createElement("option");
+						option.text=data.list_numbers[i]
+						try
+						  { 
+							x.add(option,x.options[null]);
+						   }
+						catch (e)
+						  {
+						 x.add(option,x.options[null]);}
+					 } 
+					refr();
+				
+				
+				
+				
+				
+				
+				
+				});
+		
+					/*$.ajax({
+							  type: "POST",
+							  url: "/account/constructor/checklist/", 
+							  data: data,
+							  contentType: "application/json",
+							  complete: function(response)
+								{		
+									alert('1');
+									 try{
+										
+											var json_response = JSON.parse(response);
+										
+										  } catch(e) {
+										
+											alert(e.name)
+											alert(e)
+										
+										  }					
+									
+									alert(json_response.html);
+								},
+						  })
+						  return false;*/
+		 }
+	
+	   $(".modal_window_title").html('Звонок на список номеров');
+		
+		(function() {
+		  $('#mainForm').ajaxForm({
+			cache: false,
+			async: false,
+			success: function(html) 
+				{				
+								if (html.split('_')[0] == "createnewelement") 
+										{
+										var goods = html.split('_');
+										$.ajax({
+											type: "POST",
+											url: "/account/constructor/save",  // or just url: "/my-url/path/"
+											data: {new_element: $('#newelement').val() + '_' + goods[goods.length-1], parent_new_element: $('#parent_newelement').val(), number_id: $('#number_id').val(), draft_flag: $('#draft_flag').val(), new_element_id: goods[goods.length-1], edit_list_id: $('#edit_list_id').val()},
+											success: function(data) {
+												
+												//last_id = $('#' + event.target.id).parent().attr('id')
+												//window.location.hash = last_id
+												window.location.reload(true)
+												//window.location.href=window.location.href;
+											},
+											error: function(xhr, textStatus, errorThrown) {
+												alert("Please report this error: "+errorThrown+xhr.status+xhr.responseText);
+											}
+										});
+										
+										}
+									else
+										{
+										$(".tab_container").html(html);
+										}
+				},
+			
+			});
+			})();
+	
+	
+	
+</script>
+</br>
+<div class="ugc">
+	<p>Заполните все поля и нажмите кнопку "Добавить"</p>
+</div>
+<form action="/account/constructor/createnewelement/{{newelement}}/{{parent_newelement}}/" method="post" id="mainForm">
+
+<input name="number_id" type="hidden" {% if number_id %} value="{{ number_id }}" {% else %} value="0" {% endif %} id="number_id"/>
+<input name="newelement" type="hidden" {% if newelement %} value="{{ newelement }}" {% else %} value="0" {% endif %} id="newelement"/>
+<input name="parent_newelement" type="hidden" {% if parent_newelement %} value="{{ parent_newelement }}" {% else %} value="0" {% endif %} id="parent_newelement"/>
+<input name="draft_flag" type="hidden" {% if draft_flag %} value="{{ draft_flag }}" {% else %} value="0" {% endif %} id="draft_flag"/>
+<input name="edit_list_id" type="hidden" {% if edit_list_id %} value="{{ edit_list_id }}" {% else %} value="0" {% endif %} id="edit_list_id"/>
+
+
+    <div class="form-sections form_ivr">
+    
+    
+            <div class="form-section ">
+           	
+            	<span class="label">Выберите список</span>
+                     <select name="choice_list" id="choice_list_id" onChange="ajax_list_number()">
+                            <option value="0">Создать новый список</option>
+                    {% for key, value in choices.items %}
+                        <option value="{{ key }}">{{ value }}</option> 
+                    {% endfor %}
+                     </select>
+                    
+                          
+                <div class="hint"><i></i>Выберите уже готовый список или создайте новый</div>
+            </div><!--form-section-->
+    
+    
+     <hr>
+    
+    		<div class="form-section form-section2">
+                    <div class="form-row form-field  required " id="form-field-wrapper-name">
+     						<div>
+                           <label for="id_name">Название списка</label><span class="field-required-label">*</span>
+                               <div class="field">   
+                                  <input id="id_name" name="name" type="text">
+                               </div>
+                          </div>
+                    </div>
+            </div>
+    		
+            <hr>
+            
+    
+			<div class="form-section form-section2 form_django">
+                    <table width="500px">
+                         <tr>
+                            <label id="white1" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;">Номера, на которые будет идти вызов:&nbsp</label>
+                         	<td>
+                         	
+                    <div class="field">
+                    <input id="id_number" name="number" type="text" style="margin-bottom:5px; width:250px;"></input>
+                    <button name="add" id="add_id" class="bt bt-blue2" type="button" onclick="add_r();" style="margin-bottom:5px; width:250px;">Добавить +</button>
+                    <select ondblclick="del_r()" name="oper2" size="9" id="selected_numbers" style="height:100%; width: 250px;">
+                    
+                    </select>
+                    </div>
+                    <input id="int_numb" name="int_numb" type="hidden" value="{{ int_numb }}"/>
+                    </td>
+                    
+                    <td style="vertical-align:top;">
+                        <div class="hint" style="padding-top:0; margin-top:0;"><i></i>Пожалуйста, добавьте номера внутренние номера, либо номера в международном формате (7495xxxxxxx) или sip адрес (xxx@sip.example.com), на которые вы хотите сделать звонок</div>
+
+                    </td>
+                            </tr>
+                            
+                            </table>
+                    </div><!--form-section-->
+        
+        
+    </div>
+    </br>
+    <div class="form-sections-submit">
+            <div class="form-submit-right">   
+                <input type="submit" class="bt bt-blue2" name="submit" value='Сохранить'/>
+            </div>
+        </div>
+    
+    
+</form>
+
+
+{% endblock %}

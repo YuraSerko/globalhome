@@ -1,0 +1,65 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block extrahead %}
+	{{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" /> 
+    <link type="text/css" href="{{ MEDIA_URL }}css/egplant_cost.css" rel="stylesheet" />
+    <script type="text/javascript" src="/media/js/Localnumbers_relocating.js"></script>
+	<script type="text/javascript" src="/media/js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="/media/js/jquery-ui-1.8.21.custom.min.js"></script>
+	
+	
+{% endblock %}
+
+
+
+
+{% block content %}
+
+
+<h1 class="title">Контруктор входящих вызовов</h1>
+      
+{% if numbers %}
+
+    <div class="ugc">
+        <p>Страница создания схемы входящего вызова за городскими номерами.</p>
+    </div>  
+
+	{{ block.super }}
+    
+    <table class="type-2">
+        <thead>
+            <tr>
+                <th style="width: 10%;">Городской номер</th>
+                <th style="width: 10%;">{% trans "Region" %}</th>
+                {% if globalhome %}
+                <th style="width: 30%;">Конструктор</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for number in numbers %}
+                <tr>
+                    <td>{{ number.number }}</td>
+                    <td>{{ number.region }}</td>
+                    {% if globalhome %}
+                    <td><a href="/account/localphones/scheme/new/{{ number.id }}/">{% if number.constructor %}Редактировать{% else %}Создать{% endif %} схему входящего вызова</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+
+    {% if have_free_numbers %}
+        <div class="status status-info">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>У Вас нет местных номеров. Вы можете добавить его ниже.</p>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

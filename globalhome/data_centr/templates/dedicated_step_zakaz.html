@@ -1,0 +1,137 @@
+<style>
+.count_panel {
+	width: 76px;
+	height: 20px;
+	padding: 2px;
+	padding-top: 6px;
+	margin: 0;
+	/*border: 2px solid #999;
+	border-radius: 5px;*/
+}
+
+.add,
+.remove {
+	position: inherit;
+	display: inline;
+	width: 20px;
+	height: 16px;
+	font-size:9px;
+}
+
+.add {
+	float: right;
+}
+
+.remove {
+	float: left;
+}
+.ip {
+	display: inline !important;
+	width: 18px;
+	margin-left: 8px;
+	margin-top: -2px;
+	align: center;
+	text-align: center;
+	border-radius:5px;
+	color: #3a7cbd;
+}
+</style>
+
+<form id="dedicated_zakaz" method="post">
+    <table class="type-4 modal" style="width: 500px;">
+        <caption>
+            <h1 class="title">Оформление заказа</h1>
+        </caption>
+        <tbody>
+            <tr>
+                <td><label>Тип услуги</label></td>
+                <td><label class="value">Аренда сервера</label></td>
+            </tr>
+            <tr style="background: #f3f3f3;">
+                <td><label>Тариф</label></td>
+                <td><label class="value">{{ server.tariff }}</label></td>
+            </tr>
+            <tr>
+                <td><label>Процессор</label></td>
+                <td><label class="value">{{ server.cpu }}</label></td>
+            </tr>
+            <tr style="background: #f3f3f3;">
+                <td><label>Память</label></td>
+                <td><label class="value">{{ server.ram|safe }}</label></td>
+            </tr>
+            <tr>
+                <td><label>Диск, HDD</label></td>
+                <td><label class="value">{{ server.hdd|safe }}</label></td>
+            </tr>
+            <tr style="background: #f3f3f3;">
+                <td><label>Диск, SSD</label></td>
+                <td><label class="value">{{ server.ssd|safe }}</label></td>
+            </tr>
+            <tr>
+                <td>Интернет</td>
+                <td>
+                    <select class="select_colocation" id="type_inet" onchange="change_type_inet({{ server.id }});">
+                        <option value="not_garant">Не гарантированный</option>
+                        <option value="garant">Гарантированный</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+            	<td></td>
+                <td>
+                    <select class="select_colocation" id="range_speed" onchange="dedicated_cost({{ server.id }});">
+                        {% for i in range_speed %}
+                            <option value="{{ i.tariff_id }}">{{ i.cost }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr style="background: #f3f3f3;">
+                <td>Количество IP-адресов</td>
+                <td>
+                    <select class="select_colocation" id="count_ip" onchange="dedicated_cost({{ server.id }});">
+                        {% for i in range_ip %}
+                            <option value="{{ i.count }}">{{ i.count_with_cost }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+               <!-- <td><div class="count_panel"><input type="button" class="remove" onclick="change_count_ip('-')" value="-"/><input id="count_ip" class="ip" value="1" readonly="readonly"/><input type="button" class="add" onclick="change_count_ip('+')" value="+"/></div></td>-->
+            </tr>
+            <tr>
+                <td><label for="cost">Стоимость услуги</label></td>
+                <td><label class="value"><font id="cost">{{ server.cost }}</font> руб.<req>*</req></label></td>
+            </tr>
+            {% if not account %}
+                {% if user %}
+                    <tr>
+                        <td colspan="2" style="padding: 0; padding-left: 15px; padding-right: 15px; padding-bottom: 10px; padding-top: 10px; background: #ffe6c5;">
+                            <label style="width: 70%"><input type="hidden" name="face" id="face_2"  value="2">
+                            Вы авторизованы как пользователь: <strong>{{ user }}</strong></label></td>
+                {% else %}
+                    <tr>
+                        <td colspan="2" style="padding: 0; padding-left: 15px; padding-bottom: 10px; padding-top: 10px; background: #ffe6c5;">
+                            <label><input name="face" type="radio" id="face_0"  value="0" checked="checked"><strong>Зарегистрироваться</strong></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding: 0; padding-left: 15px; padding-right: 15px; padding-bottom: 10px; background: #ffe6c5;">
+                           <label><input type="radio" name="face" id="face_1" value="1"><strong>Авторизоваться в системе</strong></label>
+                {% endif %}
+                        </td>
+                    </tr>
+            {% endif %}
+            <tr>
+                <td colspan="2" style="background: #FFF ;">        
+                    <div class="ugc" style="margin: 0; display:inline-block;">
+                        <p><small><req>*</req> Все цены приведены без учёта НДС.</small></p>
+                    </div>
+                    {% if conf %}
+	                    <button class="bt bt-blue2" type="button" onclick="step_auth_conf('{{ cpu_id }}', '{{ ram }}', '{{ hdd }}', '{{ ssd }}')">Далее</button>
+                    {% else %}
+	    	            <button class="bt bt-blue2" type="button" onclick="step_auth('{{ server.id }}', '{{ account }}')">Далее</button>	
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>

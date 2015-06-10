@@ -1,0 +1,251 @@
+
+.container:before, .container:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.container:after {
+    clear: both;
+}
+.container:before, .container:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+}
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+    width: 940px;
+}
+small {
+    color: #000000;
+}
+.excerpt-container {
+}
+.excerpt-frame {
+}
+.excerpt {
+    color: #F0F0F0;
+    position: absolute;
+    top: 0;
+}
+.excerpt h2 {
+    font-weight: 100;
+    letter-spacing: 2px;
+    margin: 0;
+    padding: 0;
+}
+.excerpt h2 .highlight {
+    color: #FFC0CB;
+}
+.excerpt p {
+    font-weight: 200;
+    letter-spacing: 1px;
+}
+.image-header-container {
+    height: 200px;
+    position: relative;
+}
+.image-header-container .image-header {
+    background: none repeat scroll 0 0 gray;
+    height: 100%;
+    position: relative;
+}
+.image-header-container .image-header img {
+    border-radius: 5px;
+    height: 93%;
+    left: 7px;
+    margin: 0 auto;
+    position: absolute;
+    top: 7px;
+    width: 97%;
+}
+[data-id] {
+    display: none;
+}
+.active[data-id] {
+    display: block;
+}
+.m_news {
+    float: left;
+    width: 500px;
+}
+.span1 {
+    width: 500px;
+}
+.span4 {
+    width: 100%;
+}
+.thumbnail {
+    border: 1px solid gray;
+    display: block;
+    height: 50px;
+    overflow: hidden;
+    text-decoration: none;
+    width: 500px;
+}
+.thumbnail:first-child {
+    border-top: 2px none;
+}
+.thumbnali:last-child {
+    border-bottom: 2px none;
+}
+.thumbnail.active {
+    border: 4px solid #FFA500;
+}
+.thumbnail > img {
+    display: none;
+}
+.thumbnail > h4 {
+    color: #518ED8;
+    position: relative;
+    text-align: center;
+    top: 17px;
+}
+.clearfix {
+}
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.clearfix:after {
+    clear: both;
+}
+.hide-text {
+    background-color: rgba(0, 0, 0, 0);
+    border: 0 none;
+    color: rgba(0, 0, 0, 0);
+    font: 0px/0 a;
+    text-shadow: none;
+}
+.input-block-level {
+    -moz-box-sizing: border-box;
+    display: block;
+    min-height: 30px;
+    width: 100%;
+}
+img {
+    border: 0 none;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+}
+#map_canvas img, .google-maps img {
+    max-width: none;
+}
+img {
+    max-width: 100% !important;
+}
+@page {
+    margin: 0.5cm;
+}
+p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+}
+h2, h3 {
+    page-break-after: avoid;
+}
+.img-rounded {
+    border-radius: 6px;
+}
+.img-polaroid {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 4px;
+}
+.img-circle {
+    border-radius: 500px;
+}
+.row {
+    display: inline-block;
+}
+
+.row:before, .row:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.row:after {
+    clear: both;
+}
+[class*="span"] {
+    float: left;
+    min-height: 1px;
+}
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+    width: 950px;
+}
+.span12 {
+    width: 940px;
+}
+.span11 {
+    width: 860px;
+}
+.span10 {
+    width: 780px;
+}
+.span9 {
+    width: 700px;
+}
+.span8 {
+    width: 370px;
+}
+.span7 {
+    width: 540px;
+}
+.span6 {
+    width: 460px;
+}
+.span5 {
+    width: 380px;
+}
+.span3 {
+    width: 220px;
+}
+.span2 {
+    width: 140px;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+}
+.container:before, .container:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.container:after {
+    clear: both;
+}
+.container-fluid {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.container-fluid:before, .container-fluid:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.container-fluid:after {
+    clear: both;
+}
+p {
+    margin: 0 0 10px;
+}
+.lead {
+    font-size: 21px;
+    font-weight: 200;
+    line-height: 30px;
+    margin-bottom: 20px;
+}
+small {
+    font-size: 85%;
+}
+strong {
+    font-weight: bold;
+}

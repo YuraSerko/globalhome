@@ -1,0 +1,348 @@
+{% load i18n form_tags lib_tags %}
+{% block content %}
+
+<script type="text/javascript" src="/media/js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="/media/js/jquery.form.js"></script>
+
+  <script>
+	function get_getivr() {
+		
+			$.get("/account/constructor/checkivr/"+document.getElementById("select_number").value+"/", function(data) {
+	
+						$('#get_getivr').html(data);
+					
+						
+							var int_div = GetI("int_numbers");
+							var int_cb = GetI("int_enabled");
+							int_cb.onclick = function() { SetDivVisible(int_div, int_cb.checked); }
+							
+							SetDivVisible(int_div, int_cb.checked);
+							refr();
+							all_button_action();
+							$('.img').on('click', function(){
+								if ($(this).attr("id") == 'hole_row') 
+									{
+									  $(this).parent().parent().remove();
+									  $(this).value() == ''
+									}         
+								else if ($(this).attr("id") == 'part_row') 
+									{
+									  $(this).parent().remove();
+									  $(this).value() == ''
+									}  
+							});
+					
+					
+					});
+	
+	}
+	
+	function all_button_action(){
+		items = document.getElementById("count_or").value
+		$('#addNewField').click(function(){
+			items++;
+			var ivr_number_check = document.getElementById("select_number").value;
+			document.getElementById("count_or").value = items;
+			$('<div></div>')
+			   .append('<br /> \
+						<li class="iform-item"> \
+						<input type="text" name="name_nabor' + items + '" required value="" /> \
+						</li>')
+						//<input name="name_call0" type="text" value="" required/>
+			   .append('<li class="iform-item"> \
+						<input type="text" name="name_call' + items + '" style="width: 200px;" required value="" /> \
+						<img id="hole_row" class="img_row" src=\"/media/images/sprite_delete.png\" title=\"Удалить набор\"></li>')
+			   .appendTo('#containerok');
+			$("#containerok").find('select').children('option[value="'+ ivr_number_check +'"]').css('display', 'none');
+		});
+		
+		}
+	
+	function load_file()
+		{
+			var forma = document.getElementById("subm");
+			str = document.getElementById("file_wav").value;
+			list = str.split('.');
+			if (list[list.length-1] == "wav")
+			{
+				forma.click();
+			}
+			else
+			{$("#mess").show();}
+		}
+		
+	
+	function test_number() {
+					var val = document.getElementById("select_number").value;
+					$options = $("#containerok").find('select').children('option').css('display', 'block');
+					$options = $("#containerok").find('select').children('option[value="'+ val +'"]').css('display', 'none');
+					$opt = $("#containerok").find('select').children('option[value="'+ val +'"]');
+					$opt.attr("selected", false);
+					$opt.children('option').attr("selected", true);
+					
+					
+					//$options = $("#containerok").find('select').children('option[value!="'+ val +'"]').attr("selected", true);
+					$.ajax({
+							  url: "/account/myivr/checkivr?number_fax="+document.getElementById("select_number").value, 
+							  beforeSend: function () 
+							  	{
+									if (document.getElementById('change_number_id'))
+										{
+											var change_number_id = document.getElementById('change_number_id');
+											change_number_id.parentNode.removeChild(change_number_id);
+										}
+								},
+							  complete: function(html)
+								{							
+									if (html.responseText == "gra4") 
+										{
+										add_message_number('На данном номере существует переадресация', 'no');
+										}
+									else if (html.responseText == "getfax_gra4") 
+										{
+										add_message_number('На данном номере стоит функция приёма факса', 'no');
+										}
+									else if (html.responseText == "ivr_gra4") 
+										{
+										add_message_number('На данном номере включено IVR', 'no');
+										} 
+									else
+									 	{
+										add_message_number('Данный номер свободен', 'yes');
+										}
+								},
+						  })
+						  }
+						  
+	function add_message_number(message, type) {
+		if (document.getElementById('notifications_p'))
+			{
+				var notifications_p = document.getElementById('notifications_p');
+				notifications_p.parentNode.removeChild(notifications_p);
+			}
+		$("#notifications_number").append('<p id="notifications_p" style="margin-left: 20px;">'+ message +'</p>');
+		$('#notifications_number').css('background', 'url(/media/img/valid'+ type +'.png) no-repeat');
+		$('#notifications_number').css('background-position', '3px 12px');
+		document.getElementById('hidden_notif').value = type;
+		};
+	
+    $(document).ready(function() {
+		var int_div = GetI("int_numbers");
+        var int_cb = GetI("int_enabled");
+        int_cb.onclick = function() { SetDivVisible(int_div, int_cb.checked); }
+		SetDivVisible(int_div, int_cb.checked);
+		refr();
+		//refr();
+		
+	});
+	
+	$(".modal_window_title").html('Добавление голосового меню');
+	
+		(function() {
+		  $('#mainForm').ajaxForm({
+			cache: false,
+			async: false,
+			success: function(html) 
+				{				
+					if (html.split('_')[0] == "createnewelement") 
+							{
+							var goods = html.split('_');
+							$.ajax({
+								type: "POST",
+								url: "/account/constructor/save",  // or just url: "/my-url/path/"
+								data: {new_element: $('#newelement').val() + '_' + goods[goods.length-1], parent_new_element: $('#parent_newelement').val(), number_id: $('#number_id').val(), draft_flag: $('#draft_flag').val(), new_element_id: goods[goods.length-1], edit_menu_id: $('#edit_menu_id').val()},
+								success: function(data) {
+									window.location.reload(true)
+									//window.location.href=window.location.href;
+								},
+								error: function(xhr, textStatus, errorThrown) {
+									alert("Please report this error: "+errorThrown+xhr.status+xhr.responseText);
+								}
+							});
+							
+							}
+						else if (html.split('_')[0] == "editnewelement")
+							{
+								window.location.reload(true)
+							//$(".tab_container").html(html);
+							}
+						else {$(".tab_container").html(html);}
+				},
+			
+			});
+			})();
+			
+	$(function(){
+		all_button_action();
+		
+		
+	});
+	</script>
+
+
+
+
+</br>
+<div class="ugc">
+	<p>Выберите номер на котором будет голосовое приветствие, затем выберите файл голосового приветствия в формате .wav и расставьте логику перевода звонков.</p>
+</div>
+
+
+<form action="/account/constructor/createnewelement/{{newelement}}/{{parent_newelement}}/" method="post" id="mainForm">
+    
+<input name="number_id" type="hidden" {% if number_id %} value="{{ number_id }}" {% else %} value="0" {% endif %} id="number_id"/>
+<input name="newelement" type="hidden" {% if newelement %} value="{{ newelement }}" {% else %} value="0" {% endif %} id="newelement"/>
+<input name="parent_newelement" type="hidden" {% if parent_newelement %} value="{{ parent_newelement }}" {% else %} value="0" {% endif %} id="parent_newelement"/>
+<input name="draft_flag" type="hidden" {% if draft_flag %} value="{{ draft_flag }}" {% else %} value="0" {% endif %} id="draft_flag"/>
+<input name="edit_menu_id" type="hidden" {% if edit_menu_id %} value="{{ edit_menu_id }}" {% else %} value="0" {% endif %} id="edit_menu_id"/>
+
+{% block notifications %}
+    {% if request.notifications %}
+        {% for message in request.notifications %}
+            <div class="status status-{{ message.tags }}">
+                <i class="ico"></i>
+                <div class="status-i">
+                    <p>{{ message }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+ {% endblock %}
+ 
+<div id="mess" class="status status-error" style="display:none;">
+    <i class="ico"></i>
+    <div class="status-i">
+        <p>Неверный формат медиа файла</p>
+    </div>
+</div>
+<div class="form-sections form_ivr">
+
+	{% if not obzvon %}
+    <div class="form-section form-section2">
+        <span class="label">
+                    Выберите голосовое меню или создайте новое
+                </span>
+                <select id="select_number" name="number" onChange="get_getivr()">
+                	<option value="0">Создать новое IVR</option>
+                {% for chk, ch in choices.items %}
+                    <option value="{{ chk }}">
+                    {{ ch }}
+                    </option> 
+                {% endfor %}
+                </select>
+    </div><!--form-section-->
+    <hr>
+    {% endif %}
+     <div id="get_getivr">
+     <input id="count_or" name="count_or" type="hidden" value="1"/>
+    <div class="form-section form-section2">
+       <div class="form-row form-field " id="form-field-wrapper-name">
+            <div>
+                <label for="id_name">Название</label>
+                     <div class="field">   
+                         <input id="name_field" name="name" type="text">
+                       </div>
+             </div>
+        </div>
+    </div>
+     <hr>
+    <div class="form-section form-section2">
+        <span class="label">Выберите медиа файл:</span>
+        <input id="file_wav" name="file_wav" type="file" required/>
+        <div class="hint"><i></i>{% trans "Подключение собственного ivr" %}</div>
+    </div><!--form-section-->
+     <hr>
+    <div class="form-section form-section2 form_django">
+        <ul class="iform" id="containerok">
+            
+            <div>
+                <li class="iform-item">
+                    <label>
+                        <span class="label">
+                            Набор
+                            <span class="tooltip">
+                                <i></i>
+                                <span class="tooltip-i">Укажите цифру быстрого набора номера для переключение на сотрудника. Например: "0"</span>
+                            </span>
+                        </span>
+                        <input name="name_nabor0" type="text" value="" required/>
+                    </label>
+                </li>
+                
+                <li class="iform-item">
+                    <span class="label">
+                          Описание
+                        <span class="tooltip">
+                            <i></i>
+                            <span class="tooltip-i">Описание указанного набора</span>
+                        </span>
+                    </span>
+                    <input name="name_call0" type="text" value="" required/>
+                    
+
+                </li>
+            </div>
+        </ul><!--iform-->
+        
+        <div class="set">
+            <input id="addNewField" class="bt bt-grey" value="Ещё набор..." name="Add new field" type="button">
+        </div>
+        <div class="set">
+            <label><input id="int_enabled" name="int_enabled" type="checkbox" checked value="">Включить внутренние номера разрешенные к донабору в голосовом приветствии</label>
+        </div>
+        
+        <div id="int_numbers">
+            <table style="overflow-y: no-display;">
+                <thead>
+                    <tr>
+                        <th>Не разрешенные к донабору:</th>
+                        <th></th>
+                        <th>Разрешенные к донабору:</th>
+                   	</tr>
+                </thead>
+                <tr>
+                    <td width="50" height="133" style="width:30%; margin: 0; padding: 0;">
+                        <select ondblclick="displayResult()" name="oper2" size="9" id="selected_numbers" style="height:100%; width: 250px;">
+                        </select>
+                    </td>
+                    <td style="width:5%;">
+                   		<button name="input4" class="bt bt-blue2" onclick="displayResult3()" type="button"style="width: 100%;">>></button>
+                        <p style="margin: 0"><font color="#FFFFFF">_</font></p>
+                   		<button name="input2" class="bt bt-blue2" onclick="displayResult()" type="button" style="width: 100%;">></button>
+                        <p style="margin: 0"><font color="#FFFFFF">_</font></p>
+                   		<button name="input3" class="bt bt-blue2" onclick="displayResult2()" type="button" style="width: 100%;"><</button>
+                        <p style="margin: 0"><font color="#FFFFFF">_</font></p>
+                   		<button name="input5" class="bt bt-blue2" onclick="displayResult4()" type="button" style="width: 100%;"><<</button>
+                    </td>
+                    <td width="217" style="width:35%; padding-left: 10px;">
+                        <select name="numbers" size="9" id="selected_numbers2" ondblclick="displayResult2()" style="height:100%; width: 250px;">
+                        {% for ch in choices_numbers %}
+                             <option  value="{{ ch }}">{{ ch }}</option>
+                        {% endfor %}
+                        </select>
+                    </td>
+                    <td style="width:25%;">
+                    </td>
+                </tr>
+            </table> 
+        </div>
+        <input id="int_numb" name="int_numb" type="hidden" /> 
+        <div class="hint"><i></i>{% trans  "Put logic voice greeting" %}</div>
+    </div><!--form-section-->
+    </div>
+</div><!--form-sections-->
+
+
+<!--div class="form-sections-submit">
+        <input class="bt bt-blue" type="button" onClick="load_file()" value="{% trans 'Save' %}"/>
+    </div-->
+    <br>
+<div class="form-sections-submit">
+
+	<div class="form-submit-right">   
+    	<input id="subm" class="bt bt-blue" type="submit" name="submit" value="Добавить"/>
+      </div>
+</div>
+</form>  
+      
+{% endblock %}

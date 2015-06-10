@@ -1,0 +1,494 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+
+{% block content %} 
+
+
+ {% block sendin %}
+ {{block.super}}
+         {% endblock %}
+ 
+
+  
+ 
+  
+  <article id="right">
+	
+				
+			
+				
+				
+				  {% block burat2 %}
+                  {{block.super}}
+                  {% endblock %}
+				
+				
+			
+			
+		 <div id='centr_field'>
+				{% block cap %}
+				{{block.super}}
+         {% endblock %} 
+                
+    
+	 	<!-- мои данные -->
+	 	{% block work_login %}
+		 	{{ block.super }}
+		{% endblock %}
+	 	
+	 	<div class = "resume_block">
+	 		<div class = "head">
+			 	<div class = "photo-residence">
+							<div class = "photo">
+						 	    <div class = "picture_preview">
+							 		{% if resume.personal_data.photo.url = '/media/uploads/work_photo/None/no-img.jpg' %}
+					  	 				<img class="img_prev" src='/media/img/no_avatar1.png' alt="Нет фото" style = "width:auto; height:100%"></img>
+					  	 			{% else %}
+					  	 				<img class="img_prev" src='{{ resume.personal_data.photo.url }}' alt="Нет фото" style = "width:auto; height:100%"></img>
+					  	 			{% endif %}
+							  	 </div>
+							</div>
+							<div class = "residence_gender_age">
+								<div class = "residence">                              
+									{{ resume.personal_data.living_city.city_full_name }}, гражданство {{ resume.personal_data.citizenship.nationality }}. 
+								</div>
+								<div id="gender-age">
+									{{ gender_age }}
+								</div>
+								<div id = "display_contacts" >показать контакты</div>
+			  
+							    <div id = "contacts" style = "display:none;">
+							   		{{ resume.personal_data.first_name }} {{ resume.personal_data.second_name }}
+							   		<p> тел.+ 7 ({{ resume.personal_data.main_tel_code }}){{ resume.personal_data.main_tel_number }}
+							    </div>
+							   
+							</div>
+							<div class = "published">
+								Размещено: {{ resume.publication_date|date:"d M Y" }}
+							</div>
+				</div>
+				<div class = 'main_wishes'>
+						<div  class='weight_blue' style="margin-bottom:15px; margin-top:3px;">
+							{{ work_wishes.desirable_position }}
+						</div>
+						{% if work_wishes.salary %}
+							<div  class='weight_blue' style="margin-bottom:15px; ">
+								{{ work_wishes.salary }} {{ work_wishes.get_salary_um_display}}
+							</div>
+						{% endif %}
+						
+						
+						<!-- дополнительные названия -->
+						{% for  adname  in work_wishes.additional_name.all %}
+							{{ adname }}
+							{% if not forloop.last %}, {% endif %}
+						{% endfor %}
+						
+						<div style="margin-bottom:10px; ">
+							Режим работы: {{ work_wishes.get_work_mode_display }}, {{ work_wishes.get_employment_type_display }}, {{ work_wishes.get_work_type_display }}
+							,{% if work_wishes.business_trip == 0 %}
+								командировки невозможны
+							 {% else %}
+							 	командировки возможны	
+							 {% endif %}
+						</div>
+						
+				</div>
+			</div>	
+	 	<div id="resume_content">
+		 	
+			
+			
+			<hr class = "hr_double" style = "margin-bottom:10px; margin-top:15px;">
+			<div id  = "block_experience">
+				<div class = "resume_content_title">
+					Опыт работы
+				</div>
+				{% if not no_experience  %}
+				
+						{% if str_no_work != '' %}
+						<div class = "jobless">
+							{{ str_no_work|safe }}
+						</div>
+						<br>
+						{% endif %}
+						
+						<!-- блок exp -->
+						{% for work_exp_obj in work_exp_objs %}
+						{% for k, v in lasting.items %}
+							{% if work_exp_obj.id == k %}	
+								<div class = "exp">
+										<div class = 'exp_title'> {{ work_exp_obj.position }} </div>
+										<p>({{ work_exp_obj.get_taken_position_level_display }})</p>
+										{{ work_exp_obj.work_start_date|date:"F Y"}} - 	
+										{% if work_exp_obj.work_end_date != None %} 
+											{{ work_exp_obj.work_end_date|date:"F Y" }} 
+										{% else %}
+											по настоящее время
+										{% endif %}
+										{{ v }}
+										<div class = 'org'>
+											<font class = 'org_title'>{{ work_exp_obj.org_name }}</font>
+											({{ work_exp_obj.branch_activity.activity_field }})
+										</div>
+										Должностные обязанности и достижения:
+										{{ work_exp_obj.duties_achievements }}
+								</div>
+							{% endif %}
+						{% endfor %}
+							{% if not forloop.last %}
+									<hr  class = "hr_single" style = "margin-bottom:10px;">
+							{% endif %}	
+						{% endfor %}
+				
+				{% else %}
+				 <div class = "exp">У соискателя нет опыта работы </div>
+				{% endif %}
+			</div>
+				<!--окончание блока exp-->
+				
+				
+				<hr class= "hr_double" style = "margin-bottom:10px;">
+				
+				
+				<!-- блок образование -->
+				<div class = "resume_content_title">
+					{{ work_ed_and_skills_obj.get_education_level_display }} образование
+				</div>
+				
+				
+				<!-- места учебы -->
+				{% for work_ed_inst_obj in work_ed_inst_objs %}
+					<div class = 'education_block'>
+						<div class = "education_title">
+							{{ work_ed_inst_obj.institution_name }} 
+						</div>
+							{{ work_ed_inst_obj.graduate_year }}, Факультет,специальность: 
+							<font class = "education_title">
+								{{ work_ed_inst_obj.faculty_specialty }}
+							</font>
+					</div>
+					{% if not forloop.last %}
+							<hr  class = "hr_single" style = "margin-bottom:10px;">
+					{% endif %}	
+				{% endfor %}
+				
+				
+				{% if work_ad_ed_objs.count != 0 %}
+				
+				<hr  class = "hr_single" style = "margin-bottom:10px;">
+				<!-- места дополнительного образования (eсли есть) -->
+				<div class = "resume_content_title">
+					Дополнительное образование
+				</div>
+				{% for work_ad_ed_obj in work_ad_ed_objs %}
+					<div class = 'education_block'>
+						<div class = "education_title">
+							{{ work_ad_ed_obj.institution_name }} 
+						</div>
+							{{ work_ad_ed_obj.graduate_year_ad }}
+							<font class = "education_title">
+								{{ work_ad_ed_obj.course_name }}
+							</font>
+					</div>
+					{% if not forloop.last %}
+							<hr  class = "hr_single" style = "margin-bottom:10px;">
+					{% endif %}	
+				{% endfor %}
+				
+				{% endif %}
+				
+				
+				
+				<hr class= "hr_double" style = "margin-bottom:10px;">
+				
+				<!-- окончание блока образование -->
+				
+				
+				<!-- блок язык, портфолио, права, книжка -->
+				{% if work_langs.count != 0 %}
+					<ul class = 'params'>
+						{% for work_lang in work_langs %}
+						<li> {{ work_lang.language }} - {{ work_lang.get_proficiency_language_level_display }} </li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+				
+				{% if work_portfolios.count != 0 %}
+					<ul class = 'params'><li>Портфолио:
+						{% for work_portfolio in work_portfolios %}
+						 	{{ work_portfolio.portfolio_link }}
+						
+						{% if not forloop.last %}
+							,
+						{% endif %}
+						{% endfor %}
+					</li></ul>
+				{% endif %}
+				
+				
+			
+				{% if work_ed_and_skills_obj.has_medical_book != False %}
+					<ul class = 'params'><li>Есть медецинская книжка
+					</li></ul>
+				{% endif %}
+				
+				
+				{% if work_ed_and_skills_obj.driving_license_A != False or  work_ed_and_skills_obj.driving_license_B != False or  work_ed_and_skills_obj.driving_license_C != False or  work_ed_and_skills_obj.driving_license_D != False or work_ed_and_skills_obj.driving_license_E != False %}
+					<ul class = 'params'><li>Права категории:
+						{% if work_ed_and_skills_obj.driving_license_A != False %}
+						 	A
+						{% endif %}
+						{% if work_ed_and_skills_obj.driving_license_B != False %}
+						 	B
+						{% endif %}
+						{% if work_ed_and_skills_obj.driving_license_C != False %}
+						 	C
+						{% endif %}
+						{% if work_ed_and_skills_obj.driving_license_D != False %}
+						 	D
+						{% endif %}
+						{% if work_ed_and_skills_obj.driving_license_E != False %}
+						 	E
+						{% endif %}
+					</li></ul>
+				{% endif %}
+				
+				{% if work_ed_and_skills_obj.has_car != False %}
+					<ul class = 'params'><li>Есть автомобиль
+					</li></ul>
+				{% endif %}
+				
+				<br>
+				
+				<!-- блок профессиональные навыки -->
+				{% if work_ed_and_skills_obj.professional_skills != '' %}
+				Профессиональные навыки:
+					<p>{{ work_ed_and_skills_obj.professional_skills }}</p>
+				{% endif %}
+				<!-- окончание блока профессиональные навыки -->
+				
+		
+			
+			
+			
+		</div>
+		</div> <!-- end resume block -->
+	   	<!-- окончание моих данных -->
+   
+   
+   
+   </div>
+			
+	</article>
+  
+  
+  
+<style type="text/css">
+
+.head{
+	background:#F0EEEE;
+	padding: 5px;
+}
+
+
+#gender-age{
+ 	font-size:18px;
+ 	padding-bottom:15px;
+ 	/*font-style:italic;*/
+ 	color:#2268C6;
+ 	font-weight:bold;
+}
+  
+#resume_content{
+	padding:5px;
+	width:700px;} 
+	
+.picture_preview{
+	width:120px;
+	height:160px;
+	
+	}
+.img_prev{
+    height:100%;}	
+    
+.photo{
+	display:inline-block;
+	width:120px;
+	height:160px;
+	overflow:hidden;}  
+
+.residence{
+	/*border:1px solid red; */
+	display:inline-block;
+	vertical-align:top;
+	/*font-style:italic;*/
+	font-size:18px;
+	color:#2268C6;
+	font-weight:bold;
+	padding-bottom:5px;
+	}
+	
+.resume_content_title{
+	font-size:29px;
+	margin-bottom:13px;
+	margin-top:30px;}
+	
+.position_title{
+	font-size:20px;
+	font-weight:bold;
+	padding-bottom:15px;
+	}	
+
+.exp_title{
+	font-size:20px;
+	font-weight:bold;
+	padding-bottom:8px;
+	}
+
+.org_title{
+	font-size:16px;
+	font-weight:bold;
+	}
+
+.education_title{
+	font-size:16px;
+	font-weight:bold;
+	}
+
+.exp{
+	padding-bottom:15px;
+	}	
+
+.education_block{
+	padding-bottom:15px;}
+
+.weight_blue{
+color:#2268C6;
+font-size:29px;
+font-weight:bold;
+	}
+	
+.main_wishes{
+	padding-bottom: 2px;
+	}
+
+.hr_single{
+	border:1px solid lightgray
+	}
+	
+.hr_double{
+	border:2px solid lightgray
+	}	
+	
+.params {
+list-style-type: square}	
+
+.params li{
+	margin-left:20px;}	
+
+.residence_gender_age{
+display:inline-block;
+vertical-align: top;}
+
+.published{
+	display:inline-block;
+	vertical-align: top;
+	float: right;
+	}
+
+.resume_block{
+	width:700px;
+	border:1px solid lightgray;
+	}	
+	
+#display_contacts{
+	 border-bottom: 1px dashed #000080;
+	 display:inline-block;
+	 color: #2268C6;
+	 cursor:pointer;
+	 }
+	
+</style>
+  
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+
+// мой javascript
+
+
+
+
+$(document).ready(function(){
+})
+$('#display_contacts').click(function () {
+	$('#contacts').toggle();
+    })
+
+// окончание моего javascript
+
+</script>
+<!--
+<script>
+      div="_ph1968";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1968&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+	<script>
+      div="_ph1971";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1971&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>-->
+    
+    <a href="#" class="overlay" id="hs_login2" ></a>
+		<div class="main_modal_tip">
+			<div class="modal_tip">
+				<a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+				<h2>Вы воспользовались услугами Бесплатной* Wi-Fi сети<br> <a href='http://globalhome.su/content/article/hot_spot/' target="_blank">HotSpot GlobalHome </a><h2>
+				<ul>
+					<li>Скорость доступа к интернет ресурсам составляет до 15 мбит\с.</li>
+					<li>Для более подробной информации нажмите<a href="http://globalhome.su/content/article/hot_spot/" target="_blank">здесь</a></li>
+					<li>Для открытия сайта или получения нужной информации введите запрос в поисковой строке.  Далее перейдите по ссылке в выдаче информации.</li>
+				</ul>
+				<p>* - на период тестирования.</p>
+				
+				<div class="lower_part">
+				
+				{%if trial%}
+					<form action = '/' method = 'GET' class="forma modal" id='' name = 'search_form' onsubmit = 'javascript:log();'>
+					{% else%}
+					<form action = '/' method = 'GET' class="forma modal"  name = 'search_form' >
+					{% endif%}
+					<input tabindex="4" type="text" class="searchbox modal" name="query" value=""  id = 'ya_input_log' />
+					<input  type="submit"   class="searchbox_submit modal"   value="Найти"  /><span class="tri"></span>
+						
+					</form>
+				</div>	
+			</div>
+		</div>
+		
+		{% block login_1 %}
+		{{block.super}}
+         {% endblock %}
+		
+		 {% block complaint_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+         {% block review_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+{% endblock %}

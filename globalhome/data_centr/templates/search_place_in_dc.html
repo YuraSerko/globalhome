@@ -1,0 +1,218 @@
+{% load form_tags %}
+<html>
+<head>  
+	<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+    <script>	
+	$(function(){
+		$('#id_switch').change(function(){
+			
+			zakaz_id = $('#zakaz_id').val(); 
+			rack_id = $('#id_rack').val();
+			switch_id = $('#id_switch').val();
+			$.ajax({
+                url: "/admin/data_centr/zakazy/search_rack/"+zakaz_id+"/"+rack_id+"/port/" + "?switch_init=" + switch_id,
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+                    $("#td_ports").html(html);
+                }  
+            });
+		});
+		
+		
+		$('#id_block_socket').change(function(){
+			
+			zakaz_id = $('#zakaz_id').val(); 
+			rack_id = $('#id_rack').val();
+			block_socket_id = $('#id_block_socket').val();
+			$.ajax({
+                url: "/admin/data_centr/zakazy/search_rack/"+zakaz_id+"/"+rack_id+"/socket/" + "?block_socket_init=" + block_socket_id,
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+                    $("#td_sockets").html(html);
+                }  
+            });
+		});
+		
+		$('#id_rack').change(function(){
+			
+			zakaz_id = $('#zakaz_id').val(); 
+			rack_id = $('#id_rack').val();
+			$.ajax({
+                url: "/admin/data_centr/zakazy/search_rack/"+zakaz_id+"/"+rack_id+"/unit/",
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+                    $("#td_units").html(html);
+					 
+                }  
+            });
+			
+			
+			$.ajax({
+                url: "/admin/data_centr/zakazy/search_rack/"+zakaz_id+"/"+rack_id+"/switch/",
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+                    $("#td_switchs").html(html);
+					  
+                }  
+            });
+			
+			
+			$.ajax({
+                url: "/admin/data_centr/zakazy/search_rack/"+zakaz_id+"/"+rack_id+"/port/",
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+                    $("#td_ports").html(html);
+					  
+                }  
+            });
+			
+			
+			$.ajax({
+                url: "/admin/data_centr/zakazy/search_rack/"+zakaz_id+"/"+rack_id+"/block_of_sockets/",
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+                    $("#td_blocks").html(html);
+					  
+                }  
+            });
+			
+			$.ajax({
+                url: "/admin/data_centr/zakazy/search_rack/"+zakaz_id+"/"+rack_id+"/socket/",
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+                    $("#td_sockets").html(html);
+					  
+                }  
+            });
+			
+			
+			$('#id_switch').change(function(){
+			
+			zakaz_id = $('#zakaz_id').val(); 
+			rack_id = $('#id_rack').val();
+			switch_id = $('#id_switch').val();
+			$.ajax({
+                url: "/admin/data_centr/zakazy/search_rack/"+zakaz_id+"/"+rack_id+"/port/" + "?switch_init=" + switch_id,
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+                    $("#td_ports").html(html);
+                }  
+            });
+			});	
+			
+			
+			$('#id_block_socket').change(function(){
+			
+			zakaz_id = $('#zakaz_id').val(); 
+			rack_id = $('#id_rack').val();
+			block_socket_id = $('#id_block_socket').val();
+			$.ajax({
+                url: "/admin/data_centr/zakazy/search_rack/"+zakaz_id+"/"+rack_id+"/socket/" + "?block_socket_init=" + block_socket_id,
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+                    $("#td_sockets").html(html);
+                }  
+            });
+			});
+		
+		});
+		
+		
+	});
+</script>
+</head>
+
+<body onLoad="window.resizeTo(900,780);">
+
+<style>
+	.cols li {
+		width: 25%;
+		float: left;
+	}
+	ul li {
+		list-style: none;
+	}
+	ul {
+		padding: 0;
+	}
+	input:checked + span {
+		background: #fc0;
+   }
+   input:disabled + span {
+	   color: #999;
+   }
+   .errorlist li {
+	   color: red;
+   }
+   .addres {
+	   width: 750px;
+   }
+   .addres td {
+	   vertical-align: top;
+   }
+   #td_units .cols li,
+   #td_ports .cols li,
+   #td_sockets .cols li {
+	   position: relative;
+	   bottom: 13px;
+   }
+</style>
+
+<form enctype="multipart/form-data" action="" method="post" id="server_assembly_form">
+	<table>	
+		<caption><h3>Критерии поиска</h3></caption>
+		<tr><td>глубина стойки</td><td>{{ server_depth }} мм.</td></tr>
+		<tr><td>количество юнитов</td><td>{{ count_units }}</td></tr>
+		<tr><td>количество портов</td><td>1</td></tr>
+		<tr><td>скорость порта</td><td>{{ speed_port }} Мбит/сек</td></tr>
+		<tr><td>количество розеток</td><td>1</td></tr>
+	</table>
+	<br/>
+	<hr>
+	{% if error %}
+		<p style="color: red">{{ error }}</p>
+	{% else %}
+		<table class="addres">
+			<caption><h3>Адрес</h3></caption>
+			<tr><td style="width: 140px;">серверная стойка</td><td>{{ form_rack.errors }}{{ form_rack.rack }}</td></tr>
+			<tr><td>юниты</td><td id="td_units">{{ form_unit.non_field_errors  }}{{ form_unit.unit }}</td></tr>
+            <tr><td></td><td><hr></td></tr>
+            <tr><td>свитч</td><td id="td_switchs">{{ form_switch.switch }}{{ form_switch.switch.errors }}</td></tr>
+			<tr><td>порт</td><td id="td_ports">{{ form_port.port.errors  }}{{ form_port.port }}</td></tr>
+            <tr><td></td><td><hr></td></tr>
+            <tr><td>блок розеток</td><td id="td_blocks">{{ form_block_socket.block_socket }}{{ form_block_socket.block_socket.errors }}</td></tr>
+			<tr><td>розетка</td><td id="td_sockets">{{ form_socket.socket.errors  }}{{ form_socket.socket }}</td></tr>
+		</table>
+		<div class="submit-row" style="clear: both;">
+			<hr>
+			<input type="submit" value="Сохранить" class="default" name="_save"  style="display: block; float: right;"/>
+			<input type="button" value="Вернуть найденный адрес" class="default" name="reset"  onclick="javascript: location.reload()" style="display: block; float: right;"/>
+		</div>
+	{% endif %}
+	
+	<div>
+		<input type="hidden" name="_popup" value="1" />
+		<input type="hidden" id="zakaz_id" value="{{ zakaz_id }}" />
+	</div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,1493 @@
+{% extends 'base_private.html' %}
+{% load i18n %}
+
+
+
+
+
+{% block content %}
+   	  <link href="/media/css/chosen.css" rel="stylesheet" type="text/css" >  		 
+  	  <script src="/media/js/chosen.jquery.js"></script>
+	  <script src="/media/js/chosen_select.js"></script>
+	 	<!-- мои данные -->	
+	 	<!-- блок личные данные  -->
+		<div id = "personal_data" style="border:1px solid gray; width:750px;">
+	 		
+		 		<div class = "work_title_block_blue">
+		 			<div class="work_form_title_main" >Личные данные</div>
+		 			<div class = "edit_current_block" ><a id = "href_personal_data" href="" onclick = "edit_block(0)" return false;></a></div>
+				</div>
+				<div id = "personal_data_to_unwrap" style = "display:block;">
+				<div class = "form_work">
+					
+					<div class = "work_fill_advice">
+						Укажите свои личные данные, способ связи
+					</div>
+					<br>
+					<form id="personal_data_form"  name="personal_data_form" action="" method="post"  enctype="multipart/form-data">	{% csrf_token %}
+						{{ form.non_field_errors }}					
+						<table class = "table_work">						
+							<tr>
+				        	 	<td class="work_input_label">
+				        	 		 Имя<font class = "red_cl">*</font>
+				        	 	</td>
+				        	 	   {{ form.first_name.errors }}				        	 		
+				        	 	<td class = "last">
+				        	 		{{ form.first_name }}				        	 	
+				        	 	</td>				        	 	
+			        	 	</tr>
+			        	 	<tr>
+				        	 	<td class="work_input_label">
+				        	 		 Фамилия<font class = "red_cl">*</font>
+				        	 	</td>				        	 		
+				        	 	<td class = "last"> 
+				        	 		{{ form.second_name }}	        	 	
+				        	 	</td>				        	 	
+			        	 	</tr>
+			        	 	<tr>
+				        	 	<td class="work_input_label">
+				        	 		 Отчество
+				        	 	</td>				        	 		
+				        	 	<td class = "last">
+				        	 		{{ form.last_name }}					        	 	
+				        	 	</td>				        	 	
+			        	 	</tr>
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "3" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	
+
+			        	 	
+			        	 	<tr>
+			        	 		<td colspan=2>
+			        	 		<table>	
+					        	 	<tr>
+						        	 	<td  class="work_input_label "  style="width: 350px;">
+						        	 		 Пол<font class = "red_cl">*</font>
+						        	 	</td>				        	 		
+						        	 	<td rowspan = '4'>
+						        	 	<!-- WORKING img src='{{ form.instance.photo.url }}'></img-->
+						        	 	<div id = "photo" style = " overflow: hidden;border: 1px dotted gray; display: inline-block;">
+						        	 			<div id = "picture_preview">
+						        	 			{% if form.instance.photo.url = '/media/uploads/work_photo/None/no-img.jpg' %}
+						        	 				<img id="img_prev" src='' alt="Ваше фото" style = "width:auto; height:100%"></img>
+						        	 			{% else %}
+						        	 				<img id="img_prev" src='{{ form.instance.photo.url }}' alt="Ваше фото" style = "width:auto; height:100%"></img>
+						        	 			{% endif %}
+						        	 				<img id="del_cross" src='/media/img/icons/icon_deletelink.gif'></img>
+						        	 			</div> 	
+								        	 	<div id= "form_photo">{{ form.photo }}
+								        	 	
+								        	 	</div>
+								        	 	
+						        	 	</div>
+						        	 	<div id="photo_error" ><font color='red'>Проверьте что файл не более 2мб и соответствует допустимым форматам.</font></div>
+
+						        	 	<div id = "under_photo">не более 2мб, только jpg, bmp, png</div>	        	 	
+						        	 	</td>				        	 	
+					        	 	</tr>
+					        	 	<tr>
+					        	 		<td   class = "last">
+						        	 		
+						        	 		{{ form.sex }}	
+						        	 	<td>
+					        	 	</tr>
+					        	 	<tr>
+						        	 	<td class="work_input_label"  >
+						        	 		 Дата рождения<font class = "red_cl">*</font>
+						        	 	</td>
+						        	 	<td>
+						        	 	</td>
+						        	<tr>			        	 		
+						        	 	<td class = "last">
+						        	 	{{ form.birthday }}
+						        	 							        	 	
+						        	 	</td>				        	 	
+					        	 	</tr>
+			        	 	</table>
+			        	 	</td>
+			        	 	</tr>
+			        	 	
+			        	 	
+			        	 	
+			        	 	
+
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "3" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	<tr>
+				        	 	<td class="work_input_label"  >
+				        	 		 Гражданство<font class = "red_cl">*</font>
+				        	 	</td>				        	 		
+				        	 	<td class = "last">
+				        	 		{{ form.citizenship }}
+				        	 		</select>		        	 	
+				        	 	</td>				        	 	
+			        	 	</tr>
+			        	 	
+			        	 	
+			        	 	
+			        	 	
+			        	 	<tr>
+			        	 	<td class="work_input_label"   >Город проживания<font class = "red_cl">*</font></td>
+			        	 	<td class="last">
+			        	 	  		{{ form.living_city }}
+			        	 	</td>
+			        	 	</tr>
+
+			        	 	
+			        	 		{% if metro_stations == '<option value="" selected="selected">---------</option>' %}
+			        	 			<tr id = 'metro_block' style = 'display:none'>
+			        	 		{% else %}
+			        	 			<tr id = 'metro_block'>
+			        	 		{% endif %}
+				        	 	<td class="work_input_label" >
+				        	 		 Метро
+				        	 	</td>				        	 		
+				        	 	<td class = "last" >
+				        	 		<select id="id_metro_station" name="metro_station">
+				        	 			{{ metro_stations|safe }}
+				        	 		</select>
+				        	 			
+				        	 				
+				        	 			
+				        	 		
+				        	 	</td>				        	 	
+			        	 		</tr>
+			        	 	
+			        	 	<tr>
+				        	 	<td class="work_input_label"  >
+				        	 		Адрес
+				        	 	</td>				        	 		
+				        	 	<td class = "last">
+				        	 		<!-- input style="width:300px;"></input-->
+				        	 		{{ form.adress }}		        	 	
+				        	 	</td>				        	 	
+			        	 	</tr>
+			        	 	
+			        	 	
+			        	 	
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "3" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	<tr>
+				        	 	<td class="work_input_label"  >
+				        	 		 Основной номер телефона<font class = "red_cl">*</font>
+				        	 	</td>				        	 		
+				        	 	<td class = "last">
+				        	 	<input class="work_form_input_narrow" name="tel_org_all" id="tel_org_all" value = "+7" readonly = 'true'>
+				        	 	({{ form.main_tel_code }})
+				        	 	{{ form.main_tel_number }}		 		        	 	
+				        	 	</td>				        	 	
+			        	 	</tr>
+			        	 	<tr>
+				        	 	<td class="work_input_label"  >
+				        	 		 Дополнительный номер телефона 
+				        	 	</td>				        	 		
+				        	 	<td class = "last">	
+				        	 		<input class="work_form_input_narrow" name="tel_org_all" id="tel_org_all" value = "+7" readonly = 'true'>
+					        	 	({{ form.additional_tel_code }})
+					        	 	{{ form.additional_tel_number }}
+					        	 	<div id="form_id" style = "display:none">{{ form.instance.id }}</div>	
+					        	 	{{ form.billservac }}
+					        	 				        	 	
+				        	 	</td>				        	 	
+			        	 	</tr>
+			        	 	<!--полоска-->
+			        	 	<tr >
+			        	 		<td colspan = "3" class = "last">
+			        	 			<hr>
+			        	 		</td>
+			        	 	</tr>
+			        	 	<tr>				        	 	
+				        	 	<td class = "last" colspan = '2'>
+				        	 		<input type="checkbox" id="agree" > Я согласен с условиями <a href = '#null' onclick = showuseragreement(); return false;>пользовательского соглашения</a></input>
+				        	 	</td>
+				        	</tr>
+
+
+							<tr>
+								<td colspan = '2' >
+								<div id = "user_agreement_text" style="display: none; height:400px; overflow:auto; padding-right:4px;">
+                                <p>&nbsp;&nbsp;</p>
+										<strong>Пользовательское соглашение
+										<br />
+										об оказании услуг по использованию сайта globalhome.mobi<br />
+										Для Соискателей</strong><br />
+										<div align="justify">&nbsp;</div>
+										<div align="justify">
+										<p><span>Настоящее Пользовательское соглашение (именуемое в дальнейшем «Пользовательское соглашение») регулирует отношения по пользованию WEB-сайтом в сети Интернет с адресом 
+										
+										http://www.globalhome.mobi (именуемом в дальнейшем сайт «globalhome.mobi») между ООО «Телеком-Вист» (именуемом в дальнейшем «Исполнитель») и физическим лицом, использующим сайт в целях поиска 
+										
+										работы (именуемым в дальнейшем «Соискатель»).</span></p>
+										<p>&nbsp;</p>
+										<p><span>При регистрации на сайте globalhome.mobi Соискатель соглашается с настоящим Пользовательским соглашением (ПС) и принимает на себя указанные в нем права и обязанности, связанные 
+										
+										с использованием сайта.</span></p>
+										<p>&nbsp;</p>
+										<p><strong>1. Предмет соглашения</strong></p>
+										<p>&nbsp;</p>
+										<p><span>1.1&nbsp;&nbsp;&nbsp;Исполнитель предлагает Вам свои услуги на условиях, являющихся предметом настоящего Пользовательского соглашения.</span></p>
+										<p><span>1.2&nbsp;&nbsp; Пользовательское соглашение может быть изменено Исполнителем без предупреждения. Новая редакция Пользовательского соглашения вступает в силу по 
+										
+										истечении 3 (трех) дней с момента ее размещения, если иное не предусмотрено новой редакцией ПС. Действующая редакция ПС всегда находится на специальной странице сайта, доступной 
+										
+										всем пользователям.</span></p>
+										<p>&nbsp;</p>
+										<p><strong>2. Описание услуг</strong></p>
+										<p>&nbsp;</p>
+										<p><span>Сайт по трудоустройству glboalhome.mobi – это сервис, обеспечивающий содействие по трудоустройству и поиску персонала с помощью имеющейся у него базы вакансий и резюме, а также 
+										
+										специализированного аппаратно-программного обеспечения.</span></p>
+										<p>&nbsp;</p>
+										<p><strong>3. Права и Обязанности Исполнителя</strong></p>
+										<p><strong>&nbsp;</strong></p>
+										<p><strong>3.1&nbsp;&nbsp; Права</strong></p>
+										<p>&nbsp;</p>
+										<p><span>3.1.1&nbsp;&nbsp;&nbsp;Информация, поступившая через сайт globalhome.mobi, считается собственностью Исполнителя. Исполнитель не несет никаких обязательств по обеспечению 
+										
+										конфиденциальности в отношении этой информации, если не имеется договоренности об обратном или соответствующих требований действующего законодательства.</span></p>
+										<p><span>3.1.2&nbsp;&nbsp;&nbsp;Информация, содержащаяся на сайте globalhome.mobi, не может быть воспроизведена или использована для публикаций без письменного разрешения Исполнителя, 
+										
+										если на странице, содержащей такую информацию, явно не указано обратное. Копирование информации, содержащейся на данном сайте, может осуществляться только физическими лицами для 
+										
+										личного пользования.</span></p>
+										<p><span>3.1.3&nbsp;&nbsp;&nbsp;Ни при каких обстоятельствах Исполнитель не несет ответственности за ущерб, убытки или расходы, возникшие в связи с использованием настоящего 
+										
+										сайта или невозможностью его использования.</span></p>
+										<p><strong>&nbsp;</strong></p>
+										<p><strong>3.2 Обязанности</strong></p>
+										<p><strong>&nbsp;</strong></p>
+										<p><span>В рамках настоящего соглашения Исполнитель обязуется:</span></p>
+										<p>&nbsp;</p>
+										<p><span>3.2.1&nbsp;Предоставлять возможность Соискателю осуществлять поиск вакансий, создавать Резюме и сохранять их в базе данных сайта globalhome.mobi, согласно правилам и 
+										
+										ограничениям, установленным Исполнителям на данный момент времени.</span></p>
+										<p><span>3.2.2 Предоставлять возможность Соискателю управлять доступом к своему Резюме и устанавливать настройки видимости Резюме по своему выбору.</span></p>
+										<p><span>3.2.3 Предоставлять возможность откликаться на опубликованные на сайте вакансии, создавать сопроводительные письма и получать сообщения по электронной почте или в 
+										
+										персональном разделе Соискателя – Кабинете Соискателя, от пользователей сайта, опубликовавших вакансии.</span></p>
+										<p><span>3.2.4 Предоставлять возможность Соискателю удалить Резюме в любой момент по своему усмотрению.</span></p>
+										<p><span>3.2.5 Предоставлять возможность Соискателю удалить или изменить персональную информацию, а также любую другую информацию, размещенную им на сайте через персональный 
+										
+										раздел – Кабинет Соискателя, в любой момент по своему усмотрению.</span></p>
+										<p><span>3.2.6 В случае нарушения Соискателем своих обязанностей, указанных в п. 4 настоящего договора, удалить информацию Соискателя без извещения последнего.</span></p>
+										<p><strong>&nbsp;</strong></p>
+										<p><strong>4. Обязательства Соискателя при регистрации</strong></p>
+										<p>&nbsp;</p>
+										<p><span>В рамках настоящего соглашения Соискатель обязуется:</span></p>
+										<p>&nbsp;</p>
+										<p><span>4.1&nbsp;&nbsp;Не размещать любым способом, посредством сайта, информацию в нарушение законодательства РФ и международного законодательства.</span></p>
+										<p><span>4.2&nbsp;&nbsp; Не размещать заведомо недостоверную информацию.</span></p>
+										<p><span>4.3&nbsp;&nbsp;Не размещать и/или передавать, используя cайт, материалы, в случае, если Соискатель не имеет на это соответствующих прав. Это касается материалов, 
+										
+										защищенных авторскими правами, торговыми марками, патентами, а также соглашениями о нераспространении информации, конфиденциальности и тому подобными.</span></p>
+										<p><span>4.4&nbsp;&nbsp; Не нарушать информационную безопасность cайта.</span></p>
+										<p><span>4.5&nbsp;&nbsp; Не внедрять исполняемый код на стороне пользователя, любые внедряемые объекты, использовать frame и iframe, каскадные таблицы стилей, html-
+										
+										код.</span></p>
+										<p><span>4.6&nbsp;&nbsp; Не представляться чужим именем или от чужого имени (частного лица или организации), зарегистрированного на сайте Соискателя, представителя организации 
+										
+										Работодателя, сотрудника globalhome.mobi. Не вводить в заблуждение пользователей и администрацию cайта относительно своей идентификации любым иным способом.</span></p>
+										<p><span>4.7&nbsp;&nbsp; Не уничтожать и/или не изменять любые материалы на сайте, автором которых Соискатель не является.</span></p>
+										<p><span>4.8&nbsp;&nbsp; Не использовать информацию о телефонах, почтовых адресах, адресах электронной почты для целей иных, нежели тематика сайта (поиск работы и 
+										
+										сотрудников).</span></p>
+										<p><span>4.9&nbsp;&nbsp;Не регистрироваться, используя чужой e-mail адрес, или адрес, на который у Соискателя нет права использования.</span></p>
+										<p><span>4.10&nbsp;&nbsp;Не передавать пароль на доступ к личному разделу – Кабинету Соискателя – третьим лицам. Соискатель полностью несет ответственность за весь ущерб, 
+										
+										причиненный ему третьими лицами, возникший вследствие намеренной или ненамеренной передачи Соискателем пароля от сайта globalhome.mobi другому лицу. Соискатель несет ответственность за 
+										
+										сохранение конфиденциальности пароля и любое использование сайта посредством его пароля.</span></p>
+										<p><span>4.11&nbsp;&nbsp;Регистрируясь на сайте, Соискатель соглашается получать на указанный им электронный почтовый ящик сообщения информационного и рекламного характера от globalhome.mobi и его партнеров, отказаться от которых можно нажатием кнопки "отписаться" в любом из этих сообщений или в разделе «почтовые рассылки» в Пользовательском интерфейсе сайта globalhome.mobi.</span></p>
+										<p>&nbsp;</p>
+										<p><strong>5. Правила размещения резюме на сайте globalhome.mobi</strong></p>
+										<p>&nbsp;</p>
+										<p><span>5.1 Ответственность за достоверность информации, содержащейся в резюме, несут их податели.</span></p>
+										<p><span>5.2 Редакция оставляет за собой право удалять резюме, поданные через сайт, без предварительного уведомления и объяснения причин.</span></p>
+										<p><span>5.3 Редакция вправе изменять требования к содержанию и условиям публикации резюме.</span></p>
+										<p><span>5.4 Редакция оставляет за собой право редакторской обработки резюме в целях придания им качеств, удобных для читательского восприятия.</span></p>
+										<p><span>5.5 Редакция оставляет за собой право не вступать в переписку с авторами резюме.</span></p>
+										<p>&nbsp;</p>
+										<p><strong>5.7 К публикации на сайте не допускаются резюме:</strong></p>
+										<p><span>5.7.1 Содержание которых нарушает законодательство Российской Федерации (содержат пропаганду насилия, расовой ненависти, порнографию и пр.).</span></p>
+										<p><span>5.7.2 Содержание которых нарушает общепринятые нормы морали и нравственности.</span></p>
+										<p><span>5.7.3 Не допускается подача резюме с одним и тем же заголовком от одного Соискателя. Если текст у резюме разный, то должен быть разный заголовок.</span></p>
+										<p><span>5.7.4 Подача резюме должна осуществляться непосредственно в тот регион, в котором может находиться потенциальный работодатель.</span></p>
+										<p>&nbsp;</p>
+										<p><strong>6. Доступ к личной информации Соискателей</strong><strong></strong></p>
+										<p>&nbsp;</p>
+										<p><span>6.1 Вся информация, содержащаяся в поданных на сайт globalhome.mobi резюме, является общедоступной, за исключением пароля для доступа к личному разделу Соискателя и содержащейся 
+										
+										в данном разделе информации.</span></p>
+										<p><span>6.2 Доступ Соискателя к изменению информации, содержащейся в объявлениях, производится только на основе уникальных логина и пароля, выбранных Соискателем при 
+										
+										регистрации. Ответственность за сохранность пароля несет Соискатель.</span></p>
+										<p><span>6.3 При утере пароля доступа Соискатель, имеет возможность получить напоминание пароля на электронный ящик, указанный при регистрации и войти в систему.</span></p>
+										<p><span>6.4 Исполнитель прилагает все возможные усилия для того, чтобы избежать несанкционированного использования персональной информации Соискателей. Однако Исполнитель не 
+										
+										несет ответственности за возможное нецелевое использование персональной информации Соискателей, произошедшее из-за:</span></p>
+										<p><em><span>–&nbsp;технических неполадок в программном обеспечении, серверах или компьютерных сетях, находящихся вне контроля Исполнителя;</span></em></p>
+										<p><em><span>– перебоев в работе сайта, связанных с намеренным или ненамеренным использованием сайта не по назначению третьими лицами,</span></em></p>
+										<p><em><span>– передачи паролей или информации с сайта Соискателями другим лицам, не являющимися зарегистрированными пользователями сайта или другим пользователям, не имеющим 
+										
+										доступа к данной информации в силу условий регистрации и заключенных договоров с globalhome.mobi.</span></em></p>
+										<p><span>6.5 Регистрируясь на сайте, пользователь соглашается на сбор, обработку, хранение и использование введенных им личных данных (ФИО, телефон, e-mail и др.) в соответствии с ФЗ №152 от 27 июля 2006 года ("О персональных данных"). Пользователь также соглашается на передачу этих данных третьему лицу, если третье лицо является партнером ООО «Телеком-Вист» и предоставляет информационные системы для оказания пользователям дополнительных услуг. Передача данных третьему лицу в таком случае должна осуществляться с использованием средств автоматизации, обеспечивающих адекватную защиту прав субъектов этих данных, а информационная система на стороне третьего лица должна обладать соответствующим сертификатом. Трансграничная передача данных возможна только в том случае, если в иностранном государстве, на которой расположены сервера информационной системы, обеспечивается адекватная защита прав субъектов персональных данных.
+										Пользователь может в любой момент удалить свой аккаунт через свой личный кабинет.</span></p>
+										<p><span>6.6 Доступ пользователя к изменению личной информации, содержащейся в профиле (Фамилия, Имя, Отчество и др.) производится только на основе уникальных логина и пароля, введенных пользователем при регистрации.</span></p>
+										<p>&nbsp;</p>
+										<p><strong>7. Услуги сайта</strong></p>
+										<p>&nbsp;</p>
+										<p><span>7.1 Сайт globalhome.mobi ни в коей мере не может считаться предприятием, оказывающим возмездное или безвоздмездное оказание услуг по трудоустройству.</span></p>
+										<p><span>7.2 Сайт globalhome.mobi не дает Соискателю никаких гарантий того, что вакансии, размещенные Работодателями на сайте, либо любые предложения, сделанные Соискателю посредством 
+										
+										сайта, с использованием контактной информации, находщяейся в базе данных сайта, существуют на самом деле.</span></p>
+										<p><span>7.3 Все услуги сайта globalhome.mobi, связанные с размещением резюме и поиском вакансий, для Соискателей – бесплатны.</span></p>
+										<p>&nbsp;</p>
+										<p><strong>8. Использование материалов сайта</strong></p>
+										<p><strong>&nbsp;</strong></p>
+										<p><span>8.1&nbsp;&nbsp; Пользователь сайта globalhome.mobi, отвечает за информацию, размещаемую от его имени и за последствия этого размещения.</span></p>
+										<p><span>8.2&nbsp;&nbsp; Сайт globalhome.mobi является лишь средством для передачи информации и ни в коем случае не несет ответственности за ее достоверность и актуальность.</span></p>
+										<p><span>8.3&nbsp;&nbsp; Исполнитель прилагает все возможные усилия для того, чтобы исключить с сайта небрежную, неаккуратную или заведомо неполную информацию, однако, в 
+										
+										конечном счете, ответственность за нее лежит на разместивших ее лицах.</span></p>
+										<p><span>8.4&nbsp;&nbsp; При перепечатке и ином использовании материалов сайта globalhome.mobi, не являющихся резюме Соискателей, описаниями компаний или вакансий, а также логотипом, 
+										
+										элементами дизайна, внешнего вида и структуры сайта, ссылка на сайт обязательна.</span></p>
+										<p><span>8.5&nbsp;&nbsp; В случае, если Соискатель сохраняет информацию о вакансии(ях) в своей собственной базе данных вне сайта, то ответственность за это несет сам Соискатель 
+										
+										в рамках Закона «О персональных данных», как оператор персональных данных.</span></p>
+										<p><span>8.6&nbsp;&nbsp; Не допускается использование программных средств (скриптов, роботов) для считывания информации с сайта globalhome.mobi.</span></p>
+										<p><span>8.7&nbsp;&nbsp; Логотип, название, элементы дизайна, оформления и общий внешний вид сайта globalhome.mobi являются собственностью Исполнителя и их использование 
+										
+										запрещено.</span></p>
+										<p><span>8.8&nbsp;&nbsp; Поскольку идентификация пользователей Интернет-сайтов затруднена по техническим причинам, Исполнитель не отвечает за то, что зарегистрированные 
+										
+										пользователи являются действительно теми людьми, за кого себя выдают, и не несет ответственности за возможный ущерб, причиненный Соискателям или другим лицам по этой 
+										
+										причине.</span></p>
+										<p><span>8.9&nbsp;&nbsp; Используя информацию с сайта globalhome.mobi, Соискатель осознает и принимает риски, связанные с возможной недостоверностью размещенной на сайте информации, а 
+										
+										также с тем, что некоторая информация может показаться ему угрожающей, оскорбительной, клеветнической, заведомо ложной, грубой, непристойной. Если это произошло, Соискатель 
+										
+										должен немедленно прекратить использовать сайт globalhome.mobi и сообщить Исполнителю о наличии подобной информации.</span></p>
+										<p><span>8.10&nbsp;&nbsp;&nbsp;&nbsp;Исполнитель не гарантирует, что опубликованные резюме будут просмотрены определенным количеством пользователей сайта или хотя бы 
+										
+										одним.</span></p>
+										<p><span>8.11&nbsp;&nbsp;&nbsp;&nbsp;Исполнитель не гарантирует, что программное обеспечение, сервера и компьютерные сети, используемые сайтом globalhome.mobi свободны от ошибок и 
+										
+										компьютерных вирусов. Если использование сайта globalhome.mobi повлекло за собой утрату данных или порчу оборудования Исполнитель не несет за это ответственности.</span></p>
+										<p>&nbsp;</p>
+										&nbsp;</div>
+										<div align="justify"><strong>Настоящее соглашение не может пониматься как установление между Исполнителем и Соискателем</strong> <strong>агентских отношений, отношений 
+										
+										товарищества, отношений по совместной деятельности, отношений личного найма, либо каких-то иных отношений, прямо не предусмотренных в настоящем соглашении.</strong></div>
+			        	 	</tr>
+			        	 	
+				        </table>				        		
+					</form>
+				</div>
+				<div class = "work_form_submit_block_pale_blue" >
+					<div class = "center_button"><button class="bt bt-blue2" onclick = 'personal_data_save()'>Сохранить</button></div>
+				</div>
+				</div> <!-- заканчивается класс   personal_data_to_unwrap -->
+		</div>
+		<!-- окончание блока личные данные -->
+		
+		
+		
+		
+	 	
+		
+	 	
+		 
+		<!-- окончание добавления резюме пользователей -->  
+		 
+		
+	   	<!-- окончание моих данных -->
+   
+   
+
+  
+ 
+   
+	
+<style type = "text/css">
+/* форма пожелания к работе */
+
+
+#work_wishes{
+	width:750px;
+	
+	}
+
+.work_fill_advice{
+	margin-left:10px;
+	margin-right:10px;
+	}
+	
+.work_title_block_blue {
+	background:#5591DA;
+	height:40px;
+	padding-left:10px;
+	}
+	
+.work_fill_advice{
+	color:#b5b4b4;}
+	
+.work_form_title_main{
+	font-size:20px;
+	line-height: 35px;
+	color:white;
+	font-weight:bold;
+	}
+	
+.work_input_label{
+	width:250px;
+	vertical-align: top;
+	font-weight:bold;
+	font-size:15px;
+	}
+
+
+.table_work td{
+	padding-top: 5px;
+	padding-bottom:5px;
+	vertical-align:top!important}
+
+.table_work .last{
+	padding-bottom: 20px;}
+
+.red_cl{
+	color:red;
+	}
+	
+.work_form_submit_block_pale_blue{
+	/*background:#7DB5F5; */
+	background:#C2DAF7;
+	height:40px;}
+
+.center_button{
+	margin-left:auto;
+	margin-right:auto;
+	width:100px;
+	padding-top: 10px;
+	}
+
+#work_wishes .edit_current_block{
+	float:right;
+	font-size:16px;
+	line-height: 35px;
+	margin-right: 7px;
+	}
+		
+.table_work{
+	width:730px!important;
+	margin-left:10px;
+	}
+
+.work_form_input_narrow{
+	width:40px;
+	height:19px!important;
+	}
+/* окончание формы пожелания к работе */
+
+/* блок личные данные */
+#personal_data .edit_current_block{
+	float:right;
+	font-size:16px;
+	line-height: 35px;
+	margin-right: 7px;
+	}
+/* окончание блока личные данные*/
+
+
+
+/* div для списка городов */
+.col-md-1{
+	width: 25%;
+	float:left;
+	min-height: 1px;
+	}
+.popup_personal p {
+margin-bottom: 6px!important;
+}
+#id_popup_all .title_main{
+	font-size:18px;}
+/* окончане div для списка городов*/
+
+/*блок для вставки картинки*/
+
+
+
+#picture_preview{
+	width:120px;
+	height:160px;
+	
+	}
+#img_prev{
+    height:100%;}	
+
+	
+#del_cross{
+	position: relative;
+	top: -160px;
+	left: 108px;
+	display:none;
+	}
+	
+#id_photo{
+	width:110.7px; 
+	margin-left: 5px;
+	}
+
+#photo{
+	display:inline-block;
+	vertical-align:middle;
+	}
+#photo_error{
+	display:none;
+	width:240px;
+	vertical-align:top;
+	/*width:200px; */
+	}
+
+#under_photo{
+	width:110.7px; 
+	margin-left: 5px;	
+	color: #b5b4b4;
+	font-size:11px;	
+	}
+	
+@-moz-document url-prefix() {
+    #id_photo{
+        width:72px;
+        margin-left:23px;
+    }
+   
+}
+/*окончание блока для вставки картинки*/
+
+
+
+#id_metro_station + div{
+	width:350px!important;
+	}
+
+
+/* input&chosens */
+
+#id_first_name{
+	width:300px;}
+#id_second_name{
+	width:300px;}
+#id_last_name{
+	width:300px;}
+	
+	
+#id_birthday_day + div{
+	display:inline-block;
+	margin-bottom:10px;}
+#id_birthday_year + div{
+	display:inline-block;
+	margin-bottom:10px;}
+#id_birthday_month + div{
+	margin-bottom:10px;}
+	
+	
+#id_sex + div{
+	width:135px!important;}
+#id_citizenship +div{
+	width:300px!important}
+#id_living_city + div{
+	width:300px!important;}
+#id_adress{
+	width:300px;}
+#id_main_tel_code{
+	width:45px;}
+#id_additional_tel_code{
+	width:45px;}
+#id_main_tel_number{
+	width:80px;}
+#id_additional_tel_number{
+	width:80px;}
+#id_metro_station + div{
+	width:300px!important;}
+/* end of input&chosens */
+
+
+
+/*!!   error classes */
+.notificationred{
+	color:red;
+}
+.input_red{
+ outline: 1px solid red;
+}
+
+
+/* стиль для chosen красной рамки */
+.chosen_red_border{
+	border:1px solid red;
+	border-radius: 5px;}
+	
+/* окончание стиля для chosen */
+.chosen-container-single .chosen-single{
+	border-radius: 0px !important;
+	}
+
+.chosen-container-single .chosen-drop {
+	border-radius:0px! important;
+}
+#personal_data input[type='text']{
+	height:19px;
+	font-size:14px;
+	}
+
+.chosen-container input[type='text']{
+height:25px!important;}
+
+#personal_data table,
+.balance table {
+	border-right: 0px !important;}
+
+/* окончание стиля для chosen красной рамки */
+
+/*!!    end error classes*/
+</style>
+
+
+
+
+
+
+
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+
+
+
+
+//==============================================================================================
+//изменение chosen id_living_city
+$('#id_living_city').change(function(){
+	items = {'city_id': $('#id_living_city').val()  }
+	
+	if ($('#id_living_city').val() =='')
+		{$('#metro_block').css('display', 'none');}
+	
+	else{
+
+	//вернем список станций метро для заданного города
+		$.ajax({
+			url:'/ajax_work_metro_city_change/',
+			type:'POST',
+			data:items,
+			async:false,
+			cash:true,
+			success:function(html){
+
+				if (html!=''){
+					
+
+					$('#id_metro_station').html(html);
+					$("#id_metro_station").trigger("chosen:updated");
+					$('#metro_block').css('display', 'table-row');
+				}
+				
+				if (html=='')
+					{	
+						$('#id_metro_station').html('<option value="" selected="selected">---------</option>');
+						$("#id_metro_station").trigger("chosen:updated");
+						$('#metro_block').css('display', 'none');
+					}
+				
+			}
+			
+		})
+	}
+	
+	
+	
+});
+
+
+
+
+
+	
+</script>
+	
+	
+	
+
+
+
+
+<script>
+
+//==================================================================================================================================
+// блог залогирован
+
+$(document).ready(function(){
+		{% if request.user.username %}
+			log = "<div class='user user-logged' style = 'display:inline-block'><i class='icon'></i>{% with user.get_profile.main_billing_account_id as id %}<span class='username'>{{ id }}, <br><span title='Ваш ID и Имя'><i></i>{{ request.user.username }}</span></span><span class='logout'><a href='/logout/'><br>Выход</a></span>{% endwith %}"
+			$(log).insertAfter('#searchwrapper');
+			$('#searchwrapper').css("display", "inline-block");
+			$('#centr_field').width('87%');
+			$('.tri').css('display', 'none');
+		{% endif %}
+		
+		
+		//обернем день месяц год в div
+		$('#id_birthday_month').next().wrap('<div style="display:block;"></div>');
+		$('#id_birthday_day').next().wrap('<div style="display:block;"></div>');
+		$('#id_birthday_year').next().wrap('<div style="display:block;"></div>');
+		personal_data_interactive_validation();
+		
+		//photo error
+		$(function() {
+		 $(document).on("click", "body", function(e) {			 
+			 $("#photo_error").css('display', 'none') ;
+			  }) ;
+		})	
+		
+		
+		
+		form_id =  ('{{ form.instance.id }}');
+		if (form_id != 'None')
+			{
+				$('#agree').prop('checked', 'true');
+			}
+		
+		
+		
+			})
+// окончание блока залогирован
+
+
+
+//===================================================================================================================================
+// пользовательское соглашение показывать/не показывать
+
+function showuseragreement(){
+	$('#user_agreement_text').slideToggle('fast');
+	div = $('#user_agreement_text');
+	div.css('overflow', 'auto')
+}
+// окончание пользовательского соглашения показывать/не показывать
+
+//===================================================================================================================================
+
+//preview картинки
+function readURL(input) {
+var error = false;
+
+if (input.files && input.files[0]) {    //срабатывает на нажатие кнопки OK
+
+
+	var sFileName = input.files[0].name;
+    var sFileExtension = sFileName.split('.')[sFileName.split('.').length - 1].toLowerCase();
+    var iFileSize = input.files[0].size;
+    var iConvert = (input.files[0].size / 2048000).toFixed(2);
+
+	
+	
+    if (!(sFileExtension === "jpg" ||
+              sFileExtension === "bmp" ||
+              sFileExtension === "png") || iFileSize > 2048000) { /// 2 mb
+              txt = "Please make sure your file is in jpg or bpm or png format and less than 2 MB";
+              $('#photo_error').css('display', 'inline-block');
+              error = true;
+    }
+	//окончание проверки
+	
+	
+	
+	
+	//
+	if (error == false){
+		del_picture();
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$('#img_prev').attr('src', e.target.result);
+			$('#del_cross').css('display', 'block')
+		};
+		reader.readAsDataURL(input.files[0]);
+	}
+  }
+else{  //срабатывает на нажатие кнопки отмена
+	$('#img_prev').attr('src', '#');
+	$('#del_cross').css('display', 'none');
+	}
+}
+//=====================================================================================================================================
+//удаляем картинку и чистим input
+$( "#del_cross" ).click(function() {
+	$('#img_prev').attr('src', '#');
+	$('#del_cross').css('display', 'none');
+	//удаляем input и добавляем заново	
+	del_picture();
+	$('#form_photo').html('');
+	$('#form_photo').append('<input id="id_photo" name="photo" type="file" onchange="readURL(this)">')
+	
+});
+
+//=====================================================================================================================================
+//ajax killing picture
+function del_picture(){
+items={'obj_id':$('#form_id').html()}
+	
+	$.ajax ({
+		url:'/work_delete_photo/',
+		async:true,
+		cash:true,
+		type:"POST",
+		data:items,
+		success:function(html){
+			
+		}
+	})
+	
+}	
+
+//====================================================================================================================================
+$( document ).ready(function() {
+	
+	//----------------------------------------------------------------------------------------------
+    $('#id_photo').attr('onchange', 'readURL(this)');
+  
+   //добавим креситк если есть фото
+   photo_link =  '{{ form.instance.photo.url }}'
+   if (photo_link!= '/media/uploads/work_photo/None/no-img.jpg')
+	   {
+	   		$('#del_cross').css('display', 'block');
+	   		
+	   }
+ 	//убрать лишний текст
+	$('#form_photo').html('');
+	$('#form_photo').html('<input id="id_photo" name="photo" type="file" onchange="readURL(this)">'); 	
+	//----------------------------------------------------------------------------------------------
+		
+});
+//======================================================================================================================================
+//submit form
+
+
+
+function personal_data_save(){
+	submit = form_validate();
+	if (submit==true) {
+		$('#personal_data_form').submit();
+	}
+}
+
+//======================================================================================================================================
+function personal_data_interactive_validation()
+{ 
+	
+		//sexfield
+		sex = '#id_sex'
+		$(sex).bind('change blur', function()
+				{  
+			 		if (+$(this).val()==0){
+			 			
+			 			if (!$(this).next().next().hasClass("notificationred")){	
+				 			$(this).next().after('<div  class = "notificationred" style="display:inline-block">&nbsp;Выберите пол</div>')
+				 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+			 			}
+			 		}
+			 		else{
+			 					if ($(this).next().next().hasClass("notificationred")){	
+				 					$(this).next().next().remove();
+				 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+			 					}
+			 		}
+				})	
+		 //end sexfield
+		 
+		 
+		 //citezenship
+		 cship = '#id_citizenship'
+		 $(cship).bind('change blur', function()
+						{  
+					 		if (+$(this).val()==0){
+					 			
+					 			if (!$(this).next().next().hasClass("notificationred")){	
+						 			$(this).next().after('<div  class = "notificationred" style="display:inline-block">&nbsp;Выберите гражданство</div>')
+						 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+					 			}
+					 		}
+					 		else{
+					 					if ($(this).next().next().hasClass("notificationred")){	
+						 					$(this).next().next().remove();
+						 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+					 					}
+					 		}
+		 })	
+		 // end citezenship
+		
+		 
+		 //living_city
+		 city = '#id_living_city'
+		 $(city).bind('change blur', function()
+						{  
+					 		if (+$(this).val()==0){
+					 			
+					 			if (!$(this).next().next().hasClass("notificationred")){	
+						 			$(this).next().after('<div  class = "notificationred" style="display:inline-block">&nbsp;Выберите город</div>')
+						 			$(this).next().addClass('chosen_red_border').removeClass('chosen-container-active');
+					 			}
+					 		}
+					 		else{
+					 					if ($(this).next().next().hasClass("notificationred")){	
+						 					$(this).next().next().remove();
+						 					$(this).next().addClass('chosen-container-active').removeClass('chosen_red_border');
+					 					}
+					 		}
+		 })	
+		 //end living city
+	
+		 
+		 
+		 //firstname
+		 firstname = '#id_first_name';
+				$(firstname).bind('keyup blur', function ()
+				{	
+					
+					if (($(this).val() == '') && !($(this).next().hasClass("notificationred")))
+						{
+							$(this).after('<div  class = "notificationred" style="display:inline-block">&nbsp;Ввдедите имя</div>');
+							$(this).addClass('input_red');
+						}
+					
+					if ($(this).next().hasClass("notificationred") && ($(this).val() != ''))
+						{	    
+						       
+			 					$(this).next().remove();
+			 					$(this).removeClass('input_red');
+						}
+		 })
+		 //end firstname
+		 
+		 
+		 //secondname
+		 secondname = '#id_second_name';
+		 $(secondname).bind('keyup blur', function ()
+				{	
+						
+							if (($(this).val() == '') && !($(this).next().hasClass("notificationred")))
+								{
+									$(this).after('<div  class = "notificationred" style="display:inline-block">&nbsp;Ввдедите фамилию</div>');
+									$(this).addClass('input_red');
+								}
+							
+							if ($(this).next().hasClass("notificationred") && ($(this).val() != ''))
+								{	
+					 					$(this).next().remove();
+					 					$(this).removeClass('input_red');
+								}
+			 	})
+		 //end secondname
+		 
+		
+		 //id_main_tel_code
+		 tel_code = '#id_main_tel_code';
+		 $(tel_code).bind('keyup blur', function ()
+				{	
+						    
+			 
+			 				//====пустое поле и нет сообщения об ошибке
+							if    (($(this).val() == '') && !($(this).next().next().hasClass("notificationred")))   
+								{
+									$(this).next().after('<div  class = "notificationred" style="display:inline-block; width: 274px;vertical-align: top; padding-left:5px;">Телефон не может быть пустым и должен содержать только цифры</div>');
+									$(this).addClass('input_red');
+								}
+			 				
+			 				
+							//====в поле не цифры(или хотябы одна нецифра) и нет сообщения об ошибке
+							if    (   !numeric($(this).val())    &&     !($(this).next().next().hasClass("notificationred"))  ) 
+							{
+								$(this).next().after('<div  class = "notificationred" style="display:inline-block; width: 274px;vertical-align: top; padding-left:5px;">Телефон не может быть пустым и должен содержать только цифры</div>');
+								$(this).addClass('input_red');
+							}
+
+							
+								
+							
+							//====если поле пустое 	или нетолько цифры в нем
+							if       (($(this).val() == '') || !numeric($(this).val()))
+							{	
+								$(this).addClass('input_red');
+							}
+							
+							
+							
+							
+							if ($(this).next().next().hasClass("notificationred") && ($(this).val() != '') &&    numeric($(this).val())   ) 
+								{	   
+								        
+					 					$(this).removeClass('input_red');
+								}
+							
+							
+							
+							if ($(this).next().next().hasClass("notificationred") && ($(this).val() != '') && numeric($(this).val()) && !( $(this).next().hasClass("input_red") )     ){
+									$(this).next().next().remove();
+								}
+							
+							
+							
+			 	})
+		 //end id_main_tel_code
+		
+		 
+		 
+		 //id_main_tel_number
+		 main_tel = '#id_main_tel_number';
+		 $(main_tel).bind('keyup blur', function ()
+				{	
+						
+							//====пустое поле и нет сообщения об ошибке
+							if (($(this).val() == '') && !($(this).next().hasClass("notificationred")))
+								{	
+									
+									$(this).after('<div  class = "notificationred" style="display:inline-block; width: 274px;vertical-align: top; padding-left:5px;">телефон дб не пустым и содержать только цифры</div>');
+									$(this).addClass('input_red');
+									
+								}
+							
+							//====в поле не цифры(или хотябы одна нецифра) и нет сообщения об ошибке
+							if    (   !numeric($(this).val())    &&     !($(this).next().hasClass("notificationred"))  ) 
+							{
+								$(this).after('<div  class = "notificationred" style="display:inline-block; width: 274px;vertical-align: top; padding-left:5px;">телефон дб не пустым и содержать только цифры</div>');
+								$(this).addClass('input_red');
+							}
+							
+							
+							
+							//====если поле пустое 	или нетолько цифры в нем
+							if       (($(this).val() == '') || !numeric($(this).val()))
+							{	
+								$(this).addClass('input_red');
+							}
+							
+							
+							
+							
+							if ($(this).next().hasClass("notificationred") && ($(this).val() != '') &&    numeric($(this).val())  )
+							{	    
+				 					$(this).removeClass('input_red');
+							}
+							
+							
+							
+							if ($(this).next().hasClass("notificationred") && ($(this).val() != '') && numeric($(this).val()) &&  !( $(this).prev().hasClass("input_red") ))
+								{	    
+										
+					 					$(this).next().remove();
+					 					$(this).removeClass('input_red');
+								}
+			 	})
+		 //end main_tel_number
+		 
+		
+		 
+		 
+		 
+		 //additional telephone
+		 //id_main_tel_code
+		 add_tel_code = '#id_additional_tel_code';
+		 $(add_tel_code).bind('keyup blur', function ()
+				{	
+
+							//====поле не пустое и в нем нетолько цифры
+							if    (   !numeric($(this).val())  &&  ($(this).val() != '')  &&     !($(this).next().next().hasClass("notificationred"))  ) 
+							{
+								$(this).next().after('<div  class = "notificationred" style="display:inline-block; width: 274px;vertical-align: top; padding-left:5px;">телефон дб не пустым и содержать только цифры</div>');
+								$(this).addClass('input_red');
+							}
+
+							
+							//====если поле не пустое 	и нетолько цифры в нем
+							if       (($(this).val() != '') && !numeric($(this).val()))
+							{	
+								$(this).addClass('input_red');
+							}
+							
+							
+							
+							
+							if ( $(this).next().next().hasClass("notificationred") && ($(this).val() == '') ||   numeric($(this).val())    &&   $(this).next().next().hasClass("notificationred")         ) 
+								{	   
+								        
+					 					$(this).removeClass('input_red');
+								}
+							
+							
+							
+							if  (     (   $(this).next().next().hasClass("notificationred")  &&  ($(this).val() == '') && !( $(this).next().hasClass("input_red") )     )                  ||  (  numeric($(this).val())  &&   $(this).next().next().hasClass("notificationred")  && !( $(this).next().hasClass("input_red") )  ))
+								{
+									$(this).next().next().remove();
+								}
+							
+							
+							
+			 	})
+		 //end id_main_tel_code
+		 
+		 
+		 
+		 
+		 //additional tel		 
+		 add_tel = '#id_additional_tel_number';
+		 $(add_tel).bind('keyup blur', function ()
+				{	
+
+							//====поле не пустое и в нем нетолько цифры
+							if    (   !numeric($(this).val())  &&  ($(this).val() != '')  &&     !($(this).next().hasClass("notificationred"))  ) 
+							{
+								$(this).after('<div  class = "notificationred" style="display:inline-block; width: 274px;vertical-align: top; padding-left:5px;">телефон дб не пустым и содержать только цифры</div>');
+								$(this).addClass('input_red');
+							}
+
+							
+							//====если поле не пустое 	и нетолько цифры в нем
+							if       (($(this).val() != '') && !numeric($(this).val()))
+							{	
+								$(this).addClass('input_red');
+							}
+							
+							
+							
+							
+							if ( $(this).next().hasClass("notificationred") && ($(this).val() == '') ||   numeric($(this).val())    &&   $(this).next().hasClass("notificationred")         ) 
+								{	   
+								        
+					 					$(this).removeClass('input_red');
+								}
+							
+							
+							
+							if  (     (   $(this).next().hasClass("notificationred")  &&  ($(this).val() == '') && !( $(this).next().hasClass("input_red") )     )                  ||  (  numeric($(this).val())  &&   $(this).next().hasClass("notificationred")  && !( $(this).next().hasClass("input_red") )  ))
+								{
+									$(this).next().remove();
+								}
+							
+							
+							
+			 	})
+		 
+		 //===============================
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+	    //id_birthday_month
+		birthday_month = '#id_birthday_month'
+		$(birthday_month).bind('change blur', function()
+				{  
+			 		if (+$(this).val()==0)   {
+			 			if 	(!($(this).next().children().hasClass('chosen_red_border'))) {
+				 				$(this).next().append('<div  class = "notificationred" style="display:inline-block">&nbsp;Выберите месяц</div>');
+				 				$(this).next().children('.chosen-container-active').addClass('chosen_red_border').removeClass('chosen-container-active');
+		 				}	
+			 		}
+			 		
+			 		else{
+		 					if ( $(this).next().children().hasClass('chosen_red_border'))
+		 					{
+		 						$(this).next().children('.chosen_red_border').addClass('chosen-container-active').removeClass('chosen_red_border');
+		 						$(this).next().children('.notificationred').remove();
+		 					}
+	 					}
+				})	
+		 //end of id_birthday_month
+	
+	
+		//id_birthday_day
+		birthday_day = '#id_birthday_day'
+		$(birthday_day).bind('change blur', function()
+				{  
+			 		if (+$(this).val()==0)   {
+			 			if 	(!($(this).next().children().hasClass('chosen_red_border'))) {
+				 				$(this).next().append('<div  class = "notificationred" style="display:inline-block">&nbsp;Выберите день</div>');
+				 				$(this).next().children('.chosen-container-active').addClass('chosen_red_border').removeClass('chosen-container-active');
+		 				}	
+			 		}
+			 		
+			 		else{
+		 					if ( $(this).next().children().hasClass('chosen_red_border'))
+		 					{
+		 						$(this).next().children('.chosen_red_border').addClass('chosen-container-active').removeClass('chosen_red_border');
+		 						$(this).next().children('.notificationred').remove();
+		 					}
+	 					}
+				})	
+		 //end of id_birthday_day
+		 
+		 
+		//id_birthday_year
+		birthday_year = '#id_birthday_year'
+		$(birthday_year).bind('change blur', function()
+				{  
+			 		if (+$(this).val()==0)   {
+			 			if 	(!($(this).next().children().hasClass('chosen_red_border'))) {
+				 				$(this).next().append('<div  class = "notificationred" style="display:inline-block">&nbsp;Выберите год</div>');
+				 				$(this).next().children('.chosen-container-active').addClass('chosen_red_border').removeClass('chosen-container-active');
+		 				}	
+			 		}
+			 		
+			 		else{
+		 					if ( $(this).next().children().hasClass('chosen_red_border'))
+		 					{
+		 						$(this).next().children('.chosen_red_border').addClass('chosen-container-active').removeClass('chosen_red_border');
+		 						$(this).next().children('.notificationred').remove();
+		 					}
+	 					}
+				})	
+		 //end of id_birthday_year
+		 $('#agree').click(function() {
+		    var $this = $(this);
+		    if ($this.is(':checked')) {
+		    	if ( $('#agree').parent().find('a').next().hasClass("notificationred")  ){
+					$('#agree').parent().find('a').next().remove();
+				}
+		        
+		    } else {
+		    	if ( !$('#agree').parent().find('a').next().hasClass("notificationred")  ){
+					text_note = '<div  class = "notificationred" style="padding-left:5px; display:inline-block;">' + 'Вы должны согласиться с условиями'+ '</div>'
+					$('#agree').parent().find('a').after(text_note);
+				}
+		    }
+		});
+		 
+		
+		 
+		 
+}
+	
+//============================================================================================================================================	
+function form_validate(){
+	var submit = true;
+	focus_control = '';
+	var fields_array = {'#id_first_name': 'input^&nbsp;Заполните имя', 
+			 '#id_second_name': 'input^&nbsp;Заполните фамилию',
+			 '#id_sex':'chosen^&nbsp;Выберите пол',
+			 '#id_birthday_month':'chosen1^&nbsp;Выберите месяц',
+			 '#id_birthday_day':'chosen1^&nbsp;Выберите день',
+			 '#id_birthday_year':'chosen1^&nbsp;Выберите год',
+			 '#id_citizenship':'chosen^&nbsp;Выберите гражданство',
+			 '#id_living_city':'chosen^&nbsp;Выберите город',
+			 '#id_main_tel_code':'input1^&nbsp;Телефон не может быть пустым и должен содержать только цифры (код 3 телефон 7 цифр)',
+			 '#id_main_tel_number':'input2^&nbsp;Телефон не может быть пустым и должен содержать только цифры (код 3 телефон 7 цифр)',
+			 '#id_additional_tel_code':'input3^&nbsp;Телефон должен содержать только цифры (код 3 телефон 7 цифр)',
+			 '#id_additional_tel_number':'input4^&nbsp;Телефон должен содержать только цифры (код 3 телефон 7 цифр)',
+			 '#agree': 'checkbox^&nbsp;Вы должны согласиться с условиями',
+ 
+		}
+	
+	for(var field in fields_array)	{
+			arr_val_type_note = fields_array[field].split('^');
+			val_type = arr_val_type_note[0]
+			note = arr_val_type_note[1]
+		    //field (поле)
+		    
+		    
+		    
+		//------------------------------------------------------------------------
+			if (val_type=='chosen'){
+				if ($(field).chosen().val()=='') {   // если пусто
+					submit = false;
+					if (focus_control == '') {           //если focus еще не был
+						focus_control = field +'^'+val_type; //сохраняем focus
+					 }
+					if(!($(field).next().next().hasClass("notificationred"))){ //если нету erro note
+								text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+							    $(field).next().after(text_note);
+								$(field).next().addClass('chosen_red_border');
+								 }
+					}
+			}
+		//------------------------------------------------------------------------
+			if (val_type=='input'){		
+				if ($(field).val()==''){ //если пусто
+					submit = false;
+					if (focus_control == '') {           //если focus еще не был
+						focus_control = field +'^'+val_type; //сохраняем focus
+					 }
+					if (!($(field).next().hasClass("notificationred"))) {
+						text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+						$(field).after(text_note);
+						$(field).addClass('input_red');
+						
+					}
+				}
+			}
+		//------------------------------------------------------------------------
+			if (val_type=='chosen1'){
+				
+				if ($(field).chosen().val()=='0') {   // если пусто
+					submit = false;
+					if (focus_control == '') {           //если focus еще не был
+						focus_control = field +'^'+val_type; //сохраняем focus
+					 }
+					if(!($(field).next().children().hasClass('chosen_red_border'))){ //если нету error note
+								text_note = '<div  class = "notificationred" style="display:inline-block">' + note+ '</div>'
+								$(field).next().append(text_note);
+				 				$(field).next().children('.chosen-container').addClass('chosen_red_border').removeClass('chosen-container-active');
+								 }
+					}
+			}
+		
+		//------------------------------------------------------------------------
+			if (val_type=='input1')      {
+				if  (($(field).val()=='')  ||   !numeric($(field).val())   ||  $(field).val().length!=3        )    { //если пусто
+					submit = false;
+					if (focus_control == '') {           //если focus еще не был
+						focus_control = field +'^'+val_type; //сохраняем focus
+					 }
+					if (!($(field).next().next().hasClass("notificationred"))) {
+						text_note = '<div  class = "notificationred" style="display:inline-block; width: 274px;vertical-align: top; padding-left:5px;">' + note+ '</div>'
+						$(field).next().after(text_note);
+						$(field).addClass('input_red');
+						
+					}
+				}
+			}
+		//------------------------------------------------------------------------
+			
+			if (val_type=='input2')       {		
+				 if (($(field).val()=='')  ||   !numeric($(field).val())    ||  $(field).val().length!=7       )     { //если пусто
+					submit = false;
+					if (focus_control == '') {           //если focus еще не был
+						focus_control = field +'^'+val_type; //сохраняем focus
+					 }
+					$(field).addClass('input_red');
+					if (!($(field).next().hasClass("notificationred"))) {
+						text_note = '<div  class = "notificationred" style="display:inline-block; width: 274px;vertical-align: top; padding-left:5px;">' + note+ '</div>'
+						$(field).after(text_note);
+						
+						
+					}
+				}
+			}
+		
+		//------------------------------------------------------------------------
+		if (val_type=='input3')      {
+				if   (($(field).val()!='')  &&   (!numeric($(field).val())  ||   $(field).val().length!=3 )         )    { //если пусто
+					submit = false;
+					if (focus_control == '') {           //если focus еще не был
+						focus_control = field +'^'+val_type; //сохраняем focus
+					 }
+					if (!($(field).next().next().hasClass("notificationred"))) {
+						text_note = '<div  class = "notificationred" style="display:inline-block; width: 274px;vertical-align: top; padding-left:5px;">' + note+ '</div>'
+						$(field).next().after(text_note);
+						$(field).addClass('input_red');
+						
+					}
+				}
+			}
+		//------------------------------------------------------------------------
+		if (val_type=='input4')       {		
+				 if    (($(field).val()!='')  &&   (!numeric($(field).val())  ||   $(field).val().length!=7 )           )     { //если пусто
+					submit = false;
+					if (focus_control == '') {           //если focus еще не был
+						focus_control = field +'^'+val_type; //сохраняем focus
+					 }
+					$(field).addClass('input_red');
+					if (!($(field).next().hasClass("notificationred"))) {
+						text_note = '<div  class = "notificationred" style="display:inline-block; width: 274px;vertical-align: top; padding-left:5px;">' + note+ '</div>'
+						$(field).after(text_note);
+						
+						
+					}
+				}
+			}
+		//------------------------------------------------------------------------
+		if (val_type == 'checkbox') {
+				if ($('#agree').prop("checked") == false) {
+					submit = false;
+					if ( !$('#agree').parent().find('a').next().hasClass("notificationred")  ){
+						text_note = '<div  class = "notificationred" style="padding-left:5px; display:inline-block;">' + note+ '</div>'
+						$('#agree').parent().find('a').after(text_note);
+					}
+				}
+		}
+		//------------------------------------------------------------------------
+		
+		
+		
+		//set focus
+        if (focus_control!='') {
+			focus_control_array = focus_control.split('^');
+			field = focus_control_array[0];
+			val_type = focus_control_array[1];
+			if ((val_type == 'chosen') || (val_type=='chosen1'))
+				{
+					$('html, body').animate({ scrollTop: $(field).next().offset().top - 30}, 'fast');
+				}
+			if (val_type == 'input')
+			{
+			 $(field).focus();
+			}
+			
+        }
+      //------------------------------------------------------------------------		
+	}//end for
+	
+	
+	
+	return submit;
+
+}	
+//============================================================================================================================================
+function numeric (str) { return /^[0-9(\)\s]+z/.test(str + "z"); }
+//============================================================================================================================================	
+// окончание моего javascript
+
+</script>
+<!--
+<script>
+      div="_ph1968";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1968&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+	<script>
+      div="_ph1971";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1971&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>-->
+    
+    
+		
+{% endblock %}	 

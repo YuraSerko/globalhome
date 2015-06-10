@@ -1,0 +1,37 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+<div class="ugc">
+    <p>Страница добавления VPN аккаунта, вам необходимо указать логин и  пароль.</p>
+</div>
+{{ block.super }} 
+<div class="form_django">
+<form name="user_add" action="#" method="post">
+
+	{% form_field form.login block %} 
+    {% form_field form.password block %}
+    {% form_field form.password_check block %}
+    
+
+			<div class="form-submit">
+                <div class="form-submit-left">
+                    <small><span class="req">*</span> — пункты обязательные для заполнения</small>
+                </div>
+                <div class="form-submit-right">
+                    <input type="button" class="bt bt-blue2" value='{% trans "Cancel" %}' name="cancel" onclick="location.href='/account/internet/vpn/'"/>
+                    <input type="submit" id="add-button" class="bt bt-blue2" value='{% trans "Add" %}' name="add" />
+                </div>
+            </div>
+</form>
+</div>
+
+{% endblock %}
+
+
+
+
+

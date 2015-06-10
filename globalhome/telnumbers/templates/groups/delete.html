@@ -1,0 +1,31 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+<form method="POST" action=".">
+    <div class="confirm2">
+        <h4>{% trans "Are you sure that you want to delete a group of numbers" %} {{ group.name }}?</h4>
+        {% if numbers %}
+            <p>{% trans "It's containing the numbers:" %}</p>
+            <ul>
+                {% for num in numbers %}
+                    <li style="color: #3a7cbd"><span>{{ num.get_view_name }}</span></li>
+                {% endfor %}
+            </ul>
+            <p>{% trans "Will be removed only bind to a group of numbers, numbers will not be affected." %}</p>
+        {% endif %}
+    </div>
+    
+    <div class="confirm">
+        <div class="form-submit">
+            <div class="form-submit-right">
+                <input type="submit" class="bt bt-blue2" value='{% trans "Cancel" %}' name="cancel" />
+                <input type="submit" class="bt bt-blue2" value='Удалить' name="delete" />
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

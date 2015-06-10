@@ -1,0 +1,363 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" >
+    <script type="text/javascript" language="javascript" charset="utf-8">
+	var titles = {
+	  'id_personal': "{% trans 'You are creating personal account' %}",
+	  'id_corporate': "{% trans 'You are creating corporate account' %}"
+	}
+	
+	function toggle_cancel_link(show, id) {
+	  var a = $("#account_title");
+	  var b = $("#account_title_content");
+	  if (show) {
+		a.css({'display':'block'});
+		b.html(titles[id]);
+		$("#id_select_form").css({'display':'none'});
+	  } else {
+		a.css({'display':'none'});
+		b.html("");
+	  }
+	}
+	
+	function toggle_forms(active_id) {
+	  $("div[class='toggled']").css({'display':'none'});
+	  $("#"+active_id+"").css({'display':'block'});
+	  toggle_cancel_link(active_id != undefined, active_id);
+	}
+	
+	$(document).ready(function() {
+	  toggle_forms($("input[name='account_type']:checked").val());
+	  $("input[name='account_type']").change(function () {
+		toggle_forms($("input[name='account_type']:checked").val());
+	  });
+	});
+	
+	</script>
+	
+	{{ personal_form.media }}
+{% endblock %}
+
+
+{% block content %}
+
+{% if not profile_data %}
+
+	<h1 class="title">{% trans "You have to create your profile" %}</h1>
+    
+	<form action="" method="post" enctype="multipart/form-data">
+    
+        <div class="profile_change" id="id_select_form">
+            <h3>1. {% trans "Please select an appropriate profile type" %}:</h3>
+            {% form_field account_type_select_form.account_type inline %}
+        </div>
+		
+        <div class="form_django">
+        
+            <div id="account_title" class="blankslate">
+                <span id="account_title_content"></span>
+                <a style="display:inline; float:right" href="{% url "account_profile" %}" class="cancel_link">{% trans "Change" %}</a>
+            </div>
+    
+            <div id="id_personal" class="toggled">
+                <h2>2. {% trans "Profile information" %} </h2>
+                {% for field in personal_form %}  
+                      {% form_field field block %}      
+                {% endfor %}		
+                <h2>{% trans "Physical address" %}</h2>
+                {% for field in physical_address_form %}
+                    {% form_field field block %}
+                {% endfor %}
+                <div class="form-submit-right">
+                    <input type="submit" class="bt bt-blue2" name="submit" value="Сохранить">
+                </div>
+            </div>
+    
+            <div id="id_corporate" class="toggled">
+                <h2>2. {% trans "Profile information" %}</h2>
+                {% for field in corporate_form %}
+                    {% form_field field block %}
+                {% endfor %}
+                <h2>{% trans "Legal address" %}</h2>
+                {% for field in legal_address_form %}
+                    {% form_field field block %}
+                {% endfor %}
+                <h2>{% trans "Postal address" %}</h2>
+                {% for field in postal_address_form %}
+                    {% form_field field block %}
+                {% endfor %}
+                <div class="form-submit-right">
+                    <input type="submit" class="bt bt-blue2" name="submit" value="Сохранить">
+                </div>
+            </div>
+        </div>
+	</form>
+    
+{% else %}
+
+    <!-- SHOW USER DATA -->
+    
+    {%if From_card%}
+        {%if Enable%}
+        <h1 class="title">{{ minutes }} бесплатных минут на  {% if Moskwa %} Москву {%else%} Санкт-Петербург  {% endif %}</h1>
+        {% endif %}
+    {% endif %}
+
+    {%if not From_card%}
+        
+
+        <h1 class="title">Информация по учетной записи</h1>
+        
+        {{ block.super }}
+        
+        {% if billing_account.phones %}
+      
+        
+  {% if not user.get_profile.is_juridical  %}
+      {% if not user.get_profile.has_external_numbers %}
+      
+      {% comment %}
+            <div class="status status-warning">
+                <i class="ico"></i>
+                <div class="status-i">
+                    <p>{% trans "You have no local phone numbers." %}</p>
+                </div>
+            </div>
+          
+          <form class="" name="" action="{% url "external_phone_add" %}" method="get">
+              <fieldset>
+              <strong>{% trans "Add city number" %}:</strong>&nbsp;<select name="region" id="id_region">
+              {% for i,v in regions %}
+              <option value="{{ i }}">{{ v }}</option>
+              {% endfor %}
+              </select>&nbsp;<input type="submit" value="{% trans "Add for selected region" %}" />
+              </fieldset>
+          </form>
+          
+      {% endcomment %}
+      
+      {% else %}
+      {% with profile.billing_account.external_phone_groups as groups %}
+      {% if enable %}
+        <table>
+        <thead>
+          <tr>
+            <th>{% trans "City number" %}</th>
+            <th>{% trans "Group name" %}</th>
+            <th>{% trans "Internal numbers" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for g in groups %}
+          <tr>
+            <td>
+            {{ g.external_number.number }}<br />
+            <a href="{% url "account_delete_external_phone" g.external_number.id %}" class="delete_link">{% trans "Delete" %}</a>
+            </td>
+            <td>{{ g.name }}</td>
+            <td>
+            {% for n in g.telnumbersgroupnumbers_set.all %}
+               {{ n.tel_number }}<br />
+            {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        {% endif %}
+        {% endwith %}
+      {% endif %}
+  {% endif %}
+  {% endif %}
+{%endif%}
+    <table class="type-1 type-dl">
+        <caption>{% trans "Profile data" %}</caption>
+        <tbody>
+            <tr>
+            <th>{% trans "Registration date" %}:</th><td>{{ user.date_joined|date:"d.m.Y" }}</td>
+            </tr>
+            {% for f in profile_data %}
+                <tr{% if forloop.last %} class="last"{% endif %}>
+                    <th>{{ f.label }}</th>
+                    <td>{% display_model_field profile f.name no_value %}</td>
+                </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if address_legal %}
+        <table class="type-1 type-dl">
+            <caption>{% trans "Legal address" %}</caption>
+            <tbody>
+                {% for f in address_legal_data %}
+                    <tr{% if forloop.last %} class="last"{% endif %}>
+                        <th>{{ f.label }}:</th>
+                        <td>{% display_model_field address_legal f.name no_value %}</td>
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    
+    {% if address_physical %}
+        <table class="type-1 type-dl">
+            <caption>{% trans "Physical address" %}</caption>
+            <tbody>
+                {% for f in address_physical_data %}
+                    <tr{% if forloop.last %} class="last"{% endif %}>
+                        <th>{{ f.label }}:</th>
+                        <td>{% display_model_field address_physical f.name no_value %}</td>
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% if address_postal %}
+        <table class="type-1 type-dl">
+            <caption>{% trans "Postal address" %}</caption>
+            <tbody>
+                {% for f in address_postal_data %}
+                    <tr{% if forloop.last %} class="last"{% endif %}>
+                        <th>{{ f.label }}:</th>
+                        <td>{% display_model_field address_postal f.name no_value %}</td>
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endif %}
+
+
+
+<!-- форма для ввода параметров для изменения -->
+<a href="#" class="overlay" id="suggest_change_password"></a>
+    <div  class="popup_personal" style="width:500px;">
+        <a class="popup_personal-close" href="#close"></a>
+        <div id="id_popup_pas_change" >
+        	 <div id = "succes_reg_notification">
+	        	 <font id = "success_reg_header" color = "green"> 
+		        	 Вы успешно зарегистрировались на сайте globalhome.su. 
+		        	 Ваш логин <font color = "#2570c7">{{ request.user.username }}</font>.
+		         </font>
+		     </div>  
+        	 <div class="form_title_main" id = "form_title_main_all">Мы рекомендуем Вам изменить свой пароль:</div>
+             <br>
+        	 <div class ="form_line">
+        	 	<label class = "input_label_all">Пароль<font color ="red">*</font></label>
+        	 	<div >
+        	 		<div>
+        	 			<div style = "display:inline-block;">
+        	 				<input class = "form_input_all" name = "new_passord" id = "new_password"  type="password"></input>
+        	 				<p class="help" >Пароль должен обязательно содержать заглавные буквы и цифры, и быть не менне 6 символов в длину</p>
+        	 			</div>
+        	 			<div class = "change_pas" id = 'new_pas_check' style = "display:inline-block">Слишком простой пароль</div>
+        	 		</div>
+        	 	</div>
+        	 </div>
+        	 <br>
+             <div class ="form_line">
+        	 	<label class = "input_label_all">Подтверждение пароля<font color ="red">*</font></label>	
+        	 	<div ><input class = "form_input_all" name = "repeat_new_password" id = "repeat_new_password" type="password"></input>
+        	 	<div class = "change_pas" id = 'new_pas_check_repeat'>Пароль и потверждение пароля не совпадают</div>
+        	 	</div>
+        	 </div>
+           
+             <br>
+             <div id = "bottom_notice" class  = 'notice_hidden'><font class = 'red_notice'>Ваш пароль был изменен</font></div> 
+                
+                
+             <div class = "before-button-block">
+		            <div class = "form_buttons">     
+		                <button class="bt bt-blue2" onclick ="javascript:document.location.href='#close'">Отмена</button>
+		             	<button class="bt bt-blue2" id = "accept_all" onclick = "try_changing_pas()">Изменить</button>
+		          	</div>
+		           
+		     </div> 
+		</div>     
+   </div> 
+   
+<!-- конец формы для ввода параметров для изменения -->
+
+
+<!-- сообщение что пароль изменен -->
+<a href="#" class="overlay" id="success_change_password"></a>
+    <div  class="popup_personal" style="width:500px;">
+        <a class="popup_personal-close" href="#close"></a>
+	    <div class = "before-button-block">
+		            <div class = "form_buttons" >
+		           		<div>Ваш пароль успешно изменен!</div>
+		                    <div class = "before-button-block_next">
+		                          <div class = "form_buttons_next"> 
+		                             <button class="bt bt-blue2" onclick ="javascript:document.location.href='#close'">OK</button>
+		                          </div>
+		                    </div> 
+		            </div> 	
+		</div> 
+   </div> 
+<!-- окончание сообщения что что все ok -->
+
+
+<script>
+function try_changing_pas()
+{
+
+	$('#new_pas_check').addClass("change_pas").removeClass( "change_pas_error" );
+	$('#new_pas_check_repeat').addClass("change_pas").removeClass( "change_pas_error" );
+	$('#bottom_notice').addClass("notice_hidden").removeClass( "notice_visible" );
+
+	
+	var new_password = $("#new_password").val();
+	var repeat_new_password = $("#repeat_new_password").val();
+	
+	items = {
+			 'new_password': new_password,
+			 'repeat_new_password': repeat_new_password,
+			}
+	
+	$.ajax({
+		url: '/account_ajax_change_pas/',
+		async:true,
+		cash:true,
+		type:"POST",
+		data:items,
+		success:function(html)
+		{	
+			response = html;
+			resp_ar = response.split(',')
+			
+			
+			if ((resp_ar[0] == '1') && (!$('#new_pas_check').hasClass( "change_pass_error" )))      
+			{ $('#new_pas_check').removeClass("change_pas").addClass( "change_pas_error" ); } 
+			
+			if ((resp_ar[1] == '1') && (!$('#new_pas_check_repeat').hasClass( "change_pass_error" )))
+			{ $('#new_pas_check_repeat').removeClass("change_pas").addClass( "change_pas_error" ); } 
+		
+
+			if ((resp_ar[0] == '0') && (resp_ar[1] == '0'))
+					 { $('#bottom_notice').removeClass("notice_hidden").addClass( "notice_visible" ); 	
+					 	if ($('#new_pas_check').hasClass( "change_pass_error" ))
+					    	{$('#new_pas_check').addClass("change_pas").removeClass( "change_pass_error" );}
+					 	if ($('#new_pas_check_repeat').hasClass( "change_pass_error" ))
+							{$('#new_pas_check_repeat').addClass("change_pas").removeClass( "change_pass_error" );}
+					 //redirect
+					 document.location.href="/account/#success_change_password";
+					 }
+		}
+	 });
+	
+		
+	
+	
+}
+
+
+
+</script>
+
+
+ 
+{% endblock %}
+

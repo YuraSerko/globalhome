@@ -1,0 +1,18 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">Тарифы</h1>
+	<div class="ugc">
+       {% if article %}
+          <div style="height: 500px; width: 100%; overflow: scroll;">
+             {{ article|safe }}
+          </div>
+       {% else %}
+          Произошла ошибка!
+       {% endif %}
+       <br />
+       <p><span class="fn">*</span> <small>Все цены указаны без учета НДС</small></p>
+   </div>
+{% endblock %}

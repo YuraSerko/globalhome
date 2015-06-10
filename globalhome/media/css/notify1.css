@@ -1,0 +1,46 @@
+/* Styles for notification area */
+.notifications, .notifications li {
+  list-style: none;
+  list-style-type: none;
+  margin-left: 0;
+}
+.information, .error, .success, .warning {
+  margin-top: 0.4em;
+  border: 1px solid #9bb8d9;
+  padding: 6px 6px 6px 30px;
+  margin-right: 10px;
+  -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.information {
+  background: #dedfff url('../img/icons/information.png') 6px 50% no-repeat;
+  color: #406299;
+  -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.error {
+  background: #6d6262 url('../img/icons/eror_eror.png') 6px 50% no-repeat !important;
+  border-color: #f34f4f;
+  color: #f9d9d9;
+  -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.success {
+  background: #69866a url('../img/icons/accept.png') 6px 50% no-repeat;
+  border-color: #9c9;
+  color: #aafbb6;
+  -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.warning {
+  background:#7c7c5d url('../img/icons/error.png') 6px 50% no-repeat;
+  border-color: #ffd324;
+  color:#fdf68e;
+  -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}

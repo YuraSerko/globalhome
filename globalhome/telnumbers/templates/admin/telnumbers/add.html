@@ -1,0 +1,150 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+    <script type="text/javascript" src="{% url "admin:jsi18n" %}"></script> 
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+{{ form.media }}
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" />
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/forms1.css" type="text/css"> 
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/interface-style1.css" />
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+	var numtd = 0
+	var suser = 0
+	
+	var juridical_number = "{{ new_number_juridical }}"
+	var physical_number = "{{ new_number_phisycal }}"
+	
+	function SUserChange() {
+		numtd.empty()
+		var id = Number(suser.val())
+		if (id !== undefined) {
+			if (id > 0)
+				numtd.append(juridical_number)
+			else
+				numtd.append(physical_number)
+		}
+	}
+	
+	$(document).ready(function() {
+		numtd = $("#number_td")
+		suser = $("#select_user_id")
+		suser.attr("onChange", "SUserChange()")
+		SUserChange()
+	})
+</script>
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+		<a href="../../../">
+		    {% trans "Home" %}
+		</a>
+		&rsaquo; 
+		<a href="../../">
+		    {{ app_label|capfirst }}
+		</a>
+		&rsaquo; 
+		<a href="../">
+		    {{ app_section }}
+		</a>
+		&rsaquo;
+		{% trans "Add" %}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+    {% if cl.formset.errors %}
+        <p class="errornote">
+        {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+        </p>
+        {{ cl.formset.non_form_errors }}
+    {% endif %}
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+    
+    {% block notifications %}
+      {% if request.notifications %}
+        {% for message in request.notifications %}
+          <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+            {{ message|safe }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock %}
+
+    <div style="width: 700px;" id="border_div">
+		<h3>{% trans "Adding new internal number" %}</h3>
+		<form method="POST" action=".">
+    		<table>
+    			<tr>
+    				<th style="text-align: right;">{% trans "Please select user" %}:</th>
+    				<td>
+    					<select name="user" id="select_user_id">
+    						{% for user in users %}
+    							<option value="{{ user.juridical_id }}">{{ user.get_profile.get_display_name }}</option>
+    						{% endfor %}
+    					</select>
+    				</td>
+    			</tr>
+    			<tr>
+    				<th style="text-align: right;">{% trans "Number" %}:</th>
+    				<td id="number_td"></td>
+    			</tr>
+    			<tr>
+    				<th style="text-align: right;">{% trans "Password" %}:</th>
+    				<td>
+    					<input type="text" name="password"/>
+    				</td>
+    			</tr>
+    			<tr>
+    				<th style="text-align: right;">{% trans "Person name" %}:</th>
+    				<td>
+    					<input type="text" name="person_name"/>
+    				</td>
+    			</tr>
+    			<tr>
+    				<th style="text-align: right;">{% trans "Short number" %}:</th>
+    				<td>
+    					<input type="text" name="internal_phone"/>
+    				</td>
+    			</tr>
+    		</table>
+    		
+            <div class="submit-row">
+                <input type="submit" class="default" value='{% trans "Add" %}' name="add" />
+                {% if not is_popup %}
+                	<input type="submit" class="default" value='{% trans "Cancel" %}' name="cancel" />
+                {% endif %}
+            </div>
+		</form>
+    </div>
+{% endblock %}

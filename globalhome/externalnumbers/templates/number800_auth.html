@@ -1,0 +1,87 @@
+{% load i18n page_tags form_tags %}
+
+<script>
+    function back() {
+        $.ajax({
+            url: "/8800add/",
+            cache: true,
+            async: true,
+            success: function(html) {
+                $("#ajall").html(html);
+            }
+        });
+    }
+
+    function next_step() {
+        var str = $("#form_step_1").serialize();
+        console.log('step_3 str = ' + str)
+        $.ajax({
+            url: "/8800auth/?"+str+"/",
+            cache: false,
+            async: false,
+            success: function(html) {
+                $("#ajall").html(html);
+            },
+            error: function() {
+                $("#ajax_error").css("display", "block");
+            }
+        });
+    }
+</script>
+
+<a class="popup_personal-close" href="#close"></a> 
+<form class="clearfix" action="#" method="post" onkeydown="javascript:if(13==event.keyCode){return false;}" id='form_step_1'>
+    <table class="type-4 modal">
+        <caption>
+            <h1 class="title">Вход в личный кабинет</h1>
+        </caption>
+        <tbody>
+            <tr>
+                <td>
+                    <div id="ajax_error" class="status status-warning" style="display:none">
+                        <i class="ico"></i>
+                        <div class="status-i">
+                            <p>Произошла непредвиденная ошибка, обратитесь в техподдержку!</p>
+                        </div>
+                    </div>
+                    {% if errors.error_auth %}
+                        {% if errors.error_juridical %}
+                            <div class="status status-warning">
+                                <i class="ico"></i>
+                                <div class="status-i">
+                                    <p>Необходимо войти как юридическое лицо!</p>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="status status-error">
+                                <i class="ico"></i>
+                                <div class="status-i">
+                                    <p>Заполните правильно все поля!</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 0; height: auto;">
+                    <div class="popup-form login2-form" style="min-height: 100px;">
+                        {% for field2 in form_login %}
+                            {% form_field field2 block %}
+                        {% endfor %}
+                        <div style="clear: both"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-right: 5px; padding-bottom: 10px;">
+                    <div class="form-submit-right" id="ajf">
+                        <input class="bt bt-blue2" name="previev_button" type="button" id='previev_button' value='Назад' onclick="back()"/>
+                        <input class="bt bt-blue2" name="next" type="button" id='next_button' value="Далее" onclick="next_step()"/>
+                        <input type="hidden" name="data" id="textfield" value="{{data}}" /></input>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+     </table>  
+</form>

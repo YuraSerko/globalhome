@@ -1,0 +1,197 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+  
+	<link href="/media/css/mail_mobi.css" rel="stylesheet" type="text/css" href="">
+    
+{% endblock %}
+
+{% block content %} 
+
+ {% block sendin %}
+  {{block.super}}
+   {% endblock %}
+ 
+ {% block login_1 %}
+	{{block.super}}
+         {% endblock %}
+ 
+
+  
+
+  
+<article id="right">
+	
+			
+				
+				
+		{% block burat2 %}
+        {{block.super}}
+        {% endblock %}  
+				
+			<style>
+			@media only screen and (min-width: 1200px){
+			.advert_2{
+					float: right;
+					margin: 20px;
+					width: 240px;
+					margin-right: -80px;
+					height: 400px;
+					/*border: 2px solid #4282D2;*/
+				}
+				
+				}
+		</style>
+	<div class = "advert_2">
+	<script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement|add:17}}"></script>
+	</div>
+			
+			<div id='centr_field'>
+			{% block cap %}
+                {{ block.super }}
+                
+                {% endblock %} 
+
+                        <style>
+                        #mail{
+                            position: relative;
+                            margin-left: -230px;
+
+                            top: 95px;
+                        }
+
+                            .fixLetter {
+                                margin-top: 70px !important;/* ...*/
+                                    margin: 0 auto;
+                                    /*outline: 1px solid black;*/
+                                    position: relative;
+                                   
+                                    width: 300px;
+                                }
+                            /*.fixLetter {
+                                position: relative;
+                                }*/
+                                .letter {
+                                /*background: transparent url('/media/images/letter.png') no-repeat;*/
+                                }
+                                .letter img{
+                                -moz-transform: rotate(13deg);  /* Firefox */
+                                /*-o-transform: rotate(13deg);   Opera */
+                                -webkit-transform: rotate(13deg);  /* Safari y Chrome */
+                                    width:  470px;
+                                    height: 370px;
+                                    margin-left: -50px;
+                                }
+                                .letter {
+                                width: 388px;
+                                height: 207px;
+                                position: absolute;
+                                /*margin-top: 15px;*/
+                                margin-top: -60px;
+                                right: 0;
+                                }
+                                #login, #password{
+                                    width: 150px;
+                                    border-radius: 5px;
+                                }
+                                .bt-blue2{
+                                    width: 100px;
+                                }
+                                .href_mail{
+                                    margin-top: 30px;
+                                    white-space: normal !important;
+                                    
+                                }
+                                .position_min{
+                                    margin-top: 170px;
+                                    padding-left: -50px;
+                                    
+                                }
+                            @media screen and (min-width: 720px) {
+                                .position_min{
+                                    margin-left: -125px;
+                                }
+                                
+                            }
+                        </style>
+                
+				        <!-- мои данные  -->  
+						<div style="text-align:center">
+						<div class="fixLetter">
+                            <div class="letter">
+                            <img src="/media/images/letter.png">
+                            </div>
+                        </div>
+            			<form method="post" id = "mail" action="https://passport.yandex.ru/for/globalhome.mobi?mode=auth" > 
+
+						<label class="label">Логин:</label>						
+						<input type="text" name="login" value="" tabindex="1" id = "login"/>
+						<font  class="email_label" style = "position:absolute; margin-top: -3px;">&nbsp;<b style = "font-size: 20px; ">@</b>&nbsp;globalhome.mobi</font>
+					
+						<label class="label">Пароль:</label>
+						<input type="hidden" name="retpath" value="http://mail.yandex.ru/for/YourDomain.ru">
+						<input type="password" name="passwd" value="" maxlength="100" tabindex="2" id = "password"/> <br>
+						<br>
+						<input class="bt bt-blue2" type="submit" name="In" value="Войти" tabindex="5"/> </form>
+            			<br>
+                        <div class="position_min">
+            			<a class="href_mail" href="/mail_reg"> Зарегистрировать почтовый ящик</a>
+                        </div>
+                        <div style="height: 20px;"></div>
+            			</div>
+            			<!--  окончание моих данных -->
+            				
+			</div>	
+			
+	
+			
+</article> 
+
+
+
+<script>
+jQuery('[data-show]').on('click', function(){
+	  var jElem = $(this);
+	  
+	  if(jElem.hasClass('active')) return;
+	  
+	  jQuery('[data-show]').removeClass('active');
+	  
+	  var id = jElem.addClass('active').data('show');
+	  jQuery('[data-id]').fadeOut();
+	  jQuery('[data-id="'+id+'"]').fadeIn();
+	  
+	 
+});
+
+
+//=================================================================
+$( document ).ready(function() {
+	
+   if (('{{ log }}' !='None') && ('{{ pas }}'!='None'))
+	   {
+   		document.getElementById('login').value = '{{ log }}'
+   		document.getElementById('password').value = '{{ pas }}'
+   		$('#mail').submit();}	
+});
+//================================================================
+</script>
+
+     
+    {% block hs_login2 %}
+        {{ block.super }}
+    {% endblock%}
+    
+  
+
+       {% block review_window %}
+      {{block.super}}
+      {% endblock %} 
+        
+      {% block complaint_window %}
+      {{block.super}}
+      {% endblock %}
+    
+{% endblock %}
+ 

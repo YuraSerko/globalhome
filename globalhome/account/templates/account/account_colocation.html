@@ -1,0 +1,408 @@
+{% extends 'base_private.html' %}
+{% load form_tags %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/error_acc_col.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/colocation.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<script>
+$(document).ready(function () {
+	cost_all_zakaz();
+    // Code adapted from http://djangosnippets.org/snippets/1389/  
+    function updateElementIndex(el, prefix, ndx) {
+        var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        var replacement = prefix + '-' + ndx + '-';
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+        replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+    function deleteForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        if (formCount > 1) {
+            // Delete the item/form
+            $(btn).parents('.item').remove();
+            var forms = $('.item'); // Get all the forms  
+            // Update the total number of forms (1 less than before)
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+            var i = 0;
+            // Go through the forms and set their indices, names and IDs
+            for (formCount = forms.length; i < formCount; i++) {
+                $(forms.get(i)).children().children().each(function () {
+                    if ($(this).attr('type') == 'text') updateElementIndex(this, prefix, i);
+					if ($(this).is("select")) updateElementIndex(this, prefix, i);
+                });
+            }
+			cost_all_zakaz();
+        } // End if
+        else {
+            alert("У Вас должно быть по крайней мере одно оборудование!");
+        }
+        return false;
+    }
+
+    function addForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+		// Clone a form (without event handlers) from the first form
+		var row = $(".item:first").clone(false).get(0);
+		// Insert it after the last form
+		$(row).removeAttr('id').hide().insertAfter(".item:last").slideDown(300);
+
+		// Remove the bits we don't want in the new row/form
+		// e.g. error messages
+		$(row).children().removeClass("error");
+
+		// Relabel or rename all the relevant bits
+		$(row).children().children().each(function () {
+			updateElementIndex(this, prefix, formCount);
+			$(this).val("");
+		});
+
+		// Add an event handler for the delete item/form link 
+		$(row).find(".delete").click(function () {
+			return deleteForm(this, prefix);
+		});
+		// Update the total form count
+		$("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+		$(row).find('cost').html($('#initial_cost').val());
+		ajax_channel(formCount, $('#id_form-'+ formCount +'-inet_channel').val())
+		ajax_unit(formCount, $('#id_form-'+ formCount +'-height_unit').val())
+		cost_all_zakaz();
+        return false;
+    }
+    // Register the click event handlers
+    $("#add").click(function () {
+        return addForm(this, "form");
+    });
+
+    $(".delete").click(function () {
+        return deleteForm(this, "form");
+    });
+});
+
+function ajax_unit(row_id, value) {		
+	if (value == 'tower') {
+		type_ff = 'tower';
+	}
+	else {
+		type_ff = 'unit'
+	}
+	$.ajax({
+			url: "/colocation/change_ff/"+type_ff+"/",
+			beforeSend: function () 
+			{
+				$('#id_form-'+row_id+'-size').find('option').remove();
+			},
+			async: false,
+			complete: function(html)
+			{	
+				var id_plus_speed = html.responseText;
+				id_plus_speed = id_plus_speed.split('_');
+				spis_id = id_plus_speed[0].split(', ');
+				speed = id_plus_speed[1].split(', ');
+				select_obj = document.getElementById('id_form-'+row_id+'-size');
+				for (var i=0; i < spis_id.length; i++) {
+					select_obj.options[select_obj.options.length] = new Option(speed[i], spis_id[i]);
+				}
+			}, 
+	
+	 });
+}
+
+function change_unit(obj) {
+	ajax_unit(obj.id[8], $(obj).val())
+	cost_all_zakaz();
+}
+
+
+function ajax_channel(row_id, value) {	
+	$.ajax({
+	
+			url: "/dedicated/change_type_inet/"+value+"/",
+			beforeSend: function () 
+			{
+				$('#id_form-'+row_id+'-inet_speed').find('option').remove();
+			},
+			async: false,
+			complete: function(html)
+			{	
+				var id_plus_speed = html.responseText;
+				id_plus_speed = id_plus_speed.split('_');
+				spis_id = id_plus_speed[0].split(', ');
+				speed = id_plus_speed[1].split(', ');
+				select_obj = document.getElementById('id_form-'+row_id+'-inet_speed');
+				for (var i=0; i < spis_id.length; i++) {
+					select_obj.options[select_obj.options.length] = new Option(speed[i], spis_id[i]);
+				}
+			}, 
+	
+	  })
+	return false
+}
+
+function change_channel(obj) {
+	ajax_channel(obj.id[8], $(obj).val());
+	cost_all_zakaz();
+}
+
+function cost_one_zakaz(row_id) {
+	var cost = 0;
+	var get = '';
+	get += '?height_unit=' + $('#id_form-'+ row_id +'-height_unit').val();
+	get += '&size=' + $('#id_form-'+ row_id +'-size').val();
+	get += '&inet_channel=' + $('#id_form-'+ row_id +'-inet_channel').val();
+	get += '&inet_speed=' + $('#id_form-'+ row_id +'-inet_speed').val();
+	get += '&count_ip=' + $('#id_form-'+ row_id +'-count_ip').val();
+	get += '&count_socket=' + $('#id_form-'+ row_id +'-count_socket').val();
+	get += '&count_electro=' + $('#id_form-'+ row_id +'-count_electro').val();
+	$.ajax({
+		url: "/colocation/cost_zakaz/" + get,
+		cache: false,
+		async: false,
+		success: function(html){
+			$('#id_form-'+ row_id +'-equipment_name').parents('.item').find('cost').html(html);
+			cost = html;
+		}  
+	});
+	return cost
+}
+
+function cost_all_zakaz() {
+	var all_cost = 0
+    var formCount = parseInt($('#id_form-TOTAL_FORMS').val());
+	var forms = $('.item');
+    var i = 0;
+	for (formCount = forms.length; i < formCount; i++) {
+		cost = cost_one_zakaz(i);
+		all_cost += parseFloat(cost);
+	}
+	$('all_cost').html(all_cost);
+}
+</script>
+
+<h1 class="title">Размещение оборудования / colocation серверов</h1>
+
+<style>
+.delete {
+	background: transparent url(/media/img/inline-delete.png) no-repeat;
+	text-indent: -9999px;
+	width: 15px;
+	height: 15px;
+	border: 0px none;
+	outline: 0;
+	float: right;
+}
+.delete:hover {
+	background-position: -15px 0;
+}
+
+
+/*для colocation*/
+.colocation {
+	/*box-shadow: 0 0 5px rgba(20,52,89,.75), 0 0 46px rgba(23,110,215,.75);*/
+	border-radius: 7px;
+	margin: 23px 0 10px;
+}
+
+.colocation select,
+.colocation input[type="text"],
+.colocation input[type="number"] {
+	width: 100%;
+	margin: 0;
+	padding: 4px 8px;
+	background: #fff;
+	box-shadow: inset 0 1px 0 rgba(0,0,0,.06);
+	border: 1px solid #d4d4d4;
+	border-radius: 4px;
+	color: #535353;
+	font: 11px Arial, sans-serif;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+.colocation select:focus,
+.colocation input[type="text"]:focus,
+.colocation input[type="number"]:focus {
+	outline: none;
+	box-shadow: inset 0 0 1px rgba(148,148,148,.59), 0 0 4px 1px #2884ea;
+	border-color: #e6e6e6;
+}
+
+.colocation th{
+	padding: 9px 7px 10px;
+}
+
+.colocation tr td {
+	padding: 2px;
+}
+.colocation tr td:first-child {
+	padding: 2px 2px 2px 7px;
+}
+
+.colocation-submit {
+	padding: 0px 0px 20px 0px;
+	margin: 0;
+}
+
+.error input {
+	border-color: #ff4040 !important;
+	box-shadow: 0 0 0 2px #eee !important;
+}
+</style>
+{{ block.super }}
+
+<form method="post">
+{{ colocation_formset.management_form }}
+<table class="type-2 colocation" id="my_table">
+	<thead>
+    	<tr>
+        	<th style="width: 120px;">Название<br/>оборудования</th>
+        	<th>Высота<br/>сервера</th>
+        	<th>Размеры, см</th>
+        	<th colspan="2">Интернет</th>
+        	<th style="width: 50px;">Кол-во<br/>IP</th>
+        	<th style="width: 50px;">Кол-во<br/>розеток</th>
+        	<th>Электро-<br/>питание</th>
+        	<th colspan="2">Стоимость<br/>услуги, руб*</th>
+        </tr>
+    </thead>
+    <tbody>
+    	{% for colocation_form in colocation_formset.forms %}
+            <tr class="item">
+            {% for field in colocation_form %}
+            	{% if field.errors %}
+	                <td class="error">{{ field }}</td>
+                {% else %}
+	                <td>{{ field }}</td>
+                {% endif %}
+            {% endfor %}
+            <td style="padding: 3px 9px 4px"><strong><cost>{{ initial_cost }}</cost></strong></td>
+            <td style="padding: 3px 9px 4px"><a class="delete" href="#">Удалить</a></td>
+            </tr>
+        {% endfor %}
+        <tr>
+        	<td colspan="2"><input class="bt bt-grey" type="button" value="Добавить ещё оборудование..." id="add"></td>
+        	<td colspan="6" style="text-align: right;"><strong><i>Ежемесячный платеж за размещение оборудования (colocation):</i></strong></td>
+            <td colspan="2" style="padding: 3px 9px 4px"><strong><i><all_cost>{{ initial_cost }}</all_cost></i></strong></td>
+        </tr>
+    </tbody>
+</table>
+<input type="hidden" id="initial_cost" value="{{ initial_cost }}" />
+<div class="form-submit-right colocation-submit">
+    <input id="add-group-button" type="submit" class="bt bt-blue2" value="Оформить заказ" name="add">
+</div>
+</form>
+
+<h1 class="title">Основные характеристики услуги</h1> 		
+        
+<table class="type-2">
+	<thead>
+		<tr>
+			<th>Основные характеристики услуги</th>
+			<th colspan="2">Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Высота сервера или оборудования</td>
+			<td colspan="2">1U (unit)</td>
+		</tr>
+		<tr>
+			<td>Ограничение по высоте сервера или оборудования</td>
+			<td colspan="2">8U (unit)</td>
+		</tr>
+		<tr>
+			<td>Ограничение по весу сервера или оборудования</td>
+			<td colspan="2">25 кг</td>
+		</tr>
+		<tr>
+			<td>Порт коммутатора Ethernet 100 Мбит/сек (для каждого сервера)</td>
+			<td colspan="2">1 шт</td>
+		</tr>
+		<tr>
+			<td>Количество включенного трафика</td>
+			<td colspan="2">Неограничено</td>
+		</tr>
+		<tr>
+			<td>Количество IP-адресов (для каждого сервера)</td>
+			<td colspan="2">1</td>
+		</tr>
+		<tr>
+			<td>Количество розеток (для каждого сервера)</td>
+			<td colspan="2">1</td>
+		</tr>
+		<tr>
+			<td>Предоставляемое электропитание</td>
+			<td colspan="2">400 Вт</td>
+		</tr>
+		<tr>
+			<td>Источник бесперебойного питания</td>
+			<td colspan="2">1 шт</td>
+		</tr>
+		<tr>
+			<td>IP-KVM</td>
+			<td colspan="2">Неограничено</td>
+		</tr>
+		<tr>
+			<td>Перезагрузка по телефону</td>
+			<td colspan="2">Бесплатно</td>
+		</tr>
+		<tr>
+			<td>Установочная плата за размещение</td>
+			<td colspan="2">Бесплатно</td>
+		</tr>
+	</tbody>
+</table>
+
+<h1 class="title">Дополнительные услуги и параметры</h1>
+
+<table class="type-2">
+	<thead>
+		<tr>
+			<th>Наименование услуги</th>
+			<th>Цена, руб* в месяц</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Дополнительный 1U (unit)</td>
+			<td>500</td>
+		</tr>
+		<tr>
+			<td>Дополнительный (второй и более) порт коммутатора 100 Мбит/сек за каждый</td>
+			<td>500</td>
+		</tr>
+		<tr>
+			<td>Дополнительный IP-адрес</td>
+			<td>80</td>
+		</tr>
+		<tr>
+			<td>Дополнительная розетка на 1 сервер</td>
+			<td>400</td>
+		</tr>
+		<tr>
+			<td>Дополнительное электропитание, за каждые 100 Вт свыше 400 Вт</td>
+			<td>450</td>
+		</tr>
+		<tr>
+			<td>Салазки в аренду</td>
+			<td>от 300</td>
+		</tr>
+		<tr>
+			<td>Полки в аренду</td>
+			<td>от 300</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="ugc">
+    <p><small><req>*</req> Все цены приведены без учёта НДС.</small></p>
+</div>
+
+        
+{% endblock %}

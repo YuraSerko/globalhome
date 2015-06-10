@@ -1,0 +1,120 @@
+{% extends 'base_public.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+ <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+ <script type="text/javascript" src="{{ MEDIA_URL }}js/equipment_rent.js"></script>
+
+
+
+
+
+<style type="text/css">
+.tab-control { /*Основной блок*/
+	  border : none;
+		  width : 95%;           
+		  padding : 0px;
+}
+
+.tab-header { /*Заголовки*/
+	  font-size : 14px;
+	  text-align: center;
+	  color: #FFF;
+	  font-size: 14px;
+	  border : none;
+          width : 100%;
+          height: 20px;
+          margin : 0px;         
+          padding : 0px; 
+}
+
+.tab-header > div { /*Отдельный заголовок*/
+          border-left : 1px solid #ddd; 
+          border-radius:10px 10px 0px 0;  
+	  background-color : #FF9521;
+          height: 20px;
+          padding : 5px;
+          margin-right : 2px; 
+          float : left;
+          cursor : pointer; 
+		  width: 140px;
+		-webkit-transition: all 200ms ease;
+		-moz-transition: all 200ms ease;
+		-ms-transition: all 200ms ease;
+		-o-transition: all 200ms ease;
+		transition: all 200ms ease;
+}
+
+.tab-header > div:hover { /*Текущий заголовок*/
+		  margin-top: -15px; 
+		  height: 35px;
+		-webkit-transition: all 200ms ease;
+		-moz-transition: all 200ms ease;
+		-ms-transition: all 200ms ease;
+		-o-transition: all 200ms ease;
+		transition: all 200ms ease;
+}
+
+.tab-body { /*Содержимое закладок*/
+	  border : none;
+          width : 100%;       
+          margin : 0px;         
+          padding : 0px;
+          clear : both; 
+}
+
+.tab-body > div { /*Содержимое отдельной закладки*/
+          border-bottom : 1px solid #ddd; 
+          border-left : 1px solid #ddd; 
+          border-radius:0 5px 5px 5px;  
+	  background-color : #FF9521;
+          display : none;
+          overflow: hidden; /*Прокрутка запрещена, если она нужна, то следует поставить значение auto*/
+          width : 100%;
+          height: 100%;         
+          padding : 1px;
+}
+	
+</style>
+
+
+
+
+
+
+
+
+
+<h1 class="title">Аренда оборудования</h1>
+
+<div class="ugc">
+	<table class="piclist">
+    {% for qw in qwe %}
+    <tr>
+        <td><img alt="" src="/media/{{ qw.img }}"></img></td>
+        <td>
+        <h4>{{ qw.name }}</h4>
+        <p>{{ qw.text|safe }}</p>
+        {% if qw.abonent_fee %}
+        <p><b>Абонентская плата: </b>{{ qw.abonent_fee }} рублей без учета НДС</p>
+        {%endif%}
+        		<div class="form-submit-right">
+    			<a href="#zakaz" class="bt bt-blue2" onclick="step_zakaz('{{ qw.id }}')"  title = "Заказать {{ qw.name }}" >Заказать</a>
+    			</div>
+        </td>
+    </tr>
+   {% endfor %}
+    </table>
+</div><!--ugc-->
+
+
+
+<a href="#" class="overlay" id="zakaz"></a>
+    <div  class="popup_personal" style="min-width: 400px;">
+        <a class="popup_personal-close" href="#close"></a>
+        <div id="id_popup">
+        </div> 
+    </div>
+
+
+{% endblock %}

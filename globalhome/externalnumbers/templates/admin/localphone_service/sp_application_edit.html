@@ -1,0 +1,13 @@
+{% load i18n %}
+<table>
+	<tr>
+		<th>{% trans "Local number" %}:</th>
+		<td><a class="popup" href="/admin/telnumbers/externalnumber/{{ application_number.id }}/">{{ application_number }}</a></td>
+	</tr>
+	{% if application_group %}
+		<tr>
+			<th>{% trans "To group" %}:</th>
+			<td><a class="popup" href="/admin/telnumbers/telnumbersgroup/edit_group/{{ application_group.id }}/">{{ application_group }}</a></td>
+		</tr>
+	{% endif %}
+</table>

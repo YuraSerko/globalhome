@@ -1,0 +1,27 @@
+{% extends 'base_public.html' %}
+{% load i18n form_tags %}
+
+{% block content %}
+
+<h1 class="title">Получить код подтверждения регистрации</h1>
+
+<div class="ugc">
+	<p>Заполните форму ниже, чтобы Вам вновь был выслан код подтверждения регистрации. Код будет выслан на email, указанный Вами при регистрации.</p>
+</div>
+
+{{ block.super }}
+
+<form class="reglog" action="" method="post">
+    <div class="popup-form resend_activation_code">
+        {% for field in form %}
+            {% form_field field block %}
+        {% endfor %}
+        <div class="form-submit">
+            <div class="form-submit-right">
+                <input class="bt bt-blue2" type="submit" value="Получить код" />
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

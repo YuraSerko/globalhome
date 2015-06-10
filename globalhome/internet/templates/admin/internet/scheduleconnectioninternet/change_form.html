@@ -1,0 +1,242 @@
+{% extends "admin/change_form.html" %}
+
+
+
+{% block content %}
+<script src="{{ MEDIA_URL }}js/jquery-1.7.2.min.js"></script>
+
+ 
+<style>
+
+#content-main {
+    float: none !important;
+} 
+
+
+.lock{
+background: #3a7cbd;
+border: solid 1px;
+/*width:50px;*/
+text-align:center;
+}
+
+th{
+border: solid 1px;
+white-space: nowrap;
+cursor:default; 
+}
+
+
+td{
+border: solid 1px black;
+width: 100px;
+color:#ffc;
+cursor:default;
+text-align:center;}
+
+.title_tr td{
+background: #417690;
+color:#ffc;
+cursor:default;
+width: 300px;
+
+}
+.vCheckboxLabel{
+font-weight: bold !important;
+color:red;
+position: relative;
+top: 2px; 
+}
+.tr th{
+background: #417690;
+text-align:center;
+color:#ffc;
+border: solid 1px black;
+}
+
+/*.tr td:hover {background: green;}*/
+.table{
+
+
+margin-top: 1%;
+}
+
+.checked{background: #ff9000!important;}
+.sected{background: green!important;}
+
+checked:hover::after{
+
+	content: attr(data-title); /* Выводим текст */
+    position: absolute; /* Абсолютное позиционирование */
+    
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */
+    font-family: Arial, sans-serif; /* Гарнитура шрифта */
+    font-size: 11px; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+    border: 1px solid #333; /* Параметры рамки */
+}
+
+.weekend{background: #417690;}
+</style>
+
+<script>
+function insert_values(obj){
+var split = obj.split('_')
+$("#id_date").val(split[0])
+$('#id_time').val(split[1])
+}
+
+function ajax_insert_values(item){
+
+		$.ajax({
+                url: "/internet/schedule_connection/",
+               	type: "POST",
+                data:item,  
+                cache: false,
+                async: false, 
+                success: function(list){
+                
+                   
+                if($('.tr > td ').hasClass('checked') || $('.tr > td ').hasClass('sected')) {
+                $('.tr > td ').removeClass('checked')
+                $('.tr > td ').removeClass('sected')
+                $("#id_date").val('')
+                $('#id_time').val('')}
+				var arr = list.split('   ')
+				var arr_split = arr[0].split('; ')
+				for(var i=0; i<arr_split.length; i++) {
+				$('#' + arr_split[i]).addClass('checked')}
+				var data_arr = arr[1].split(';')
+				for(var i=0; i<data_arr.length; i++) {
+				var data_title = data_arr[i].split('%')
+				$('#' + data_title[0] ).html(data_title[1])
+				}
+				//подсветка стартового значния брони
+				if($('#' + arr[2] + '_9-12' ).attr('class') != 'checked' ){
+				$('#' + arr[2] + '_9-12' ).addClass('sected')
+				insert_values($('#' + arr[2] + '_9-12').attr('id'))
+				
+				}
+				else if($('#' + arr[2] + '_12-15' ).attr('class') != 'checked' ){
+				$('#' + arr[2] + '_12-15' ).addClass('sected')
+				insert_values($('#' + arr[2] + '_12-15').attr('id'))
+				}
+				else if($('#' + arr[2] + '_15-18' ).attr('class') != 'checked' ){
+				$('#' + arr[2] + '_15-18').addClass('sected')
+				insert_values($('#' + arr[2] + '_15-18').attr('id'))
+				}
+				else{alert('на ' + arr[2] + ' свободноговремени нет') }
+				
+				
+				
+				}
+            });
+
+
+
+}
+
+$(function(){
+//Подсветка состояния выполнения
+$('#id_running_state').change(function(){
+if ($('#id_running_state').is(':checked')) {
+    $(".vCheckboxLabel").html('Выполненно')
+					.css('color','green')
+} else {$(".vCheckboxLabel").html('Не выполненно')
+							.css('color','red')
+}})
+if($('#id_running_state').attr('checked') == 'checked'){
+$(".vCheckboxLabel").html('Выполненно')
+					.css('color','green')
+}
+//Старт события ajax
+if('{{start_ajax_ivent}}'){
+if($('#id_adress').val() != ' '){
+item = {item:$('#id_adress').val()}
+ajax_insert_values(item)
+}}
+//обработка события при выборе города
+$('#id_adress').change(function(){
+item = {item:$('#id_adress').val()}
+ajax_insert_values(item)
+
+})
+
+//Подсветка элемента открытого объекта
+$('#' + '{{obj_id}}').addClass('sected')
+//Подсветка выбранных клеток таблицы
+if('{{list_bagr}}'){
+var id_list = '{{list_bagr}}'
+var arr = id_list.split('; ')
+for(var i=0; i<arr.length; i++) {
+$('#' + arr[i]).addClass('checked')
+}}
+//подсетка выходных дней
+if('{{weekday_str}}'){
+var weekday_str = '{{weekday_str}}' 
+var weekday_str_arr = weekday_str.split('; ')
+for(var i=0; i<weekday_str_arr.length; i++) {
+$('[id^="'+weekday_str_arr[i] +'"]').addClass('weekend')
+}}
+//Добавление атрибута data-title выбранным клеткам
+if('{{data_title_str}}'){
+var data_title_str = '{{data_title_str}}'
+var data_arr = data_title_str.split(';')
+for(var i=0; i<data_arr.length; i++) {
+var data_title = data_arr[i].split('%')
+//$('#' + data_title[0] ).attr('data-title',data_title[1])
+$('#' + data_title[0] ).html(data_title[1])
+}}
+//Обрабока события клика по свободным клекам таблицы
+$('.tr > td ').click(function(){ 
+if($(this).attr('class') != 'checked' ){
+
+$('.tr > td ').removeClass('sected')
+$(this).addClass('sected') 
+$('#id_table_id').val($(this).attr('id')) 
+var obj = $(this).attr('id')
+insert_values(obj)
+//var split = obj.split('_')
+//$("#id_date").val(split[0])
+//$('#id_time').val(split[1])
+}
+})
+})
+
+
+</script>
+
+
+
+
+{{ block.super }}
+
+
+{% endblock %}
+
+
+
+{% block sidebar  %}
+
+
+
+<div class = 'table'>
+
+<table>
+<tbody>
+<!-- 
+<tr class = 'title_tr'><th class = 'lock'></th>{% for date in date_list%}<td >{{date}}</td>{% endfor %}</tr>
+
+<tr class = 'tr'><th>9-12</th>{% for date in date_list%}<td id ='{{date}}_1'></td>{% endfor %}</tr>
+  <tr class = 'tr'><th>12-15</th>{% for date in date_list%}<td id ='{{date}}_2'></td>{% endfor %}</tr>
+<tr class = 'tr'><th>15-18</th>{% for date in date_list%}<td id ='{{date}}_3'></td>{% endfor %}</tr>
+ -->
+ 
+<tr class = 'title_tr'><th class = 'lock'></th><td >9-12</td><td >12-15</td><td >15-18</td></tr> 
+{% for date in date_list%}<tr class = 'tr'><th>{{date}}</th><td id ='{{date}}_9-12'></td><td id ='{{date}}_12-15'></td><td id ='{{date}}_15-18'></td></tr>{% endfor %}
+</tbody>
+</table> 
+</div>
+
+{% endblock %}

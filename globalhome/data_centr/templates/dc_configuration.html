@@ -1,0 +1,165 @@
+<style>
+	.off {
+		text-decoration: line-through;
+		color: red;
+	}
+</style>
+<script>
+		
+	function change_static_ip(sel)
+	{
+		if (sel.value == 'yes')
+			{document.getElementById("tr_static_ip").style.display = "table-row";}
+		else
+			{document.getElementById("tr_static_ip").style.display = "none";}
+	}		
+		
+	function remove_ip(number_id)
+	{
+		$("#ip_"+number_id).toggleClass('off');
+		var text = $('#href_'+number_id).text();
+		if (text == 'Удалить')
+			{$('#href_'+number_id).text('Восстановить');}
+		else
+			{$('#href_'+number_id).text('Удалить');}
+	}	
+	
+	function checkForm(zakaz_id, permitted_count_ip)
+	{
+		var title;
+		var elem;
+		var check = true;
+		var changes = false;
+		
+		function checkError (str) 
+			{
+				document.getElementById('alert').innerHTML = str;
+				document.getElementById('alert_tr').style.display = 'table-row';
+				check = false;
+			}
+		
+		if (check) {
+			count_ip = parseInt(document.getElementById('count_current_ip').value);
+			static_ip = document.getElementById('select_static_ip').value
+			if (static_ip == 'yes')
+				{
+					count_ip = count_ip + parseInt(document.getElementById('select_ip').value);
+				}
+			title = 'Максимальное количество IP-адресов не должно превышать ' + permitted_count_ip + ', у Вас ' + count_ip;
+			if (count_ip > permitted_count_ip) {
+				 checkError(title);
+				}
+		}	
+		
+		if (check) {
+			str_get = '?'
+			spis_ip = ''
+			for (var i=1; i<={{ count_ip }}; i++)
+				{
+					class_name = document.getElementById('ip_'+i).className;
+					value = document.getElementById('ip_'+i).innerHTML;
+					if (class_name == 'off')
+						{
+							if (spis_ip.length == 0)
+								{
+									spis_ip += value
+								}
+							else 
+								{
+									spis_ip += ',' + value
+								}
+								
+						}
+				}
+				
+			if (spis_ip.length > 0)
+				{
+					str_get += '&spis_ip=' + spis_ip;
+				}
+			static_ip = document.getElementById('select_static_ip').value
+			if (static_ip == 'yes')
+				{
+					str_get += '&new_ip=' + document.getElementById('select_ip').value;
+				}	
+			if ((str_get.length > 1) || (changes))
+				{
+						document.location.href = "/account/demands_dc/apply_configuration/"+ zakaz_id + "/" + str_get
+				}
+			else
+				{
+						title = 'Вы не произвели никаких изменений!'
+						checkError(title);
+				}
+		}
+		return check;
+	}
+</script>
+<table class="type-4 modal" style="width: 500px;">
+    <caption>
+        <h1 class="title">Изменение конфигурации услуги</h1>
+    </caption>
+    <tbody>
+        <tr id="alert_tr" style="display: none;">
+            <td colspan="2">
+                <div class="status status-error">
+                    <i class="ico"></i>
+                    <div class="status-i">
+                        <p id="alert"></p>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% if spis_ip %}        
+            <tr style="background: #f3f3f3;">
+                <td width="50%"><label><strong>Действия над IP-адресами</strong></label></td>
+                <td></td>
+            </tr>
+            {% for ip in spis_ip %}
+                <tr>
+                    <td style="text-align: right;"><ip id="ip_{{ forloop.counter }}" class="">{{ ip.name }}</ip><cost> ({{ ip.cost }})</cost></td>	
+                    {% if ip.date_deactivation %}
+                        <td><font color="#FF0000">Активен до {{ ip.date_deactivation }}</font></td>
+                    {% else %}
+                    	{% if ip.free %}               
+    	                    <td><font color="#FF0000">Действие недоступно</font></td>
+                        {% else %}
+	                        <td><a onClick="remove_ip('{{ forloop.counter }}')" style="text-decoration: underline; cursor: pointer;" id="href_{{ forloop.counter }}">Удалить</a></td>		
+                        {% endif %}
+                    {% endif %}
+                </tr>
+            {% endfor %}  
+        {% endif %}
+        <input type="hidden" id="count_current_ip" value="{{ count_ip }}" />
+        {% if range_ip %}
+       <tr style="background: #f3f3f3;">
+            <td><strong>Добавить статический IP-адрес?</strong></td>
+            <td>
+                <select id="select_static_ip" onchange="change_static_ip(this);">
+                    <option value="not">Нет</option>
+                    <option value="yes">Да</option>
+                </select>
+            </td>
+        </tr>
+        <tr id="tr_static_ip" style="display: none; background: #f3f3f3;">
+            <td style="text-align: right;">Укажите количество IP-адресов</td>
+            <td>
+                <select id="select_ip">
+                    {% for i in range_ip %}
+                        <option value="{{ i.count }}">{{ i.count_with_cost }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        {% else %}
+        	<input type="hidden" id="select_static_ip" value="not" />
+        {% endif %}      
+        <tr>
+            <td colspan="2" style="background: #FFF;">        
+                <div class="ugc" style="margin: 0; display:inline-block;">
+                    <p><small><req>*</req> Все цены приведены без учёта НДС.</small></p>
+                </div>
+                <button class="bt bt-blue2" type="button" onclick="checkForm('{{ zakaz_id }}', '{{ permitted_count_ip }}')">Применить изменения</button>
+            </td>
+        </tr>
+	</tbody>
+</table>

@@ -1,0 +1,61 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block extrahead %}
+    {{ block.super }} 
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript">
+        
+        function ShowHide() {
+            {% if user_can_cancel %}
+                if (window.icb.attr("checked")) {
+                    $("#sign-button").show()
+                    $("#cancel-button").hide()
+                } else {
+                    $("#sign-button").hide()
+                    $("#cancel-button").show()
+                }
+            {% else %}
+                if (window.icb.attr("checked")) {
+                    $("#sign-button").show()
+                } else {
+                    $("#sign-button").hide()
+                }
+            {% endif %}
+        }
+        
+        $(document).ready(function() {
+            window.icb = $("#i-sign-it-cb")
+            window.icb.attr("onClick", "ShowHide();")
+            $("#sign-button").hide()
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    {% if application %}
+    	<table class="type-4">
+        	<caption>{{ title }}</caption>
+            <tbody>
+            	<td colspan="2">{{ application_text }}</td>
+            </tbody>
+        </table>   
+        
+        <form method="post" action=".">
+            
+            <label for="i-sign-it-cb">
+                <input id="i-sign-it-cb" type="checkbox" name="i_sign_it" />
+                {% trans "I sign this document" %}
+            </label>
+            
+            <div class="form-submit-right">
+                <input id="sign-button" type="submit" class="bt bt-blue2" value='{% trans "Sign" %}' name="sign" />
+                {% if user_can_cancel %}
+                    <input id="cancel-button" type="submit" class="bt bt-blue2" value='{% trans "Cancel application" %}' name="cancel" />
+                {% endif %}
+            </div>
+        </form>
+    {% endif %}
+    
+{% endblock %}

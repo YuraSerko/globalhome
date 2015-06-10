@@ -1,0 +1,136 @@
+{% extends 'base_private.html' %}
+{% load i18n %}
+
+{% block content %}
+<script>
+function blocked(a){
+			var subm = document.getElementById("subm");
+			subm.value = a
+			subm.click();
+		}
+function unblocked(a){
+			var subm = document.getElementById("subm_un");
+			subm.value = a
+			subm.click();
+		}
+		
+function unregistered(a){
+			var subm = document.getElementById("subm_unreg");
+			subm.value = a
+			subm.click();
+		}
+</script>
+
+<h1 class="title">Внутренние номера</h1>
+
+<div class="ugc">
+    <p>Чтобы совершать звонки, необходимы внутренние номера, которые вы можете себе добавить и прикрепить к телефону</p>
+</div>
+  
+{{ block.super }}  
+  
+{% if not phones %}
+
+<a class="bt bt-blue2" href="add/">{% trans "Add number" %}</a>
+    
+{% else %}
+<form id="numb_list" name="numb_list" action="" method="post" enctype="multipart/form-data">   
+<style>
+.type-b tr:nth-child(even) td {
+	background: #fff;
+}
+</style>
+<table class="type-b">
+    <thead>
+        <tr>
+            <th>{% trans "Internal number" %}</th>
+            <th>{% trans "Person name" %}</th>
+            <th>{% trans "Short number" %}</th>
+			<th>Пароль</th>
+            <th>Редактирование</th>
+            <th>Удаление</th>
+			<th>Статистика</th>
+            <th>Внешние вызовы</th>
+            <th>Статус</th>
+            <th>Шаблон</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in phones %}
+            <tr>
+                <td>{{ t.tel_number }}</td>
+                <td>{% if t.person_name %}{{ t.person_name }}{% else %}---{% endif %}</td>
+                <td>{% if t.internal_phone %}{{ t.internal_phone }}{% else %}---{% endif %}</td>
+                <td>{{ t.password }}</td>
+                <td><a title='{% trans "Change" %}' href="{{ t.id }}/">{% trans "Change" %}</a></td>
+                {% if t.date_deactivation %}
+                	<td><font color="#00CC00" style="vertical-align: top; margin-left: 2px;">Активен до {{ t.date_deactivation }}</font></td>
+                {% else %}
+               		<td><a title='Удалить' href="delete/{{ t.id }}">Удалить</a></td>
+                {% endif %}
+                <td><a title='Показать' href="{% url "account_phone_statistics" t.id %}">Показать</a></td>
+                 {% if not t.is_blocked_call %}
+                <td><div class="status_div" onclick="blocked('{{t.tel_number}}');" align="center" style="cursor:pointer; background-color: #00CC00; padding-left:5px; padding-right:5px;"><font color="#FFFFFF">Разрешены</font></div></td>
+                {% endif %}
+                
+                {% if t.is_blocked_call == '0' %}
+                <td><div class="status_div" onclick="blocked('{{t.tel_number}}');" align="center" style="cursor:pointer; background-color: #00CC00; padding-left:5px; padding-right:5px;"><font color="#FFFFFF">Разрешены</font></div></td>
+                {% endif %}
+                
+                {% if t.is_blocked_call == 1 %}
+                <td><div class="status_div" onclick="unblocked('{{t.tel_number}}');" align="center" style="cursor:pointer; background-color: #FF0033; padding-left:5px; padding-right:5px;"><font color="#FFFFFF">Запрещены</font></div></td>
+                {% endif %}
+                {% if t.registered %}
+                 <td><div class="status_div" onclick="unregistered('{{t.tel_number}}');" align="center" style="cursor:pointer; background-color: #4ba6e9; padding-left:5px; padding-right:5px;"><font color="#FFFFFF">Online</font></div></td>
+                 {% endif %}
+                 {% if not t.registered %}
+                <td><div class="status_div" align="center" style="background-color: #4ba6e9; padding-left:5px; padding-right:5px;"><font color="#FF0000">Offline</font></div></td>
+                {% endif %}
+                <td><a title='Шаблон' href="/account/number_template/{{ t.id }}/">Шаблон исходящих вызовов</a></td>
+                
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<input id="subm" class="bt bt-blue" type="submit" name="submit_block" style="display:none;" value=""/>
+<input id="subm_un" class="bt bt-blue" type="submit" name="submit_unblock" style="display:none;" value=""/>
+<input id="subm_unreg" class="bt bt-blue" type="submit" name="submit_unreg" style="display:none;" value=""/>
+</form>
+<p><a class="bt bt-blue2" href="add/">{% trans "Add number" %}</a></p>
+
+    
+    {%if fixed_users%}
+         <h1 class="title">Прикрепленные пользователи:</h1>
+        
+         <table class="type-2">
+            <thead>
+                <tr>
+                    <th>{% trans "Internal number" %}</th>
+                    {% if profile.is_juridical %}
+                        <th>{% trans "Person name" %}</th>
+                        <th>{% trans "Short number" %}</th>
+                    {% endif %}
+                    <th>{% trans "Password" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% for fixed_user in fixed_users %}
+                {% for fixed_use in fixed_user %}
+                <tr>
+                        <td>{{ fixed_use.2 }}</td>
+                        {% if profile.is_juridical %}
+                            <td>{% if fixed_use.38 %}{{ fixed_use.38 }}{% else %}---{% endif %}</td>
+                            <td>{% if fixed_use.37 %}{{ fixed_use.37 }}{% else %}---{% endif %}</td>
+                        {% endif %}
+                        <td>{{ fixed_use.3 }}</td>
+                        <td><a title='{% trans "Change" %}' href="{{ fixed_use.0 }}/">{% trans "Change" %}</a></td>
+                    </tr>
+                {% endfor %}
+        {% endfor %}
+        {%endif%}
+        </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

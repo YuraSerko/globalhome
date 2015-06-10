@@ -1,0 +1,179 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+  
+   <link rel="stylesheet" type="text/css" href="/media/css/financy.css">
+	
+    
+    
+{% endblock %}
+
+{% block content %} 
+ 
+
+  {% block sendin %}
+  {{block.super}}
+         {% endblock %}
+ 
+
+  
+
+  
+  <article id="right">
+	<style>
+	@media only screen and (min-width: 1200px){
+			.advert_2{
+					float: right;
+					margin: 20px;
+					width: 240px;
+					margin-right: -80px;
+					height: 400px;
+					/*border: 2px solid #4282D2;*/
+				}
+				}
+		</style>
+	<div class = "advert_2">
+		<script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement|add:17}}"></script>
+	</div>
+			<div id='centr_field'>
+
+            {% block cap %}
+                {{ block.super }}
+                
+                {% endblock %} 
+				          
+                    	<!--Финансы-->	
+                    	<style>
+                      .find{
+                        text-decoration: none;
+                      }
+                      </style>
+
+                    	<header style="display: table; width: 100%; margin-bottom: 10px;">
+                <h4 class="widget__title" style="display: table-cell; vertical-align: bottom;">Курсы валют  <!--span id="currency-rates-table-date"></span--></h4>
+            			</header>	
+            				<!--Table financy-->	
+            					<table class="b-table b-table_margin" id="full-currency-table">
+                <thead>
+                    <tr>
+                        <th>Код</th>
+                        <th>Единиц</th>
+                        <th>Валюта</th>
+                        <th class="b-table__td_nowrap">Вчерашний курс ЦБ РФ</th>
+                        <th class="b-table__td_nowrap">Курс ЦБ РФ на сегодня</th>
+                        <!--th class="b-table__td_nowrap">Курс ЦБ РФ на завтра</th-->
+                        <th>Изменение на сегодня</th>
+                        <th>История котировок</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                        
+                            
+                					{% for rate, rate_y, rate_t in zip_g %}
+                         
+                         
+                                  
+                                    <tr>
+                                 
+                						
+                            <td>
+                                <img title = "{{rate.char_code}}" alt="{{rate.char_code}}" class="b-table__flag lazy-load load-completed" src="/media/images/rate_img/{{rate.char_code}}_min.png">
+								
+                                {{rate.char_code}}                            </td>
+                            <td>{{rate.nominal}}</td>
+                            <td><p><strong>{{rate.name}}</strong></p>                                
+                                    </td>
+                                  
+                            <td>{{rate_y.value}}</td>
+
+                            <td>{{rate.value}}</td><!--td>{{rate_t.value}}</td-->
+                            <td>
+                            	  {% if rate.subtraction > 0 or rate.subtraction = 0 %}
+                            <p class = "green">{{rate.subtraction}}</p>
+                            {% else %}
+                             <p class = "red_change">{{rate.subtraction}}</p>
+                            {% endif %}
+                                	
+                                                       </td><td><a class="find" href = "/finance/history/?select_date={{first_page_date}}&second_date={{now}}&char_code={{rate.char_code}}&name={{rate.name}}" >Просмотр</a></td>
+                               
+                            	
+                        </tr>
+                                                             
+                               {% endfor %} 
+                                
+                                {% for rate, r_y, r_t in zip_s %}
+                                
+                                                                    <tr>
+                                        <td>
+                                <img title = "{{rate.char_code}}" alt="{{rate.char_code}}" class="b-table__flag lazy-load load-completed" src="/media/images/rate_img/{{rate.char_code}}_min.png">
+                                <noscript>
+                                    &lt;img src="/public/media/flags/USD_min.png" alt="USD" class="b-table__flag" /&gt;
+                                </noscript>
+                                {{rate.char_code}}                            </td>
+                            <td>{{rate.nominal}}</td>
+                            <td><p>{{rate.name}}</p>                                
+                                    </td>
+                            <td>{{r_y.value}}</td><td>{{rate.value}}</td><!--td>{{r_t.value}}</td-->
+                            <td>
+                            {% if rate.subtraction > 0 or rate.subtraction = 0 %}
+                            <p class = "green">{{rate.subtraction}}</p>
+                            {% else %}
+                             <p class = "red_change">{{rate.subtraction}}</p>
+                            {% endif %}
+                                  
+                                                </td></td><td><a class="find" href = "/finance/history/?select_date={{first_page_date}}&second_date={{now}}&char_code={{rate.char_code}}&name={{rate.name}}" >Просмотр</a></td>
+                               
+                        </tr>        
+                                              
+                               {% endfor %} 
+                                {% for rate, r_y, r_t in zip %}
+                                
+                                                                    <tr>
+                                        <td>
+                                <img title = "{{rate.char_code}}" alt="{{rate.char_code}}" class="b-table__flag lazy-load load-completed" src="/media/images/rate_img/{{rate.char_code}}_min.png">
+                                <noscript>
+                                    &lt;img src="/public/media/flags/USD_min.png" alt="USD" class="b-table__flag" /&gt;
+                                </noscript>
+                                {{rate.char_code}}                            </td>
+                            <td>{{rate.nominal}}</td>
+                            <td><p>{{rate.name}}</p>                                
+                                    </td>
+                            <td>{{r_y.value}}</td><td>{{rate.value}}</td><!--td>{{r_t.value}}</td-->
+                            <td>{% if rate.subtraction > 0 or rate.subtraction = 0 %}
+                            <p class = "green">{{rate.subtraction}}</p>
+                            {% else %}
+                             <p class = "red_change">{{rate.subtraction}}</p>
+                            {% endif %}
+                               
+
+                                           </td></td><td><a class="find" href = "/finance/history/?select_date={{first_page_date}}&second_date={{now}}&char_code={{rate.char_code}}&name={{rate.name}}" >Просмотр</a></td>
+                                
+                        </tr>
+                                                               
+                               {% endfor %}                                       	                         
+                                    </tbody>
+                                </table>
+            				
+			</div>	
+	</article> 
+
+    {% block login_1 %}
+    {{block.super}}
+         {% endblock %}
+
+          {% block review_window %}
+      {{block.super}}
+      {% endblock %} 
+        
+      {% block complaint_window %}
+      {{block.super}}
+      {% endblock %}
+
+       {% block hs_login2 %}
+      {{block.super}}
+      {% endblock %}
+     
+{% endblock %}
+ 

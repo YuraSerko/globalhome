@@ -1,0 +1,45 @@
+{% extends "admin_tools/dashboard/module.html" %}
+{% block module_content %}
+<table>
+	<thead>
+        <tr>
+            <th>Период</th>
+            <th>Всего</th>
+            <th>Активных</th>
+            <th>Блокированых</th>
+            <th>Деактивированных</th>
+        </tr>
+     </thead>
+     <tbody>
+     	<tr>
+        	<td>За весь период</td>
+        	<td>{{ module.count_all_zakazy }}</td>
+        	<td>{{ module.count_all_active_zakazy }}</td>
+        	<td>{{ module.count_all_blocked_zakazy }}</td>
+        	<td>{{ module.count_all_deactivate_zakazy }}</td>
+        </tr>
+     	<tr>
+        	<td>За текущий месяц</td>
+        	<td>{{ module.count_all_current_month_zakazy }}</td>
+        	<td>{{ module.count_all_active_current_month_zakazy }}</td>
+        	<td>{{ module.count_all_blocked_current_month_zakazy }}</td>
+        	<td>{{ module.count_all_deactivate_current_month_zakazy }}</td>
+        </tr>
+     	<tr>
+        	<td>За текущую неделю</td>
+        	<td>{{ module.count_all_current_week_zakazy }}</td>
+        	<td>{{ module.count_all_active_current_week_zakazy }}</td>
+        	<td>{{ module.count_all_blocked_current_week_zakazy }}</td>
+        	<td>{{ module.count_all_deactivate_current_week_zakazy }}</td>
+        </tr>
+     	<tr>
+        	<td>За сегодня</td>
+        	<td>{{ module.count_all_today_zakazy }}</td>
+        	<td>{{ module.count_all_active_today_zakazy }}</td>
+        	<td>{{ module.count_all_blocked_today_zakazy }}</td>
+        	<td>{{ module.count_all_deactivate_today_zakazy }}</td>
+        </tr>
+     </tbody>
+    
+</table>
+{% endblock %}

@@ -1,0 +1,891 @@
+ul.hr {
+    margin: 0; /* Обнуляем значение отступов */
+}
+ul.hr li {
+    display: inline; /* Отображать как строчный элемент */
+    margin-right: 10px; /* Отступ слева */
+}
+#but_inet{
+background-image: url(../jpg/but_inet.png);
+display:inline-block;
+width:200px;
+height:210px;
+}
+
+#but_inet:hover{
+background-image: url(../jpg/but_inet1.png);
+display:inline-block;
+width:200px;
+height:210px;
+}
+#but_telefoniya{
+background-image: url(../jpg/but_telefoniya.png);
+display:inline-block;
+width:200px;
+height:210px;
+}
+#but_telefoniya:hover{
+background-image: url(../jpg/but_telefoniya1.png);
+display:inline-block;
+width:200px;
+height:210px;
+}
+#but_data_centr{
+background-image: url(../jpg/but_data_centr.png);
+display:inline-block;
+width:200px;
+height:210px;
+}
+#but_data_centr:hover{
+background-image: url(../jpg/but_data_centr1.png);
+display:inline-block;
+width:200px;
+height:210px;
+}
+   
+#button_uni {
+background-image: url(../jpg/button_red.jpg);
+border:none;
+display:block;
+width:249px;
+height:43px;
+color:#EAEAEA;
+text-align:center;
+text-decoration:none;
+font-size: 16px;
+margin-left:140px;
+line-height: 43px;
+font-family: Verdana, Geneva, sans-serif;
+font-weight: bold;
+text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#button_uni:hover {
+color: white;
+text-decoration:none;
+background-image: url(../jpg/button_green.jpg);
+}
+
+#button_uni_account {
+background-image: url(../jpg/button_red.jpg);
+border:none;
+display:block;
+width:249px;
+height:43px;
+color:#EAEAEA;
+text-align:center;
+text-decoration:none;
+font-size: 16px;
+margin-left:50px;
+line-height: 43px;
+font-family: Verdana, Geneva, sans-serif;
+font-weight: bold;
+text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#button_uni_account:hover {
+color: white;
+text-decoration:none;
+background-image: url(../jpg/button_green.jpg);
+}
+
+
+#css_button a{ 
+background-image: url(../jpg/bigbtn.jpg);
+border:none;
+display:block;
+width:200px;
+height:200px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button span.hover {
+  background-image: url(../jpg/bigbtn2.jpg);
+  border:none;
+  display:block;
+  width:200px;
+  height:200px;
+  text-align:center;
+  text-decoration:none;
+  display:block;
+}
+#css_button1 a{ 
+background-image: url(../jpg/host.jpg);
+border:none;
+display:block;
+width:198px;
+height:113px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button1 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/host2.jpg);
+  width:198px;
+  height:113px;
+  display:block;
+}
+#css_button2 a{ 
+background-image: url(../jpg/gornomer.jpg);
+border:none;
+display:block;
+width:198px;
+height:113px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button2 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/gornomer2.jpg);
+  width:198px;
+  height:113px;
+  display:block;
+}
+#css_button3 a{ background-image:url(../jpg/card.PNG);
+border:none;
+display:block;
+width:198px;
+height:113px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button3 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image:url(../jpg/card2.PNG);
+  width:198px;
+  height:113px;
+  display:block;
+}
+#css_buttonn a{ 
+background-image:url(../jpg/button_new.png);
+border:none;
+display:block;
+width:249px;
+height:43px;
+}
+
+#css_buttonn span.hover {
+border:none;
+display:block;
+width:249px;
+height:43px;
+background-image:url(../jpg/button_new1.png);
+}
+#css_button4 a{ 
+background-image: url(../jpg/OFICE.jpg);
+border:none;
+display:block;
+width:198px;
+height:113px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button4 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/OFICE2.jpg);
+  width:198px;
+  height:113px;
+  display:block;
+}
+#css_button5 a{ 
+background-image: url(../jpg/ZAWONKI.jpg);
+border:none;
+display:block;
+width:198px;
+height:113px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button5 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/ZAWONKI2.jpg);
+  width:198px;
+  height:113px;
+  display:block;
+} 
+#css_button6 a{ 
+background-image: url(../jpg/centr.jpg);
+border:none;
+display:block;
+width:198px;
+height:113px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button6 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/centr2.jpg);
+  width:198px;
+  height:113px;
+  display:block;
+} 
+#css_button7 a{ 
+background-image: url(../jpg/op.png);
+border:none;
+display:block;
+width:198px;
+height:113px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button7 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/op2.png);
+  width:198px;
+  height:113px;
+  display:block;
+} 
+#css_button8 a{ 
+background-image: url(../jpg/DOSTUP3.jpg);
+border:none;
+display:block;
+width:198px;
+height:113px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button8 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/DOSTUP4.jpg);
+  width:198px;
+  height:113px;
+  display:block;
+} 
+  
+  
+  #menu {
+  width: 200px;
+  border-style: solid solid none solid;
+  border-color: #94AA74;
+  border-size: 1px;
+  border-width: 1px;
+  margin: 10px;
+  }
+  
+#menu li a {
+  height: 32px;
+    voice-family: "\"}\""; 
+    voice-family: inherit;
+    height: 24px;
+  text-decoration: none;
+  } 
+  
+#menu li a:link, #menu li a:visited {
+  color: #5E7830;
+  display: block;
+  background: url(../jpg/menu1.gif);
+  padding: 8px 0 0 10px;
+  }
+  
+#menu li a:hover {
+  color: #26370A;
+  background: url(../jpg/menu1.gif) 0 -32px;
+  padding: 8px 0 0 10px;
+  }
+  
+#menu li a:active {
+  color: #26370A;
+  background: url(../jpg/menu1.gif) 0 -64px;
+  padding: 8px 0 0 10px;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+.wir2 {
+  margin-left:150px;
+  margin-top:20px;
+}
+
+
+
+
+
+
+#css_button2_1 a{ 
+background-image: url(../jpg/Arenda.PNG);
+border:none;
+display:block;
+width:249px;
+height:43px;
+text-align:center;
+text-decoration:none;
+margin-left:150px;
+}
+
+#css_button2_1 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/Arenda2.PNG);
+width:249px;
+height:43px;
+  display:block;
+} 
+
+#css_button2_2 a{ 
+background-image: url(../jpg/Telephonia.png);
+border:none;
+display:block;
+width:249px;
+height:43px;
+text-align:center;
+text-decoration:none;
+margin-left:150px;
+}
+
+#css_button2_2 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/Telephonia2.png);
+width:249px;
+height:43px;
+  display:block;
+} 
+#css_button2_22 a{
+background-image: url(../jpg/Telephonia2.png);
+border:none;
+display:block;
+width:249px;
+height:43px;
+text-align:center;
+text-decoration:none;
+margin-left:150px;
+}
+
+#css_button2_3 a{ 
+background-image: url(../jpg/Internet.png);
+border:none;
+display:block;
+width:249px;
+height:43px;
+text-align:center;
+text-decoration:none;
+margin-left:150px;
+}
+
+#css_button2_3 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/Internet2.png);
+width:249px;
+height:43px;
+  display:block;
+} 
+
+#css_button2_4 a{ 
+background-image: url(../jpg/Data.png);
+border:none;
+display:block;
+width:249px;
+height:43px;
+text-align:center;
+text-decoration:none;
+margin-left:150px;
+}
+
+#css_button2_4 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/Data2.png);
+width:249px;
+height:43px;
+  display:block;
+} 
+#css_button2_42 a{
+background-image: url(../jpg/Data2.png);
+border:none;
+display:block;
+width:249px;
+height:43px;
+text-align:center;
+text-decoration:none;
+margin-left:150px;
+}
+
+
+#css_button2_5 a{ 
+background-image: url(../jpg/Hosting.png);
+border:none;
+display:block;
+width:249px;
+height:43px;
+text-align:center;
+text-decoration:none;
+margin-left:150px;
+}
+
+#css_button2_5 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/Hosting2.png);
+width:249px;
+height:43px;
+  display:block;
+} 
+
+#css_button2_6 a{ 
+background-image: url(../jpg/Mezdunarodnie.jpg);
+border:none;
+display:block;
+width:198px;
+height:113px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button2_6 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/Mezdunarodnie2.jpg);
+  width:198px;
+  height:113px;
+  display:block;
+}  
+
+
+
+
+
+#css_button3_1 a{ 
+background-image: url(../jpg/popolnenie.png);
+border:none;
+display:block;
+width:196px;
+height:64px;
+
+text-align:center;
+text-decoration:none;
+}
+
+#css_button3_1 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/popolnenie2.png);
+  width:196px;
+height:64px;
+  display:block;
+}
+
+#css_button3_2 a{ 
+background-image: url(../jpg/payment_card.png);
+border:none;
+display:block;
+width:196px;
+height:64px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button3_2 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/payment_card2.png);
+width:196px;
+height:64px;
+  display:block;
+} 
+
+
+
+#css_button4_1 a{ 
+background-image: url(../jpg/Gor_num.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+
+text-align:center;
+text-decoration:none;
+}
+
+#css_button4_1 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/Gor_num2.png);
+width:300px;
+height:44px;
+  display:block;
+}
+#css_button4_2 a{ 
+background-image: url(../jpg/Zwonki_bez_nomera.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+
+text-align:center;
+text-decoration:none;
+}
+
+#css_button4_2 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/Zwonki_bez_nomera2.png);
+width:300px;
+height:44px;
+  display:block;
+}
+#css_button4_3 a{ 
+background-image: url(../jpg/Zwonki_s_nomerom.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+
+text-align:center;
+text-decoration:none;
+}
+
+#css_button4_3 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/Zwonki_s_nomerom2.png);
+width:300px;
+height:44px;
+  display:block;
+}
+
+
+#css_button4_4 a{ 
+background-image: url(../jpg/device_settings.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+
+text-align:center;
+text-decoration:none;
+}
+
+#css_button4_4 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/device_settings2.png);
+width:300px;
+height:44px;
+  display:block;
+}
+
+#css_button4_5 a{ 
+background-image:url(../jpg/sip_ac.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+
+text-align:center;
+text-decoration:none;
+}
+
+#css_button4_5 span.hover {
+  border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/sip_ac2.png);
+width:300px;
+height:44px;
+  display:block;
+}
+#css_button5_1 a{ 
+background-image: url(../jpg/zv_sait.png);
+border:none;
+display:block;
+width:196px;
+height:64px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button5_1 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/zv_sait2.png);
+  width:196px;
+height:64px;
+  display:block;
+}
+
+#css_button5_2 a{ 
+background-image: url(../jpg/zv_sip.png);
+border:none;
+display:block;
+width:196px;
+height:64px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button5_2 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/zv_sip2.png);
+  width:196px;
+height:64px;
+  display:block;
+}
+
+#css_button2_4_1 a{ 
+background-image:url(../jpg/arenda_s_s.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button2_4_1 span.hover {
+border-top:none;
+border-left:none;
+text-align:center;
+text-decoration:none;
+background-image: url(../jpg/arenda_s_s2.png);
+width:300px;
+height:44px;
+display:block;
+}
+#css_button2_4_2 a{ 
+background-image: url(../jpg/razmeschenie_s.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button2_4_2 span.hover {
+border-top:none;
+border-left:none;
+text-align:center;
+text-decoration:none;
+background-image: url(../jpg/razmeschenie_s2.png);
+width:300px;
+height:44px;
+display:block;
+}
+#css_button2_4_3 a{ 
+background-image: url(../jpg/arenda_s.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button2_4_3 span.hover {
+border-top:none;
+border-left:none;
+text-align:center;
+text-decoration:none;
+background-image: url(../jpg/arenda_s2.png);
+width:300px;
+height:44px;
+display:block;
+}
+#css_button2_4_4 a{ 
+background-image: url(../jpg/virtual_s.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button2_4_4 span.hover {
+border-top:none;
+border-left:none;
+text-align:center;
+text-decoration:none;
+background-image: url(../jpg/virtual_s2.png);
+width:300px;
+height:44px;
+display:block;
+}
+
+#css_button2_6 a{ 
+background-image: url(../jpg/office_ats.png);
+border:none;
+display:block;
+width:249px;
+height:43px;
+text-align:center;
+text-decoration:none;
+margin-left:150px;
+}
+
+#css_button2_6 span.hover {
+   border-top:none;
+  border-left:none;
+  text-align:center;
+  text-decoration:none;
+  background-image: url(../jpg/office_ats2.png);
+width:249px;
+height:43px;
+  display:block;
+} 
+#css_button2_62 a{
+background-image: url(../jpg/office_ats2.png);
+border:none;
+display:block;
+width:249px;
+height:43px;
+text-align:center;
+text-decoration:none;
+margin-left:150px;
+}
+
+#css_button2_6_1 a{ 
+background-image:url(../jpg/call_forwarding.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button2_6_1 span.hover {
+border-top:none;
+border-left:none;
+text-align:center;
+text-decoration:none;
+background-image: url(../jpg/call_forwarding2.png);
+width:300px;
+height:44px;
+display:block;
+}
+#css_button2_6_2 a{ 
+background-image: url(../jpg/send_fax.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button2_6_2 span.hover {
+border-top:none;
+border-left:none;
+text-align:center;
+text-decoration:none;
+background-image: url(../jpg/send_fax2.png);
+width:300px;
+height:44px;
+display:block;
+}
+#css_button2_6_3 a{ 
+background-image: url(../jpg/voice_menu.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button2_6_3 span.hover {
+border-top:none;
+border-left:none;
+text-align:center;
+text-decoration:none;
+background-image: url(../jpg/voice_menu2.png);
+width:300px;
+height:44px;
+display:block;
+}
+#css_button2_6_4 a{ 
+background-image: url(../jpg/call_transfer.png);
+border:none;
+display:block;
+width:300px;
+height:44px;
+text-align:center;
+text-decoration:none;
+}
+
+#css_button2_6_4 span.hover {
+border-top:none;
+border-left:none;
+text-align:center;
+text-decoration:none;
+background-image: url(../jpg/call_transfer2.png);
+width:300px;
+height:44px;
+display:block;
+}
+

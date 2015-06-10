@@ -1,0 +1,32 @@
+{% extends 'base_private.html' %}
+{% load form_tags i18n %}
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+<div class="ugc">
+    <p>Страница пополнения счёта с помощью hotspot-card, вам необходимо указать логин и пин.</p>
+</div>
+{{ block.super }}
+
+<div class="form_django">
+<form method="POST" action="#">
+    
+	{% form_field form.login block %}
+    {% form_field form.pin block%}
+   
+			<div class="form-submit">
+                <div class="form-submit-left">
+                    <small><span class="req">*</span> — пункты обязательные для заполнения</small>
+                </div>
+                <div class="form-submit-right">
+                    <input type="submit" id="add-button" class="bt bt-blue2" value='Пополнить' />
+                </div>
+            </div>
+</form>
+</div>
+{% endblock %}
+
+
+
+
+

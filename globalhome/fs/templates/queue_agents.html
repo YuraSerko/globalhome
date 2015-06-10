@@ -1,0 +1,74 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+{% block content %}
+<script>
+function blocked(a){
+            var subm = document.getElementById("subm");
+            subm.value = a;
+            subm.click();
+        }
+function unblocked(a){
+            var subm = document.getElementById("subm_un");
+            subm.value = a;
+            subm.click();
+        }
+</script>
+<p class="breadcrumbs"><a href="/account/service_choice/">Выбор раздела</a><span>→</span><a href="/account/">Телефония</a><span>→</span><a href="/account/queue/">Очередь</a><span>→</span>Операторы</p>
+<h1 class="title">Список операторов очереди {{ name }}</h1>
+
+<div class="ugc">
+    <p>Подключенные операторы будут принимать звонки из очереди.</p>
+</div>
+
+{{ block.super }}
+
+    {% if agents %}
+        <form method="post" enctype="multipart/form-data">
+            <table class="type-b">
+                <thead>
+                    <tr>
+                        <th>Номер</th>
+                        <th>Имя владельца</th>
+                        <th>Пароль</th>
+                        <th style="width:120px">Состояние</th>
+                    </tr>
+                </thead>
+                {% for a in agents %}
+                    <tr>
+                        <td>{{ a.number }}</td>
+                        <td>{{ a.owner }}</td>
+                        <td>{{ a.password }}</td>
+                        <td>
+                            {% if a.online %}
+                                <div class="status_div" onclick="blocked('{{ a.id }}');" align="center" style="cursor:pointer; background-color: #00CC00; padding-left:5px; padding-right:5px;"><font color="#FFFFFF">Подключен</font></div>
+                            {% else %}
+                                <div class="status_div" onclick="unblocked('{{ a.id }}');" align="center" style="cursor:pointer; background-color: #FF0033; padding-left:5px; padding-right:5px;"><font color="#FFFFFF">Не подключен</font></div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <input id="subm" class="bt bt-blue" type="submit" name="submit_block" style="display:none;" value=""/>
+            <input id="subm_un" class="bt bt-blue" type="submit" name="submit_unblock" style="display:none;" value=""/>
+            <input type="hidden" name="fs" value="{{ fs }}"/>
+            <div >
+                <div style="text-align:left;display:inline-block">
+                    <input class="bt bt-blue" type="submit" name="back" value="Назад"/>
+                </div>
+                {% if agents %}
+                    <div style="text-align:right;float:right">
+                        <input class="bt bt-blue" type="submit" name="disconnect_all" value="Отключить всех"/>
+                        <input class="bt bt-blue" type="submit" name="connect_all" value="Подключить всех"/>
+                    </div>
+                {% endif %}
+            </div>
+        </form>
+    {% else %}
+    <div class="status status-info" style="padding-right: 10px;">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>Нет операторов</p>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,210 @@
+{% extends 'base_public.html' %}
+{% block extrahead %}
+{{ block.super }}
+
+<link type="text/css" href="{{ MEDIA_URL }}css/egplant_cost.css" rel="stylesheet" />
+<link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+<!-- <script type="text/javascript" src="/media/js/Localnumbers_relocating.js"></script> -->
+<!-- <script type="text/javascript" src="/media/js/jquery-1.7.2.min.js"></script> -->
+<script type="text/javascript" src="/media/js/jquery-ui-1.8.21.custom.min.js"></script>
+
+
+
+    <script>
+    function hot_key()
+    {
+        $.ajax({
+                url: "/hot_key/",  
+                cache: false,
+                async: false, 
+                success: function(html){
+                    
+                    $("#ajall").html(html);
+                      
+                }  
+            });
+        
+        }
+   
+
+    function number800() {
+        $.ajax({
+            url: "/8800add/",
+            cache: false,
+            async: false,
+            success: function(html) {
+                $("#ajall").html(html);
+            }
+        });
+    }
+
+    $(function() {
+        var location = window.location.hash;
+        if(location == "#show_numbers") { 
+            number800();
+        }
+    })
+
+    </script>
+{% endblock %}
+{% block content %}
+
+{% if site == 3 %}
+
+    {% block sendin %}
+    {{block.super}}
+    {% endblock %}
+    
+{% endif %}
+
+{{ obj.text|safe }}
+{% with obj.get_children as children %}
+    {% if children %}
+        <ul>
+        {% for child in children %}
+            <li><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+
+
+{% if coordhotspot %}
+<div class = "ugc">
+<h4  >Карта покрытия </h4>
+</div>
+<div id="search">
+<div class="search-input">
+<div class = "cut">
+<div class="sel">
+<select id="id_sity" onchange="query()" >
+{% for city in allcities %}
+<option  value={{city.city}}>{{ city.city }}</option>
+{% endfor %}
+ </select>
+</div>
+</div>
+<input type="text" id="id_search" placeholder="Введите улицу">
+</div>
+<div class="search-button " title="Поиск адресов"></div>
+<div id="mod">
+<div class="close_button "></div>
+<div id="result"></div>
+</div>
+</div>
+<script>
+function clear(){
+$("#mod").hide()
+$("#id_search").val('')
+}
+function query(){ 
+
+
+
+
+
+
+var items = { item:$('#id_search').val(),
+              city:$('#id_sity').val(),
+             }
+		$.ajax({
+               url: "/internet/interactive_search_point/5/",
+               type: "POST",
+               data: items,
+               cache: true,
+			   async: true,
+               success: function(html){
+                   $("#result").html(html)
+                }  
+           });
+            $("#mod").show()
+            var val = $("#id_search").val()
+            if (val=='')
+               $("#mod").hide()
+            
+}
+
+
+$(".close_button" ).click(clear)
+$("#id_search").keyup(query)
+
+
+
+ </script>
+
+
+<script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+
+<div id="map" style="height: 600px; margin-bottom:60px"></div>
+
+ <script type="text/javascript">
+        ymaps.ready(init);
+        var myMap, 
+            myPlacemark, myPlacemark1;
+
+        function init(){
+  
+
+            myMap = new ymaps.Map ("map", {
+                center: [55.76, 37.64],
+                zoom: 11,
+                behaviors: ["default", "scrollZoom"],
+            }); 
+        
+            myMap.controls.add(
+            new ymaps.control.ZoomControl()
+            );
+
+           {% for e in coordhotspot  %}
+           myPlacemark = new ymaps.Placemark([{{e.y|escapejs}},{{e.x|escapejs}}],{balloonContent:"{{e.street.street_type|escapejs}}"+ " " + "{{e.street.street|escapejs}}"+ ", "+"{{e.house.house|escapejs}}",}, {
+              
+                preset:"twirl#wifiIcon",
+                iconImageOffset: [0, -43],
+                hideIconOnBalloonOpen: false,
+                balloonOffset:[12,-9]
+                
+                             
+            });
+          
+
+           // Добавляет метку на карту
+            myMap.geoObjects.add(myPlacemark); 
+            {% endfor%} 
+            
+           myMap.setBounds(myMap.geoObjects.getBounds());
+        
+ 
+        }
+function val_a(a, street_id){
+ 
+	var street = $(a).parent().parent().html()
+    var street_id_str = street_id.toString();
+    var street_cut_id = street.indexOf(street_id_str);
+    var street_cut = street.substr(0, street_cut_id);
+    var id_value = street_cut.lastIndexOf('value="');
+    var str_coord = street_cut.substr(id_value+7, street_cut.length);
+    var cs = str_coord.split(',')
+    myMap.setCenter(cs, 17, {
+    checkZoomRange: true
+            })
+     			 
+} 
+    </script>
+
+{% endif%}
+
+
+ 
+ 
+<a href="#" class="overlay" id="show_numbers"></a>
+<div class="popup_personal mngs" id='ajall'>
+    <a class="popup_personal-close" href="#close"></a>
+</div>
+{% endblock %}
+{% block img_composition %}
+			<div class="composition">
+				<img src="{{ MEDIA_URL }}images/compositions/11.png" alt="">
+			</div>
+			
+				{% endblock %}  

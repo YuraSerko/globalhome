@@ -1,0 +1,146 @@
+{% load i18n form_tags lib_tags %}
+<input name="call_type" type="hidden" value="{{ call_type }}" />
+<div class="shag">
+            <ol class="asd">
+                <li class="mli">
+                    <div class="form-section form-section2 form_django form_voice_vm">
+
+                    <span class="label">Выберите уже готовый список или создайте новый</span>
+                         <select name="choice_list" id="choice_list_id" onChange="ajax_list_number()">
+                                <option id="change_number_id">Создать новый список</option>
+                        {% for key, value in choices.items %}
+                            <option value="{{ key }}">{{ value }}</option>
+                        {% endfor %}
+                         </select>
+                   </br>
+                   </br>
+					</br>
+                    {% form_field form.name block %}
+                    </div><!--form-section-->
+                </li>
+
+                <li class="mli">
+                    <div class="form-section form-section2">
+                        {% form_field form.type_out_in block %}
+                        {% form_field form.type_out block %}
+                        {% form_field form.type_in block %}
+                         <div class="hint"><i></i>Выберите тип вызова и тип списка</div>
+                    </div><!--form-section-->
+                </li>
+
+                <li class="mli">
+                    <div class="form-section form-section2 form_django">
+                        <table>
+                             <tr>
+                             <label id="black1" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;">Номера которым&nbsp</label>
+                                <label id="white1" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;">Номера на которые&nbsp</label>
+
+                                <label id="black2" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;"> запрещены вызовы:</label>
+                                <label id="white2" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;"> разрешены вызовы:</label>
+                                 <td>
+
+                        <div class="field">
+                        <input id="id_number" name="number" type="text" style="margin-bottom:5px; width:250px;"></input>
+                        <button name="add" id="add_id" class="bt bt-blue2" type="button" onclick="add_r();" style="margin-bottom:5px; width:250px;">Добавить +</button>
+                        <select ondblclick="del_r()" name="oper2" size="9" id="selected_numbers" style="height:100%; width: 250px;">
+                        {% for ch in model_number_detail_list %}
+                             <option  value="{{ ch }}">{{ ch }}</option>
+                        {% endfor %}
+                        </select>
+                        </div>
+                        </td>
+                             <td>
+                             </td>
+
+
+                                    <td>
+
+                                    </td>
+    <td>
+                             </td>
+                                    <td valign="top">
+                                    {% form_field form.file_text block %}
+                                <input id="int_numb" name="int_numb" type="hidden" value="{{ int_numb }}"/>
+                                <div class="hint"><i></i>Вы можете выбрать файл со списком номеров формата ".txt".<br>Номера в файле должны располагаться через запятую без пробелов.<br>Пример: 1000016,1000014,74951234567,74991234567.</div>
+                                </td>
+
+                                </tr>
+
+                                </table>
+                        </div><!--form-section-->
+                 </li>
+
+
+                  <li class="mli">
+            <div class="form_django form_ul">
+            <div class="form-section form-section2">
+            <label id="in" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;">Номера и/или группы на которые</label>
+            <label id="out" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;">Номера и/или группы которым</label>
+            <label id="black22" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;"> запрещены вызовы:</label>
+            <label id="white22" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;"> разрешены вызовы:</label>
+            <table WIDTH="800">
+                             <tr>
+                                 <td valign="top" width="450">
+
+                                {{ formset_number.management_form }}
+                                {% for form1 in formset_number.forms %}
+                                    <div class="itemkanumber">
+                                      {{ form1.as_p }}
+                                      <a href="javascript:void(0);" onClick="del_asks(this, 'number');"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a>
+                                      <br></br>
+                                      </br>
+                                     </div>
+                                {% endfor %}
+                                <button name="add" id="add_id_number" class="bt bt-blue2" type="button" onclick="ask(this, 'number');" style="width: 270px;">Ещё внутренний номер...</button>
+                               <hr class="for_itemka_number"></hr>
+                                </td>
+                                 <td>
+                                </td>
+                                </tr>
+
+
+                                <tr>
+                                <td valign="top" width="350">
+
+                                {{ formset_group.management_form }}
+                                {% for form2 in formset_group.forms %}
+                                    <div class="itemkagroup">
+                                      {{ form2.as_p }}
+                                    <a href="javascript:void(0);" onClick="del_asks(this, 'group');"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a><br></br>
+                                      </br></div>
+                                {% endfor %}
+                                <button name="add" id="add_id_group" class="bt bt-blue2" type="button" onclick="ask(this, 'group');" style="width: 270px;">Ещё группа...</button>
+                                <hr class="for_itemka_group"></hr>
+                                </td>
+                                <td>
+                                </td>
+                                </tr>
+
+
+                                <tr>
+                                <td valign="top" width="350">
+
+                                {{ formset_extnumber.management_form }}
+                                {% for form3 in formset_extnumber.forms %}
+                                    <div class="itemkaextnumber">
+                                      {{ form3.as_p }}
+                                    <a href="javascript:void(0);" onClick="del_asks(this, 'extnumber');"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a><br></br>
+                                      </br></div>
+                                {% endfor %}
+                                <button name="add" id="add_id_extnumber" class="bt bt-blue2" type="button" onclick="ask(this, 'extnumber');" style="width: 270px;">Ещё городской номер...</button>
+                               <hr class="for_itemka_extnumber"></hr>
+                                </td>
+                                <td>
+                                </td>
+                                </tr>
+
+
+           </table>
+
+             </div>
+             </div>
+              </li>
+
+
+                        </ol>
+                        </div>

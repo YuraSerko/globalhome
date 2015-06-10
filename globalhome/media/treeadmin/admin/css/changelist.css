@@ -1,0 +1,4 @@
+#changelist table tbody td:first-child {
+    text-align: left;
+    width: 30%;
+}

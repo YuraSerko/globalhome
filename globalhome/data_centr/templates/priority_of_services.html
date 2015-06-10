@@ -1,0 +1,113 @@
+{% extends 'base_private.html' %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{{ MEDIA_URL }}css/priority.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/priority.js"></script>
+    <script type="text/javascript">
+		function submitform(val)
+		{	
+			document.getElementById('command').value = val;
+			document.forms["form_priority"].submit();
+		}
+	</script>
+
+{% endblock %}
+
+{% block content %}
+
+<h1 class="title">Приоритет списания денежных средств</h1>
+
+<div class="ugc">
+    <div class="details">
+        <div class="details-item">
+            <div class="details-head"><i></i><a href="#">Как пользоваться приоритетом списания и оплаты услуг?</a></div>
+            <div class="details-body">
+				<p>Порядок услуг определяет приоритетность списания денежных средств при включенном <strong>автоматическом режиме</strong>. Чем выше позиция услуги, тем выше её приоритет. Списание денежных средств происходит непосредственно с первой и до последней позиции автоматически</p>
+                <p>При включенном <strong>ручном режиме</strong> оплаты услуг, денежные средства не будут списываться автоматически. Для оплаты услуг необходимо поставить галочку в столбце "Оплатить" напротив услуги или выделить все услуги сразу, поставив галочку в заголовке и нажать кнопку "Оплатить"</p>
+            </div>
+        </div><!--details-item-->
+    </div>
+</div>
+
+{{ block.super }}
+
+<form action="/account/priority_of_services/" method="post" name="form_priority">
+	{% if priority_of_services %}
+        <div class="oplata">
+            <font size="3">Оплата услуг:</font>
+            <span class="oplata_rigth" style="margin: 0; padding: 0;">
+                <input type="hidden" id="command" name="type_oplata" value="" />
+                {% if type_payment %}
+                    <a href="javascript: submitform('hand')" name="href">в ручную</a>
+                    <font color="#000000"> / </font>
+                    <a style="text-decoration:none" href="javascript: submitform('auto')" name="href"><b><font class="auto_paid" color="#FFFFFF">автоматически</font></b></a>
+                {% else %}
+                    <a style="text-decoration:none" href="javascript: submitform('hand')" name="href"><b><font class="auto_paid" color="#FFFFFF">в ручную</font></b></a>
+                    <font color="#000000"> / </font>
+                    <a href="javascript: submitform('auto')" name="href">автоматически</a>
+                {% endif %}
+                </span>
+        </div>
+                   
+        <font color="#000000">
+        <table class="priority">
+        	<thead>
+                <tr>
+                <th colspan="3">Приоритет</th>
+                    <th>Услуга</th>
+                    <th>Дата для оплаты</th>
+                    <th>Стоимость, руб</th>
+                    <th><p>Оплатить</p><input id="all_checkbox" onchange="all_change()" type="checkbox" title="Выделить/снять всё"/></th>
+                    <th>Статус</th>
+                </tr>
+            </thead>   
+            <tbody> 
+                {% for priority in priority_of_services %}
+                    <tr class="raw{{ priority.priority }}">
+                        <td width="20px" style="text-align: center;"><a style="cursor: pointer;" onClick="move_top({{ priority.priority }})" class="up">↑</a></td>
+                        <td width="20px" style="text-align: center;"><div class="num" align="center">{{ priority.priority }}</div></td>
+                        <td width="20px" style="text-align: center;"><a style="cursor: pointer;" onClick="move_bottom({{ priority.priority }})" class="down">↓</a></td>
+                        <td style="padding-left: 10px;"><span class="subj">{{ priority.section_name }}</span><input type="hidden" id="hidden_{{ priority.priority }}" name="raw{{ priority.priority }}" value="{{ priority.id }}"/></td>
+                        <td><div class="date_for_paid" align="center" style="cursor:default;">{{ priority.date_for_paid }}</div></td>
+                        <td><div class="cost" align="center" style="cursor:default;">{{ priority.cost }}</div></td>
+                        {% if priority.paid == "Paid" %}
+                        	<td></td>
+                        	<td><div class="status_div" align="center" style="cursor:default; background-color: #00CC00"><font color="#FFFFFF">Оплачено</font></div></td>
+                        {% endif %}
+                        {% if priority.paid == "Not paid" %}
+                        	<td align="center"><input id="paid{{ priority.priority }}" type="checkbox" name="checks" title="Выделите для оплаты" value="{{ priority.zakaz_id }}"/></td>
+                            <td><div class="status_div" align="center" style="cursor: default; background-color: #ffcf00;"><font color="#FFFFFF">Не оплачено</font></div></td>
+                        {% endif %}
+                        {% if priority.paid == "Block" %}
+                        	<td align="center"><input id="paid{{ priority.priority }}" type="checkbox" name="checks" title="Выделите для оплаты" value="{{ priority.zakaz_id }}"/></td>
+                            <td><div class="status_div" align="center" style="cursor:default; background-color: #FF0033"><font color="#FFFFFF">Блокировка</font></div></td>
+                        {% endif %}
+                        <input type="hidden" id="hidden_paid_{{ priority.priority }}" value="{{ priority.paid }}"/>
+                    </tr>
+                {% endfor %}
+        	</tbody>
+        </table>
+        </font>
+        
+        <div class="form-submit">
+            <div class="form-submit-left">
+                <input class="bt bt-blue2" type="submit" name="save" value="Сохранить"/>
+            </div>
+            <div class="form-submit-right">
+                <input class="bt bt-blue2" type="submit" name="paid_services" value="Оплатить"/>
+            </div>
+        </div>
+        
+	{% else %}
+    
+        <div class="status status-info">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>На данный момент у вас нет действующих услуг</p>
+            </div>
+        </div>
+        
+	{% endif %}
+</form>
+{% endblock %}

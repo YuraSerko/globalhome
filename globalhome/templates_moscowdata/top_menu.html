@@ -1,0 +1,14 @@
+<script src="{{ MEDIA_URL }}js/jquery.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}js/script.js" type="text/javascript"></script> 
+
+<div id="top-menu">
+    {% for item in menu %}
+        <div class="top-menu-item{% if item.is_current %} selected{% endif %}{% if forloop.last %} last{% endif %}">
+			{% if item.isCallUs %}
+				<a href="javascript:zingayaWebCall('e1760b6378ca636035011a03840412c0');">{{ item.verbose_name|safe }}</a>
+			{% else %}
+            	<a href="{{ item.url }}">{{ item.verbose_name|safe }}</a>
+			{% endif %}
+        </div>
+    {% endfor %}
+</div>

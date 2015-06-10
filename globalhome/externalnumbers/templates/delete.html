@@ -1,0 +1,14 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+	<br>
+    <h3>{% trans "Are you sure you want to detach local phone number" %}<p style="margin: 10px;">{{ number }}?</p></h3>
+    
+    <form action="." method="POST">
+	    <div class="submit-row">
+	        <input type="submit" class="default" value='{% trans "Yes" %}' name="detach" />
+	        <input type="submit" class="default" value='{% trans "Cancel" %}' name="cancel" />
+	    </div>
+    </form>
+{% endblock %}

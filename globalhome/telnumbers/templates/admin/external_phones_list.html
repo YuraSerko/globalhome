@@ -1,0 +1,421 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+{{ form.media }}
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" /> 
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+
+<script type="text/javascript">
+    
+    function OnResize() {
+        mt = $("#MenuTable");
+        nt = $("#NumbersTable");
+        w = window.outerWidth;
+        if (w !== undefined) {
+            var d = 50;
+            mt.css("width", (w - d).toString())
+            nt.css("width", (w - d).toString())
+        }
+    }
+    
+    function GetAddPoint() {
+        return $("#AddFormPoint");
+    }
+    
+    function ChangedState(index) {
+        sel = $("#state_select_" + index);
+        value = sel.attr("value");
+        if (value == 1) {
+            $("#RegionSelectRow_" + index).show();
+        } else {
+            $("#RegionSelectRow_" + index).hide();
+        }
+    }
+    
+    function GetFormRow(index) {
+        html = 
+'<tr id="AddFormRow_' + index + '">\
+    <td>\
+        <table class="RangeRowTable">\
+            <tr>\
+                <td width="40%" style="text-align: right;">{% trans "Start range" %}:</td>\
+                <td width="60%" align="left"><input type="text" name="range_begin_' + index + '" /></td>\
+            </tr>\
+            <tr>\
+                <td style="text-align: right;">{% trans "End range" %}:</td>\
+                <td align="left"><input type="text" name="range_end_' + index + '" /></td>\
+            </tr>\
+            <tr>\
+                <td style="text-align: right;">{% trans "Number state" %}:</td>\
+                <td align="left">\
+                    <select id="state_select_' + index + '" name="state_select_' + index + '" onchange="ChangedState(' + index + ');">\
+                        <option value="0" selected="selected">{% trans "Reserved" %}</option>\
+                        <option value="1">{% trans "Free" %}</option>\
+                    </select>\
+                </td>\
+            </tr>\
+            <tr id="RegionSelectRow_' + index + '" style="display: none;">\
+                <td style="text-align: right;">{% trans "Region" %}:</td>\
+                <td align="left">\
+                    <select name="region_select_' + index + '">\
+                        <option value="1" selected="selected">{{ RegionStr_1 }}</option>\
+                        <option value="2">{{ RegionStr_2 }}</option>\
+                    </select>\
+                </td>\
+            </tr>\
+        </table>\
+    <td>\
+<tr>'
+        return html;
+    }
+    
+    function GetAddRangeButton(){
+        return $("#AddRangeButton")
+    }
+    
+    function AddRange(){
+        GetAddPoint().append(GetFormRow(window.add_index, window.add_is_first));
+        window.add_index += 1;
+        $("#ranges_count").attr("value", window.add_index);
+        return false;
+    }
+    
+    function DelRange() {
+        if (window.add_index > 1) {
+            tr = $("#AddFormRow_" + (window.add_index - 1));
+            if (tr !== undefined) {
+                tr.remove();
+                window.add_index--;
+                $("#ranges_count").attr("value", window.add_index);
+            }
+        }
+        return false;
+    }
+    
+    function SelectionChange(param) {
+        items = $("td > input:checkbox")
+        var has_checked = false
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].checked) {
+                has_checked = true
+                break
+            }
+        }
+        if (has_checked) {
+            $("#detaching_control_div").show()
+        } else {
+            $("#detaching_control_div").hide()
+        }
+    }
+    
+    $(document).ready(function() {
+        window.onresize = OnResize;
+        $("#changelist").css("border-style", "none");
+        $(".MenuItem").attr("onmouseover", '$(this).css("background-color", "#AAAAAA");')
+        $(".MenuItem").attr("onmouseout", 
+            'if ($(this).hasClass("Selected")) {\
+                $(this).css("background-color", "#DDDDDD");\
+            } else {\
+                $(this).css("background-color", "white");\
+            } ')
+        
+        OnResize();
+        window.add_index = 0;
+        window.add_is_first = true;
+        AddRange();
+        window.add_is_first = false;
+        
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        $("#detaching_control_div").hide()
+        $("td > input:checkbox").attr("onchange", "SelectionChange();")
+        
+        $("#RowNumbersTable tr:nth-child(odd)").addClass("OddRow");
+    })
+    
+</script>
+
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="../../">
+        {% trans "Home" %}
+      </a>
+       &rsaquo; 
+       <a href="../">
+         {{ app_label|capfirst }}
+      </a>
+      &rsaquo; 
+      {{ app_section }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+    <div>
+        <div id="content-main">
+        {% if cl.formset.errors %}
+            <p class="errornote">
+            {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+            </p>
+            {{ cl.formset.non_form_errors }}
+        {% endif %}
+        <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+        
+        {% block notifications %}
+          {% if request.notifications %}
+            {% for message in request.notifications %}
+              <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+                {{ message|safe }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endblock %}
+        
+        <style type="text/css">
+            .MenuItem {
+                /*display: block; */
+                text-align: center;
+                display: table-cell;
+                vertical-align: middle; !important;
+                height: 20px;
+                width: 2000px;
+                border-width: 1px;
+                border-color: white;
+                border-style: solid;
+            }
+            
+            .MenuItem: hover {
+                /*border-color: black; */
+                background-color: #EEEEEE;
+            }
+            
+            .Selected {
+                background-color: #DDDDDD;
+            }
+            
+            .FilterItem {
+                margin: 0px;
+                padding: 0px;
+            }
+            
+            .RangeRowTable {
+                border-style: solid;
+                border-size: 2px;
+            }
+            
+            .NotOddRow {
+                background-color: #FFFFFF;
+            }
+            
+            .OddRow {
+                background-color: #EDF3FE;
+            }
+        </style>
+        
+        <!-- Меню ***************************************************************************** -->
+        <div align="left">
+            <table id="MenuTable" style="width: 1000px; padding: 5px; table-layout: fixed; border: 1px solid #cccccc;">
+                <tr>
+                    {% for menuitem in menu %}
+                        <td style="padding: 0px;">
+                            <a href="{{ menuitem.url }}">
+                                <div class="MenuItem {% if menuitem.selected %}Selected{% endif %}">
+                                    {{ menuitem.label }}
+                                </div>
+                            </a>
+                        </td>
+                    {% endfor %}
+                </tr>
+            </table>
+        </div>
+        <input type="hidden" name="mode" value="{{ current_mode }}" />
+        <h3>{{ selected_title }}</h3>
+        
+        <!-- Содержимое ***************************************************************************** -->
+        {% if not adding and not assigning and not deletion %}
+            <table id="NumbersTable" style="width: 1000px; table-layout: fixed; border: 1px solid #cccccc;">
+                <tr>
+                    <td>
+                        <table style="width: 100%; table-layout: fixed;" id="RowNumbersTable">
+                            <thead>
+                                <tr>
+                                    <th>{% trans "External number" %}</th>
+                                    <th>{% trans "User name" %}</th>
+                                    <th>{% trans "Group name" %}</th>
+                                    <th>{% trans "Region" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for number in external_numbers %}
+                                    <tr class="NotOddRow">
+                                        <td style="text-align: left;">{{ number.number }}</td>
+                                        <td style="text-align: left;">{{ number.account.username }}</td>
+                                        <td style="text-align: left;">{{ number.phone_numbers_group.name }}</td>
+                                        <td style="text-align: left;">{{ number.region_str }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div style="text-align: left">
+                            {% include 'paginator.html' %}
+                        </div>
+                    </td>
+                    <td style="width: 20%">
+                        {% if not hide_filter %}
+                            <p>{% trans "Filter by region:" %}</p>
+                            <div>
+                                {% for region in regions %}
+                                    <li style="list-style-type: none;">
+                                        <a href="{{ region.url }}">
+                                            <div class="FilterItem {% if region.selected %}Selected{% endif %}">
+                                                {{ region.name }}
+                                            </div>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        {% else %}
+            {% if adding %}
+                <form method="POST" action="." id="AddForm">{% csrf_token %}
+                    <input id="ranges_count" type="hidden" name="ranges_count" value="1">
+                    
+                    <table id="AddFormPoint" style="width: 400px;">
+                    </table>
+                    
+                    <div style="width:400px; text-align: right;">
+                        <input type="button" value="{% trans 'Add range' %}" id="AddRangeButton" onclick="return AddRange();">
+                        <input type="button" value="{% trans 'Delete range' %}" id="DelRangeButton" onclick="return DelRange();">
+                    </div>
+                    <div class="submit-row" style="text-align: left; margin: 10px;">
+                        <input type="submit" name="submit" value="{% trans 'Add' %}" />
+                        <input type="submit" name="cancel" value="{% trans 'Cancel' %}" />
+                    </div
+                ></form>
+            {% endif %}
+            {% if assigning %}
+                assigning numbers...<br><br><br>
+                Пока в разработке...
+            {% endif %}
+            {% if deletion %}
+                <form method="POST" action="." id="DetachForm">{% csrf_token %}
+                    <div id="detaching_control_div" style="text-align: left; margin: 10px;">
+                        <label for="type_select">{% trans "Selected numbers will be" %}</label>
+                        <select name="type_select" id="type_select">
+                            <option value="0" selected>{% trans "Reserved " %}</option>
+                            <option value="1">{% trans "Freed" %}</option>
+                        </select>
+                        <br>
+                        <input type="checkbox" id="send_email" name="send_email" checked />
+                        <label for="send_email">{% trans "Send e-mail notifications" %}</label>
+                        <p>&nbsp;</p>
+                        <input type="submit" name="submit" value="{% trans 'Detach' %}" />
+                        <input type="submit" name="cancel" value="{% trans 'Cancel' %}" />
+                    </div>
+                
+                    <table id="NumbersTable" style="width: 1000px; table-layout: fixed; border: 1px solid #cccccc;">
+                        <tr>
+                            <td>
+                                <table style="width: 100%; table-layout: fixed;" id="RowNumbersTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 4%;">&nbsp;</th>
+                                            <th>{% trans "External number" %}</th>
+                                            <th>{% trans "User name" %}</th>
+                                            <th>{% trans "Group name" %}</th>
+                                            <th>{% trans "Region" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for number in external_numbers %}
+                                            <tr>
+                                                <td style="text-align: left;">
+                                                    <input type="checkbox" 
+                                                        name="selected_{{ number.id }}"
+                                                        id="selected_{{ number.id }}"></input>
+                                                </td>
+                                                <td style="text-align: left;">
+                                                    <label for="selected_{{ number.id }}">
+                                                        <div>
+                                                            {{ number.number }}
+                                                        </div>
+                                                    </label></td>
+                                                <td style="text-align: left;">{{ number.phone_numbers_group.account.username }}</td>
+                                                <td style="text-align: left;">{{ number.phone_numbers_group.name }}</td>
+                                                <td style="text-align: left;">{{ number.region_str }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <div style="text-align: left">
+                                    {% include 'paginator.html' %}
+                                </div>
+                            </td>
+                            <td style="width: 20%">
+                                {% if not hide_filter %}
+                                    <p>{% trans "Filter by region:" %}</p>
+                                    <div>
+                                        {% for region in regions %}
+                                            <li style="list-style-type: none;">
+                                                <a href="{{ region.url }}">
+                                                    <div class="FilterItem {% if region.selected %}Selected{% endif %}">
+                                                        {{ region.name }}
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    &nbsp;
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            {% endif %}
+        {% endif %}
+        
+        
+        
+        
+        
+        
+        
+        
+    </div>
+{% endblock %}

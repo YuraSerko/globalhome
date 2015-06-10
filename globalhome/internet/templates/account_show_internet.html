@@ -1,0 +1,28 @@
+{% extends 'base_private.html' %}
+
+{% block content %}
+
+<h1 class="title" align="center" style="width: 100%;">Услуга "Доступ в интернет":</h1>
+
+<div class="toggle" style="margin: auto; float: none; width: 270px;">
+	{% if  profile_obj.is_juridical %}
+    <div class="toggle-item">
+        <a href="/account/internet/choose_face/legal_entity/" class="toggle-head"><i></i>Для юридических лиц</a>
+    </div><!--toggle-item-->
+    <div class="toggle-item">
+        <a href="/content/article/optovolokno_internet_dlya_operatorov/" class="toggle-head"><i></i>Для операторов связи</a>
+    </div>
+	{% else %}    
+    <div class="toggle-item">
+        <a href="/account/internet/choose_face/physical/" class="toggle-head"><i></i>Для физических лиц</a>
+    </div><!--toggle-item-->
+
+    <div class="toggle-item">
+        <a href="/account/internet/choose_face/cottage_settlement/" class="toggle-head"><i></i>Для коттеджных поселков</a>
+    </div><!--toggle-item-->
+	{% endif %}
+    <!--toggle-item-->
+
+</div>
+   
+{% endblock %}

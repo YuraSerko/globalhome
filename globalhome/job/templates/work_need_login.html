@@ -1,0 +1,191 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %} 
+
+
+ {% block sendin %}
+ {{block.super}}
+         {% endblock %}
+ 
+
+  
+ 
+  
+<article id="right">
+	
+				
+			
+				
+				
+				  {% block burat2 %}
+                  {{block.super}}
+                  {% endblock %}
+				
+				
+			
+			
+	<div id='centr_field'>
+				{% block cap %}
+				{{block.super}}
+         		{% endblock %} 
+                
+    
+	 	<!-- мои данные -->
+		{% block work_login %}
+		 	{{block.super}}
+		{% endblock %}
+		
+		
+		
+		Для того чтобы оставить свое резюме или вакансию нужно <button href="#" class="link-js link-login bt bt-blue2" "="" >войти</button> на сайт под своим логином или <button href="#" class="link-js link-register bt bt-blue2" "="">зарегестрироваться</button>.
+		
+		
+	 	
+			
+			
+		<!-- окончание блока мои данные -->
+			
+			
+		</div>
+		
+		
+		
+   </div>
+			
+</article>
+  
+ 
+<style>
+
+#work_menu_block{
+	width:815px;
+	}  
+	
+/*.work_menu_button button{
+	height:50px;} */
+#work_menu_block{
+	}	
+	
+#work_menu_block div button{	
+	display: inline;
+	text-align: center;
+	width: 189px; /* was 170px; */
+	height:33px; /* was not set*/
+	background:#3882E3;
+	color:white;
+	border:2px solid white;
+	font-size:22px;
+	 }
+
+.but_border{
+	border:2px solid #7aafe9!important;
+	}
+
+#work_menu_block div{
+	display: inline;
+	margin-right: 15px; /* was 40*/
+	text-align: center;
+}
+		 
+.last{	
+	margin-right:0px!important;
+	 }
+
+.name{
+	display:inline-block;
+	width:33%;}
+	
+.salary{
+	display:inline-block;
+	width:33%;
+	vertical-align: top;}	
+	
+.publication{
+	display:inline-block;
+	/*width:33%;*/
+	float:right;}	
+
+.last_title	
+	{
+	font-size: 26px;
+	margin-top: 20px;
+	margin-bottom: 10px;}
+	
+.name_blue a{
+	font-size: 20px;
+	color: #7aafe9!important;
+	font-weight:bold;
+	text-decoration: none;
+	}
+	
+.org_name, .resume_city{
+	font-size:18px;
+	}	
+	
+.vac_block {
+	border:1px solid lightgray;
+	width:815px;
+	padding:2px;
+	}
+	
+.resume_block{
+	border:1px solid lightgray;
+	width:815px;
+	padding:2px;
+	}
+
+.user_block{
+	display:none;}
+
+
+</style>	
+
+
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+
+// окончание моего javascript
+
+</script>
+<!--
+<script>
+      div="_ph1968";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1968&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+	<script>
+      div="_ph1971";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1971&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>-->
+    
+    
+		
+		{% block login_1 %}
+		{{block.super}}
+         {% endblock %}
+		
+		 {% block complaint_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+         {% block review_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+{% endblock %}

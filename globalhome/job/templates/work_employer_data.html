@@ -1,0 +1,836 @@
+{% extends 'base_private.html' %}
+{% load i18n %}
+
+
+
+
+
+{% block content %}
+   	  <link href="/media/css/chosen.css" rel="stylesheet" type="text/css" >  		 
+  	  <script src="/media/js/chosen.jquery.js"></script>
+	  <script src="/media/js/chosen_select.js"></script>
+    
+	 	<!-- мои данные -->	
+	 
+		<div id="personal_data_uridical">
+			
+
+			<form id="employer_data_form"  name="employer_data_form" action="" method="post" >	{% csrf_token %}
+				{{ form.non_field_errors }}		
+				<div class = "work_title_block_blue">
+		 			<div class="work_form_title_main" >Данные работодателя</div>
+		 			<div class = "edit_current_block" ><a id = "href_personal_data" href="" onclick = "edit_block(0)" return false;></a></div>
+				</div>
+				<!-- поле город -->
+				<div class = 'input_box' style="width:430px;">
+					<div class='title_box'>Город<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Укажите ваш город</font></span>
+					</div>
+					{{ form.city }}
+					
+				</div>
+				
+
+				<!--поле Юридическое название компании-->
+				<div class = 'input_box' style="width:430px;">
+					<div class='title_box'>Юридическое название компании<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Заполните</font></span>
+					</div>
+					{{ form.company_name }}
+				</div>
+				<div class = 'help_note' style='width:163px;'>
+					Укажите название без формы собственности
+				</div>
+				
+				<!--форма собственности-->
+				<div class = 'input_box' style="width:280px;">
+					<div class='title_box'>Форма собвстенности<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Выберите</font></span>
+					</div>
+					{{ form.ownership_form }}
+				</div>
+				<div class = 'help_note' style='width:283px;'>
+					Пожалуйста, не забудьте указать форму собственности вашей компании.
+				</div>
+				
+				<!-- поле не показывать форму собственности -->
+				<div class="inputn">{{ form.ownership_not_to_competitor}} Не показывать форму собственности соискателям</div>
+				
+				<!-- поле не показывать форму собственности -->
+				<div class="inputn" style="margin-bottom:0px;">
+					<div class='title_box'>
+						Тип работодателя<font class = "red_cl">*</font>
+					</div>
+				</div>
+				<div class="inputn">
+					<div class= "ul_work_employer_data">{{ form.employer_type}}</div>
+				</div>
+				
+				<!-- поле Отрасль деятельности компании -->
+				<div class = 'input_box' style="width:430;">
+					<div class='title_box'>Отрасль деятельности компании<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Выберите отрасль</font></span>
+					</div>
+					{{ form.activity}}
+				</div>
+				
+				
+				
+				
+				<!--ИНН-->
+				<div>
+				<div class = 'input_box' style="width:280px;">
+					<div class='title_box'>ИНН
+		    			<span class = "error_note"><font class = "red_cl">Неверное количестов знаков</font></span>
+					</div>
+					{{form.INN}}
+				</div>
+				<div class = 'help_note' style='width:400px;'>Заполненное поле ИНН позволит вам быстрее получить доступ ко всем нужным сервисам сайта. ИНН виден только клиентской службе globalhome.mobi
+				</div>
+				</div>
+				
+				<!--Стационарный телефон офиса-->
+				<div>
+					<div class = 'input_box' style="width:280px;">
+						<div class='title_box'>Гор. телефон офиса<font class = "red_cl">*</font>
+			    			<span class = "error_note"><font class = "red_cl">Заполните</font></span>
+						</div>
+						<input value = '+7' style="width:30px;"	 type = "text" readonly>
+						({{ form.telephone_code }})
+						{{ form.telephone_number }}
+						
+					</div>
+					<div class = 'help_note' style='width:400px;'>
+					Обязательно укажите городской телефон вашего офиса.
+					(телефон должен быть заполенен и содержать только цифры)
+					</div>
+				</div>
+				
+				
+				<!-- Дополнительный телефон офиса -->
+				<div>
+					<div class = 'input_box' style="width:280px;">
+						<div class='title_box'>Доп. телефон офиса
+			    			<span class = "error_note"><font class = "red_cl">Только цифры</font></span>
+						</div>
+						<input value = '+7' style="width:30px;"	 type = "text" readonly>
+						({{ form.telephone_code_add }})
+						{{ form.telephone_number_add }}
+						
+					</div>
+					<div class = 'help_note' style='width:400px;'>
+					(телефон должен содержать только цифры)
+					</div>
+				</div>
+				
+				
+				
+				
+				
+				
+				
+				
+				<!--Количество сотрудников в компанииВыберите-->
+				<div>
+				<div class = 'input_box' style="width:280px;">
+					<div class='title_box'>Количество сотрудников<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Выберите</font></span>
+					</div>
+					{{form.staff}}
+				</div>
+				</div>
+			
+				<!--адрес сайта-->
+				<div>
+				<div class = 'input_box' style="width:280px;">
+					<div class='title_box'>Адрес сайта
+		    			<span class = "error_note"><font class = "red_cl">Некорректный формат ссылки</font></span>
+					</div>
+					{{ form.site_url }}
+				</div>
+				</div>
+				
+				<!-- информация о компании -->
+				<div>
+				<div class = 'input_box' style="width:430px;">
+					<div class='title_box'>Информация о компании<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Напишите о вашей компании</font></span>
+					</div>
+					{{form.company_info}}
+				
+				</div>
+				<div class = 'help_note' style='width:254px; vertical-align: super!important'>
+					Напишите о направлениях работы вашей компании, об истории и организационной структуре, об успехах и достижениях. Сообщите соискателям о ключевых преимуществах работы в вашей компании.
+				</div>
+				</div>
+				
+				<!--фамилия-->
+				<div>
+				<div class = 'input_box' style="width:430px;">
+					<div class='title_box'>Фамилия<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Пожалуйста, укажите вашу фамилию</font></span>
+					</div>
+					{{form.surname}}
+				</div>
+				</div>
+				
+				
+				<!-- имя -->
+				<div>
+				<div class = 'input_box' style="width:430px;">
+					<div class='title_box'>Имя<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Пожалуйста, укажите ваше имя</font></span>
+					</div>
+					{{form.name}}
+				</div>
+				</div>
+				
+				
+				<!--Добавочный телефон офиса-->
+				<div>
+					<div class = 'input_box' style="width:430px;">
+						<div class='title_box'>Телефон офиса для связи globalmobi
+			    			<span class = "error_note"><font class = "red_cl">Заполните</font></span>
+						</div>
+						<input value = '+7' style="width:30px;"	 type = "text" readonly>
+						({{ form.contact_code }})
+						{{ form.contact_phone_number }}доб
+						{{ form.contact_phone_additional}}
+					</div>
+					<div class = 'help_note' style='width:254px;'>
+					Контактные телефоны используется только для связи клиентской службы globalhome.mobi с вами.Соискателям контактные телефоны не видны.
+					</div>
+				</div>
+				
+			</form>
+		<div class = "work_form_submit_block_pale_blue" >
+			<div class = "center_button">
+				<button class="bt bt-blue2" onclick = 'sumbit_work_emloyer_form()'>Сохранить</button>
+			</div>
+		</div>
+		</div>
+	   	<!-- окончание моих данных -->
+   		
+   
+   
+   </div>
+			
+	</article>
+  
+ 
+   
+	
+
+
+
+<style>
+/* ===========block personal_data_uridical============*/
+#personal_data_uridical{
+	width:750px;
+	border:1px solid gray;
+	padding:5px;
+	}
+	
+.red_cl{
+	color:red;
+	}
+
+.work_title_block_blue {
+	background:#5591DA;
+	height:40px;
+	padding-left:10px;
+	margin-top: -5px;
+	margin-left: -5px;
+	margin-right: -5px;
+	font-weight:bold;
+	font-size:20px;
+	line-height: 35px;
+	color:white;
+	}
+.work_form_submit_block_pale_blue{
+	/*background:#7DB5F5; */
+	background:#C2DAF7;
+	height:40px;
+	margin-bottom: -5px;
+	margin-left: -5px;
+	margin-right: -5px;
+	}
+.center_button{
+	margin-left:auto;
+	margin-right:auto;
+	width:100px;
+	padding-top: 10px;
+	}
+/*============end block personal_data_uridical============*/
+
+/*========input_box============== */
+.error_note{
+	float:right;
+	display:none;
+	
+	}
+/* errror */	
+.input_box_error{
+	padding: 5px;
+	background: rgb(246, 199, 204);
+	border:1px solid red;
+	border-radius:7px 7px 7px 7px;
+	margin-bottom:18px;
+	display:inline-block;
+	
+}
+
+.input_box_error .error_note{
+	display:block;
+	float:right;
+ }
+ 
+.input_box_error input{
+	font-size:16px;
+	width:100%;
+	}
+	
+
+/* end error */
+
+
+.input_box{
+	padding: 5px;
+	border-radius:7px 7px 7px 7px;
+	margin-bottom:18px;
+	display:inline-block;	
+}	
+	
+.input_box input{
+	font-size:16px;
+	width:100%;
+	}
+	
+
+.title_box{
+	margin-top:0px;
+	margin-bottom:2px;
+	font-size:15px;
+	font-weight:bold;}
+
+/*========= end input box =============*/
+
+
+/* ===========help note ===============*/
+.help_note{
+	display:inline-block;
+	padding-bottom:5px;
+	font-size:14px;
+	color:gray;
+	vertical-align: middle;
+	}
+
+/* ========== end help note====================== */
+
+/*====inputn=====*/
+.inputn{
+	padding-left:5px;
+	margin-bottom:18px;
+	font-size:14px;}
+/*====end inputn===*/
+
+
+/*==chosens===*/
+#id_city + div{
+	width:420px!important;
+	}
+
+#id_ownership_form + div{
+	width:270px!important;
+	}
+	
+#id_activity + div{
+	width:420px!important;
+	}
+#id_staff + div{
+	width:270px!important;
+	}	
+/*==end chosens===*/
+
+/*==inputs==*/
+#id_telephone_code{
+	width:50px;}
+#id_telephone_number{
+	width:100px;}
+#id_telephone_code_add{
+	width:50px;}
+#id_telephone_number_add{
+	width:100px;}
+#id_company_info{
+	width:420px;}
+#id_contact_code{
+	width:50px;}
+#id_contact_phone_number{
+	width:100px;}
+#id_contact_phone_additional{
+	width:50px;}
+/*==end of inputs==*/
+
+/*===radio_in_line==*/
+.ul_work_employer_data ul li{
+	display:inline!important;
+	margin-right: 15px;}
+/*===end of radio_in_line==*/
+
+
+.chosen-container-single .chosen-single{
+	border-radius: 0px !important;
+	}
+
+.chosen-container-single .chosen-drop {
+	border-radius:0px! important;
+}
+#personal_data_uridical input[type='text']{
+	height:23px;
+	font-size:14px;
+	}
+	
+.chosen-container{
+	float:none!important;}
+	
+.ul_work_employer_data ul{
+	padding-left:0px;
+	margin:0px;}
+
+.balance-inner table {
+	border: 0px!important;
+	}
+
+</style>
+
+
+
+
+<script>
+
+function numeric (str) { return /^[0-9(\)\s]+z/.test(str + "z"); }
+//==============================================================================================
+function val_form(){
+	var submit = true;
+	var focus_control = '';
+	var fields_array = {'#id_city': 'chosen', 
+						'#id_company_name':'input',
+						 '#id_ownership_form': 'chosen',
+						 '#id_activity':'chosen',
+						 '#id_telephone_code':'input',
+						 '#id_telephone_number':'input',
+						 '#id_staff':'chosen',
+						 '#id_company_info':'input',
+						 '#id_surname':'input',
+						 '#id_name':'input',
+						 '#id_contact_code' : 'input1',
+						 '#id_contact_phone_number' : 'input1',
+						 '#id_contact_phone_additional' : 'input1',
+						 '#id_telephone_code_add' : 'input2',
+						 '#id_telephone_number_add' : 'input2',
+		}
+	
+	for(var field in fields_array){
+		val_type = fields_array[field];
+		n_field = field;
+
+		//------
+		  if (val_type=='chosen'){
+					if (($(n_field).chosen().val()=='')  || (($(n_field).chosen().val()==null)))        {   // если пусто
+						submit = false;
+						if (focus_control == '') {           //если focus еще не был
+							focus_control = n_field +'^'+val_type; //сохраняем focus
+						 }
+						if(!($(n_field).parent().hasClass("input_box_error"))){ //если нету erro note
+								$(n_field).parent().addClass("input_box_error").removeClass("input_box");
+									 }
+						}
+		 }
+		//-------
+		if (val_type =='input'){
+				if ($(n_field).val()==''){
+					submit=false;
+					if (focus_control == '') {           //если focus еще не был
+						focus_control = n_field +'^'+val_type; //сохраняем focus
+					}
+					if(!($(n_field).parent().hasClass("input_box_error"))){ //если нету erro note
+						$(n_field).parent().addClass("input_box_error").removeClass("input_box");
+					}
+
+				}
+		}
+ 
+		// ------
+		if (val_type =='input1'){
+			if       (   ($(n_field).val()!='')  &&   !numeric($(n_field).val()) ) 
+					//&& (     !(numeric($(n_field).val()))         )  
+			{
+						submit=false;
+						if (focus_control == '') {           //если focus еще не был
+							focus_control = n_field +'^'+val_type; //сохраняем focus
+						}
+						if(!($(n_field).parent().hasClass("input_box_error"))){ //если нету erro note
+							$(n_field).parent().addClass("input_box_error").removeClass("input_box");
+						}
+
+			}
+		}
+		// ------
+		if (val_type =='input2'){
+			
+			
+			if      (   (!numeric($(n_field).val()))  &&  (   $(n_field).val()!=''      )       ) 
+					  
+			{				
+						submit=false;
+						if (focus_control == '') {           //если focus еще не был
+							focus_control = n_field +'^' + 'input'; //сохраняем focus
+						}
+						if(!($(n_field).parent().hasClass("input_box_error"))){ //если нету erro note
+							$(n_field).parent().addClass("input_box_error").removeClass("input_box");
+						}
+			}
+		}
+		
+		
+	}// fields for
+	
+	
+	
+	//set focus
+    if (focus_control!='') {
+		focus_control_array = focus_control.split('^');
+		field = focus_control_array[0];
+		val_type = focus_control_array[1];
+		if (val_type == 'chosen')
+			{
+			//$(field).trigger('chosen:activate');
+			$('html, body').animate({ scrollTop: $(field).next().offset().top - 30}, 'fast');
+			}
+		if (val_type == 'input')
+		{
+		 $(field).focus();
+		}
+		
+    }
+	return submit;
+	
+}		
+	
+//=============================================================================================
+function sumbit_work_emloyer_form(){
+	submit = val_form();
+	if (submit == true) {
+		$('#employer_data_form').submit();
+	}
+	
+}
+//==============================================================================================
+function interactive_validation(){
+	//#id_city
+	city = '#id_city'
+		 $(city).bind('change blur', function()
+						{  
+					 		if (+$(this).val()==0){
+					 			if (!$(this).parent().hasClass("input_box_error")){	
+						 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+					 			}
+					 		}
+					 		else{
+					 			 if ($(this).parent().hasClass("input_box_error")){	
+					 				$(this).parent().addClass("input_box").removeClass("input_box_error");
+					 			 }
+					 		}
+		 				})	
+
+		 				
+	//id_company_name
+	 company_name = '#id_company_name'
+	 $(company_name).keyup(function()
+	 {	
+		
+		if (($(this).val() == '') && !($(this).parent().hasClass("input_box_error")))
+			{
+				$(this).parent().addClass("input_box_error").removeClass("input_box");
+			}
+		
+		if ($(this).parent().hasClass("input_box_error") && ($(this).val() != ''))
+			{	
+				$(this).parent().addClass("input_box").removeClass("input_box_error");
+			}
+				
+		
+	 })
+	
+	
+	
+	 //id_ownership_form
+	 ownership_form = '#id_ownership_form'
+		 $(ownership_form).bind('change blur', function()
+						{  
+					 		if (+$(this).val()==0){
+					 			if (!$(this).parent().hasClass("input_box_error")){	
+						 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+					 			}
+					 		}
+					 		else{
+					 			 if ($(this).parent().hasClass("input_box_error")){	
+					 				$(this).parent().addClass("input_box").removeClass("input_box_error");
+					 			 }
+					 		}
+		 				})	
+	 
+	 ///
+	
+	 
+	 //id_activity
+	 id_activity = '#id_activity'
+		 $(id_activity).bind('change blur', function()
+						{  
+					 		if (+$(this).val()==0){
+					 			if (!$(this).parent().hasClass("input_box_error")){	
+						 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+					 			}
+					 		}
+					 		else{
+					 			 if ($(this).parent().hasClass("input_box_error")){	
+					 				$(this).parent().addClass("input_box").removeClass("input_box_error");
+					 			 }
+					 		}
+		 				})	
+	 
+	 
+	 //id_telephone_code
+	 telephone_code = '#id_telephone_code'
+	 $(telephone_code).bind('keyup blur',  function()
+	 {	
+		
+		if ((($(this).val() == '') && !($(this).parent().hasClass("input_box_error")))  ||   (          !numeric($(this).val())         &&        !($(this).parent().hasClass("input_box_error"))   )    )
+			{
+				$(this).parent().addClass("input_box_error").removeClass("input_box");
+			}
+		
+		if ($(this).parent().hasClass("input_box_error") && ($(this).val() != '') &&($('#id_telephone_number').val()!='')  &&   (numeric($(this).val())) &&   (numeric($('#id_telephone_number').val()))   )
+			{	
+				$(this).parent().addClass("input_box").removeClass("input_box_error");
+			}
+				
+		
+	 })
+	 
+	 
+	 //telephone_number
+	 telephone_number = '#id_telephone_number'
+	 $(telephone_number).bind('keyup blur', function()
+	 {	
+		
+		if ((  ($(this).val() == '') &&   !($(this).parent().hasClass("input_box_error"))     )  ||   (          !numeric($(this).val())         &&        !($(this).parent().hasClass("input_box_error"))   )    )
+			{
+				$(this).parent().addClass("input_box_error").removeClass("input_box");
+			}
+		
+		if ($(this).parent().hasClass("input_box_error") && ($(this).val() != '')  &&($('#id_telephone_code').val()!='')    &&   (numeric($(this).val())) &&   (numeric($('#id_telephone_code').val()))     )
+			{	
+				$(this).parent().addClass("input_box").removeClass("input_box_error");
+			}
+				
+		
+	 })
+	 
+	 
+	 //id_staff
+	 id_staff = '#id_staff'
+	 $(id_staff).bind('change blur', function()
+					{  
+				 		if (+$(this).val()==0){
+				 			if (!$(this).parent().hasClass("input_box_error")){	
+					 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+				 			}
+				 		}
+				 		else{
+				 			 if ($(this).parent().hasClass("input_box_error")){	
+				 				$(this).parent().addClass("input_box").removeClass("input_box_error");
+				 			 }
+				 		}
+	 				})	
+	 
+	 				
+	 //id_company_info
+	 id_company_info = '#id_company_info'
+		 $(id_company_info).bind('change blur', function()
+						{  
+					 		if (+$(this).val()==0){
+					 			if (!$(this).parent().hasClass("input_box_error")){	
+						 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+					 			}
+					 		}
+					 		else{
+					 			 if ($(this).parent().hasClass("input_box_error")){	
+					 				$(this).parent().addClass("input_box").removeClass("input_box_error");
+					 			 }
+					 		}
+		 				})	
+	 
+	 
+	  //id_surname
+	 id_surname = '#id_surname'
+	 $(id_surname).keyup(function()
+	 {	
+		
+		if (($(this).val() == '') && !($(this).parent().hasClass("input_box_error")))
+			{
+				$(this).parent().addClass("input_box_error").removeClass("input_box");
+			}
+		
+		if ($(this).parent().hasClass("input_box_error") && ($(this).val() != ''))
+			{	
+				$(this).parent().addClass("input_box").removeClass("input_box_error");
+			}
+	 })
+	 
+	 
+	 //
+	 id_name = '#id_name'
+	 $(id_name).keyup(function()
+	 {	
+		
+		if (($(this).val() == '') && !($(this).parent().hasClass("input_box_error")))
+			{
+				$(this).parent().addClass("input_box_error").removeClass("input_box");
+			}
+		
+		if ($(this).parent().hasClass("input_box_error") && ($(this).val() != ''))
+			{	
+				$(this).parent().addClass("input_box").removeClass("input_box_error");
+			}
+	 }) 
+	 
+	 
+	 //код
+	id_contact_code = '#id_contact_code';
+	$(id_contact_code).bind('keyup blur', function(){
+		if  (     ($(this).val() != '') && (!numeric($(id_contact_code).val()))     )
+			if (!$(this).parent().hasClass("input_box_error"))
+				{
+					$(this).parent().addClass("input_box_error").removeClass("input_box");
+				}
+		if  (         ( ($(this).val() == '') ||  ( ($(this).val() !='') &&      numeric($(this).val()))  ) &&             (      ($('#id_contact_phone_number').val() == '')   ||    (   ($('#id_contact_phone_number').val() !='')  &&   (numeric($('#id_contact_phone_number').val())) )    )           &&    (      ($('#id_contact_phone_additional').val() == '')    ||         (   ($('#id_contact_phone_additional').val() !='') &&      numeric($('#id_contact_phone_additional').val()))  )               )  
+			{
+				if ($(this).parent().hasClass("input_box_error")){
+						$(this).parent().addClass("input_box").removeClass("input_box_error");
+					}
+			}
+	
+	
+	})
+	
+	
+	// телефон
+	id_contact_phone_number = '#id_contact_phone_number';
+	$(id_contact_phone_number).bind('keyup blur', function(){
+		if  (     ($(this).val() != '') && (!numeric($(id_contact_phone_number).val()))     )
+			if (!$(this).parent().hasClass("input_box_error"))
+				{
+					$(this).parent().addClass("input_box_error").removeClass("input_box");
+				}
+		if  (         ( ($(this).val() == '') ||  ( ($(this).val() !='') &&      numeric($(this).val()))  ) &&             (      ($('#id_contact_code').val() == '')   ||    (   ($('#id_contact_code').val() !='')  &&   (numeric($('#id_contact_code').val())) )    )           &&    (      ($('#id_contact_phone_additional').val() == '')    ||         (   ($('#id_contact_phone_additional').val() !='') &&      numeric($('#id_contact_phone_additional').val()))  )               )  
+			{
+					if ($(this).parent().hasClass("input_box_error")){
+						$(this).parent().addClass("input_box").removeClass("input_box_error");
+					}
+			}
+	
+	
+	})
+	
+	
+	// добавочный 
+	id_contact_phone_additional = '#id_contact_phone_additional';
+	$(id_contact_phone_additional).bind('keyup blur', function(){
+		if  (     ($(this).val() != '') && (!numeric($(id_contact_phone_additional).val()))     )
+			if (!$(this).parent().hasClass("input_box_error"))
+				{
+					$(this).parent().addClass("input_box_error").removeClass("input_box");
+				}
+		if  (         ( ($(this).val() == '') ||  ( ($(this).val() !='') &&      numeric($(this).val()))  ) &&             (      ($('#id_contact_code').val() == '')   ||    (   ($('#id_contact_code').val() !='')  &&   (numeric($('#id_contact_code').val())) )    )           &&    (      ($('#id_contact_phone_number').val() == '')    ||         (   ($('#id_contact_phone_number').val() !='') &&      numeric($('#id_contact_phone_number').val()))  )               )  
+			{
+					if ($(this).parent().hasClass("input_box_error")){
+						$(this).parent().addClass("input_box").removeClass("input_box_error");
+					}
+			}
+	
+	
+	})
+	
+
+	
+	// дополнительный код для пользователя
+	telephone_code_add = '#id_telephone_code_add';
+	$(telephone_code_add).bind('keyup blur', function(){
+		if  (     ($(this).val() != '') && (!numeric($(this).val()))     )
+			if (!$(this).parent().hasClass("input_box_error"))
+				{
+					$(this).parent().addClass("input_box_error").removeClass("input_box");
+				}
+		if        ( (       ($(this).val() == '')    ||        numeric($(this).val()))        &&    (       ($('#id_telephone_number_add').val() == '')    ||        numeric($('#id_telephone_number_add').val())) )         
+			{
+					if ($(this).parent().hasClass("input_box_error")){
+						$(this).parent().addClass("input_box").removeClass("input_box_error");
+					}
+			}
+	
+	
+	})
+	
+	
+	
+	
+	//дополнительный телефон для пользователя
+	telephone_number_add = '#id_telephone_number_add';
+	$(telephone_number_add).bind('keyup blur', function(){
+		if  (     ($(this).val() != '') && (!numeric($(this).val()))     )
+			if (!$(this).parent().hasClass("input_box_error"))
+				{
+					$(this).parent().addClass("input_box_error").removeClass("input_box");
+				}
+		if        ( (       ($(this).val() == '')    ||        numeric($(this).val()))        &&    (       ($('#id_telephone_code_add').val() == '')    ||        numeric($('#id_telephone_code_add').val())) )         
+			{
+					if ($(this).parent().hasClass("input_box_error")){
+						$(this).parent().addClass("input_box").removeClass("input_box_error");
+					}
+			}
+	
+	
+	})		
+	
+	
+	
+	
+	
+}
+
+//==============================================================================================
+$(document).ready(function()
+	{
+	
+			$('.coplaint_form').css('display', 'none');
+			$('.coplaint_form').prev().css('display', 'none');
+			interactive_validation();
+			$('#id_city').chosen().blur(function(){
+			})
+	
+	
+	
+	
+	})
+
+	
+	
+// окончание моего javascript
+
+</script>
+
+		
+		
+		 
+{% endblock %}

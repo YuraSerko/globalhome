@@ -1,0 +1,260 @@
+<script type="text/javascript"> 
+    function hot_key(numbers, next_step, group, action) {
+        var items={
+            numbers:numbers,
+            next_step:next_step,
+            group:group,
+            action:action
+        }
+
+        $.ajax({
+            url: "/8800add/",
+            type: "POST",
+            data:items,
+            cache: false,
+            async: false,
+            success: function(html) {
+                $("#ajall").html(html);
+            }
+        });
+    }
+
+    $(function() {
+        $("#tabs").tabs();
+    });
+
+    function checkbox_val() {
+        var numbers_list = $(':checkbox:checked');
+        var numbers = "";
+        numbers_list.each(function() {
+            numbers += $(this).val() + ",";
+            $(this).attr('checked', false);
+        });
+        console.log('numbers = ', numbers);
+        next_step = $(':radio:checked').val();
+        if (!next_step) { next_step = "connect"; }
+        console.log("result = " + next_step);
+        var group = $('#group').val();
+        console.log(group);
+        hot_key(numbers, next_step, group, "connect");
+    };
+
+    function reservation() {
+        var numbers_list = $(':checkbox:checked');
+        var numbers = "";
+        numbers_list.each(function() {
+            numbers +=$(this).val() + ",";
+            $(this).attr('checked', false);
+        });
+        next_step = $(':radio:checked').val();
+        if (!next_step) { next_step = "reservation" }
+        var group = $('#group').val();
+        hot_key(numbers, next_step, group, "reservation");
+    }
+</script>
+<style type="text/css">
+    .ui-widget-header {
+        background: white;
+        border: 0px;
+    }
+
+    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+        height: 33px;
+    }
+
+    .ui-widget-content {
+        border: 0px;
+    }
+
+    .ui-tabs .ui-tabs-panel {
+        padding: 0px;
+    }
+
+    .ui-tabs .ui-tabs-panel {
+        border: 3px solid #9ABCF8;
+        margin: 1px;
+        width: 550px;
+    }
+
+    .popup-content-header {
+        width: 550px;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .tariff {
+        width: 550px;
+        border-radius: 0 5px 5px 5px;
+    }
+
+    .popup-content-line .popup-content-header ul{
+        height: 200px;
+    }
+
+    .popup-header {
+        background: #ffe6c5;
+        border: solid #ffa337;
+        border-width: 1px 1px 0 1px;
+        border-radius: 5px 5px 0 0;
+        padding: 10px 0 20px 17px;
+        font-size: 26px;
+        color: #535353;
+    }
+
+    .popup-content {
+        border: solid #bebebe;
+        border-width: 0 1px 1px 1px;
+        border-radius: 0 0 5px 5px;
+    }
+
+    .popup-content-line {
+        background: #9ABCF8;
+        margin-top: 0;
+        margin-left: 0;
+        margin-bottom: 0;
+        width: 551px;
+        margin-bottom: 13px;
+    }
+
+    .popup-content-header {
+        height: 38px;
+        color: white;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .param {
+        padding: 10px;
+        margin-left: 8px;
+        width: auto;
+    }
+
+    .param select {
+        width: auto;
+    }
+
+    .param-title {
+        margin-top: 0;
+        font-weight: bold;
+    }
+
+    .status-error {
+        margin-top: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .number_ul {
+        height: 200px;
+        overflow-y: auto; 
+        text-align: left;
+        margin-bottom: 0;
+        <!if firefox>
+        text-align: -moz-left;
+        <![endif]>
+        <!if chrome>
+        text-align: initial;
+        <![endif]>
+        font-size: 13px;
+    }
+
+    .add_number li {
+        margin: 0;
+        padding: 0;
+        display: inline;
+    }
+
+    .add_number p {
+        margin-top: 0;
+    }
+
+    .ui-tabs .ui-tabs-nav li a {
+        width: 100px;
+        height: 100px;
+    }
+
+    .ui-tabs .ui-tabs-nav li {
+        border-radius: 5px 5px 0 0;
+        text-align: center;
+    }
+</style>
+
+<a class="popup_personal-close" href="#close"></a>
+<form class="clearfix" action="#" method="post" id='form_step_1' onkeydown="javascript:if(13==event.keyCode){return false;}">
+    <div class="add_number" style="width:565px">
+        <div class="popup-header">
+            Выберите номер и тариф
+        </div>
+        <div class="popup-content">
+            {% if not_juridical %}
+                <div class="status status-warning">
+                    <i class="ico"></i>
+                    <div class="status-i">
+                        <p>Вы должны быть авторизованы как юр. лицо!</p>
+                    </div>
+                </div>
+            {% endif %}
+            {% if not_numbers %}
+                <div class="status status-error">
+                    <i class="ico"></i>
+                    <div class="status-i">
+                        <p>Выберите хотя бы один номер!</p>
+                    </div>
+                </div>
+            {% endif %}
+            <div id="tabs">
+                <ul>
+                    {% for t in tariffs %}
+                        <li><a href="#{{ t.id }}" style="width: 130px;font-size: 13px">{{ t.name }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% for t in tariffs %}
+                    <div id="{{ t.id }}" class="tariff">
+                        <div class="popup-content-line popup-content-header">Подключение: {{ t.connect_payment }} р. Плата за категорию: {{ t.category_payment }} р.</br>Абонентская плата: {{ t.abon_payment }} р. Гарантированный платеж: {{ t.guaranteed_payment }} р. <span style="color: red;">**</span></div>
+                        <ul class="number_ul">
+                            {% for n in t.numbers %}
+                                <li><label><input type="checkbox" name="numbers" value="{{ n.id }}"/>{{ n.number }}</label></li>
+                            {% empty %}
+                                Все номера данного тарифа заняты.
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if user %}
+                <div class="param">
+                    {% if groups %}
+                        <p class="param-title">Группа номеров<span style="color:red">*</span></p>
+                        <select name="group" id="group">
+                            {% for g in groups %}
+                                <option value="{{ g.id }}">{{ g.name }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <div class="param">
+                <div>
+                    <span class="ugc"><span class="req">*</span> — пункты обязательные для заполнения</span></br>
+                    <span class="ugc"><span class="req">**</span> — цены указаны без учета НДС</span>
+                </div>
+            </div>
+            <div class="param">
+                {% if user %}
+                    Вы авторизованы как пользователь: <label class="param-title">{{ user }}</label></br>
+                    &nbsp;
+                {% else %}
+                    <label class="param-title"><input type="radio" checked="checked" name="user" value="registration">Зарегистрироваться</label></br>
+                    <label class="param-title"><input type="radio" name="user" value="authorization">Авторизоваться в системе</label>
+                {% endif %}
+                {% if not not_juridical %}
+                    <div style="float:right">
+                        <input id="next_button" class="bt bt-blue2" type="button" onclick="reservation()" value="Бронировать" name="next"></input>
+                        <input id="next_button" class="bt bt-blue2" type="button" onclick="checkbox_val()" value="Подключить" name="next"></input>
+                    </div>
+                    <div style="clear:left; height:1px"> &nbsp; </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,155 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="/media/css/jquery-ui_private.css">  <!--Календарь-->
+ <script src="/media/js/jquery-ui_private.js"></script>   <!--Календарь-->
+  <script src="/media/js/finansy.js"></script> 
+<link rel="stylesheet" type="text/css" href="/media/css/financy.css">
+<link rel="stylesheet" href="/media/css/chosen.css" type="text/css" >
+ <script src="/media/js/chosen.jquery.js"></script>
+  <script src="/media/js/chosen_select.js"></script>  
+    
+
+    
+{% endblock %}
+ {% block content %}
+<article id="right">
+    <style>
+    @media only screen and (min-width: 1200px){
+			.advert_2{
+					float: right;
+					margin: 20px;
+					width: 240px;
+					margin-right: -80px;
+					height: 400px;
+					/*border: 1px solid black;*/
+				}
+				}
+		</style>
+	<div class = "advert_2">
+		<script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement|add:17}}"></script>
+	</div>
+    <div id='centr_field'>
+ {% block cap %}
+ {{block.super}}
+ {% endblock %}
+                   
+
+
+                <input  class="datepicker" readonly = "readonly" id="id_date_from" type="text" value="{{first_date}}">
+ 
+                <input  class="datepicker" readonly="readonly" id="id_date_to" type="text" value="{{rate_date_now}}">
+
+
+                          <select style="width: 400px;" id="first_rate_value">
+                          
+                            <option value="{{char_code}}">{{name}} {{char_code}}</option>
+                            {% for select_char in select_char_code %}
+                            <option value="{{select_char.char_code}}">{{select_char.name}} {{select_char.char_code}}</option>
+                            {% endfor %}
+                          </select>
+
+     
+
+
+                          <script>
+     
+                               $('#id_date_from').on('change', function() {
+
+      value = $('#id_date_from').val() 
+      sp = value.split('.')
+       value2 = sp[2]+"-"+sp[1]+"-"+sp[0]
+     $(location).attr("href", "/finance/history/?char_code={{char_code}}&second_date={{second_date}}&select_date=dd".replace('dd',value2));
+      
+                      
+});
+      $('#id_date_from').val('{{calendr}}');
+
+                $('#id_date_to').on('change', function() {
+
+      value = $('#id_date_to').val() 
+      sp = value.split('.')
+       value2 = sp[2]+"-"+sp[1]+"-"+sp[0]
+    $(location).attr("href", "/finance/history/?char_code={{char_code}}&select_date={{select_date}}&second_date=dd".replace('dd',value2));
+      
+                      
+});
+                $('#id_date_to').val('{{calendr2}}')
+
+    $('#first_rate_value').on('change', function() {
+
+      value = $('#first_rate_value option:selected').val()
+      $(location).attr("href", "/finance/history/?select_date={{select_date}}&second_date={{second_date}}&char_code=USD".replace('USD',value)); //.replace('nnn', value2));
+                      
+});
+
+    
+
+      $("#first_date").val("{{select_date}}");
+      $("#second_date").val("{{second_date}}");
+</script>
+                              <!--END SELECT RATE DATE-->
+
+                <header class = "head" style="display: table; width: 100%;margin-top: 20px; margin-bottom: 20px;">
+                <h4 class="widget__title" style="display: table-cell; vertical-align: bottom;">Динамика курса <p id="big_rate">{{char_code}}</p></h4>
+                        </header>   
+                            <!--Table financy-->    
+                                <table class="b-table " id="full-currency-table">
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Курс</th>
+                        <th>Изменение</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for char_code in ob_code %}
+                    
+
+                    <tr class="date_value">
+                       <td style="min-width: 120px;">{{char_code.date|date:"d.m"}}</td> <td style="min-width: 120px;">{{char_code.value}}</td><td>
+                       {% if char_code.subtraction > 0 or char_code.subtraction = 0 %}
+                            <p class = "green">{{char_code.subtraction}}</p>
+                            {% else %}
+                             <p class = "red_change">{{char_code.subtraction}}</p>
+                            {% endif %}
+                            </td>
+                        </tr>  
+                    
+                    {% endfor %}
+                   
+
+
+                  </tbody>
+                                </table>
+                  
+</article>
+    </div>
+   
+
+
+    
+    {% block login_1 %}
+    {{block.super}}
+    {% endblock %}
+
+    {% block review_window %}
+    {{block.super}}
+    {% endblock %} 
+        
+    {% block complaint_window %}
+    {{block.super}}
+    {% endblock %}
+
+    {% block hs_login2 %}
+    {{block.super}}
+    {% endblock %}
+    
+    {% block sendin %}
+    {{block.super}}
+    {% endblock %}
+
+{% endblock %}

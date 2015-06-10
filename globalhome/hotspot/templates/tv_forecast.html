@@ -1,0 +1,388 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %} 
+ 
+
+  {% block sendin %}
+  {{block.super}}
+         {% endblock %}
+
+
+  <article id="right">
+      
+            <div id='centr_field'>
+
+            {% block cap %}
+                {{ block.super }}
+                
+                {% endblock %} 
+
+
+
+<style>
+.channel_name{
+	font-size: 1.2em;
+	color: #444;
+	font-weight:bold;
+} 
+
+.channel_header{
+	margin-bottom:10px;
+	height:38px!important;
+	width:250px!important;
+	
+	}
+	
+.channel_header a{	
+text-decoration: none; 
+}
+
+.tv_forecast{
+width:999px;
+}
+
+.tv_forecast td{
+	background: green; 
+	width:30%;
+}    
+
+.channel_header, .channel_data{
+	width:30%;
+	display:inline-block;
+	} 
+	
+#tv_forecast_body table{
+    border-collapse: collapse;
+    valign:top;
+}
+
+
+#tv_forecast_body table tr td{
+    /*word-break:break-all; */
+    width: 30%;
+    padding:2px;
+    border: 1px solid #7AAFE9; 
+    vertical-align:top;     
+  
+}
+
+
+.tv_tabletr {
+		border-collapse: collapse;
+    valign:top;
+}
+
+
+.tv_tabletr tr td{
+    /*word-break:break-all; */
+    width: 14%;
+    padding:2px;
+    border: 1px solid #7AAFE9; 
+    vertical-align:top;     
+  
+}
+
+
+
+#tv_forecast_body{
+width:999px;
+}
+
+#tv_forecast_notice_before_date{
+	font-size: 1.2em;
+	display:inline-block;}
+	
+#tv_forecast_date_selector{
+display:inline-block;
+margin-top:3px;
+	}
+
+#search_by_channel{
+	display:inline-block;
+	margin-left:30px;
+}
+
+
+.tv_forecast_time_gray{
+	color:gray;
+}
+
+#search_by_channel_select{
+	display:inline-block;}
+
+#search_by_channel_sel{
+	width:200px;}   
+
+	
+#conteiner_for_center_ch_bl{
+	width:999px;
+	text-align: center;
+	
+	}
+
+#center_channel_block{
+	
+	display: inline-block;
+	margin-left: -0.35em;
+	vertical-align: middle;
+	
+	
+	
+	}
+</style>        
+
+				<!-- мои данные  -->
+				
+				<!-- форма для передачи канала -->
+				<form id = "select_channel_form" action = ""  method = "POST" style = "display:none;"> {% csrf_token %}
+					<input name  = "channel_id" id = "channel_id"> </input>
+				</form>
+				
+				<!-- форма для передачи post даты -->
+				<form id = "select_date_form" action = ""  method = "POST" style = "display:none;"> {% csrf_token %}
+					<input name  = "date_sel" id = "date_sel"> </input>
+				</form>
+				<div id = "chan_search_block_wrapper" style = "float:right;">
+					<div id  = "chan_search_block">
+						<div id = "search_by_channel">
+							Выбор канала
+						</div>
+						<div id = "search_by_channel_select">
+							<select id = "search_by_channel_sel">
+							<option>все каналы</option>
+							{{ channel_list }}
+							{% for chd in channel_list %}
+							{% for chobj in channel_objs %}
+								{% if not channel_exist %}
+									{% if chd.0 == chobj.id %}
+									<option id = "{{ chobj.channel_name_eng }}">
+											{{ chobj.channel_name }}
+									</option>
+									{% endif %}
+								{% endif %}
+								{% if  channel_exist %}
+									{% if chd == chobj.id %}
+									<option id = "{{ chobj.channel_name_eng }}">
+											{{ chobj.channel_name }}
+									</option>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+							{% endfor %}
+						    </select>
+						</div>
+						{% if channel_info %}	
+							<div style = "display:inline-block"><button id= "all_channels" class = 'bt bt-blue2' onClick="location.href='/tv_programma/'">Все каналы</button></div>
+						{% endif %}
+					</div>
+				</div>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<div id = "conteiner_for_center_ch_bl" >
+					<div id = "center_channel_block" >
+						<div id = "tv_forecast_notice_before_date">
+							<div style = "font-weight:bold; display:inline-block">ПРОГРАММА ПЕРЕДАЧ </div>
+						</div>
+						
+						<div>
+						<div style = "display:inline-block"> </div>
+						<div id = "tv_forecast_date_selector" {% if channel_info %}style = "border:1px solid black; margin:5px; display:inline-block;"{% endif %}>
+							{% if channel_info %}
+							<img src="{{channel_info.channel_image.url }}" style = "vertical-align:middle"></img>
+							<font class = "channel_name">{{ channel_info.channel_name }}</font>
+							{% else %}
+							<select id = "tv_forecast_date_sel">
+								{% for sl in select_list_date %}
+									<option id = "{{ sl.date|date:'Y-m-d' }}">
+									{{ sl|date:'l d.m' }}
+									</option>
+								{% endfor %}
+							</select>
+							{% endif %}
+						</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- таблица с возможностью выбора каналов -->
+				<!-- div id = "tv_forecast_channel_labels" style = "width:999px">
+					<table style = "width:999px">
+					{% for key, value in  channel_dict_for_label.items %}
+						  {% ifchanged key %}   
+						     <tr> 
+						  {% endifchanged %}
+						 
+						  
+						  {% for v in value %}
+						  
+						  		
+						  {% for chobj in channel_objs %}
+									{% if chobj.id == v %}
+										
+										</td><td>
+							  			
+							  			<a href = "/tv_programma/{{chobj.channel_name_eng}}"><img  style = "vertical-align:middle;"src="{{ chobj.channel_image.url }}" ></img></a>
+									    <font class = "channel_name">{{ chobj.channel_name }}</font>
+									{% endif %}																		
+						  {% endfor %}
+						  {% endfor %} 	
+						  
+						  
+						  {% ifchanged key %}
+						     </tr>
+						   {% endifchanged %}	  		
+					{% endfor %}
+					</table>
+				</div-->
+				<!--окончание таблицы с возможностью выбора каналов-->
+				
+				
+				<br>
+				<br>
+				
+				{% comment %}
+					{% if channel_info %}
+						<img src="{{channel_info.channel_image.url }}" ></img>
+						<font class = "channel_name">{{ channel_info.channel_name }}</font>
+					{% endif %}
+				{% endcomment %}
+				
+                <div id = "tv_forecast_body" > 
+                	
+                	
+                	<table class = 'tv_table'>
+                	
+                	{% for 	key, value in dictionary_param.items %} <!-- {1: [[3, 290526], [4, 290552], [5, 290622]], 2: [[6, 290572], -->
+						     {% ifchanged key %}   <!-- новая строка  -->
+						     <tr> 
+						     {% endifchanged %}					     
+						     		{% for v in value %} <!-- v - channel_id -->
+						     		{% for key1, value1 in channel_with_forecast_dict.items  %}
+						     			{% if v.0 == key1 %}						     		
+		                			   		 {% for v1 in value1 %}  <!-- objects  -->
+								                				{% ifchanged key1 %} 
+								                					</td> <td>
+									                					{% if not channel_exist %}
+									                					<div class="channel_header" style=" height: 38px!important; margin-bottom:15px;">    
+														                 	<a href = "/tv_programma/{{v1.channel.channel_name_eng}}"><img style = "vertical-align:middle;"src="{{ v1.channel.channel_image.url }}" ></img></a>
+														                 	<a href = "/tv_programma/{{v1.channel.channel_name_eng}}"><font class = "channel_name">{{ v1.channel.channel_name }}</font></a>
+									                					</div>
+									                					{% endif %}
+									                					{% if channel_exist %}
+									                					<div class="channel_header" style=" height: 38px!important;">    
+														                 	<font class = "channel_name">{{ v1.date|date:'l d.m' }}</font>
+									                					</div>
+									                					{% endif %}
+								                					
+								                				{% endifchanged %} 	
+								                					<p>
+
+								                		 					    <!-- время -->
+								                		 					    <div style="display:inline-block; width:47px; vertical-align:inherit;">
+										                		 					{% if v.1 == v1.id and selected_date == now_d %}
+										                		 						<strong>
+										                		 					{% elif v1.id < v.1  and selected_date == now_d %}
+										                		 						<font class = "tv_forecast_time_gray">
+										                		 					{% else %}
+																                 		<font >
+																                 	{% endif %}
+																                 		{{ v1.time_hour }}:
+																	               		{% if v1.time_minute == 0 or v1.time_minute == 5 %}
+																	                 		0{{ v1.time_minute }}
+																	                 	{% else %}
+																	                 		{{ v1.time_minute }}
+																	                 	{% endif %}
+																                 	</font>
+																                 	{% if v.1 == v1.id and selected_date == now_d %}
+										                		 						</strong> 
+										                		 					{% endif %}
+															               		</div>
+															                
+															                	 	 
+																				<!-- название -->
+															                 	<div style="display:inline-block; width:235px;" >
+																                 	{% if v.1 == v1.id and selected_date == now_d %} 
+																                 		<font color = "#ff9000">{{ v1.name }}</font>
+																                 	{% elif v1.id < v.1  and selected_date == now_d %}
+																                 		<font class = "tv_forecast_time_gray">{{ v1.name }}</font>
+																                 	{% else %}
+																                 		{{ v1.name }}
+																                 	{% endif %}
+														                 		</div>
+														                 
+												                	</p>
+	
+										   {% endfor %}
+			                		{% endif %}
+	                				{% endfor %}
+	                				{% endfor %}
+	                				
+	                		 {% ifchanged key %}
+						     </tr>
+						     {% endifchanged %}	                		
+	                {% endfor %}
+	                </table>
+
+                </div>
+                <!-- окончание моих данных -->
+	<!-- мой javascript -->
+	<script>
+		$(document).ready(function(){
+			//alert('{{ selected_date }}');
+			$("#tv_forecast_date_sel [id='{{selected_date}}']").attr("selected", "selected");
+			$("#search_by_channel_sel [id='{{channel_info.channel_name_eng}}']").attr("selected", "selected");
+			$('#channel_id').val('{{channel_id}}');
+			//alert( '{{channel_id}}' )
+		})
+		
+		
+		//на смену даты
+		$('#tv_forecast_date_sel').change(function(){
+   			param = $(this).find('option:selected').attr('id');
+			location.href = '/tv_programma/'+ param;
+			
+			
+		
+		});
+		
+		
+		$('#search_by_channel_sel').change(function(){
+   			param = $(this).find('option:selected').attr('id');
+   			if (param==undefined)
+   				{
+   					location.href = '/tv_programma/';
+   				}
+			else{location.href = '/tv_programma/'+ param;}
+		});
+		
+		
+	</script>
+    <!-- окончание моего js -->            
+      
+    </article> 
+    
+    {% block login_1 %}
+    {{block.super}}
+    {% endblock %}
+
+    {% block review_window %}
+    {{block.super}}
+    {% endblock %} 
+        
+    {% block complaint_window %}
+    {{block.super}}
+    {% endblock %}
+
+    {% block hs_login2 %}
+    {{block.super}}
+    {% endblock %}
+     
+{% endblock %}
+ 

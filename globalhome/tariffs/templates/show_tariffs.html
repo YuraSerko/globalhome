@@ -1,0 +1,53 @@
+﻿{% load i18n %}
+{% if tariffs %}
+
+
+    <style type="text/css">
+        .div-for-table {
+            width: 652px;
+        }
+        #div-table-content {
+            height: 500px;
+            overflow: scroll;
+        }
+        .direction {
+            width: 320px;
+            text-align: left;
+        }
+        .price {
+            width: 150px;
+            text-align: center;
+        }
+        #div-table-header td {
+            text-align: center;
+        }
+    </style>
+
+    <div id="div-table-header" class="div-for-table">
+        <table class="content-table" border="1px" cellspacing="0px">
+            <thead>
+                <tr>
+                  <td class="direction">{% trans "Direction" %}</td>
+                  <td class="price">{% trans "Proper" %}</td>
+                  <td class="price">{% trans "Mobile" %}</td>
+               </tr>
+            </thead>
+        </table>
+    </div>
+    <div id="div-table-content" class="div-for-table">
+        <table class="content-table" border="1px" cellspacing="0px">
+            <tbody>
+               {% for tariff in tariffs %}
+                   <tr>
+                     <td class="direction">{{ tariff.name }}</td>
+                     <td class="price">{{ tariff.price1 }}</td>
+                     <td class="price">{{ tariff.price2 }}</td>
+                  </tr>
+               {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% else %}
+   Отсутствуют тарифы!<br />
+{% endif %}

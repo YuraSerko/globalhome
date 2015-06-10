@@ -1,0 +1,293 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_modify %}
+{% load admin_urls %}
+
+
+
+
+{% block extrastyle %}
+  {{ block.super }}
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+		{{form.media}}
+	
+
+    
+<style>
+/*paging*/
+
+.paging {
+	margin: -2px 0 0;
+	border:none;
+}
+.paging ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 12px;
+	font-weight: 700;
+	text-align: center;
+}
+.paging li {
+	display: inline-block;
+	margin: 0 2px;
+	vertical-align: middle;
+	color: #535353;
+}
+.paging .start a,
+.paging .prev a,
+.paging .next a,
+.paging .end a {
+	position: relative;
+	top: 2px;
+	display: block;
+	width: 17px;
+	height: 18px;
+	background: url(/media/images/sprite_private.png) no-repeat;
+	text-indent: -999em;
+	text-decoration: none;
+	border:none;
+}
+.paging .start {
+	margin-right: 5px;
+	border:none;
+}
+.paging .start a {
+	background-position: 0 -63px;
+	width:5px;
+	border:none;
+}
+.paging .prev {
+	margin-right: 4px;
+	border:none;
+}
+.paging .prev a {
+	width: 3px;
+	background-position: -18px -63px;
+	border:none;
+}
+.paging .next {
+	margin-left: 4px;
+	border:none;
+}
+.paging .next a {
+	width:3px;
+	background-position: -33px -63px;
+	border:none;
+}
+.paging .end {
+	margin-left: 5px;
+	border:none;
+}
+.paging .end a {
+	background-position: -48px -63px;
+	border:none;
+}
+.paging .text {
+	width: 32px;
+	margin: 0 3px;
+	padding: 5px 8px;
+	background: #fff;
+	box-shadow: inset 0 1px 0 rgba(0,0,0,.06);	
+	border:none;
+	color: #535353;
+	font: 14px Arial, sans-serif;
+	text-align: center;
+	
+}
+</style>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+
+
+<!--script type="text/javascript" src="{{ MEDIA_URL }}ckeditor/ckeditor/adapters/jquery.js"></script>
+
+<script type="text/javascript" src="{{ MEDIA_URL}}ckeditor\ckeditor\_source\adapters\jquery.js"></script-->
+{% endblock %}
+
+{% block content %}
+
+		
+	{% for s in signed %}
+	
+		<script>if ("{{s.id}}" + 0){i = "{{s.id}}"}
+		</script>
+	{% endfor %}
+    <div class="breadcrumbs">
+      <a href="../../../">
+        Главная
+      </a>
+       &rsaquo; 
+       <a href="../../">
+         Findocs
+      </a>
+      &rsaquo;
+       <a href="../">
+         Checks
+      </a>
+      &rsaquo; 
+      Добавить check
+    </div>
+  <br>
+
+
+	{% if form_is_valid %}
+		{% for form in form_is_valid %}
+		<ul class="messagelist"><li class="info">{{ form }}</li></ul>
+		{% endfor %}
+	{% endif %}
+    <h1>Добавить check</h1>  
+    		
+
+    <div id="content" class="colM">
+    {% if form_is_not_valid %}
+		{% for form in form_is_not_valid %}
+		<p style = "" class="errornote">{{ form }}</p>
+		{% endfor %}
+	{% endif %}	    
+<form enctype="multipart/form-data" action="" method="post" id="profile_form"><input type='hidden' name='csrfmiddlewaretoken' value='QDUTfesVrr25wDOQObGOJuclyStPHf4x' />
+
+
+
+
+<div>
+		
+ <fieldset class="module aligned ">
+
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+
+
+
+	
+	{% if form %}
+	
+	<div class="form-row last_login">
+	{% for field in form %}
+
+		<div class="form-row field-sign_face">
+			{{ field.errors }}
+				{% if error_list %}
+					{% if field == " " %}
+				{{ffield}}
+    	
+    	
+            <ul id = "#{{field.name}}" class="errorlist"><li>Обязательное поле.</li></ul>            
+                          
+        {% endif %}
+    {% endif %}
+			{% if field.field.required %}
+
+			<label class="required">{{ field.label_tag }}</label>{% else %}<label>{{ field.label_tag }}</label>{% endif %}
+			<div class="f_input">
+			
+			{% if field.name == 'created_at' %}
+				{{ field }}
+			{% else %}
+    		{{field}}
+    		{% endif %}
+					
+				{% if field.help_text %}<p class="help">{{ field.help_text }}</p>{% endif %}
+			</div></div>
+{% if error_list %}
+
+			<script>
+			$(function() {
+			if ($('#id_{{field.name}}').val()==""){
+    		$('#id_{{field.name}}').parent().parent().addClass('errors');
+    		$('ul#{{field.name}}').css('display', 'none');
+    		//$('#{{field.name}}').addClass('fuck');
+    	}
+    		if ($('#id_{{field.name}}').val()!=""){
+    			$('#created_by').css('display', 'none');
+    		}
+    		$('#created_by').css('display', 'none');
+    		});
+			</script>
+			
+			{% endif %}
+	{% endfor %}
+	{{form.field.text}}
+	<div style = "display: none;" class="document_text">{{document.text}}</div> 
+	
+
+	
+
+	</div>
+	{% endif %}
+	
+	
+	
+	
+   	 	   	
+
+
+<input type = 'hidden' id = "id_findoc_post" name = "id_findoc_post">
+</fieldset>	
+<!--{{pr_doc}}-->
+		<script>
+
+	var	text = $('.document_text').text()
+t = text.replace("Идентификационный номер налогоплательщика","{{pr.bank_address}}").replace("red_insert red_text 1", "").replace("Идентификационный номер налогоплательщика", "{{pr.bank_address}}").replace("red_insert red_text 1", "").replace("Код причи́ны постано́вки на учёт", "{{pr.kpp}}").replace("red_insert red_text 2", "").replace("Код причи́ны постано́вки на учёт", "{{pr.kpp}}").replace("red_insert red_text 2", "").replace("Укажите имя банка получателя", "{{pr.bank_name}}").replace("Укажите Банковский идентификационный код", "{{pr.bik}}").replace("Номер счета", "{{pr.settlement_account}}").replace("Номер счета пользователя", "{{pr.correspondent_account}}").replace("ФИО Покупателя", '{% if prof2 %}{{prof2.legal_form}} "{{prof2.company_name}}" {% endif %} {{prof1.last_name}} {{prof1.first_name}} {{prof1.second_name}}').replace("Адресс Покупателя", "{{legal_adrress}}" ).replace("Дата", "{{date_field}}").replace("Номер счета", "{{number_field}}").replace("Номер договора", i); 
+	$( "#id_text" ).text(t); 
+
+	</script>
+		<script>	
+		
+	$("#id_created_by [value=str]".replace('str', "{{id}}")).attr("selected", "selected");
+
+
+		//Findoc
+			$('#id_findoc_post').val($('#id_findoc option:selected').val());
+			$('#id_findoc').on('change', function() {
+			
+	$('#id_findoc_post').val($('#id_findoc option:selected').val());													
+});
+</script>
+
+
+</div>
+<div class="submit-row">
+<input type="submit" value="{{up_val}}" class="default" name="{{save}}" >
+{% if save == '_save' %}
+<input type="submit" value="Обновить документ"  name="_update">
+<input type="submit" value="Сохранить и добавить другой объект" name="_addanother">
+<input type="submit" value="Сохранить и продолжить редактирование"  name="_continue">
+{% endif %}
+</div>
+<script>
+		
+		$("#id_number").parent().prev().removeClass('required');
+		$("#id_number").val("{{number}}");
+		$("#id_type_paid [value=str]".replace('str', "{{type_paid}}")).attr("selected", "selected");	
+		$("#id_findoc [value=str]".replace('str', "{{findoc}}")).attr("selected", "selected");
+		
+		val = $('#id_created_at').val().replace("00:00:00", "");
+		$('#id_created_at').val(val)
+
+</script>
+<script src="/media/js/jquery.min.js"></script>
+<script src="/media/js/chosen.jquery.js"></script>
+<script src="/media/js/chosen_select.js"></script>
+<link rel="stylesheet" type="text/css" href="/media/css/chosen.css" />
+</form>
+
+	
+
+{% endblock %}
+
+
+

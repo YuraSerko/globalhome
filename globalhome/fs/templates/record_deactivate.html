@@ -1,0 +1,21 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+<form action="." method="post" enctype="multipart/form-data">
+
+	<div class="confirm">
+        <h4 class="h4_style">Вы уверены что хотите деактивировать данную услугу?</h4>
+    
+	  <div class="form-sections-submit">
+            <div class="form-submit-right" id="form-submit-right">
+                <input type="submit" class="bt bt-blue2" name="abort" value="{% trans 'Cancel' %}"/>
+                <input type="submit" class="bt bt-blue2" name="submit" value="{% trans 'Yes' %}"/>
+            </div>
+        </div>
+	</div>
+</form>
+{% endblock %}

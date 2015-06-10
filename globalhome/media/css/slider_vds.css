@@ -1,0 +1,10 @@
+.clear{
+clear:both;}
+
+#noscript{
+	background-color:#F90;
+	padding:10px;
+	font-size:12px;
+	color:#fff;
+	border-bottom:#F60 1px solid;
+	}

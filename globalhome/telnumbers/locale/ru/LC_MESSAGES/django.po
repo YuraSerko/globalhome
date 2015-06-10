@@ -1,0 +1,500 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-24 14:39+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: .\admin.py:23 .\forms.py:22 .\models.py:104 .\views.py:24 .\views.py:157
+msgid "Internal numbers"
+msgstr "Внутренние номера"
+
+#: .\admin.py:31
+msgid "Add internal number"
+msgstr "Добавить внутренний номер"
+
+#: .\admin.py:59
+#, python-format
+msgid "Number %s added successfully"
+msgstr "Номер %s успешно добавлен"
+
+#: .\admin_groups.py:24 .\models.py:169
+msgid "Groups numbers"
+msgstr "Группы номеров"
+
+#: .\admin_groups.py:32 .\admin_groups.py:47
+msgid "User's groups"
+msgstr "Группы пользователя"
+
+#: .\admin_groups.py:66
+msgid "Edit group"
+msgstr "Редактировать группу"
+
+#: .\admin_groups.py:99 .\views_groups.py:130
+msgid "Group was saved succesfully"
+msgstr "Группа была успешно сохранена"
+
+#: .\admin_groups.py:111
+msgid "Delete group"
+msgstr "Удалить группу"
+
+#: .\admin_groups.py:132 .\views_groups.py:171
+msgid "Group was succesfully deleted"
+msgstr "Группа была успешно удалена"
+
+#: .\admin_groups.py:145
+#, python-format
+msgid "Add group for user %s"
+msgstr "Добавить группу пользователю %s"
+
+#: .\admin_groups.py:167 .\views_groups.py:84
+msgid "Group was created succesfully"
+msgstr "Группа была успешно создана"
+
+#: .\consts.py:13
+msgid "Call to all in the same time"
+msgstr ""
+
+#: .\consts.py:14
+msgid "Call to one by one"
+msgstr ""
+
+#: .\forms.py:14 .\models.py:114
+#: .\templates\admin\external_phones_list.html.py:274
+#: .\templates\admin\external_phones_list.html.py:360
+#: .\templates\admin\groups\list_user_groups.html.py:84
+#: .\templates\groups\list.html.py:11
+msgid "Group name"
+msgstr "Имя группы"
+
+#: .\forms.py:46
+msgid "Group with this name already exists!"
+msgstr "Группа с этим именем уже существует!"
+
+#: .\forms.py:60
+msgid "Please select at least one number!"
+msgstr "Пожалуйста, выберите хотя бы один номер!"
+
+#: .\forms.py:82
+msgid "You should input 4 digits for a short number."
+msgstr "Вы должны указать 4 цифры для короткого номера."
+
+#: .\forms.py:97 .\templates\admin\telnumbers\add.html.py:123
+#: .\templates\phones\list.html.py:18
+msgid "Password"
+msgstr "Пароль"
+
+#: .\forms.py:98 .\templates\admin\telnumbers\add.html.py:129
+#: .\templates\phones\list.html.py:15
+msgid "Person name"
+msgstr "Имя владельца"
+
+#: .\forms.py:101 .\models.py:20 .\templates\admin\telnumbers\add.html.py:135
+#: .\templates\phones\list.html.py:16
+msgid "Short number"
+msgstr "Короткий номер"
+
+#: .\forms.py:102
+msgid "Must consists of 4 digits"
+msgstr "Должен содержать 4 цифры"
+
+#: .\forms.py:113
+msgid "You should select another short number - this one exists already"
+msgstr "Вы должны выбрать другой короткий номер - этот уже существует"
+
+#: .\forms.py:144 .\templates\admin\groups\add_group.html.py:109
+#: .\templates\admin\groups\list_user_groups.html.py:79
+#: .\templates\groups\add.html.py:108
+msgid "Add group"
+msgstr "Добавить группу"
+
+#: .\forms.py:155 .\templates\admin\external_phones_list.html.py:326
+#: .\templates\admin\telnumbers\add.html.py:77
+#: .\templates\admin\telnumbers\add.html.py:143
+#: .\templates\phones\add.html.py:11
+msgid "Add"
+msgstr "Добавить"
+
+#: .\forms.py:178
+msgid "Group of numbers"
+msgstr "Группа номеров"
+
+#: .\models.py:16 .\models.py:116
+msgid "Account"
+msgstr "Учетная запись"
+
+#: .\models.py:17 .\models.py:103 .\templates\phones\list.html.py:13
+msgid "Internal number"
+msgstr "Внутренний номер"
+
+#: .\models.py:22
+msgid "Owner name"
+msgstr "Имя владельца"
+
+#: .\models.py:118
+msgid "Internal phones"
+msgstr "Внутренние номера"
+
+#: .\models.py:168
+msgid "Group numbers"
+msgstr "Группы номеров"
+
+#: .\views.py:55
+msgid "Phone was changed succesfully"
+msgstr "Телефонный номер был успешно изменен"
+
+#: .\views.py:63
+#, python-format
+msgid "Editing a phone number %s"
+msgstr "Редактирование телефонного номера %s"
+
+#: .\views.py:94 .\views.py:147
+msgid "Number was succesfully added."
+msgstr "Номер был успешно добавлен."
+
+#: .\views.py:102
+#, python-format
+msgid "Adding a number %s"
+msgstr "Добавление номера %s"
+
+#: .\views.py:149
+msgid "An error occured. Try again or contact administrator"
+msgstr "Произошла ошибка. Попробуйте снова или свяжитесь с администрацией"
+
+#: .\views.py:185 .\views.py:191
+msgid "Changes were saved."
+msgstr "Изменения сохранены."
+
+#: .\views.py:209
+#, python-format
+msgid "Edit phone number %(num)s"
+msgstr "Редактирование номера %(num)s"
+
+#: .\views_groups.py:16
+msgid "Groups of numbers"
+msgstr "Группы номеров"
+
+#: .\views_groups.py:40
+msgid "Adding a group of numbers"
+msgstr "Добавление группы номеров"
+
+#: .\views_groups.py:100
+msgid "Editing the group of numbers"
+msgstr "Редактирование группы номеров"
+
+#: .\views_groups.py:145
+msgid "Deleting the group of numbers"
+msgstr "Удаление группы номеров"
+
+#: .\templates\admin\external_phones_list.html.py:65
+msgid "Start range"
+msgstr "Начало диапазона"
+
+#: .\templates\admin\external_phones_list.html.py:69
+msgid "End range"
+msgstr "Конец диапазона"
+
+#: .\templates\admin\external_phones_list.html.py:73
+msgid "Number state"
+msgstr "Состояние номера"
+
+#: .\templates\admin\external_phones_list.html.py:76
+msgid "Reserved"
+msgstr "Зарезервированный"
+
+#: .\templates\admin\external_phones_list.html.py:77
+msgid "Free"
+msgstr "Свободный"
+
+#: .\templates\admin\external_phones_list.html.py:82
+#: .\templates\admin\external_phones_list.html.py:275
+#: .\templates\admin\external_phones_list.html.py:361
+msgid "Region"
+msgstr "Регион"
+
+#: .\templates\admin\external_phones_list.html.py:169
+#: .\templates\admin\groups\add_group.html.py:41
+#: .\templates\admin\groups\delete_group.html.py:41
+#: .\templates\admin\groups\edit_group.html.py:42
+#: .\templates\admin\groups\list_groups.html.py:40
+#: .\templates\admin\groups\list_user_groups.html.py:40
+#: .\templates\admin\telnumbers\add.html.py:66
+msgid "Home"
+msgstr ""
+
+#: .\templates\admin\external_phones_list.html.py:188
+#: .\templates\admin\groups\add_group.html.py:67
+#: .\templates\admin\groups\delete_group.html.py:71
+#: .\templates\admin\groups\edit_group.html.py:68
+#: .\templates\admin\groups\list_groups.html.py:58
+#: .\templates\admin\groups\list_user_groups.html.py:62
+#: .\templates\admin\telnumbers\add.html.py:88
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\templates\admin\external_phones_list.html.py:272
+#: .\templates\admin\external_phones_list.html.py:358
+msgid "External number"
+msgstr "Внешний номер"
+
+#: .\templates\admin\external_phones_list.html.py:273
+#: .\templates\admin\external_phones_list.html.py:359
+#: .\templates\admin\groups\list_groups.html.py:79
+msgid "User name"
+msgstr "Имя пользователя"
+
+#: .\templates\admin\external_phones_list.html.py:295
+#: .\templates\admin\external_phones_list.html.py:391
+msgid "Filter by region:"
+msgstr "Фильтр по региону:"
+
+#: .\templates\admin\external_phones_list.html.py:322
+msgid "Add range"
+msgstr "Добавить диапазон"
+
+#: .\templates\admin\external_phones_list.html.py:323
+msgid "Delete range"
+msgstr "Удалить диапазон"
+
+#: .\templates\admin\external_phones_list.html.py:327
+#: .\templates\admin\external_phones_list.html.py:348
+#: .\templates\admin\groups\add_group.html.py:111
+#: .\templates\admin\groups\delete_group.html.py:128
+#: .\templates\admin\groups\edit_group.html.py:113
+#: .\templates\admin\telnumbers\add.html.py:145
+#: .\templates\groups\add.html.py:109 .\templates\groups\delete.html.py:35
+#: .\templates\groups\edit.html.py:37 .\templates\phones\add.html.py:13
+#: .\templates\phones\edit.html.py:13
+msgid "Cancel"
+msgstr "Отмена"
+
+#: .\templates\admin\external_phones_list.html.py:338
+msgid "Selected numbers will be"
+msgstr "Выбранные номера будут"
+
+#: .\templates\admin\external_phones_list.html.py:340
+msgid "Reserved "
+msgstr "Зарезервированы"
+
+#: .\templates\admin\external_phones_list.html.py:341
+msgid "Freed"
+msgstr "Освобождены"
+
+#: .\templates\admin\external_phones_list.html.py:345
+msgid "Send e-mail notifications"
+msgstr "Посылать уведомление по e-mail"
+
+#: .\templates\admin\external_phones_list.html.py:347
+msgid "Detach"
+msgstr "Отсоединить"
+
+#: .\templates\admin\groups\add_group.html.py:56
+msgid "Adding group"
+msgstr "Добавление группы"
+
+#: .\templates\admin\groups\delete_group.html.py:60
+msgid "Deleting"
+msgstr "Удаление"
+
+#: .\templates\admin\groups\delete_group.html.py:107
+#: .\templates\groups\delete.html.py:15
+msgid "Are you sure that you want to delete a group of numbers"
+msgstr "Вы уверены, что хотите удалить группу номеров"
+
+#: .\templates\admin\groups\delete_group.html.py:107
+msgid "of user"
+msgstr "пользователя"
+
+#: .\templates\admin\groups\delete_group.html.py:111
+#: .\templates\groups\delete.html.py:19
+msgid "It's containing the numbers:"
+msgstr "В ней содержатся номера:"
+
+#: .\templates\admin\groups\delete_group.html.py:119
+msgid ""
+"Will be deleted only bind to a group of numbers, numbers will not be "
+"affected."
+msgstr ""
+"Будет удалена только связь группы и номеров, номера затронуты не будут."
+
+#: .\templates\admin\groups\delete_group.html.py:126
+#: .\templates\groups\delete.html.py:34
+msgid "Yes"
+msgstr "Да"
+
+#: .\templates\admin\groups\edit_group.html.py:108
+#: .\templates\admin\groups\list_user_groups.html.py:86
+#: .\templates\admin\groups\list_user_groups.html.py:94
+#: .\templates\groups\edit.html.py:33 .\templates\groups\list.html.py:15
+#: .\templates\groups\list.html.py:25
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\templates\admin\groups\edit_group.html.py:110
+#: .\templates\groups\edit.html.py:36 .\templates\phones\edit.html.py:11
+msgid "Save changes"
+msgstr "Сохранить изменения"
+
+#: .\templates\admin\groups\list_groups.html.py:74
+msgid "Please select the user to edit his group"
+msgstr "Пожалуйста, выберите пользователя, чтобы редактировать его группы"
+
+#: .\templates\admin\groups\list_groups.html.py:80
+msgid "Company name"
+msgstr "Имя компании"
+
+#: .\templates\admin\groups\list_user_groups.html.py:77
+msgid ""
+"You can select user's group to edit or delete. Also you can add a new group."
+msgstr ""
+"Вы можете выбрать группу пользователя для редактирования или удаления. Так "
+"же Вы можете добавить новую группу."
+
+#: .\templates\admin\groups\list_user_groups.html.py:85
+#: .\templates\admin\groups\list_user_groups.html.py:93
+#: .\templates\groups\list.html.py:14 .\templates\groups\list.html.py:24
+msgid "Edit"
+msgstr "Редактировать"
+
+#: .\templates\admin\groups\list_user_groups.html.py:100
+msgid "The user has no groups"
+msgstr "У пользователя нет групп"
+
+#: .\templates\admin\telnumbers\add.html.py:105
+msgid "Adding new internal number"
+msgstr "Добавление нового внутреннего номера"
+
+#: .\templates\admin\telnumbers\add.html.py:109
+msgid "Please select user"
+msgstr "Пожалуйста, выберите пользователя"
+
+#: .\templates\admin\telnumbers\add.html.py:119
+msgid "Number"
+msgstr "Номер"
+
+#: .\templates\groups\add.html.py:61 .\templates\groups\edit.html.py:14
+msgid "Please select phones in this group:"
+msgstr "Пожалуйста, выберите номера в этой группе:"
+
+#: .\templates\groups\add.html.py:94
+msgid "To user"
+msgstr "Пользователю"
+
+#: .\templates\groups\add.html.py:114 .\templates\groups\list.html.py:42
+msgid "You have no internal numbers. You should create one first"
+msgstr "У Вас нет внутренних номеров. Вы должны сначала создать хотя бы один"
+
+#: .\templates\groups\delete.html.py:27
+msgid ""
+"Will be removed only bind to a group of numbers, numbers will not be "
+"affected."
+msgstr ""
+"Будет удалена только связь группы и номеров, номера не будут затронуты."
+
+#: .\templates\groups\list.html.py:12
+msgid "Numbers"
+msgstr "Номера"
+
+#: .\templates\groups\list.html.py:13
+msgid "Local numbers"
+msgstr "Местные номера"
+
+#: .\templates\groups\list.html.py:31
+msgid "You have no groups."
+msgstr "У Вас нет групп."
+
+#: .\templates\groups\list.html.py:37
+msgid "Add a group"
+msgstr "Добавить группу"
+
+#: .\templates\phones\list.html.py:8
+msgid "You have no phone numbers. You can add one below"
+msgstr "У Вас нет телефонных номеров. Вы можете добавить их ниже"
+
+#: .\templates\phones\list.html.py:19
+msgid "Actions"
+msgstr "Действия"
+
+#: .\templates\phones\list.html.py:31
+msgid "Change"
+msgstr "Изменить"
+
+#: .\templates\phones\list.html.py:39
+msgid "Add number"
+msgstr "Добавить номер"
+
+#~ msgid "Number: Internal"
+#~ msgstr "Номер: Внутренний"
+
+#~ msgid "Numbers: Internal"
+#~ msgstr "Номера: Внутренние"
+
+#~ msgid "Numbers: External"
+#~ msgstr "Номера: Внешние"
+
+#~ msgid "Assigned numbers"
+#~ msgstr "Назначенные номера"
+
+#~ msgid "Free numbers"
+#~ msgstr "Свободные номера"
+
+#~ msgid "Reserved numbers"
+#~ msgstr "Зарезервированные номера"
+
+#~ msgid "Adding numbers"
+#~ msgstr "Добавление номеров"
+
+#~ msgid "Assigning numbers"
+#~ msgstr "Назначение номеров"
+
+#~ msgid "Detaching numbers"
+#~ msgstr "Отсоединение номеров"
+
+#~ msgid "All"
+#~ msgstr "Все"
+
+#~ msgid "%s is not valid number!"
+#~ msgstr "%s - это неверный номер!"
+
+#~ msgid "End range must be larger or equal to start range!"
+#~ msgstr "Конец диапазона должен быть больше или равен началу диапазона!"
+
+#~ msgid "Number %s is in incorrect format!"
+#~ msgstr "Номер %s в неверном формате!"
+
+#~ msgid "External number %s already exists!"
+#~ msgstr "Внешний номер %s уже существует!"
+
+#~ msgid ""
+#~ "Error when inserting data to database! Maybe the number %s already exists?"
+#~ msgstr ""
+#~ "Ощибка при вставке данных в базу данных! Может быть телефонный номер %s "
+#~ "уже существует?"
+
+#~ msgid "Error detaching number!"
+#~ msgstr "Ощибка отсоединения номера!"
+
+#~ msgid "Numbers succesfully detached"
+#~ msgstr "Номера успещно отсоединены!"
+
+#, fuzzy
+#~ msgid "Group name:"
+#~ msgstr "Имя группы"
+
+#~ msgid "Number: External"
+#~ msgstr "Номер: Внешний"

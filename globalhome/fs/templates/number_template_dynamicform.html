@@ -1,0 +1,29 @@
+<input id="selecttempl" type="hidden" value="{{ select_template }}" />
+<div class="form_django form_ul">
+            <div class="form-section form-section2">
+                <table WIDTH="1000">
+                         <tr>
+                                <td valign="top" width="1000">
+                                    {{ formset_number.management_form }}
+                                    {% for form1 in formset_number.forms %}
+                                        <div class="itemkanumber">
+                                          {{ form1.as_p }}
+                                          <a href="javascript:void(0);" onClick="del_asks(this, 'number');"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a>
+                                          <label for="test_number">&nbsp;&nbsp;Проверить номер:</label>
+                                          <input id="id_test_number" style="width:120px;" name="test_number" type="text">
+                                          <input id="id_check_direction_rule" class="small color green button" style="display: inline;" onclick="check_direction_rule(this);" type="button" value="✔"/>
+                                          <label id="test_ok" style="color:#0C0; font-size:12px; font-weight:800; display:none;">&nbsp;Подходит</label>
+                                          <label id="test_not_ok" style="color:#F00; font-size:12px; font-weight:800; display:none;">&nbsp;Не подходит</label>
+                                          <br></br>
+                                          </br>
+                                         </div>
+                                    {% endfor %}
+                                    <button name="add" id="add_id_number" class="bt bt-blue2" type="button" onclick="ask(this, 'number');" style="width: 270px;">Ещё ...</button>
+                               </td>
+                                <td>
+                                </td>
+                          </tr>
+                </table>
+    
+             </div>
+         </div>

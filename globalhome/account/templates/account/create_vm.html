@@ -1,0 +1,221 @@
+{% load i18n form_tags lib_tags %}
+{% block extrahead %}
+{% endblock %}
+{% block content %}
+     <script type="text/javascript" src="/media/js/jquery.form.js"></script>
+    <script type="text/javascript" language="javascript" charset="utf-8">
+
+	function get_getvoicemail() {
+		
+			$.get("/account/constructor/checkvoicemail/"+document.getElementById("select_number").value+"/", function(data) {
+	
+						$('#get_getvoicemail').html(data);
+						PageLoaded();
+					
+					});
+	
+	}
+
+
+		function PageLoaded() // вызовется, когда страница загрузится
+		{	
+		$('#validate1').parent().append("<span id='validEmail1' class='validEmail'></span>");
+			var busy_div = GetI("busy_conditions");
+			var busy_cb = GetI("id_flags_3");
+			busy_cb.onclick = function() { Sdown(busy_div, busy_cb); }
+			Sdown(busy_div, busy_cb);
+			var busy_not_cond = GetI("id_flags_0");
+			busy_not_cond.onclick = function() {
+					ShowBusyBox(busy_not_cond)
+					$("#id_flags_1").removeAttr('checked');
+					$("#id_flags_2").removeAttr('checked');
+					$("#id_flags_3").removeAttr('checked');
+					Sdown(busy_div, busy_cb);
+					}
+			ShowBusyBox(busy_not_cond)
+			
+			
+				
+		}
+		function ShowBusyBox(a) 
+		{var vis = (a.checked) ? "none" : "block";
+		$("li").children('label').eq(1).css('display', vis);
+		$("li").children('label').eq(2).css('display', vis);
+		$("li").children('label').eq(3).css('display', vis);}
+		
+		
+		
+		
+		WaitForLoaded("busy_conditions", PageLoaded); 
+
+		
+			
+	function load_file()
+		{
+			var form = document.getElementById("vm");
+			$('<input />').attr('type', 'hidden')
+            .attr('name', 'save')
+            .attr('value', 'save')
+            .appendTo('#vm');
+			var subm = document.getElementById('subm');
+			subm.click();
+			document.location.replace("#load_file");
+		}
+		
+		
+	function lol(f, i) {
+		var email = f.value;
+		if (email != 0)
+		{
+			if (isValidEmailAddress(email))
+			{ 	
+				
+				$('.validEmail').css({
+					"background-image": "url('/media/img/validyes.png')"
+				});
+
+			} 
+			else 
+			{	
+				$('.validEmail').css({
+					"background-image": "url('/media/img/validno.png')"
+				});
+				
+			}
+		} 
+		else 
+		{
+			$('.validEmail').css({
+					"background-image": "url('/media/img/validno.png')"
+				});		
+		}
+	};
+	
+	
+	function isValidEmailAddress(emailAddress) {
+ 		var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+ 		return pattern.test(emailAddress);
+	}
+	$(".modal_window_title").html('Добавление голосовой почты');
+	
+	(function() {
+			  $('#mainForm').ajaxForm({
+				cache: false,
+				async: false,
+				success: function(html) 
+					{				
+									if (html.split('_')[0] == "createnewelement") 
+										{
+										var goods = html.split('_');
+										$.ajax({
+											type: "POST",
+											url: "/account/constructor/save",  // or just url: "/my-url/path/"
+											data: {new_element: $('#newelement').val() + '_' + goods[goods.length-1], parent_new_element: $('#parent_newelement').val(), number_id: $('#number_id').val(), draft_flag: $('#draft_flag').val()},
+											success: function(data) {
+												window.location.reload(true)
+												//window.location.href=window.location.href;
+											},
+											error: function(xhr, textStatus, errorThrown) {
+												alert("Please report this error: "+errorThrown+xhr.status+xhr.responseText);
+											}
+										});
+										
+										}
+									else
+										{
+										$(".tab_container").html(html);
+										}
+					},
+				
+				});
+				})();
+	
+	
+	
+</script>
+
+<style>
+.field ul {
+	list-style:none;
+}
+</style>
+</br>
+<div class="ugc">
+	<p>Выберите номер на котором будет голосовая почта, затем выберите условия по которому будет включаться режим "Голосовой почты" и введите e-mail адрес, на который будет направлено сообщение.</p>
+</div>
+ 
+
+<form id="mainForm" name="vmname" action="/account/constructor/createnewelement/{{newelement}}/{{parent_newelement}}/" method="post" enctype="multipart/form-data">
+	<input name="number_id" type="hidden" {% if number_id %} value="{{ number_id }}" {% else %} value="0" {% endif %} id="number_id"/>
+    <input name="newelement" type="hidden" {% if newelement %} value="{{ newelement }}" {% else %} value="0" {% endif %} id="newelement"/>
+    <input name="parent_newelement" type="hidden" {% if parent_newelement %} value="{{ parent_newelement }}" {% else %} value="0" {% endif %} id="parent_newelement"/>
+    <input name="draft_flag" type="hidden" {% if draft_flag %} value="{{ draft_flag }}" {% else %} value="0" {% endif %} id="draft_flag"/>
+    
+    <div class="form-sections">
+        <div class="form-section">
+        	<span class="label">
+                    Выберите голосовую почту или создайте новую
+                </span>
+                <select id="select_number" name="number" onChange="get_getvoicemail()">
+                	<option value="0">Создать новую голосовую почту</option>
+                {% for chk, ch in choices.items %}
+                    <option value="{{ chk }}">
+                    {{ ch }}
+                    </option> 
+                {% endfor %}
+                </select>
+        
+        </div><!--form-section-->
+        <hr>
+        <div id="get_getvoicemail">
+            <div class="form-section form-section2 form_voice_vm">
+                {% form_field form.name block %}
+            </div>
+            <hr>
+            <div class="form-section form-section2 form_django">
+                {% form_field form.flags block %}
+                <div id="busy_conditions">
+                      {% form_field form.wait_time block %}
+                </div>
+                <div class="hint"><i></i>Условие, при котором будет включен режим голосовой почты</div>
+            </div>
+            <hr>
+            <div class="form-section form-section2 form_voice_vm">
+               {% form_field form.email block %}
+               <div class="hint"><i></i>Email адрес, на который выслать оповещение о новом сообщении</div>
+            </div>
+            <hr>
+            <div class="form-section form-section2 form_django">
+                {% if file %}
+                <span class="label">Ваше текущее приветствие:  {{ file }}</span>
+                {% endif %}
+                <span class="label">Ваше приветствие</span>
+                <input id="file_hello" name="file_hello" type="file" accept="audio/wav"/>
+                <div class="hint"><i></i>Вы можете выбрать файл приветствия, который будет проигрываться перед записью сообщения</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-sections-submit">
+        <!--input class="bt bt-blue" type="button" onClick="load_file()" value="Сохранить"/-->
+        <input id="subm" type="submit" class="bt bt-blue" name="save" value="Добавить"/>
+    </div>
+    
+    
+</form>
+
+<a href="#" class="overlay" id="load_file"></a>
+    <div class="popup_personal">
+    <a class="popup_personal-close" href="#close"></a>
+    	<table class="type-4 modal" style="width: 440px;">
+        	<caption>
+            	<h1 class="title" style="margin: 0;">Ожидайте, идет загрузка файла!</h1>
+            </caption>
+            <tbody>
+            	<tr>
+                	<td style="text-align: center;"><img src="/media/images/loading.gif"></td>
+                </tr>
+            </tbody>
+        </table>
+	</div>	
+{% endblock %}

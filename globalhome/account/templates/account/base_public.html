@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% load i18n page_tags form_tags %}
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/layout_public1.css" type="text/css" />
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/but_style1.css" type="text/css" />
+    
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/slide_for_login.css" type="text/css" media="screen" />
+    <script src="{{ MEDIA_URL }}js/slide.js" type="text/javascript"></script>
+  
+    
+{% endblock %}
+
+
+{% block content %}
+
+
+{% if bout %}
+    <script type="text/javascript">
+            $(function load() { 
+               if (window.location.search) 
+                {
+                  $("div#panel").slideDown("fast");
+                  $("#toggle a").toggle();
+                }
+            }); 
+    </script>
+{% else %}
+    <script type="text/javascript">
+            $(function load() { 
+               if (window.location.search) 
+                {
+                  window.location.replace('http://globalhome.su/account');
+                }
+            });
+    </script>
+{% endif %}
+
+
+
+
+{% if panel %}
+    <script type="text/javascript">
+        $(function load()
+             {
+                  $("div#panel").slideDown("fast");
+                  $("#toggle a").toggle();
+             });
+    </script>
+{% endif %}  
+
+{% if panel2 %}
+    <script type="text/javascript">
+        $(function load()
+             {
+                  $("div#panel").slideDown("fast");
+                  $("#toggle a").toggle();
+                  $("div#panel2").slideDown("fast");
+                  $("#toggle2 a").toggle();
+             });
+    </script>
+{% endif %}   
+<body  onload="Remember_way()">      
+<div id="toppanel">
+      <div id="panel">
+        <div class="content clearfix">
+          <div class="left">
+            <h1>Добро пожаловать на сайт компании GlobalHome</h1>
+            <h2>Мы рады предложить вам наш список услуг.</h2>   
+            <p class="grey">Если вы на сайте в первый раз, то вам необходимо зaрегистрироваться. Сама регистрация очень проста и не занимает много времени.Нужно указать ваш e-mail, на который придет ссылка на активацию аккаунта,
+                                       после чего вы можете заходить в личный кабинет и добавлять услуги.</p> 
+            <p class="grey">Для доступа в личный кабинет необходимо ввести e-mail или логин(для старых ползователей) и пароль, указанный при регистрации. 
+                                 </p>
+          
+          </div>
+          <div class="left right">
+            <div class="fff">
+            <form class="clearfix" action="#" method="post" onKeyDown="javascript:if(13==event.keyCode){return false;}">
+              <h1>Регистрация</h1>
+              {% if reg_compite %}
+              	 <script>
+                 	<p class="success"> Регистрация завершена, на ваш почтовый ящик выслано письмо для активации аккаунта.</p>
+              	 </script>
+              {% endif %}
+                          {% for field in form_reg %}
+                            {% form_field field block %}
+                          {% endfor %}
+                  <input type="submit" name="registr" value="Регистрация" class="bt_register" />
+               
+              <div class="clear"></div>
+              </form>
+            </div>
+          </div>
+          <div class="left right">
+            <div class="fff">
+            <form class="clearfix" action="#" method="post" onKeyDown="javascript:if(13==event.keyCode){return false;}">
+              <h1>Вход в личный кабинет</h1>
+              {% if error_login %}
+                 <p class="error"> Заполните правильно все поля! </p>
+              {% endif %}
+              {% if not_active %}
+                 <div class="error"> {{ top_errors|safe }}   </div>
+              {% endif %}
+              {% for field2 in form_login %}
+                {% form_field field2 block %}
+              {% endfor %}
+              <input type="submit" name="login_m" value="Войти" class="bt_register" />
+              
+              <a class="lost-pwd">
+                
+                <ul>
+                  <li id="toggle2">
+                    <a id="open2" class="open2">Забыли_пароль?</a>
+                    <a id="close2" style="display: none;" class="close2">Спрятать</a>     
+                  </li>
+                </ul> 
+              </a>
+              </form>
+              <div id="toppanel2">
+                <div id="panel2">
+                    <div class="left2 right2">    
+                      <div class="fff2">
+                        <form class="clearfix" action="#" method="post" onkeydown="javascript:if(13==event.keyCode){return false;}">
+                        <h1>Востановление пароля</h1>
+                        <p class="grey">Введите имя пользователя, и на электронный ящик, указанный Вами при регистрации, будет выслано письмо с новым паролем.</p>
+                          {% if reset_password_error %}
+                              <p class="message box error">
+                                  {{ reset_password_error }}
+                              </p>
+                          {% endif %}
+                          
+                          {% if reset_password_success %}
+                              <p class="message box success">
+                                  {{ reset_password_success }}
+                              </p>
+                          {% endif %}
+                          {% for field_reset in form_reset %}
+                              {% form_field field_reset block %}
+                          {% endfor %}
+                        <input type="submit" name="reset_password" value="Отправить" class="bt_register" />
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab" onload="load()">
+        {% if bout %}
+        <ul class="login">
+            <li class="left">&nbsp;</li>
+              <li>Привет гость!</li>
+          <li class="sep">|</li>
+          <li id="toggle">
+            <a id="open" class="open" href="#">Вход|Регистрация</a>
+            <a id="close" style="display: none;" class="close" href="#">Закрыть панель</a>     
+          </li>
+            <li class="right">&nbsp;</li>
+        </ul> 
+        {% else %}
+        <ul class="login">
+          <li class="left">&nbsp;</li>
+          <li class="id1">Привет {{ user_name }}!</li>
+          <li class="sep">|</li>
+            <li id="toggle22">
+              <a id="open22"   href="/account/service_choice/">Личный кабинет</a>
+              
+            </li>
+          <li class="right">&nbsp;</li>
+          </ul> 
+        {% endif %}
+      </div>
+    </div>
+    {% endblock %}
+</body>

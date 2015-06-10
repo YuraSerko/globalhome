@@ -1,0 +1,58 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+                
+<h1 class="title">{{ title }}</h1>
+
+<div class="ugc">
+    <p>Здесь можно закрепить городской номер за нужной группой внутренних номеров.</p>
+</div> 
+
+    {% if number %}
+        {% if groups %}
+            <form method="POST" action=".">
+            	
+                {% if no_group %}
+                   <div class="status status-warning">
+                        <i class="ico"></i>
+                        <div class="status-i">
+                            <p>{% trans "This number is not mapped to any one group. To receive calls on this number you should assign it to an existing or new group." %}</p>
+                        </div>
+                    </div>
+                    <br />
+                {% endif %}
+
+                
+            <div class="form_django">
+            
+                <div class="add_group2">
+                    {% form_field form.user_groups block %}
+                </div>
+                     
+                <div class="form-submit">
+                    <div class="form-submit-left">
+                        <a class="bt bt-blue2" href="/account/localphones/delete/{{ number.id }}/">{% trans "Delete number" %}</a>
+                    </div>
+                    
+                    <div class="form-submit-right">
+                        <input type="submit" class="bt bt-blue2" value='{% trans "Cancel" %}' name="cancel" />
+                        <input type="submit" class="bt bt-blue2" value='{% trans "Save changes" %}' name="save" />
+                    </div>
+                </div>
+                
+            </form>
+           </div>
+        {% else %}
+        	
+            <div class="status status-warning">
+                <i class="ico"></i>
+                <div class="status-i">
+                    <p>{% trans "You do not have any group of numbers. You must first create one." %}</p>
+                </div>
+            </div>
+
+        {% endif %}
+    {% endif %}
+    
+{% endblock %}

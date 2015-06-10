@@ -1,0 +1,1064 @@
+# globalhome.account
+# Copyright (C) globalhome
+# This file is distributed under the same license as the globalhome package.
+# globalhome.
+# globalhome <>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: 1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-08 18:00+0200\n"
+"PO-Revision-Date: 2012-12-03 17:09+0400\n"
+"Last-Translator: 123 <1234>\n"
+"Language-Team: ru <>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+
+#: .\admin.py:33
+#: .\admin.py:55
+msgid "Yes"
+msgstr "Да"
+
+#: .\admin.py:33
+#: .\admin.py:55
+msgid "No"
+msgstr "Нет"
+
+#: .\admin.py:38
+#: .\admin.py:60
+msgid "All"
+msgstr "Все"
+
+#: .\admin.py:47
+#: .\admin.py:168
+msgid "Legal person"
+msgstr "Юр. лицо"
+
+#: .\admin.py:69
+msgid "Cards"
+msgstr "Карточки"
+
+#: .\admin.py:80
+msgid "E-mail address"
+msgstr "Адрес e-mail"
+
+#: .\admin.py:88
+#: .\admin.py:150
+#: .\admin.py:204
+msgid "Tariff group"
+msgstr "Тарифная группа"
+
+#: .\admin.py:92
+#: .\admin.py:151
+#: .\admin.py:216
+msgid "Prices group"
+msgstr "Группа цен"
+
+#: .\admin.py:109
+#: .\models.py:101
+msgid "Company name"
+msgstr "Название компании"
+
+#: .\admin.py:114
+msgid "Customer account"
+msgstr "Учетная запись пользователя"
+
+#: .\admin.py:115
+msgid "Customer accounts"
+msgstr "Учетные записи пользователей"
+
+#: .\admin.py:122
+msgid "staff account"
+msgstr "учетная запись персонала"
+
+#: .\admin.py:123
+msgid "Staff management"
+msgstr "Управление персоналом"
+
+#: .\admin.py:142
+#: .\views.py:679
+msgid "Change tariff group for selected users"
+msgstr "Изменить тарифную группу для выбранных пользователей"
+
+#: .\admin.py:158
+msgid "Personal info"
+msgstr "Персональные данные"
+
+#: .\admin.py:159
+msgid "Permissions"
+msgstr "Разрешения"
+
+#: .\admin.py:160
+msgid "Important dates"
+msgstr "Важные даты"
+
+#: .\forms.py:27
+#: .\forms.py:86
+#: .\forms.py:105
+#: .\templates\account\profile.html.py:136
+#: .\templates\admin\account\change_form.html.py:19
+msgid "Password"
+msgstr "Пароль"
+
+#: .\forms.py:28
+msgid "Password confirmation"
+msgstr "Подтверждение пароля"
+
+#: .\forms.py:33
+msgid "User name (login)"
+msgstr "Имя пользователя (логин)"
+
+#: .\forms.py:34
+msgid "Email (for contacts only)"
+msgstr "Email (только для связи)"
+
+#: .\forms.py:44
+msgid "The two password fields didn't match."
+msgstr "Введенные пароли не совпадают."
+
+#: .\forms.py:80
+#, fuzzy
+msgid "Current number"
+msgstr "Городской номер"
+
+#: .\forms.py:80
+msgid "numbers must contain 11 digits"
+msgstr ""
+
+#: .\forms.py:81
+msgid "Select the file"
+msgstr ""
+
+#: .\forms.py:81
+msgid "supported formats - jpg,"
+msgstr ""
+
+#: .\forms.py:85
+#: .\forms.py:104
+msgid "Username"
+msgstr "Имя для входа"
+
+#: .\forms.py:87
+#: .\forms.py:106
+msgid "Enter symbols"
+msgstr "Введите символы"
+
+#: .\forms.py:99
+#: .\forms.py:118
+msgid "Please enter a correct username and password. Note that both fields are case-sensitive"
+msgstr "Введите корректное имя и пароль. Оба поля являются чувствительными к регистру."
+
+#: .\forms.py:122
+msgid "User name"
+msgstr "Имя<br>пользователя"
+
+#: .\forms.py:143
+msgid "Current password"
+msgstr "Текущий пароль"
+
+#: .\forms.py:147
+msgid "New password"
+msgstr "Новый пароль"
+
+#: .\forms.py:149
+msgid "Repeat new password:"
+msgstr "Повторите новый пароль"
+
+#: .\forms.py:154
+msgid "Invalid password"
+msgstr "Неверный пароль"
+
+#: .\forms.py:159
+msgid "Entered passwords do not match. Please enter identical passwords into \"New password\" and \"Repeat password\" fields."
+msgstr "Введенные пароли не совпадают. "
+
+#: .\forms.py:182
+msgid "Not defined"
+msgstr "Не определено"
+
+#: .\forms.py:205
+#, python-format
+msgid "Please keep filesize under %(under)s. Current filesize %(current)s"
+msgstr "Пожалуйста, не загружайте файлы размером более %(under)s. Вы пытались загрузить файл размером %(current)s."
+
+#: .\forms.py:209
+msgid "File type is not supported"
+msgstr "Тип файла не поддерживается"
+
+#: .\forms.py:275
+msgid "Personal"
+msgstr "Физическое лицо"
+
+#: .\forms.py:275
+msgid "Corporate"
+msgstr "Юридическое лицо"
+
+#: .\forms.py:281
+msgid "You can only use numbers and letters"
+msgstr "Вы можете использовать только числа и латинские буквы"
+
+#: .\forms.py:345
+msgid "Select tariff group"
+msgstr "Выберите тарифную группу"
+
+#: .\models.py:43
+msgid "Residential"
+msgstr "Проживания"
+
+#: .\models.py:44
+msgid "Legal"
+msgstr "Юридический"
+
+#: .\models.py:45
+msgid "Postal"
+msgstr "Почтовый"
+
+#: .\models.py:48
+msgid "M"
+msgstr "М"
+
+#: .\models.py:48
+msgid "F"
+msgstr "Ж"
+
+#: .\models.py:51
+msgid "Country"
+msgstr "Страна"
+
+#: .\models.py:52
+msgid "State"
+msgstr "Область/Провинция/Штат"
+
+#: .\models.py:53
+msgid "ZIP code"
+msgstr "Почтовый индекс"
+
+#: .\models.py:54
+msgid "City"
+msgstr "Город"
+
+#: .\models.py:55
+msgid "Address type"
+msgstr "Тип адреса"
+
+#: .\models.py:57
+msgid "Address line"
+msgstr "Адрес"
+
+#: .\models.py:58
+#: .\templates\admin\account\change_form.html.py:7
+msgid "Phones"
+msgstr "Телефоны"
+
+#: .\models.py:90
+msgid "First name"
+msgstr "Имя"
+
+#: .\models.py:91
+msgid "Second name"
+msgstr "Отчество"
+
+#: .\models.py:92
+msgid "Last name"
+msgstr "Фамилия"
+
+#: .\models.py:93
+msgid "Birsday"
+msgstr "Дата рождения"
+
+#: .\models.py:94
+msgid "Sex"
+msgstr "Пол"
+
+#: .\models.py:97
+msgid "Avatar"
+msgstr "Аватар"
+
+#: .\models.py:99
+msgid "Contact phones / fax"
+msgstr "Контактный телефон / факс"
+
+#: .\models.py:102
+msgid "Director"
+msgstr "Руководитель"
+
+#: .\models.py:102
+#: .\models.py:103
+msgid "Job title, Name"
+msgstr "Должность, ФИО"
+
+#: .\models.py:103
+msgid "Person signing the contracts"
+msgstr "Лицо, подписывающее договоры"
+
+#: .\models.py:104
+msgid "On the basis of which signed contracts"
+msgstr "На основании чего будут подписываться договоры"
+
+#: .\models.py:105
+msgid "Bank name"
+msgstr "Название банка"
+
+#: .\models.py:106
+msgid "INN"
+msgstr "ИНН"
+
+#: .\models.py:107
+msgid "Settlement account"
+msgstr "Расчетный счет"
+
+#: .\models.py:108
+msgid "Correspondent account"
+msgstr "Корреспондентский счет"
+
+#: .\models.py:109
+msgid "BIK"
+msgstr "БИК"
+
+#: .\models.py:110
+msgid "OKPO"
+msgstr "ОКПО"
+
+#: .\models.py:112
+msgid "KPP"
+msgstr "КПП"
+
+#: .\models.py:114
+#, fuzzy
+msgid "Hostel"
+msgstr "Почтовый"
+
+#: .\models.py:136
+msgid "In order to activate inactive phone number, call from it to #activate#"
+msgstr "Для того, чтобы активировать неактивный телефонный номер, позвоните с него на #activate#"
+
+#: .\models.py:138
+msgid "In order to activate inactive phone number, call from it to #activate# or refill balance"
+msgstr "Для того, чтобы активировать неактивный телефонный номер, позвоните с него на #activate# или пополните баланс"
+
+#: .\models.py:140
+#, python-format
+msgid "See <a href=\"%(alink)s\">\"How to activate\"</a> page for details"
+msgstr "Смотрите страницу <a href=\"%(alink)s\">\"Как активировать\"</a> для детальной информации"
+
+#: .\models.py:195
+msgid "Ativation"
+msgstr "Активация"
+
+#: .\models.py:196
+msgid "Password change/restore"
+msgstr "Изменение/восстановление пароля"
+
+#: .\models.py:197
+msgid "E-mail change"
+msgstr "Изменение e-mail"
+
+#: .\settings.py:11
+#: .\settings.py:23
+msgid "Profile"
+msgstr "Профиль"
+
+#: .\settings.py:12
+#: .\settings.py:24
+#: .\settings.py:34
+msgid "Support"
+msgstr "Служба поддержки"
+
+#: .\settings.py:13
+#: .\settings.py:25
+#: .\settings.py:37
+msgid "View site"
+msgstr "На сайт"
+
+#: .\settings.py:16
+msgid "Payment<br>methods"
+msgstr "Способы<br>оплаты"
+
+#: .\settings.py:18
+#: .\settings.py:29
+#: .\settings.py:38
+msgid "Logout"
+msgstr "Выход"
+
+#: .\settings.py:33
+msgid "Dashboard"
+msgstr ""
+
+#: .\settings.py:35
+msgid "Make query"
+msgstr "Создать запрос"
+
+#: .\settings.py:36
+msgid "Statistics"
+msgstr "Статистика"
+
+#: .\settings.py:49
+msgid "Calls information"
+msgstr "Детализация разговоров"
+
+#: .\settings.py:50
+#: .\settings.py:68
+#: .\templates\account\external_phones.html.py:13
+#: .\templates\account\profile.html.py:193
+#: .\templates\admin\account\change_form.html.py:10
+#: .\templates\admin\account\change_form.html.py:67
+msgid "Internal numbers"
+msgstr "Внутренние номера"
+
+#: .\settings.py:51
+#: .\settings.py:69
+msgid "Groups of numbers"
+msgstr "Группы внутренних номеров"
+
+#: .\settings.py:52
+#: .\settings.py:70
+msgid "City numbers"
+msgstr "Городские номера"
+
+#: .\settings.py:53
+#: .\settings.py:71
+msgid "Signed documents"
+msgstr "Подписанные документы"
+
+#: .\settings.py:54
+#: .\settings.py:73
+#: .\settings.py:85
+msgid "My tariffs"
+msgstr "Мои тарифы"
+
+#: .\settings.py:55
+#: .\settings.py:74
+msgid "Call forwarding"
+msgstr "Переадресация вызовов"
+
+#: .\settings.py:57
+#: .\settings.py:76
+msgid "Payment services"
+msgstr "Оплата услуг"
+
+#: .\settings.py:59
+#: .\settings.py:78
+msgid "Edit profile details"
+msgstr "Редактировать профиль"
+
+#: .\settings.py:60
+#: .\settings.py:79
+#: .\templates\account\change_password.html.py:10
+msgid "Change password"
+msgstr "Изменить пароль"
+
+#: .\settings.py:61
+msgid "add(delete) services"
+msgstr "Добавление услуг"
+
+#: .\settings.py:62
+#: .\settings.py:80
+msgid "Invoices and payment"
+msgstr "Счета и оплата"
+
+#: .\settings.py:66
+#: .\settings.py:84
+msgid "Calls imformation"
+msgstr "Детализация разговоров"
+
+#: .\views.py:88
+msgid "Registration was completed. Please check your mailbox for activation letter"
+msgstr "Регистрация завершена. На ваш электронный ящик было выслано письмо с инструкцией по активации учетной записи"
+
+#: .\views.py:116
+msgid "Your account has been activated."
+msgstr "Ваша учетная запись была активирована."
+
+#: .\views.py:151
+msgid "Факс отправлен!"
+msgstr ""
+
+#: .\views.py:161
+msgid "Внутренняя шибка, обратитесь к администрации!"
+msgstr ""
+
+#: .\views.py:165
+msgid "Введите кректно данные в поля!"
+msgstr ""
+
+#: .\views.py:295
+msgid "Account information"
+msgstr "Информация по учетной записи"
+
+#: .\views.py:297
+msgid "not set"
+msgstr "не задано"
+
+#: .\views.py:448
+msgid "Edit account information"
+msgstr "Редактировать данные  учетной записи"
+
+#: .\views.py:459
+msgid "Form saved"
+msgstr "Данные формы сохранены"
+
+#: .\views.py:483
+msgid "New password saved."
+msgstr "Новый пароль сохранен."
+
+#: .\views.py:486
+msgid "Check form data."
+msgstr "Проверьте данные формы."
+
+#: .\views.py:633
+msgid "You have selected an incorrect date interval!"
+msgstr "Вы выбрали некорректный интервал даты!"
+
+#: .\views.py:656
+msgid "Calls specification"
+msgstr "Детализация разговоров"
+
+#: .\templates\account\balance.html.py:32
+msgid "Date from:"
+msgstr "Дата с:"
+
+#: .\templates\account\balance.html.py:33
+msgid "to:"
+msgstr "по:"
+
+#: .\templates\account\balance.html.py:36
+#: .\templates\account\balance.html.py:65
+msgid "Caller number"
+msgstr "Вызывающий абонент"
+
+#: .\templates\account\balance.html.py:47
+#: .\templates\account\balance.html.py:66
+msgid "Called number"
+msgstr "Вызываемый абонент"
+
+#: .\templates\account\balance.html.py:58
+msgid "Show"
+msgstr "Показать"
+
+#: .\templates\account\balance.html.py:59
+msgid "Clear"
+msgstr "Очистить"
+
+#: .\templates\account\balance.html.py:99
+#: .\templates\account\profile.html.py:97
+#: .\templates\account\tags\account_profile_menu.html.py:16
+msgid "Balance"
+msgstr "Баланс"
+
+#: .\templates\account\change_billing_group.html.py:45
+msgid "Home"
+msgstr ""
+
+#: .\templates\account\change_billing_group.html.py:68
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Пожалуйста, исправьте ошибку ниже."
+msgstr[1] "Пожалуйста, исправьте ошибки ниже."
+
+#: .\templates\account\change_billing_group.html.py:74
+msgid "For next users billing group will be changed:"
+msgstr "Для следующих пользователей биллинговая группа будет изменена:"
+
+#: .\templates\account\change_billing_group.html.py:86
+msgid "Cancel"
+msgstr "Отмена"
+
+#: .\templates\account\change_billing_group.html.py:87
+#: .\templates\account\external_phones.html.py:37
+#: .\templates\account\profile.html.py:60
+msgid "Change"
+msgstr "Изменить"
+
+#: .\templates\account\edit_external_phone.html.py:7
+msgid "Phone number will not be changed"
+msgstr "Основной телефонный номер не изменится"
+
+#: .\templates\account\edit_external_phone.html.py:14
+msgid "Delete phone and group"
+msgstr "Удалить телефон и группу"
+
+#: .\templates\account\edit_external_phone.html.py:16
+msgid "Save"
+msgstr "Сохранить"
+
+#: .\templates\account\external_phones.html.py:11
+#: .\templates\account\profile.html.py:191
+#: .\templates\admin\account\change_form.html.py:65
+msgid "City number"
+msgstr "Городской номер"
+
+#: .\templates\account\external_phones.html.py:12
+#: .\templates\account\profile.html.py:192
+#: .\templates\admin\account\change_form.html.py:66
+msgid "Group name"
+msgstr "Имя группы"
+
+#: .\templates\account\external_phones.html.py:14
+msgid "Actions"
+msgstr "Действия"
+
+#: .\templates\account\external_phones.html.py:22
+#: .\templates\account\external_phones.html.py:37
+msgid "Edit"
+msgstr "Редактировать"
+
+#: .\templates\account\external_phones.html.py:48
+msgid "Unfortunately at the moment there are no free city numbers. Please contact technical support."
+msgstr "К сожалению, в настоящее время нет свободных городских номеров. Пожалуйста, обратитесь в службу поддержки."
+
+#: .\templates\account\external_phones.html.py:53
+#: .\templates\account\profile.html.py:175
+msgid "Add city number"
+msgstr "Добавить городской номер"
+
+#: .\templates\account\external_phones.html.py:57
+msgid "City phone number will be generated automatically"
+msgstr "Городской номер будет сгенерирован автоматически"
+
+#: .\templates\account\external_phones.html.py:58
+msgid "In order to receive incoming calls you need to create a group of numbers, to which these calls will be routed"
+msgstr "Для того, чтобы вы могли принимать входящие звонки, нужно создать группы номеров, на которые эти звонки будут маршрутизироваться."
+
+#: .\templates\account\external_phones.html.py:65
+msgid "Add"
+msgstr "Добавить"
+
+#: .\templates\account\external_phones.html.py:72
+msgid "You have no internal numbers. You should create one first"
+msgstr "У вас нет ни одного внутреннего телефонного номера. Вам следует сперва создать его."
+
+#: .\templates\account\login.html.py:4
+msgid "Log in"
+msgstr "Вход"
+
+#: .\templates\account\login.html.py:5
+msgid "New to the site?"
+msgstr "В первый раз на сайте?"
+
+#: .\templates\account\login.html.py:5
+#: .\templates\account\registration.html.py:5
+msgid "Sign up"
+msgstr "Регистрация"
+
+#: .\templates\account\login.html.py:30
+msgid "Forget?"
+msgstr "Забыли?"
+
+#: .\templates\account\profile.html.py:11
+msgid "You are creating personal account"
+msgstr "Вы создаете учетную запись как физическое лицо"
+
+#: .\templates\account\profile.html.py:12
+msgid "You are creating corporate account"
+msgstr "Вы создаете учетную запись как юридическое лицо"
+
+#: .\templates\account\profile.html.py:47
+msgid "You have to create your profile"
+msgstr "Вам необходимо заполнить профиль"
+
+#: .\templates\account\profile.html.py:52
+msgid "Please select an appropriate profile type"
+msgstr "Пожалуйста, выберите подходящий тип профиля"
+
+#: .\templates\account\profile.html.py:65
+#: .\templates\account\profile.html.py:77
+msgid "Profile information"
+msgstr "Информация по учетной записи"
+
+#: .\templates\account\profile.html.py:65
+msgid "You can skip this step"
+msgstr "Вы можете пропустить этот шаг"
+
+#: .\templates\account\profile.html.py:71
+#: .\templates\account\profile.html.py:91
+msgid "Continue"
+msgstr "Продолжить"
+
+#: .\templates\account\profile.html.py:81
+#: .\templates\account\profile.html.py:242
+#: .\templates\account\profile_edit.html.py:30
+msgid "Legal address"
+msgstr "Юридический адрес"
+
+#: .\templates\account\profile.html.py:85
+#: .\templates\account\profile.html.py:256
+#: .\templates\account\profile_edit.html.py:34
+msgid "Postal address"
+msgstr "Почтовый адрес"
+
+#: .\templates\account\profile.html.py:107
+#: .\templates\account\tags\account_profile_menu.html.py:20
+msgid "Details"
+msgstr "Подробнее"
+
+#: .\templates\account\profile.html.py:110
+#: .\templates\account\tags\account_profile_menu.html.py:23
+msgid "Top balance"
+msgstr "Пополнить баланс"
+
+#: .\templates\account\profile.html.py:116
+msgid "Phone numbers"
+msgstr "Телефонные номера"
+
+#: .\templates\account\profile.html.py:131
+msgid "System phone number"
+msgstr "Системный телефонный номер"
+
+#: .\templates\account\profile.html.py:133
+#: .\templates\admin\account\change_form.html.py:17
+msgid "Person name"
+msgstr "Имя владельца"
+
+#: .\templates\account\profile.html.py:134
+#: .\templates\admin\account\change_form.html.py:18
+msgid "Short number"
+msgstr "Короткий номер"
+
+#: .\templates\account\profile.html.py:137
+#: .\templates\admin\account\change_form.html.py:21
+msgid "Activated"
+msgstr "Активирован"
+
+#: .\templates\account\profile.html.py:170
+msgid "You have no local phone numbers."
+msgstr "У вас нет местных телефонных номеров."
+
+#: .\templates\account\profile.html.py:179
+msgid "Add for selected region"
+msgstr "Добавить для выбранного региона"
+
+#: .\templates\account\profile.html.py:201
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\templates\account\profile.html.py:218
+msgid "You have no phone numbers."
+msgstr "У вас нет телефонных номеров."
+
+#: .\templates\account\profile.html.py:221
+msgid "Profile data"
+msgstr "Профиль"
+
+#: .\templates\account\profile.html.py:225
+msgid "Registration date"
+msgstr "Дата регистрации"
+
+#: .\templates\account\profile_edit.html.py:7
+#: .\templates\account\profile_edit.html.py:10
+msgid "Please correct the errors below."
+msgstr "Пожалуйста, исправьте ошибки ниже."
+
+#: .\templates\account\profile_edit.html.py:42
+msgid "Save changes"
+msgstr "Сохранить изменения"
+
+#: .\templates\account\registration.html.py:11
+#, python-format
+msgid ""
+"\n"
+"        You are already logged in as %(username)s. If you want to create another account, please <a href=\"/logout/\">log out</a> and then submit registration form.\n"
+"    "
+msgstr ""
+"\n"
+"        Вы уже вошли как %(username)s. Если вы хотите создать другую учетную запись, пожалуйста, <a href=\"/logout/\">выйдите</a> и затем заполните форму регистрации.\n"
+"    "
+
+#: .\templates\account\registration_completed.html.py:4
+msgid "You are signed up now!"
+msgstr "Теперь вы зарегистрированы!"
+
+#: .\templates\admin\account\change_form.html.py:16
+msgid "Phone number"
+msgstr "Телефонный номер"
+
+#: .\templates\admin\account\change_form.html.py:23
+msgid "External numbers"
+msgstr "Внешние номера"
+
+#: .\templates\admin\account\change_form.html.py:55
+#: .\templates\admin\account\change_form.html.py:98
+msgid "No phones"
+msgstr "Нет номеров"
+
+#: .\templates\admin\account\change_form.html.py:59
+msgid "City phone numbers"
+msgstr "Городские номера"
+
+msgid "Physical address"
+msgstr "Физический адрес"
+
+msgid "When it is given out"
+msgstr "Когда выдан"
+
+msgid "By whom it is given out"
+msgstr "Кем выдан"
+
+msgid "Passport series"
+msgstr "Серия паспорта"
+
+#: .\templates\admin\account\fax.html.py:59
+msgid "Enter number on which it is necessary to send a fax"
+msgstr "Введите номер, на который необходимо отправить факс"
+
+#: .\templates\admin\account\fax.html.py:44
+msgid "Choose number from which it is necessary to send a fax"
+msgstr "Выберите номер, с которого необходимо отправить факс"
+
+#: .\templates\admin\account\fax.html.py:77
+msgid "Choose the file which it is necessary to send"
+msgstr "Выберите файл, который необходимо отправить, в формате .jpg, .jpeg, .bmp, .tiff"
+
+#: .\templates\admin\account\fax.html.py:66
+msgid "Choose the image for send"
+msgstr "Выберите файл для отправки"
+
+#: .\templates\admin\account\fax.html.py:115
+msgid "Choose the file with the list of numbers"
+msgstr "Выберите файл со списком номеров для отправки"
+
+#: .\templates\admin\account\fax.html.py:51
+msgid "The additional"
+msgstr "Добавочный"
+
+#: .\templates\admin\account\fax.html.py:82
+msgid "To send"
+msgstr "Отправить"
+
+#: .\templates\admin\account\fax.html.py:76
+msgid "Preview"
+msgstr "Предварительный просмотр"
+
+msgid "legal_form"
+msgstr "Правовая форма"
+
+msgid "example_OAO"
+msgstr "Пример: ОАО"
+
+#: .\ivr\views.py:22
+msgid "List ivr"
+msgstr "Список ivr"
+
+#: .\ivr\views.py:59
+msgid "Deleting ivr"
+msgstr "Удаление ivr"
+
+#: .\ivr\views.py:81
+msgid "Ivr was succesfuly deleted."
+msgstr "Ivr было успешно удалено."
+
+#: .\ivr\views.py:96
+msgid "Editing ivr"
+msgstr "Редактирование ivr"
+
+#: .\ivr\views.py:225
+msgid "Complete all fields!!!"
+msgstr "Заполните все поля!!!"
+
+#: .\ivr\views.py:250
+msgid "Wrong format media file"
+msgstr "Неверный формат медиа файла"
+
+#: .\ivr\views.py:345
+msgid "Ivr successfully changed"
+msgstr "Ivr успешно изменено"
+
+msgid "Ivr successfully added ;)"
+msgstr "Ivr успешно добавлено"
+
+#: .\ivr\views.py:355
+msgid "Connecting ivr"
+msgstr "Подключение ivr"
+
+#: .\ivr\templates\ivr.html:147
+msgid "Enable extensions in a voice greeting"
+msgstr "Включить внутренние номера в голосовое приветствие"
+
+#: .\ivr\templates\ivr.html:174
+msgid "Put logic voice greeting"
+msgstr "Расставьте логику голосового приветствия"
+
+#: .\ivr\templates\ivr.html:180
+msgid "Where to call, if nothing is selected:"
+msgstr "Куда звонить если ничего не выбрано:"
+
+#: .\ivr\templates\ivr.html:196
+msgid "Enter the number to which the call if nothing is selected"
+msgstr "Введите номер на который звонить если ничего не будет выбрано"
+
+#: .\ivr\templates\ivr_list.html:33
+msgid "On number"
+msgstr "На номере"
+
+#: .\ivr\templates\ivr_list.html:34
+msgid "File"
+msgstr "Файл"
+
+#: .\ivr\templates\ivr_list.html:35
+msgid "Last call"
+msgstr "Последний звонок"
+
+#: .\ivr\templates\ivr_list.html:63
+msgid "Add ivr"
+msgstr "Добавить ivr"
+
+#: .\ivr\templates\ivr_delete.html:6
+msgid "Are you sure you want to delete this ivr?"
+msgstr "Вы уверены, что хотите удалить данное ivr?"
+
+#: .\ivr\templates\ivr.html:113
+msgid "Select a number, which will be a voice greeting"
+msgstr "Выберите номер, на котором будет голосовое приветствие"
+
+#: .\ivr\templates\create_getfax.html:93
+msgid "Select a number, which will be a receive fax."
+msgstr "Выберите номер, который будет получать факсы."
+
+#: .\ivr\templates\create_getfax.html:103
+msgid "E-mail address, which will be sent fax."
+msgstr "Адрес электронной почты, на который будет отправлен факс."
+
+#: .\ivr\get_fax.py:22
+msgid "List fax numbers"
+msgstr "Список факсов"
+
+#: .\ivr\my_ivr.py:22
+msgid "Ivr on this number already exists"
+msgstr "Ivr на этом номере уже существует"
+
+msgid "On this issue of the diversion"
+msgstr "На данном номере включена переадресация"
+
+msgid "On this issue is included ivr"
+msgstr "На данном номере включено ivr"
+
+msgid "Fax successfully edited ;)"
+msgstr "Факс успешно отредактирован  ;)"
+
+msgid "Fax successfully added ;)"
+msgstr "Факс успешно добавлен  ;)"
+
+msgid "This number is already in use"
+msgstr "Этот номер уже занят"
+
+msgid "On this issue of the fax function"
+msgstr "На данном номере функция приёма факса"
+
+msgid "This number is free"
+msgstr "Данный номер свободен"
+
+msgid "Receive fax"
+msgstr "Приём факса"
+
+msgid "You have no ivr."
+msgstr "У Вас нет созданных ivr."
+
+msgid "You have no fax numbers."
+msgstr "У Вас нет номеров с функцией приема факса."
+
+#~ msgid "Services"
+#~ msgstr "Добавление(удаление) услуг"
+#~ msgid "Enter text from the image"
+#~ msgstr "Введите текст с картинки"
+#~ msgid "Local numbers"
+#~ msgstr "Местные номера"
+#~ msgid "You should input 4 digits for a short number."
+#~ msgstr "Для короткого номера вы должны ввести 4 цифры"
+#~ msgid "Must consists of 4 digits"
+#~ msgstr "Должен содержать 4 цифры"
+#~ msgid "You should select another short number - this one exists already"
+#~ msgstr "Вы должны выбрать другой короткий номер — этот уже существует"
+#~ msgid "You should select another person name - this one exists already"
+#~ msgstr "Вы должны выбрать другое имя — это уже существует"
+#~ msgid "Region"
+#~ msgstr "Регион"
+#~ msgid "Select internal phones"
+#~ msgstr "Выберите внутренние телефоны"
+#~ msgid "Number was succesfully added."
+#~ msgstr "Номер был успешно добавлен."
+#~ msgid "An error occured. Try again or contact administrator"
+#~ msgstr ""
+#~ "Произошла ошибка. Попробуйте еще раз либо свяжитесь с администрацией"
+#~ msgid "Changes were saved."
+#~ msgstr "Изменения были сохранены,"
+#~ msgid "Edit phone number %(num)s"
+#~ msgstr "Редактирование телефонного номера %(num)s"
+#~ msgid "City number was created"
+#~ msgstr "Городской номер был выделен успешно"
+#~ msgid "No free city numbers. Operation failed"
+#~ msgstr "Нет свободных городских номеров. Операция прервана."
+#~ msgid "Edit city number %(num)s"
+#~ msgstr "Редактирование городского номера %(num)s"
+#~ msgid "City number was deleted"
+#~ msgstr "Городской номер был удален"
+#~ msgid ""
+#~ "Unfortunately at the moment there are no free city  numbers. Please "
+#~ "contact technical support."
+#~ msgstr ""
+#~ "К сожалению, в настоящее время нет свободных городских номеров. "
+#~ "Пожалуйста, обратитесь в службу поддержки."
+#~ msgid "Back to phone number list"
+#~ msgstr "Вернуться к списку"
+#~ msgid "Add this number to an external number"
+#~ msgstr "Добавить этот номер к выбранному городскому номеру"
+#~ msgid "You have no phone numbers. You can add one below"
+#~ msgstr ""
+#~ "У вас нет ни одного телефонного номера. Вы можете добавить номер ниже."
+#~ msgid "Internal number"
+#~ msgstr "Внутренний номер"
+#~ msgid "Add internal number"
+#~ msgstr "Добавить внутренний номер"
+#~ msgid "Phone number will be generated automatically"
+#~ msgstr "Телефонный номер будет сгенерирован автоматически"
+#~ msgid "General director"
+#~ msgstr "Генеральный директор"
+#~ msgid "Call us<br>online"
+#~ msgstr "Позвонить нам<br>онлайн"
+#~ msgid "Billing group"
+#~ msgstr "Биллинговая группа"
+#~ msgid ""
+#~ "Number was saved. You should activate it by calling #activate# from this "
+#~ "number."
+#~ msgstr ""
+#~ "Номер был сохранен. Вас следует активировать его. Для этого наберите с "
+#~ "этого номера #activate#."
+#~ msgid "Number"
+#~ msgstr "Число"
+#~ msgid "Bank address"
+#~ msgstr "Адрес банка"
+#~ msgid "Activation does not exist or already expired."
+#~ msgstr "Запись об активации не существует или уже устарела."
+#~ msgid ""
+#~ "Unfortunately, you do not activate your account by clicking on the link "
+#~ "from our letter"
+#~ msgstr ""
+#~ "К сожалению, вы не активировали ваш аккаунт  - сделайте это, перейдя по "
+#~ "ссылке из письма активации."
+#~ msgid "External phone numbers"
+#~ msgstr "Внешние телефонные номера"
+#~ msgid "Edit external number %(num)s"
+#~ msgstr "Редактирование внешнего номера %(num)s"
+#~ msgid "Add external number"
+#~ msgstr "Добавить внешний телефонный номер"
+#~ msgid "External phone number will be generated automatically"
+#~ msgstr "Внешний телефонный номер будет сгенерирован автоматически"
+#~ msgid ""
+#~ "Please, create a group of internal numbers to be used with external "
+#~ "number, and name it"
+#~ msgstr ""
+#~ "Пожалуйста, создайте группу внутренних номеров для использования с "
+#~ "внешним номером, и назовите ее."
+#~ msgid "Account activation"
+#~ msgstr "Активация учетной записи"
+#~ msgid "Call"
+#~ msgstr "Набрать"
+#~ msgid "Tickets"
+#~ msgstr "Запросы"
+#~ msgid "Add ticket"
+#~ msgstr "Добавить запрос"
+#~ msgid "New number was saved. You can change password in the form below."
+#~ msgstr "Номер сохранён. Вы можете изменить пароль в форме ниже."
+#~ msgid "Phone settings"
+#~ msgstr "Настройки звонков"
+

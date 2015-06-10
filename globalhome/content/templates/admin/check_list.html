@@ -1,0 +1,179 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+
+
+{{ form.media }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/js/ui/i18n/ui.datepicker-{{ language }}.js"></script>
+
+
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" /> 
+
+<style type="text/css">
+    .table-header-column {
+        overflow: visible;
+        padding-right: 15px;
+    }
+    .table-header-column-sort-DESC {
+        overflow: visible;
+        padding-right: 15px;
+        background-image: url("/admin-media/img/admin/arrow-down.gif");
+        background-repeat: no-repeat;
+        background-position: 100%
+    }
+    .table-header-column-sort-ASC {
+        overflow: visible;
+        padding-right: 15px;
+        background-image: url("/admin-media/img/admin/arrow-up.gif");
+        background-repeat: no-repeat;
+        background-position: 100%;
+    }
+    #changelist {
+        border-color: #FFFFFF;
+    }
+</style>
+
+
+{% if action_form %}{% if actions_on_top or actions_on_bottom %}
+<script type="text/javascript">
+(function($) {
+    $(document).ready(function($) {
+        $("tr input.action-select").actions();
+    });
+})(django.jQuery);
+</script>
+{% endif %}{% endif %}
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="../../">
+        {% trans "Home" %}
+      </a>
+       &rsaquo; 
+       <a href="../">
+         {{ app_label|capfirst }}
+      </a>
+      &rsaquo; 
+      {{ app_section }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+
+  <div id="content-main">
+    {% if cl.formset.errors %}
+        <p class="errornote">
+        {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+        </p>
+        {{ cl.formset.non_form_errors }}
+    {% endif %}
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+    
+    {% block notifications %}
+      {% if request.notifications %}
+        {% for message in request.notifications %}
+          <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+            {{ message|safe }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock %}
+    
+    <form id="changelist-form" enctype="multipart/form-data" action="" method="get">
+        <table>
+            <tr>
+                <td style="text-align: right;">{% trans "Date from:" %}</td>
+                <td>{{ form.date_from }}</td>
+                
+                <td style="text-align: right; ">{% trans "Account:" %}</td>
+                <td style="margin: 120px;">{{ form.account1 }}</td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">{% trans "Date to:" %}</td>
+                <td>{{ form.date_to }}</td>
+                
+                <td style="text-align: right;">{% trans "Select the form:" %}</td>
+                <td>{{ form.check_choice }}</td>
+            </tr>
+            
+        </table>
+        
+        <input type="hidden" name="filter" value="1" id="id_hidden_filter">
+        
+        <div class="submit-row" style="text-align: left; margin: 10px;">
+            <input type="submit" value="{% trans 'Apply filter' %}" id="id_apply">
+            <input type="submit" value="{% trans 'Clear filter' %}" onclick="location.href='.'; return false;">
+            <input type="submit" value="{% trans 'Get check' %}" name="get_check" onclick="location.href='/content_receipt/'; return false;">
+        </div>
+        
+    </form>
+        {{ form.errors }}
+        
+        <div id="tableContainer">
+            <!--<div style="overflow: scroll; width: 100%">-->
+                <table style="width: 100%">
+                    <thead class="fixedHeader">
+                        <td> Number </td>
+                        <td> Account </td>
+                        <td> Creat at </td>
+                        <td> Type </td>
+                        <td> Sent </td>
+                        <td> Review </td>
+                    </thead>
+                    {% for check in for_check %}
+                    <tbody class="scrollContent">
+                       
+                        
+                        <td> {{check.6}} </td>
+                        <td> {{check.4}} </td>
+                        <td> {{check.1}} </td>
+                        <td> {{check.2}} </td>
+                        <td> {% if check.5 %} 
+                                                                              Отправлен
+                             {% endif %}
+                             </td>
+                        <td>
+                          <div 
+                           onclick = 
+                    "window.open('/content/{{check.0}}', '',
+                        'width=1000,height=1000,status=no,location=no,toolbar=no,menubar=no,scrollbars=1'); return false;"
+                          >Просмотр</div>
+                        </td>
+                        
+                        
+                        {% endfor %}
+                    </tbody>
+                </table>
+            <!--</div>-->
+  </div>
+{% endblock %}

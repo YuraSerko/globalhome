@@ -1,0 +1,24 @@
+{% extends 'base_public.html' %}
+
+{% block content %}
+
+<h1 class="title">Поиск по сайту </h1>
+
+<div class="ugc">
+	<p>Введите запрос для поиска интересующей Вас информации на нашем сайте.</p>
+</div>
+
+<script>
+  (function() {
+    var cx = '003702797196911523864:yr5xtk0muvo';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% load i18n %}
+<div class="homepage-top-announce{% if widget.is_last %} last{% endif %}">
+    <div class="homepage-top-announce-inner">
+        <table class="grid">
+            <tr>
+                <td class="brace">
+                    <img class="brace-top" src="{{ MEDIA_URL }}img/layout/brace/brace_top.gif">
+                    <img src="{{ MEDIA_URL }}img/layout/brace/brace_middle.gif">
+                    <img class="brace-bottom" src="{{ MEDIA_URL }}img/layout/brace/brace_bottom.gif">
+                </td>
+                <td class="content">
+                    {% if title %}
+                        <h1>{{ title }}</h1>
+                    {% endif %}
+
+                    {{ content|safe }}
+                    {% if url %}
+                        &nbsp;<a class="more" href="{{ url }}">{% trans 'Read more' %}</a>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+<form action="." method="post" enctype="multipart/form-data">
+    <div class="confirm">
+        <h4 class="h4_style">Вы уверены что хотите удалить данный обзвон ?</h4>
+        <table class="type-2">
+        	<thead>
+            	<th width="40%">Обзвон</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{% trans "From number" %}</td>
+                    <td>{{ obzvon.from_number }}</td>
+                </tr>
+                <tr>
+                    <td>{% trans "Filename" %}</td>
+                    <td>{% if obzvon.file %}{{ obzvon.file }}{% else %}Используется IVR{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>На номера</td>
+                    <td>{{ obzvon_n }}</td>
+                </tr>
+           	</tbody>
+        </table>
+        <div class="form-submit-right">
+            <input type="submit" class="bt bt-blue2" name="abort" value="{% trans 'Cancel' %}"/>
+            <input type="submit" class="bt bt-blue2" name="submit" value="{% trans 'Yes' %}"/>
+        </div>
+    </div>
+</form>
+{% endblock %}

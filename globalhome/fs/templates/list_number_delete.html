@@ -1,0 +1,49 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">Удаление списка номеров</h1>
+
+<form action="." method="post" enctype="multipart/form-data">
+    <div class="confirm">
+        <h4 class="h4_style">Вы уверены что хотите удалить данный список?</h4>  
+        <table class="type-2">
+            <thead>
+                <th width="40%">Список</th>
+                <th width="60%"></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Название</td>
+                    <td>{{ list.name }}</td>
+                </tr>
+                <tr>
+                    <td>Номера в списке</td>
+                    <td>{{ list_numbers }}</td>
+                </tr>
+                
+                <tr>
+                    <td>Внутренние номера</td>
+                    <td>{% if lists %}{{ lists }}{% else %}Нету{% endif %}</td>
+                </tr>
+                
+                <tr>
+                    <td>Группы</td>
+                    <td>{% if groups %}{{ groups }}{% else %}Нету{% endif %}</td>
+                </tr>
+                
+                <tr>
+                    <td>Городские номера</td>
+                    <td>{% if extn %}{{ extn }}{% else %}Нету{% endif %}</td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <div class="form-submit-right">
+            <input type="submit" class="bt bt-blue2" value='Отмена' name="abort" />
+            <input type="submit" class="bt bt-blue2" value='Да' name="submit" />
+        </div>
+    </div>
+</form>
+{% endblock %}

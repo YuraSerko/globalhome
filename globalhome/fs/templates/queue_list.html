@@ -1,0 +1,79 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+{% block content %}
+<p class="breadcrumbs"><a href="/account/service_choice/">Выбор раздела</a><span>→</span><a href="/account/">Телефония</a><span>→</span>Очередь</p>
+<h1 class="title">Очередь звонков</h1>
+
+<div class="ugc">
+    <p>Здесь вы можете просмотреть, изменить или добавить очереди</p>
+</div>
+<div id="info" class="status status-info" style="border:none;  !important">
+    <i class="ico"></i>
+        <div class="status-i">
+            <p id="info_str" style="color: rgb(122, 122, 122); font-size: 12px; font-weight: 100; !important">Внимание!!! Данная услуга работает в тестовом режиме, в случае каких-либо неполадок необходимо сообщить в тех. поддержку</p>
+        </div>
+</div>
+
+{{ block.super }}
+
+    {% if queues %}
+        <table class="type-b">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Внутренний номер</th>
+                    <th>Городской номер</th>
+                    <!-- <th>Запись</th> -->
+                    <th>Номер входа оператора</th>
+                    <th>Номер выхода оператора</th>
+                    <th>Дни работы</th>
+                    <th>Время работы</th>
+                    <th>Операторы</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
+                </tr>
+            </thead>
+            {% for q in queues %}
+                <tr>
+                    <td>{{q.name}}</td>
+                    <td>
+                        {% if not q.internal_numbers %}Не назначен{% endif %}
+                        {% for number in q.internal_numbers %}
+                            {{ number }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if not q.external_numbers %}Не назначен{% endif %}
+                        {% for number in q.external_numbers %}
+                            {{ number }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <!-- <td>
+                        {% if record_activated %}
+                            {% if q.record %} Включена {% else %} Выключена {% endif %}
+                        {% else %}
+                            <a href="{% url 'list_record_talk_tariff' %}">Подключить</a>
+                        {% endif %}
+                    </td> -->
+                    <td>*{{ q.number_queue }}1</td>
+                    <td>*{{ q.number_queue }}2</td>
+                    <td>{% for d in q.work_day %} {{ d }}{% if not forloop.last %}, {% endif %} {% endfor %}</td>
+                    <td>{{ q.time }}</td>
+                    <td><a href="{% url 'queue_agents' q.id %}">Список</a></td>
+                    <td><a href="{% url 'queue_edit' q.id %}"><img src="/media/images/edit.png"></a></td>
+                    <td><a href="{% url 'queue_delete' q.id %}"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить"></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+    <div class="status status-info" style="padding-right: 10px;">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>У вас еще нет очередей</p>
+        </div>
+    </div>
+    {% endif %}
+    <div class="form-submit-left">
+        <a href="{% url "queue_create" %}" class="bt bt-blue2">Добавить очередь</a>
+    </div>
+{% endblock %}

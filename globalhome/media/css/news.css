@@ -1,0 +1,111 @@
+
+.page_wrapper {
+    float: left;
+    width: 950px;
+}
+ .news_page_wrapper{
+	/*padding-top:110px;*/
+ }
+.news_spisok {
+    list-style: none outside none;
+    width: 470px;
+}
+.li_news {
+    border-bottom: 1px solid #FFA500;
+    display: none;
+    padding-bottom: 5px;
+}
+.li_news:hover {
+    padding: 2px;
+}
+.li_news a {
+    color: #2268C5;
+}
+.li_news a:hover {
+    text-decoration: none;
+}
+.news_wrap {
+    float: left;
+    margin: 0 auto;
+    width: 100%;
+}
+.news_main {
+    float: left;
+    height: 538px;
+    outline: 1px solid #2268C6;
+    width: 100%;
+}
+.news_one {
+    /*-moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color #2268C5 #2268C5;
+    border-image: none;
+    border-right: 1px solid #2268C5;
+    border-style: none solid solid;
+    border-width: medium 1px 1px;*/
+    display:inline-block;
+    min-height: 90px;
+    padding: 15px;
+    width: 32%;
+}
+.news_one:hover {
+    /*
+	-moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    border-image: none;
+    border-style: none solid solid;
+    border-width: 0 1px 1px;
+    box-shadow: 3px 8px 12px #FFA500;
+    position: relative;
+    z-index: 2;
+	*/
+}
+.news_time {
+    background: none repeat scroll 0 0 #2268C5;
+    border-radius: 15px;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 70%;
+    height: 13px;
+    margin-right: 1%;
+    text-align: center;
+    width: 36px;
+}
+.img_cont {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12) inset;
+    float: left;
+    margin-right: 2%;
+}
+.news_cont {
+    margin-left: 105px;
+}
+.news_desc {
+    font-size: 70%;
+    font-style: italic;
+}
+.news_head {
+    color: #2268C5;
+    font-weight: normal;
+    margin-bottom: 5px;
+}
+.news_head:hover {
+    color: #FFA500;
+    cursor: pointer;
+}
+.news_times {
+     color: #2268C5;
+    cursor: default;
+    float: right;
+    font-size: 65%;
+    font-weight: bold;
+    left: 10px;
+    padding: 3px;
+    position: relative;
+    text-align: center;
+    top: 10px;
+}

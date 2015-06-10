@@ -1,0 +1,69 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% block extrahead %}
+	{{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" /> 
+    
+	 <script type="text/javascript" src="{{ MEDIA_URL }}ajax/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}ajax/jquery.form.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}ajax/ajaxupload.js"></script>
+   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
+{% endblock %}
+{% block content %}
+ <div class="breadcrumbs">
+      <a href="../../../">
+        Home
+      </a>
+       &rsaquo; 
+       <a href="../../">
+         Page
+      </a>
+      &rsaquo;
+       <a href="../">
+         Письма
+      </a>
+      &rsaquo; 
+      Отправить письмо
+    </div>
+    <div style="width: 500px;" id="border_div">
+     <form enctype="multipart/form-data" action="" method="post" style="float:left">
+      <table>
+        <div id="add more">
+        <h5>
+        Вы можете использовать следующие имена переменных шаблона в виде 
+      {% templatetag openvariable %}Имя_Переменной{% templatetag closevariable %}
+      </h5> 
+      <ul>
+        {% for key,value in d.items %}
+       <li> '{{ key }}': {{value}}</li>
+        {% endfor %}
+       </ul> 
+      </div>
+       {{ form_client.as_table }}
+      </table> 
+      {{ form.file }}  
+<script language="javascript">
+	var newbut=1;
+	
+	function add_file() {
+		var div=document.getElementById("newbut");
+		newbut++;
+		var new_item='\
+						\
+							<table>\
+									{{ form.file }}\
+							</table>'
+		newnode=document.createElement();
+		newnode.innerHTML=new_item;
+		div.insertBefore(newnode, null);
+	}
+
+</script>
+<div id="newbut"></div>
+        <input type="submit" class="default" value='Отправить' name="add" />
+		<input type="submit" class="default" value='Назад' name="cancel" />
+		<input type="button" name="Button" value="Прикрепить ещё файл" onClick="add_file();"> 
+            </form>
+    </div>
+{% endblock %}
+ 

@@ -1,0 +1,104 @@
+# Copyright (C) R
+# This file is distributed under the same license as the E package.
+# FIRST AUTHOR.
+# ddd <>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: 1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-04-07 11:00+0300\n"
+"PO-Revision-Date: 2010-08-25 20:52+0300\n"
+"Last-Translator: ddd <>\n"
+"Language-Team: ru <>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\widgets.py:12
+msgid "Homepage servise list widget"
+msgstr "Список услуг на главной"
+
+#: .\widgets.py:13
+msgid "List of services in the middle part of the homepage"
+msgstr "Список услуг в средней части главной страницы"
+
+#: .\widgets.py:15 .\widgets.py:33 .\widgets.py:56
+msgid "Content"
+msgstr "Содержимое"
+
+#: .\widgets.py:29
+msgid "Homepage servise announce widget"
+msgstr "Анонс услуги на главной"
+
+#: .\widgets.py:30
+msgid "Text with a brace at the left side"
+msgstr "Текст с фигурной скобкой слева"
+
+#: .\widgets.py:32
+msgid "Title"
+msgstr "Заголовок"
+
+#: .\widgets.py:34
+msgid "Url"
+msgstr "Url"
+
+#: .\widgets.py:53
+msgid "Homepage bottom text block"
+msgstr "Текстовый блок внизу главной страницы"
+
+#: .\widgets.py:54
+msgid ""
+"Widget for publishing an arbitrary html code in columns at the bottom of "
+"homepage"
+msgstr ""
+"Виджет для публикации произвольного html кода в 3-х колонках внизу главной "
+"страницы"
+
+#: .\templates\page\widgets\homepage_service_announce_widget.html.py:18
+msgid "Read more"
+msgstr "Подробнее"
+
+#: .\templatetags\page_tags.py:14
+msgid "Activate card"
+msgstr "Aктивировать<br>карточку"
+
+#: .\templatetags\page_tags.py:15
+msgid "Services"
+msgstr "Услуги"
+
+#: .\templatetags\page_tags.py:17
+msgid "Feedback"
+msgstr "Обратная<br>cвязь"
+
+#: .\templatetags\page_tags.py:18
+msgid "How to use<br>our services"
+msgstr "Как пользоваться<br>услугами"
+
+#: .\templatetags\page_tags.py:19
+msgid "Tariffs"
+msgstr "Тарифы"
+
+#: .\templatetags\page_tags.py:21
+msgid "Payment<br>methods"
+msgstr "Способы<br>оплаты"
+
+#: .\templatetags\page_tags.py:27
+msgid "Log in"
+msgstr "Вход"
+
+#: .\templatetags\page_tags.py:29
+msgid "Management"
+msgstr "Управление"
+
+#: .\templatetags\page_tags.py:31
+msgid "Personal area"
+msgstr "<br>Личный кабинет"
+
+#~ msgid "News"
+#~ msgstr "Новости"
+
+#~ msgid "Support"
+#~ msgstr "Служба поддержки"
+
+#~ msgid "To operators"
+#~ msgstr "Операторам связи"

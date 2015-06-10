@@ -1,0 +1,161 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-07 14:50+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: .\views.py:30
+msgid "rent device"
+msgstr ""
+
+#: .\views.py:94
+msgid "You have insufficient funds to perform this operation!"
+msgstr ""
+
+#: .\views.py:193
+msgid "Service successfully removed!"
+msgstr "Услуга успешно удалена!"
+
+#: .\templates\Service.html.py:10
+msgid "Available services:"
+msgstr "Доступные услуги:"
+
+#: .\templates\Service.html.py:14
+msgid "Service:"
+msgstr "Услуга:"
+
+#: .\templates\Service.html.py:15
+msgid "Service type:"
+msgstr "Тип услуги:"
+
+#: .\templates\Service.html.py:16 .\templates\Service.html.py:64
+msgid "cost:"
+msgstr "Стоимость:"
+
+#: .\templates\Service.html.py:17
+msgid "Way of tariffing:"
+msgstr "Способ тарификации:"
+
+#: .\templates\Service.html.py:18
+msgid "period:"
+msgstr "Период:"
+
+#: .\templates\Service.html.py:19 .\templates\Service.html.py:66
+msgid "Action"
+msgstr "Действие"
+
+#: .\templates\Service.html.py:33
+msgid "onetime"
+msgstr "разовая"
+
+#: .\templates\Service.html.py:35
+msgid "periodical"
+msgstr "периодическая"
+
+#: .\templates\Service.html.py:38
+msgid "withdrawals during the billing period"
+msgstr "снятие в течение расчетного периода"
+
+#: .\templates\Service.html.py:40
+msgid "withdrawals at the end of the billing period"
+msgstr "снятие в конце расчетного периода"
+
+#: .\templates\Service.html.py:42
+msgid "withdrawals at the start of the billing period"
+msgstr "снятие в начале расчетного периода"
+
+#: .\templates\Service.html.py:46
+msgid "Month"
+msgstr "Месяц"
+
+#: .\templates\Service.html.py:49 .\templates\Service.html.py:51
+msgid "Add service"
+msgstr "Добавить услугу"
+
+#: .\templates\Service.html.py:51
+msgid "Add_service"
+msgstr "Добавить_услугу"
+
+#: .\templates\Service.html.py:58 .\templates\myservice.html.py:11
+msgid "Activated services:"
+msgstr "Активированные услуги:"
+
+#: .\templates\Service.html.py:63
+msgid "My service:"
+msgstr "Мои услуги:"
+
+#: .\templates\Service.html.py:65
+msgid "activated:"
+msgstr "актвированна:"
+
+#: .\templates\Service.html.py:77
+msgid "Monthly fee per room "
+msgstr "Абонентская плата за номер"
+
+#: .\templates\Service.html.py:84 .\templates\Service.html.py:86
+#: .\templates\myservice.html.py:18 .\templates\myservice.html.py:31
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\templates\Service.html.py:93
+msgid "No active service!"
+msgstr "Нет активных услуг!"
+
+#: .\templates\change.html.py:45
+msgid "Home"
+msgstr ""
+
+#: .\templates\change.html.py:68
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: .\templates\change.html.py:74
+msgid "For next telzones telzone group will be changed:"
+msgstr ""
+
+#: .\templates\change.html.py:86
+msgid "Cancel"
+msgstr ""
+
+#: .\templates\change.html.py:87
+msgid "Change"
+msgstr ""
+
+#: .\templates\myservice.html.py:15
+msgid "Service"
+msgstr "Услуги"
+
+#: .\templates\myservice.html.py:16
+msgid "initial_fee"
+msgstr ""
+
+#: .\templates\myservice.html.py:17
+msgid "abonent_fee"
+msgstr ""
+
+#: .\templates\service_add.html.py:7
+msgid "The cost of adding one number"
+msgstr ""
+
+#: .\templates\service_del.html.py:12
+msgid "activate"
+msgstr ""
+
+#~ msgid "super-puperd-test"
+#~ msgstr "СЃСѓРїРµСЂ-РїСѓРїРµСЂР”-С‚РµСЃС‚!!!"

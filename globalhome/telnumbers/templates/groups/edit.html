@@ -1,0 +1,39 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+<div class="ugc">
+    <p>Исправте форму и сохраните изменения.</p>
+</div>   
+
+<form method="POST" action=".">
+		<div class="form_django form_ul">
+        
+             {% for f in form %}
+                {% form_field f block %}
+            {% endfor %}
+            
+            <div class="form-submit">
+                <div class="form-submit-left">
+                    <small><span class="req">*</span> — пункты обязательные для заполнения</small>
+                </div>
+            </div>
+           
+           <div class="form-submit">
+                <div class="form-submit-left">
+                    <a class="bt bt-blue2" href="../../delete/{{ group.id }}/">{% trans "Delete" %}</a>
+                </div>
+                <div class="form-submit-right">
+                    <input type="submit" class="bt bt-blue2" value='{% trans "Cancel" %}' name="cancel" />
+                    <input type="submit" class="bt bt-blue2" value='{% trans "Save changes" %}' name="save" />
+                </div>
+            </div>
+            
+        </div>
+
+</form>
+
+{% endblock %}

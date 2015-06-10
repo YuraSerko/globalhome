@@ -1,0 +1,27 @@
+.ugc {
+color: #636363;
+font-size: 12px;
+line-height: 14px;
+}
+
+.ugc ol li {
+margin-bottom: 14px;
+}
+
+
+
+#main > table > tbody > tr > td:nth-child(2) > h1.title {
+float: none;
+}
+
+ .ugc ol {
+display: block;
+list-style-type: decimal;
+-webkit-margin-before: 1em;
+-webkit-margin-after: 1em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+-webkit-padding-start: 40px;
+}
+
+/* END COMEPAY HOTSPOT*/

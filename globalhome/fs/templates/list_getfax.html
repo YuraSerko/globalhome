@@ -1,0 +1,76 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<script>
+	function ShowSubmitRow()
+	{
+		$(".form-submit-right").show()
+	}
+	$(document).ready(function() {
+		$(".form-submit-right").hide()
+	})
+</script>
+
+<h1 class="title">{{ title }}</h1>
+
+{{ block.super }}
+
+{% if have_numbers %}
+    <form action="." method="post" id="getfax_list_form">
+        {% if getfaxs %}
+           
+            <table class="type-2">
+                <thead>
+                    <tr>
+                        <th>{% trans "Enabled" %}</th> 
+                        <th>{% trans "On number" %}</th>
+                        <th>{% trans "Email" %}</th>
+                        <th>{% trans "Editing" %}</th>
+                        <th>{% trans "Deleting" %}</th>
+
+                    </tr>
+                </thead>
+                {% for getfax in getfaxs %}
+                    <tr>
+                        <td>
+                      		<input type="checkbox" name="{{ getfax.id }}" {% if getfax.enabled %}checked{% endif %} onchange="ShowSubmitRow();"/>
+                        </td>
+                        <td>{{ getfax.number }}</td>
+                        <td>{{ getfax.email }}</td>
+                        <td><a href="/account/getfax/edit_getfax/{{ getfax.id }}/">{% trans "Edit" %}</a></td>
+                        <td><a href="/account/getfax/delete_getfax/{{ getfax.id }}/">{% trans "Delete" %}</a></td>
+                <!--</li> -->
+                    </tr>
+                {% endfor %}
+            </table>   
+                     
+        {% else %}
+            <div class="status status-info">
+                <i class="ico"></i>
+                <div class="status-i">
+                    <p>{% trans "You have no fax numbers." %}</p>
+                </div>
+            </div>  
+        {% endif %}
+      
+        <div class="form-submit-left">
+            <a class="bt bt-blue2" href="/account/getfax/create_getfax/">{% trans "Add" %}</a>
+        </div>
+        <div class="form-submit-right">
+            <input type="submit" class="bt bt-blue2" name="abort" value="{% trans 'Cancel' %}"/>
+            <input type="submit" class="bt bt-blue2" name="submit" value="{% trans 'Save changes' %}"/>
+        </div>
+
+    </form>
+        
+    {% else %}
+        <div class="status status-info">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>{% trans "You have no internal numbers. You should create one first" %}</p>
+            </div>
+        </div>
+    {% endif %}       
+{% endblock %}

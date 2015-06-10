@@ -1,0 +1,106 @@
+{% extends 'admin/change_form.html' %}
+{% load i18n %}
+{% block after_related_objects %}
+
+
+<fieldset class="module aligned ">
+<h2>{% trans "Phones" %}</h2>
+<div class="form-row last_login">
+<div>
+<h5>{% trans "Internal numbers" %}</h5>
+{% with original.get_profile.billing_account.phones as phones %}
+{% if phones %}
+<table>
+  <thead>
+  <tr>
+    <th>{% trans "Phone number" %}</th>
+    <th>{% trans "Person name" %}</th>
+    <th>{% trans "Short number" %}</th>
+    <th>{% trans "Password" %}</th>
+    {% comment %}
+    <th>{% trans "Activated" %}</th>
+    {% endcomment %}
+    <th>{% trans "External numbers" %}</th>
+  </tr>
+  </thead>
+  <tbody>
+{% for p in phones %}
+<tr>
+  <td>{{ p.tel_number }}</td>
+  <td>{{ p.person_name }}</td>
+  <td>{{ p.internal_phone }}</td>
+  <td>{{ p.password }}</td>
+  {% comment %}
+  <td>{% if p.activated %}
+  <img src="{{ MEDIA_URL }}img/icons/icon-yes.gif" />
+  {% else %}
+  <img src="{{ MEDIA_URL }}img/icons/icon-no.gif" />
+  {% endif %}
+  </td>
+  {% endcomment %}
+  <td>
+	  {% with p.get_external_numbers as ens %}
+	  {% for e in ens %}
+	  {{ e.number }}<br />
+	  {% empty %}
+	  ---
+	  {% endfor %}
+	  {% endwith %}
+  </td>
+</tr>
+{% endfor %}
+  </tbody>
+</table>
+{% else %}
+{% trans "No phones" %}
+{% endif %}
+{% endwith %}
+
+<h5>{% trans "City phone numbers" %}</h5>
+{% with original.get_profile.billing_account.external_phone_groups as groups %}
+{% if groups %}
+    <table>
+    <thead>
+      <tr>
+        <th>{% trans "City number" %}</th>
+        <th>{% trans "Group name" %}</th>
+        <th>{% trans "Internal numbers" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for g in groups %}
+      <tr>
+        <td>
+	        {% if g.local_numbers_str %}
+	        {{ g.local_numbers_str }}
+	        {% else %}
+	        ----
+	        {% endif %}
+        </td>
+        <td>{{ g.name }}</td>
+        <td>
+	        {% if g.numbers_str %}
+	        {{ g.numbers_str }}
+	        {% else %}
+	        ----
+	        {% endif %}
+        	{% comment %}
+        {% for n in g.telnumbersgroupnumbers_set.all %}
+           {{ n.tel_number }}<br />
+        {% endfor %}
+        	{% endcomment %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% else %}
+{% trans "No phones" %}
+{% endif %}
+{% endwith %}
+</div>
+
+</fieldset>
+
+{% endblock %}
+

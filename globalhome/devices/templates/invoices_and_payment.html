@@ -1,0 +1,354 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block extrahead %}
+	{{ block.super }}
+    <script type="text/javascript">
+        function submitform(type_document, id_document)
+        {	
+            document.getElementById('type_document').value = type_document;
+            document.getElementById('id_document').value = id_document;
+            document.forms["documents"].submit();
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+
+<h1 class="title">Платежные документы</h1>    
+
+<style type="text/css">
+.tab-control { /*Основной блок*/
+	  border : none;
+		  width : 95%;           
+		  padding : 0px;
+}
+
+.tab-header { /*Заголовки*/
+	  font-size : 14px;
+	  text-align: center;
+	  color: #FFF;
+	  font-size: 14px;
+	  border : none;
+          width : 100%;
+          height: 20px;
+          margin : 0px;         
+          padding : 0px; 
+}
+
+.tab-header > div { /*Отдельный заголовок*/
+          border-left : 1px solid #ddd; 
+          border-radius:10px 10px 0px 0;  
+	  background-color : #FF9521;
+          height: 20px;
+          padding : 5px;
+          margin-right : 2px; 
+          float : left;
+          cursor : pointer; 
+		  width: 140px;
+		-webkit-transition: all 200ms ease;
+		-moz-transition: all 200ms ease;
+		-ms-transition: all 200ms ease;
+		-o-transition: all 200ms ease;
+		transition: all 200ms ease;
+}
+
+.tab-header > div:hover { /*Текущий заголовок*/
+		  margin-top: -15px; 
+		  height: 35px;
+		-webkit-transition: all 200ms ease;
+		-moz-transition: all 200ms ease;
+		-ms-transition: all 200ms ease;
+		-o-transition: all 200ms ease;
+		transition: all 200ms ease;
+}
+
+.tab-body { /*Содержимое закладок*/
+	  border : none;
+          width : 100%;       
+          margin : 0px;         
+          padding : 0px;
+          clear : both; 
+}
+
+.tab-body > div { /*Содержимое отдельной закладки*/
+          border-bottom : 1px solid #ddd; 
+          border-left : 1px solid #ddd; 
+          border-radius:0 5px 5px 5px;  
+	  background-color : #FF9521;
+          display : none;
+          overflow: auto; /*Прокрутка запрещена, если она нужна, то следует поставить значение auto*/
+          width : 100%;
+          height: 100%;         
+          padding : 1px;
+}
+</style>
+ 
+<script type="text/javascript">
+	function OnClick(tabhid){
+	 //Получение заголовка по id
+	 var tabh = document.getElementById(tabhid);
+	
+	 if (tabh==null)
+		 return;
+	 
+	 //Ссылка на элемент tab-header
+	 var tabheader=tabh.parentNode;
+	
+	 if (tabheader==null)
+		 return;
+	 
+	 //Получаем все заголовки
+	 var tabhs;
+	 tabhs = SelectChildren(tabheader,'div');
+	
+	 if (tabhs.length == 0)
+		 return;
+	 
+	 //Изменяем стиль ранее выбранного заголовка
+	 for(var i = 0; i < tabhs.length; i++)
+		 if (tabh.style.backgroundColor = '#eee')
+			tabhs[i].style.backgroundColor = '#2884ea';
+	 
+	 //Изменяем стиль выбранного заголовка
+	 tabh.style.backgroundColor = '#FF9521';
+	
+	 var tabcontrol;
+	 
+	 //Получаем ссылку на весь элемент tab-control
+	 try {
+		 tabcontrol = tabheader.parentNode;
+	 } catch (ex)
+	 {
+		 return;
+	 }
+	
+	 var tabbody;
+	 
+	 //Получаем ссылку на раздел содержимого закладок
+	 try {
+		 tabbody = tabcontrol.getElementsByClassName('tab-body')[0];
+	 } catch (ex)
+	 {
+		 return;
+	 }
+	 
+	 //Получаем все элементы содержимого закладок
+	 var tabs;
+	 tabs = SelectChildren(tabbody,'div');
+	
+	 if (tabs.length == 0)
+		 return;
+	
+	 //Получаем содержимое выбранной закладки по ее id, сформированному по id заголовка
+	 var selectedtab= document.getElementById('b'+tabh.id);
+	
+	 if (selectedtab==null)
+		 return; 
+	
+	 //Скрываем содержимое ранее выбранной закладки
+	 for(var i = 0; i < tabs.length; i++)
+		 if (tabs[i].style.display == 'block')
+			tabs[i].style.display = 'none';
+	
+	 //Показываем содержимое выбранной закладки
+	 selectedtab.style.display = 'block';
+	}
+	
+	/*Функция выбора дочерних элементов по имени тэга*/
+	function SelectChildren(node, childname)
+	{
+	 var result = [];
+	
+	 for(var i = 0; i < node.childNodes.length; i++)
+		{
+		 var child = node.childNodes[i];
+		 if (child.nodeType==1) //Элемент
+			if (child.tagName.toLowerCase()==childname.toLowerCase())
+			   result.push(child); 
+		}
+	
+	 return result; 
+	}
+</script>
+
+{{ block.super }}
+
+{% if form %}
+<form method="post">
+    <div class="form_django">
+    
+        {% for field in form %}  
+              {% form_field field block %}      
+        {% endfor %}	
+        
+        <div class="form-submit">
+            <div class="form-submit-left">
+                <small><span class="req">*</span> — пункты обязательные для заполнения</small>
+            </div>
+            <div class="form-submit-right">
+            	<input id="submit-button" type="submit" class="bt bt-blue2" name="reset_page" value="Отмена"/>
+            	<input id="submit-button" type="submit" class="bt bt-blue2" name="add_mail" value="Применить изменения"/>
+            </div>
+        </div>
+    
+    </div>
+</form>
+{% else %}
+<form id="form_edit_mail" method="post">
+    <div class="ugc" style="padding-top: 10px; padding-bottom: 10px;">
+        <p>Ваш e-mail адрес для получения документов:</p>
+        <p><strong>{{ mail }}</strong><a href="javascript:;" onClick="document.getElementById('form_edit_mail').submit();" style="padding-left: 2em;">редактировать</a></p>
+        <input type="hidden" name="edit_mail" value="True">
+    </div>
+</form>
+{% endif %}
+
+{% if document %}
+
+<form name="documents">
+    {% if check_year %}
+    	<body onLoad="OnClick('tab-01')">
+    {% else %}
+    	{% if act_year %}
+    	<body onLoad="OnClick('tab-02')">
+    {% else %}
+    	{% if invoice_year %}
+    	<body onLoad="OnClick('tab-03')">
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    
+    <input type="hidden" id="type_document" name="type_document" value="" />
+    <input type="hidden" id="id_document" name="id_document" value="" />
+    
+    <div class='tab-control'>
+        <div class='tab-header'>
+            {% if check_year %}
+            <div id='tab-01' onclick='OnClick(this.id)'>Счета</div>
+            {% endif %}
+            {% if act_year %}
+            <div id="tab-02" onClick="OnClick(this.id)">Акты</div>
+            {% endif %}
+            {% if invoice_year %}
+            <div id='tab-03' onclick='OnClick(this.id)'>Счет-фактуры</div>
+            {% endif %}
+        </div> 
+        
+        <div class='tab-body'>
+            {% if check_year %}
+            <div id='btab-01'>
+                 <table class="t-spec" style="margin: 0;">
+                    <thead>
+                        <tr>
+                            <th width="20%">Номер документа</th>
+                            <th width="40%">Месяц</th>
+                            <th width="20%" class="center">Скачать</th>
+                            <th width="20%" class="center">Просмотр</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {% for year in check_year %}
+                            <tr class="tr-section">
+                                <th colspan="4">{{ year }}</th>
+                            </tr>
+                           {% for check in checks %}
+                                {% if check.year == year %}
+                                    <tr>
+                                        <td>{{ check.number }}</td>
+                                        <td >{{ check.month }}</td>
+                                        <td class="center"><a href="#" onClick="javascript: submitform('Check',{{ check.id }})" class="link-download" name="{{ check.id}} ">Скачать</a></td>
+                                        <td class="center"><div onclick = "window.open('check/{{check.id}}', '',
+                                                                'width=800,height=500,status=no,location=no,toolbar=no,menubar=no,scrollbars=1'); return false;">
+                                                                <a href="#" class="link-view">Просмотр</a></div></td>
+                                    </tr>
+                                 {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+            {% if act_year %}
+            <div id='btab-02'>
+                 <table class="t-spec" style="margin: 0;">
+                    <thead>
+                        <tr>
+                            <th width="20%">Номер документа</th>
+                            <th width="40%">Месяц</th>
+                            <th width="20%" class="center">Скачать</th>
+                            <th width="20%" class="center">Просмотр</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {% for year in act_year %}
+                            <tr class="tr-section">
+                                <th colspan="4">{{ year }}</th>
+                            </tr>
+                           {% for act in acts %}
+                                {% if act.year == year %}
+                                    <tr>
+                                        <td>{{ act.number }}</td>
+                                        <td >{{ act.month }}</td>
+                                        <td class="center"><a href="#" onClick="javascript: submitform('Act',{{ act.id }})" class="link-download" name="{{ act.id}} ">Скачать</a></td>
+                                        <td class="center"><div onclick = "window.open('act/{{act.id}}', '',
+                                                                'width=800,height=500,status=no,location=no,toolbar=no,menubar=no,scrollbars=1'); return false;">
+                                                                <a href="#" class="link-view">Просмотр</a></div></td>
+                                    </tr>
+                                 {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+            {% if invoice_year %}
+            <div id='btab-03'>
+                 <table class="t-spec" style="margin: 0;">
+                    <thead>
+                        <tr>
+                            <th width="20%">Номер документа</th>
+                            <th width="40%">Месяц</th>
+                            <th width="20%" class="center">Скачать</th>
+                            <th width="20%" class="center">Просмотр</th>                    </tr>
+                    </thead>
+                    <tbody>
+                       {% for year in invoice_year %}
+                            <tr class="tr-section">
+                                <th colspan="4">{{ year }}</th>
+                            </tr>
+                           {% for invoice in invoices %}
+                                {% if invoice.year == year %}
+                                    <tr>
+                                        <td>{{ invoice.number }}</td>
+                                        <td >{{ invoice.month }}</td>
+                                        <td class="center"><a href="#" onClick="javascript: submitform('Invoice',{{ invoice.id }})" class="link-download" name="{{ invoice.id}} ">Скачать</a></td>
+                                        <td class="center"><div onclick = "window.open('invoice/{{invoice.id}}', '',
+                                                                'width=800,height=500,status=no,location=no,toolbar=no,menubar=no,scrollbars=1'); return false;">
+                                                                <a href="#" class="link-view">Просмотр</a></div></td>
+                                    </tr>
+                                 {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    </body>
+    
+    {% else %}
+    
+    <div class="status status-warning">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>Счета вам не выставлялись</p>
+        </div>
+    </div>
+ 
+	{% endif %}
+</form>
+
+
+{% endblock %}

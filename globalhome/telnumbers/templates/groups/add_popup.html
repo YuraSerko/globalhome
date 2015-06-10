@@ -1,0 +1,160 @@
+
+{% load i18n form_tags lib_tags  %}
+
+
+{% block extrahead %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/style_private.css">
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/general_1.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}prettyforms/js/jquery.hoverbox.min.js"></script>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+
+       <!-- ####################################################### -->
+{% if has_phones %}
+
+<script type="text/javascript">
+    
+
+function Reflect(obj) {
+  
+    var s = ""
+    for (var i in obj)
+        s += "> " + i + ": " + obj[i] + "\n"
+    return s 
+}
+    
+    
+        function AddClick(elem) {
+            window.add_group_clicked_count++
+            if (window.add_group_clicked_count > 1)
+                return false
+            else {
+                // вот тут родительскому окну передадим данные о том, что будет добавлена группа с выбранными именем и номерами
+                var name = $("#id_name").attr("value")
+                var ni = 0
+                var numbers = []
+                var cboxes = $("ul > li > label > input:checkbox")
+                for (var i = 0; i < cboxes.length; i++)
+                    if (cboxes[i].checked) {
+                        numbers[ni] = $(cboxes[i]).parent().text()
+                        ni++
+                        
+                    }
+                var obj = {}
+                obj["name"] = name
+               
+                obj["numbers"] = numbers
+                window.opener.AddFutureGroupData(obj)
+                return true
+                
+            }
+        }
+        
+        
+        $(document).ready(function() { 
+         
+          
+          window.group_added_successed = {% if group_added_successed %}true{% else %}false{% endif %}
+         
+           
+             if (window.group_added_successed)
+              {
+                
+                window.opener.GroupAddSuccess(Number({{ added_group_id }}))
+                 window.close()
+                 
+                
+            }
+             
+            
+            
+               window.add_group_clicked_count = 0
+               abtn = $("#add-group-button")
+               abtn.attr("onClick", "return AddClick(this);")
+                
+            
+                window.is_popup_work = {% if window_is_popup %}true{% else %}false{% endif %}
+            
+                if (window.is_popup_work) {
+                
+                window.add_form.attr("action", "./?popup_window=1")
+              
+            }
+            
+        })
+        
+         
+    
+    </script>
+    
+    {%endif%}
+    
+ 
+    
+
+
+
+ <!-- ####################################################### -->
+
+<form id="add-form" method="POST" action="?popup_window=1{% if to_user %},user_id={{ to_user.id }}{% endif %}">
+
+<br />
+	
+     {% block notifications %}
+        {% if request.notifications %}
+            {% for message in request.notifications %}
+            <div class="popup_info">
+                <div class="status status-{{ message.tags }}">
+                    <i class="ico"></i>
+                    <div class="status-i">
+                        <p>{{ message }}</p>
+                    </div>
+                </div>
+            </div>    
+            {% endfor %}
+        {% endif %}
+     
+     {%endblock%}
+    
+ 
+    <div class="form_django form_ul" style="margin-left: 10px;">
+    
+        
+    
+        {% for f in form %}
+            {% form_field f block  %}
+            
+        {% endfor %}
+        
+        <div class="form-submit">
+            <div class="form-submit-left">
+            {% if not show %}
+                <small><span class="req">*</span> — пункты обязательные для заполнения</small>
+               {% endif %}  
+            </div>
+            <div class="form-submit-right">
+            
+            {% if show %}
+             
+                <input id="add-number-button" type="submit" class="bt bt-blue2" value='{% trans "Add number" %}' OnClick="window.opener.location= '/account/phones/add/';window.close()" name="add number" />
+                <input id="cancel-button" type="submit" class="bt bt-blue2" OnClick ="window.close()" value='{% trans "Cancel" %}' name="cancel" />
+                {% else %}   
+                <input id="cancel-button" type="submit" class="bt bt-blue2" OnClick ="window.close()" value='{% trans "Cancel" %}' name="cancel" />
+                <input id="add-group-button" type="submit"  class="bt bt-blue2"  value='{% trans "Add group" %}' name="add" />
+                
+                {% endif %}
+                
+            </div>
+        </div>
+    
+    </div>
+</form>
+{% endblock %}

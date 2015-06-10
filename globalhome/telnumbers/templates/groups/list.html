@@ -1,0 +1,66 @@
+{% extends 'base_private.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+<div class="ugc">
+    <p>Группы номеров необходимы для того, чтобы обьединить внутренние номера и закрепить (за этой группой) городские</p>
+</div>
+
+{{ block.super }}
+
+{% if has_phones %}
+    {% if groups %}
+        <table class="type-2">
+            <thead>
+                <tr>
+                    <th>{% trans "Group name" %}</th>
+                    <th>{% trans "Numbers" %}</th>
+                    <th>{% trans "Local numbers" %}</th>
+                    <th>{% trans "Edit" %}</th>
+                    <th>{% trans "Delete" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for group in groups %}
+                <tr>
+                    <td>{{ group.name }}</td>
+                    <td>{{ group.numbers_str }}</td>
+                    <td>{{ group.local_numbers_str }}</td>
+                    <td><a href="edit/{{ group.id }}/">{% trans "Edit" %}</a></td>
+                    <td><a href="delete/{{ group.id }}/">{% trans "Delete" %}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+    
+        <div class="status status-info">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>{% trans "You have no groups." %}</p>
+            </div>
+        </div>
+        
+    {% endif %}
+    {% if add %}
+    <div class="submit-row">
+        <p class="deletelink-box">
+            <a class="bt bt-blue2" href="add/">{% trans "Add a group" %}</a>
+        </p>
+    </div>
+    {% endif %}
+{% else %}
+
+    <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>{% trans "You have no internal numbers. You should create one first" %}</p>
+        </div>
+    </div>
+        
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,744 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+{% block extrahead %}
+<link href="/media/css/video_styles.css" rel="stylesheet" type="text/css">
+<link href="/media/css/video_play_styles.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/media/js/jquery.raty.min.js"></script>
+{% endblock %}
+
+{% block content %} 
+
+ {% block sendin %}
+ {{block.super}}
+         {% endblock %}
+ 
+
+  
+ 
+  
+  <article id="right">
+	
+				
+			
+				
+				
+				  {% block burat2 %}
+                  {{block.super}}
+                  {% endblock %}
+				
+				
+			<style>
+			.advert_2{
+					float: right;
+					margin: 20px;
+					width: 240px;
+					margin-right: -80px;
+					height: 400px;
+					/*border: 1px solid black;*/
+				}
+		</style>
+	<div class = "advert_2">
+		<script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement|add:17}}"></script>
+	</div>
+			
+		 <div id='centr_field'>
+				{% block cap %}
+				{{block.super}}
+         {% endblock %} 
+ 
+	  	<center style = "margin-left: -100px;">
+ 
+              
+              <div style="visibility: hidden;">content</div>
+
+               <div class = "descr_iption">
+                                  
+                    <ul class="video_desc_right"> 
+                        {% if video_name.orig_title %}
+                        <li> <b>Оригинальное название </b>
+                        : {{ video_name.orig_title }}
+                        </li>
+                        {% endif %}
+                        {% if video_name.title %}
+                        <li> <b>Русское название </b> 
+                        : {{ video_name.title }}
+                        </li>
+                        {% endif %}
+                        {% if video_name.premiere_date %}
+                        <li> <b>Премьера </b>
+                        : {{ video_name.premiere_date }}
+                        </li>
+                        {% endif %}
+                        <li> <b>Жанр </b> 
+                        : {{ video_name.genres_client_view }}
+                        </li>
+                        {% if video_name.quality %}
+                        <li> <b>Качество </b>
+                        : {{ video_name.quality }}
+                        </li>
+                        {% endif %}
+                        {% if video_name.sound %}
+                        <li> <b>Звук </b> 
+                        : {{ video_name.sound }}
+                        </li>
+                        {% endif %}
+                        {% if video_name.budget %}
+                        <li> <b>Бюджет </b>
+                        : {{ video_name.budget }}
+                        </li>
+                        {% endif %}
+                        {% if video_name.director %}
+                        <li> <b>Режиссер </b> 
+                        : {{ video_name.director }}
+                        </li>
+                        {% endif %}
+                        {% if video_name.cast %}
+                        <li> <b>В главных ролях </b>
+                        : {{ video_name.cast }}
+                        </li>
+                        {% endif %}
+                        {% if video_name.time %}
+                        <li> <b>Время </b> 
+                        : {{ video_name.time }}
+                        </li>
+                        {% endif %}
+                        <li align = "left" style="min-height: 100px;"> <b>Краткое описание </b>
+                        : {{ video_name.description|safe }}
+                        </li>
+                        <li>
+                        
+                        </li>
+                    </ul>
+                    
+                    {% comment %}
+                    {% if video_name.kp_rating %}
+                        
+                        <p id="rating_films">
+                        <a href='http://www.kinopoisk.ru/film/{{video_name.rating}}/' target="_blank"><img src='/media/images/kip.png' border='0'></a><a href = "http://www.kinopoisk.ru/film/{{video_name.rating}}/" target="_blank" style="display: inline-block; text-decoration: none; color: black; position: absolute;
+top: 25px;margin-left: -90px; margin-right: 60px; margin-top:-5px; font-size: 10px; font-weight: bold;">{{video_name.kp_rating}}</a>
+                        
+                        {% if video_name.imdb_rating %}
+                        <a href='http://www.kinopoisk.ru/film/{{video_name.rating}}/' target="_blank">
+                        <img style = "" src = "/media/images/imbd.png"><a style="position: relative; top: -10px; font-size: 10px; font-weight:bold;">{{video_name.imdb_rating}}</a>
+                        </a>
+                        {% endif %}
+
+                        </p>
+                        {% endif %}
+                        {% endcomment %}
+                        
+                        
+                        
+                        {% if video_name.rating %}
+	  				<p id="rating_films">
+	  				<a href='http://www.kinopoisk.ru/film/{{video_name.rating}}/'><img src='http://rating.kinopoisk.ru/{{video_name.rating}}.gif' border='0'></a>
+	  				
+	  				{% if video_name.imdb_id %}
+                        <a href='http://www.imdb.com/title/tt{{video_name.imdb_id}}/' target="_blank">
+                        <img style = "" src = "http://tracker.0day.kiev.ua/imdb/imdb_tt{{video_name.imdb_id}}.gif">
+                        </a>
+                        </p>
+                    {% endif %}
+                    
+	  				{% endif %}
+                        
+                        
+                        
+                        
+               </div>
+
+        <!--Описание-->
+	  {% if video_name.title %}
+	  <div  class="film_title"><p style=" text-align: center;">{{video_name.title}}</p></div>
+	  {% else %}
+	  <div  class="film_title"><p style=" text-align: center;">{{video_name.orig_title}}</p></div>
+	  {% endif %}
+	  
+	  <!-- 2) плеер jwplayer -->
+	  <script type="text/javascript" src="/media/js/video_players/jwplayer/jwplayer.js"></script>
+	  
+ 		<div id = "block_for_player" >
+ 			<div id="player1"></div>
+ 			<div id="player2"></div>
+             <div style="visibility: hidden;">content</div>
+ 		</div>
+
+ 		<!--Селект фильмы части-->
+ 		{% if second_part %}
+ 		<div style="visibility: hidden;">content</div>
+
+    	<select style = "width: 200px; " id = "films_selector" name="select_items" size="1" onchange="javascript:urla=this.value;document.getElementById('film_main').src=urla;">
+    	{% for i, part in second_part %}
+    			
+    	<!--option selected="selected" value="{{video_name.player_video_url}}">1 сезон, 1 серия онлайн</option-->
+    <option value="{{part}}">Часть {{i}}</option>
+
+    	
+    	{% endfor %}
+    	</select>
+    	 <div style="visibility: hidden;">content</div>
+ 		{% endif %}
+ 		
+ 		<!--Селект сериалы-->
+
+ 		{% if serials %}
+        <script>
+    if ('{{video_name.label_text}}'){
+    	array = '{{video_name.label_text}}'.split(", ")
+    	//alert(array)
+    }
+    </script>
+    	<style>
+    	#films_selector{
+    		display:none;
+    	}
+    	</style>
+  
+    	<div style="visibility: hidden;">content</div>
+
+    	<select style = "width: 200px; " id = "films_selector" name="select_items" size="1" onchange="javascript:urla=this.value;document.getElementById('film_main').src=urla;">
+    	{% for label, link in zip %}
+    	{% if label != "" %}		
+    	<!--option selected="selected" value="{{video_name.player_video_url}}">1 сезон, 1 серия онлайн</option-->
+    <option value="{{link}}">{{label}}</option>
+
+    	{% endif %}
+    	{% endfor %}
+    	</select>
+    	 <div style="visibility: hidden;">content</div>
+    	 {% endif %}
+    	<!--Конец селекта сериалы-->
+	
+	
+			<!-- Селект по hd разрешению видео в контакте -->
+		{% if new_gidonline_player %}
+		<div id = "success_refresh_url_vk_gid"></div>
+			<div style="visibility: hidden;">content</div>
+
+		<select style = "width: 200px; " id = "films_selector" name="select_items" size="1" onchange="javascript:urla=this.value;document.getElementById('film_main').src=urla;">
+    	{% for  link, label in vk_new_video %}
+    	{% if label != "" %}		
+    	
+    <option value="{{link}}">{{label}}</option>
+
+    	{% endif %}
+    	{% endfor %}
+    	</select>
+    	 <div style="visibility: hidden;">content</div>
+		{% endif %}
+		<!------------------------->
+    	
+
+
+ 			</center>
+            {% if advert %}
+ 		<script>
+
+			jwplayer("player1").setup({
+
+			file:"http://192.168.0.177/media/104.mp4", ///media/104.mp4
+			image: "{{video_name.image_link}}",
+				            height: 360, 
+ 							width: 607, 
+				           // ]f
+
+			
+			
+				events: { 
+				 	onComplete: function() { 
+				 		document.getElementById("player1").style.display = "none";
+
+				 		try
+				 		{opera_rap = document.getElementById("player1_wrapper");
+				 		opera_rap.style.display = "none";}
+				 		catch(e)
+				 		{
+				 			}
+
+				 		str_url = '{{id}}';
+				 		html_str = "<iframe id = 'film_main' src='" + str_url +   "&autoplay=1' width='607' height='360' frameborder='0'></iframe>"
+				 		document.getElementById("player2").innerHTML = html_str
+				 		if (document.getElementById("films_selector")){
+                            document.getElementById("films_selector").style.display = "block"
+                        } 
+
+				 	},
+				             	
+			    } 
+							           
+			});
+			</script>
+			 {% else %}
+             <script>
+
+                str_url = '{{id}}';
+
+						
+		                {% if new_gidonline_player %}
+		
+			                html_str = ' <video width="607px" height="360px" id = "film_main" controls="controls" onerror = "" poster="{% if video_name.rating %}http://st.kp.yandex.net/images/film_iphone/iphone360_{{video_name.rating}}.jpg {% else %} {{video_name.image_link}}  {% endif %}"><source onerror ="refresh_url_vk_gidonline()" src="'+ str_url+'" type="video/ogg; codecs=&quot;theora, vorbis&quot;"></video>'
+			               
+			                function refresh_url_vk_gidonline(){
+			                	$.ajax({
+			                		url: '',
+			                		data:{change_url_gid:'change'},
+			                		type:'POST',
+			                		cache: false,
+			                		async: false,
+			                		success: function(data){
+			                			$('#success_refresh_url_vk_gid').html('Пожалуйста обновите страницу F5')
+			                		}
+			                	});
+			                }
+                		{% elif not youtube %}
+                        html_str = "<iframe id = 'film_main' src='" + str_url +   "&autoplay=0' width='607' height='360' frameborder='0'></iframe>"
+                        
+                        {% else %}
+                        html_str = "<iframe id = 'film_main' src='" + str_url +   " ' width='607' height='360' frameborder='0' scrolling='no' allowfullscreen=''></iframe>"
+                        {% endif %}
+                        document.getElementById("player2").innerHTML = html_str
+
+                        if (document.getElementById("films_selector")){
+                            document.getElementById("films_selector").style.display = "block"
+                        } 
+                      
+             </script>
+            {% endif %}
+   </div>
+
+    
+
+		<a href="#" class="overlay" id="form_bad_video_link" ref= "#"></a>
+        <div class="main_modal_tip"><div class="modal_tip">
+                <a onclick="clear_cookies()" id="krest2" href="#close" alt="закрыть"></a>
+                <div id="review">
+                <h2>Сообщить о неработающем видео</h2>
+                <div class="err"></div>
+                <form action="\" name="form_bad_video_link" id ="form_bad_video_link_gl">
+                <ul>
+                        
+                        <li><div id="form-field-wrapper-contact_face" class="form-row form-field  required ">
+ 
+  <div>
+   
+    
+      
+        <label for="id_contact_face">Контактное лицо</label><!--span class="field-required-label">*</span-->
+        
+       
+   
+   <div class="field">   
+   
+    
+      <input type="text" name="contact_face" maxlength="512" id="id_contact_face">
+    
+   
+   </div>
+  </div>
+  
+   
+    
+</div>
+
+<div style="clear: both"></div>
+
+</li>
+                        
+                     
+                        
+                        <li><div id="form-field-wrapper-mail" class="form-row form-field ">
+ 
+  <div>
+   
+
+        <label for="id_mail">Электронная почта</label>
+
+   <div class="field">   
+   
+    
+      <input type="text" name="mail" id="id_mail">
+    
+   
+   </div>
+  </div>
+
+</div>
+
+<div style="clear: both"></div>
+
+</li>
+                        
+                        
+                        
+                        <li><div id="form-field-wrapper-text" class="form-row form-field  required ">
+ 
+  <div>
+   
+    
+      
+        <label style="position: relative;
+top: 10px;" for="id_text">Администратору будет отправлено сообщение о неработающем видео</label><span style="position: relative;
+top: 10px;" class="field-required-label">*</span>
+        
+       
+   
+   <div class="field">   
+   
+    
+      <textarea rows="10" name="text" id="id_text" cols="40" >Это сообщение предназначено администратору</textarea>
+    
+   
+   </div>
+  </div>
+  
+   
+    
+</div>
+
+<div style="clear: both"></div>
+
+<span style = "display: inline-block;  width: 400px;" class="field-required-label">* - поле, обязательное для заполнения</span>
+</li>
+
+                    <div style="clear: both"></div>
+                 <li style="float: none; min-height: 10px; margin: 0 auto; position: relative; top: 5px; margin-bottom: 10px;"><input type="button" onclick="win(&quot;form_bad_video_link&quot;)" value="Отправить сообщение" id="com_cont_sub_bad_link"></li>
+                 <li><input type="hidden" name="broken_video_id" value="{{video_name.id}}" id="broken_video_id"></li>
+                 <!--li><input type="hidden" value="form_bad_video_link" id="ident_field" name="ident_field"></li-->
+                 <div class="loading"></div>
+                 </ul>
+                </form>
+
+                <a id = "close_modal_form_link" style="margin-top: 50px; text-decoration: none;  display: none;" href="#close">
+                <li  style=" float: none; min-height: 10px; margin: 0 auto; position: relative; top: 5px; margin-bottom: 10px;"><input type="button" style="cursor: pointer;" value="Закрыть" id="com_cont_sub_bad_link"></li>
+                </a>
+                </div>              
+            </div></div>
+
+        <!-- END -->
+
+
+        
+       <center class="bad_video_link" style = "margin-left: -100px;"><a style="cursor:pointer;" onclick='javascript: window.location.hash = "form_bad_video_link";  $.cookie("r_c","bad_link") ' > Сообщить о неработающем видео
+        </a></center>
+
+        <!--Голосование-->
+        <center><span class = "rating_stars" id = 'video_{{v.id}}' value = "{{video_name.id}}" style = "position: relative; margin-top: 40px; margin-left: -180px;"></span><span class = "display_score_and_votes" value = '{{v.rate_site}}' style = "position: relative;  font-weight: bold; font-size:10px; top: -2px; margin-left: 5px;"><div style = "position:absolute;text-align: center; top: 0px; display:inline-block; box-sizing: content-box; width: inherit; min-width: 70px; ">{{video_name.rate_site}}{% if video_name.site_rating.rating_votes %}&nbsp;({{video_name.site_rating.rating_votes}}) {% endif %}</div></span>
+
+          <span style = "position: relative; left: 75px;" ><span id="score{{video_name.id}}" style="position: absolute; top: 6px;  font-weight: bold; font-size:10px; width: 150px;"></span></span>
+
+                       
+
+
+        </center>
+        <script type="text/javascript">
+        function sleep(ms) {
+          ms += new Date().getTime();
+          while (new Date() < ms){}
+          } 
+
+        locked = false
+
+        if (!locked){
+      $('.rating_stars').raty({
+            number: 10,
+            score: '{{video_name.rate_site}}',
+            //half: true,
+            //targetScore: '#success'
+            path:'/media/images',
+            click: function(score, evt) {
+              id = this.getAttribute('value')
+              $('#score'+id).html('Ваша оценка '+score+".")
+          
+
+              //$('#score'+id).html('Спасибо за ваш голос!')
+                 
+              //alert(score)
+             
+              $(this).addClass('readonly_rate')
+            //alert('ID: ' + this.getAttribute('value') )
+            var vote_url = "/count_rate/" + id + "/" + score + "/" ;
+              $.ajax({
+                url: vote_url,
+                score_click: score,
+                id: id,
+                type: "GET",
+
+                success: function(score_click){
+
+                  $.ajax({
+                    url: "", data: {
+                    //voted_ip: ip,
+                    voted_id: id
+                    }, type: "POST", cache: false, async: false, success: function(data){}
+                    });
+
+                  $('#score'+id).html('')
+                   $('#success'+id).html('Спасибо за ваш голос!') 
+                  //alert(id)
+                  
+                                
+                  $('.readonly_rate').raty({
+                    number: 10,
+                    path:'/media/images',
+                    readOnly:true,
+                    score: score,
+                  })
+                   
+                  //document.getElementById('voted_ip').value = ip
+                  //document.getElementById('voted_id').value = id
+
+                  //$('#voted_form').submit()
+                   
+                },
+               complete: function(){
+                   sleep(2000) 
+                 }
+          });
+             }
+          });
+    }  
+        </script>
+        <!--Голосование-->
+        
+  <center>
+           <div id="comments">
+          <div class="znt com">Комментарии к {{ending_comment}}</div>
+          <div style = "color: red; margin: 10px;" id="error_message"></div>
+ <div id="respond">
+        <div class="respond-form clearfix">
+             	<style>.table_comment tr td:first-child input{
+             	width: 100px;
+             	}
+             	.table_comment tr td:last-child input{
+             	width: 400px !important;
+             	}
+             	.table_comment tr td:last-child textarea{
+             	width: 400px !important;
+             	}
+             	.table_comment tr td:first-child{
+             	padding-right: 10px;
+             	}
+             	</style>
+                        <form name="contact_form"  action="" method="post" id="comment-form">
+                       
+                        <table class = "table_comment"><tr><td><label id="author">Имя</label></td><td><input type="text" name="commentator_name" id="commentator_name" value="" size="22" tabindex="1" original-title="А где же ваше имя?"></td>
+                        </tr>
+                        <tr><td><div style = "height: 10px;"></div></td></tr>
+                        <tr><td><label >Комментарий</label></td><td><textarea id = "comment_area" onclick="javascript: this.setAttribute('placeholder', '')" style = "float: right; text-align: center;" placeholder = "Для удобства пользователей все комментарии проходят модерацию и удаляются в случае: ненормативной лексики, высказываний не по теме, оскорбление других участников, ссылки на другие сайты и реклама, копирования с других сайтов." name="comment_content" id="comment" tabindex="2" cols="" rows="" original-title="А где же ваш комментарий?"></textarea></td>
+                        </tr></table>
+            <!--div id="comq"><label id="author">Имя</label><input type="text" name="commentator_name" id="commentator_name" value="" size="22" tabindex="1" original-title="А где же ваше имя?"> </div-->
+            
+                  <div style="clear: both;"></div> 
+            <!--div style="float: left;" >Комментарий</div><span><textarea id = "comment_area" onclick="javascript: this.setAttribute('placeholder', '')" style = "float: right; text-align: center;" placeholder = "Для удобства пользователей все комментарии проходят модерацию и удаляются в случае: ненормативной лексики, высказываний не по теме, оскорбление других участников, ссылки на другие сайты и реклама, копирования с других сайтов." name="comment_content" id="comment" tabindex="2" cols="" rows="" original-title="А где же ваш комментарий?"></textarea></span-->
+           
+           <style type="text/css">
+           #table_comment td + td textarea{
+              width: 400px;
+              
+           }
+           #table_comment td{
+            min-width: 130px;
+           }
+           #table_comment  {
+            margin-left: -250px;
+           }
+           
+           </style>
+            <!--table id = "table_comment">
+            <tbody>
+              <tr><td><label id="author">Имя</label></td><td><input type="text" name="commentator_name" id="commentator_name" value="" size="22" tabindex="1" original-title="А где же ваше имя?"> </td></tr>
+              <tr><td><br></td></tr>
+              <tr><td>Комментарий</td><td><textarea id = "comment_area" onclick="javascript: this.setAttribute('placeholder', '')" style = "height: 150px;float: right; text-align: center;" placeholder = "Для удобства пользователей все комментарии проходят модерацию и удаляются в случае: ненормативной лексики, высказываний не по теме, оскорбление других участников, ссылки на другие сайты и реклама, копирования с других сайтов." name="comment_content" id="comment" tabindex="2" cols="" rows="" original-title="А где же ваш комментарий?"></textarea></td></tr>
+              </tbody>
+            </table-->
+
+
+            <input name="submit" type="button"  style="width: 250px; margin: 15px; color: white;" class="bt bt-blue2" tabindex="3" onclick="send_post_comment();" value="Оставить комментарий">
+            <input type="hidden" name="comment_post_ID" value="17056" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+                        </form>
+                </div>    
+</div>
+<ul class="comment-list">
+    <div id = "cookie_comment"></div>
+<script>document.getElementById('cookie_comment').innerHTML = 'В данный момент нет комментариев по данному видео'</script>
+
+    {% load endless %}
+    
+    {% paginate comments %}
+
+    {% for comment in comments %}
+    
+    {% if comment.add_to_site %}
+    <script>document.getElementById('cookie_comment').innerHTML = ''</script>
+    <li> 
+        <div class="comment clearfix"><span class = "image_author"></span>
+        <span class = "author_name"> {{comment.commentator_name}}</span>
+        <div class="ct-avatar right"><img style="height:70px;width:70px" src="/media/images/a-def1.jpg" alt=""><img alt="аватар" src="/media/images/a-def1.jpg" class="avatar avatar-40 avatar-default" height="40" width="40"></div>
+           
+           <div class="ct-text clearfix" id="comment-551700">
+                    <span>
+
+                    {{comment.comment_content}}</span>
+                                        
+                </div>
+        </div>
+    </li>
+    
+    {% endif %}
+    {% endfor %}
+    <br>
+    {% show_pages %}
+    
+    
+
+
+</ul>
+
+ <script type="text/javascript">
+ if($.cookie('commentator_name')){
+
+
+                    document.getElementById('cookie_comment').innerHTML ='<li>'+ 
+                '<div class="comment clearfix">'+
+                '<span class = "author_name">'+$.cookie('commentator_name') +'</span>'+
+                '<div class="ct-avatar right"><img '+
+                'style="height:70px;width:70px" src="/media/images/a-def1.'+
+                'jpg" alt=""><img alt="аватар" src="/media/images/a-def1.'+
+                'jpg" class="avatar avatar-40 avatar-default" height="40"'+
+                ' width="40"></div>'+
+                   
+                   '<div class="ct-text clearfix" id="comment-551700">'+
+                            '<span>'+
+
+                            $.cookie('comment_area')+
+                            '<br>'+
+                            '<br>'+
+                            '<span style = "font-style: italic;">'+
+                        'Спасибо! Ваш комментарий будет '+
+                        'проверен модератором в течении 24 часов'+
+                        '</span>'+
+                            '</span>'+
+                           ' </div>'+
+                '</div>'+
+           ' </li>'
+
+ }
+
+   
+            function confirmRefresh() { //Перезагрузка страницы
+                        setTimeout("location.reload(true);",1500);
+    }
+
+
+                function send_post_comment(){
+
+                       name = document.getElementById('commentator_name').value
+        area = document.getElementById('comment_area').value 
+        if(name == "" || area == ""){
+            document.getElementById('error_message').innerHTML= "Заполните поля"
+            
+    } 
+        else{
+            $.cookie('commentator_name', name )
+        //alert( $.cookie('commentator_name'))
+         $.cookie('comment_area', area )
+                //alert(name)
+
+         confirmRefresh()
+
+                    $.ajax({
+                    url: "", data: {
+                    commentator_name: document.getElementById('commentator_name').value,
+                    comment_content: document.getElementById('comment_area').value
+                    }, type: "POST", cache: false, async: false, success: function(data){}
+                    });
+        } 
+        
+
+                    
+                }
+                  
+                </script>
+
+
+<span style="position:absolute"></span><span style="position:absolute;right:18px"></span>           </div>
+
+        </center>
+        
+	</article>
+  <style type="text/css">
+  #mjc div{
+      z-index: 1;
+    }
+    </style>
+
+   
+<style type = "text/css">
+#player2{
+width:607px;
+/*height:360px;*/
+background:black;}
+</style>
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+
+
+
+</script>
+
+
+    <a href="#" class="overlay" id="hs_login2" ></a>
+		<div class="main_modal_tip">
+			<div class="modal_tip">
+				<a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+				<h2>Вы воспользовались услугами Бесплатной* Wi-Fi сети<br> <a href='http://globalhome.su/content/article/hot_spot/' target="_blank">HotSpot GlobalHome </a><h2>
+				<ul>
+					<li>Скорость доступа к интернет ресурсам составляет до 15 мбит\с.</li>
+					<li>Для более подробной информации нажмите<a href="http://globalhome.su/content/article/hot_spot/" target="_blank">здесь</a></li>
+					<li>Для открытия сайта или получения нужной информации введите запрос в поисковой строке.  Далее перейдите по ссылке в выдаче информации.</li>
+				</ul>
+				<p>* - на период тестирования.</p>
+				
+				<div class="lower_part">
+				
+				{%if trial%}
+					<form action = '/' method = 'GET' class="forma modal" id='' name = 'search_form' onsubmit = 'javascript:log();'>
+					{% else%}
+					<form action = '/' method = 'GET' class="forma modal"  name = 'search_form' >
+					{% endif%}
+					<input tabindex="4" type="text" class="searchbox modal" name="query" value=""  id = 'ya_input_log' />
+					<input  type="submit"   class="searchbox_submit modal"   value="Найти"  /><span class="tri"></span>
+						
+					</form>
+				</div>	
+			</div>
+		</div>
+
+
+		{% block login_1 %}
+		{{block.super}}
+         {% endblock %}
+		
+		 {% block complaint_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+         {% block review_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+{% endblock %}

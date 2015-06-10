@@ -1,0 +1,32 @@
+
+.addlink { 
+    background-attachment: scroll;
+    background-color: transparent;
+    background-image: url("/admin-media/img/admin/icon_addlink.gif");
+    background-position: 0px 4px;
+    background-repeat: no-repeat;
+    padding-left: 12px;
+}
+
+a .addlink {
+    float: left;
+}
+
+.deletelink { 
+    background-attachment: scroll;
+    background-color: transparent;
+    background-image: url("/admin-media/img/admin/icon_deletelink.gif");
+    background-position: 0px 4px;
+    background-repeat: no-repeat;
+    padding-left: 14px;
+    text-align: left;
+    float: left;
+}
+
+
+.st-arrow:hover {
+  margin-left: 2px;
+}
+.st-arrow1:hover {
+  margin-left: 2px;
+}

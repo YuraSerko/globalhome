@@ -1,0 +1,27 @@
+{% extends 'base_public.html' %}
+
+{% block img_composition %}
+
+<div class="composition">
+				<img src="{{ MEDIA_URL }}images/compositions/04.png" alt="">
+			</div>
+			
+				 
+			
+				{% endblock %}  
+{% block content %}
+    <h1 class="title">Новости дата-центра</h1>
+        <hr/>
+        {% for obj in objects %}
+        		<h3 class="title">{{ obj.name }}</h3></td>
+    			<div class="news_date">Опубликовано: {{ obj.created_at|date:" d.m.Y" }}</div>
+    			<div>
+        			{{ obj.text|safe }}
+    			</div>
+    			<hr/>
+        {% endfor %}
+    <div class="ctrls">
+        {% include 'paginator.html' %}
+     </div><!--ctrls-->
+	
+{% endblock %}

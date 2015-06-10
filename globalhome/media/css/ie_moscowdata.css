@@ -1,0 +1,9 @@
+.nav {
+  position: relative;
+  zoom: 1; }
+
+.promo-item,
+.promo-item span,
+.promo-item .arr {
+  *display: inline;
+  *zoom: 1; }

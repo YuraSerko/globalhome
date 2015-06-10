@@ -1,0 +1,1491 @@
+{% extends 'base_private.html' %}
+{% load i18n %}
+
+
+
+
+
+{% block content %}
+   	  <link href="/media/css/chosen.css" rel="stylesheet" type="text/css" >  		 
+  	  <script src="/media/js/chosen.jquery.js"></script>
+	  <script src="/media/js/chosen_select.js"></script>
+        
+                
+    
+	 	<!-- мои данные -->	
+	    <!-- Обязанности и требования -->
+		<div id="duties_and_requirements">
+			
+			
+			<form id="duties_and_requirements_form"  name="duties_and_requirements_form" action="" method="post" >	
+				
+				<div class = "work_title_block_blue">
+		 			<div class="work_form_title_main" >Обязанности и требования</div>
+		 			<div class = "edit_current_block" ><a id = "href_duties" href="#null" onclick = "edit_block(1)" return false;>Редактировать блок</a></div>
+				</div>
+				<input name ="form_number" style = 'display:none'></input>	
+				
+			<div id = "duties_and_requirements_to_unwrap" style = "display:block;">
+				
+				<!-- поле название вакансии -->
+				<div class = 'input_box' style="width:430px;">
+					<div class='title_box'>Название вакансии<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Заполните название вакансии</font></span>
+					</div>
+					{{ duties_and_req_form.vacancy_name }}
+				</div>
+				
+
+				<!--поле дополнительное название вакансии -->
+				<div class = 'input_box' style="width:430px;">
+					<div class='title_box'>Дополнительное название вакансии
+		    			<span class = "error_note"><font class = "red_cl">Укажите дополнительное название компании</font></span>
+					</div>
+					{{ duties_and_req_form.vacancy_additional_name }}
+				</div>
+				<div class = 'help_note' style='width:254px;'>
+					Напишите до 3-х дополнительных названий вакансии.
+				</div>
+				
+				
+				<!--уровень позиции-->
+				<div class = 'input_box' style="width:430px;">
+					<div class='title_box'>Уровень позиции<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Укажите уровень позиции</font></span>
+					</div>
+					{{ duties_and_req_form.taken_position_level }}
+				</div>
+				
+				
+				<!-- поле сфера деятельности -->
+				<div class = 'input_box' style="width:430px;">
+					<div class='title_box'>Сфера деятельности<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Выберите сферы деятельности</font></span>
+					</div>
+					<!-- {{ duties_and_req_form.activity }}-->
+					<select multiple="multiple" id="id_activity" name="activity">
+						{% for sp  in duties_and_req_select_specialization %}
+							{% ifchanged %}
+								</optgroup><optgroup label='{{ sp.activity_field.activity_field }}'>
+							{% endifchanged %}
+							<option value = '{{ sp.id }}'>{{ sp.specialization }}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class = 'help_note' style='width:254px;'>
+					Укажите  до 3-х специализаций.
+				</div>
+				
+				
+				<!-- поле описание вакансии, обязанности -->
+				<div class = 'input_box' style="width:430px;">
+					<div class='title_box'>Описание вакансии, обязанности<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Заполните</font></span>
+					</div>
+					{{ duties_and_req_form.vacancy_discription }}
+				</div>
+				<div class = 'help_note' style='width:254px;'>
+					Обратите ваше внимание, что условия работы вы сможете указать на Шаге 2.
+				</div>
+				
+				
+				
+				<div class = 'subtitle_bold'>Требования к соискателю</div>
+				
+				<!-- опыт работы по профилю -->
+				<div class = 'input_box' style="width:330px;">
+					<div class = 'title_box'>Опыт работы по профилю
+						<span class = "error_note"><font class = "red_cl">Только цифры</font></span>
+					</div>
+							{{ duties_and_req_form.work_experience }}
+				</div>
+				
+				<div style = "display:inline-block;">{{ duties_and_req_form.no_exp_strict }} Строго без опыта </div>	
+					
+					
+				
+				<!--образование-->
+				<div class = 'input_box' style="width:430px;">
+					<div class='title_box'>Образование
+		    			<span class = "error_note"><font class = "red_cl">Укажите уровень образования</font></span>
+					</div>
+					{{ duties_and_req_form.education_level }}
+					
+				</div>
+				
+			
+				
+				<!-- иностранный язык -->
+					     
+					        <div class = "title_box" style = "margin-left:5px;">Иностранные языки</div>
+					      
+			        	 	
+			        	 	<div style = "display:block">
+								{{ vac_lan_formset.management_form }}
+							</div>
+							
+							{% for vac_lan_form in vac_lan_formset.forms %}
+                            <div class="itemka_vac_lan" style = "margin-left:5px;">
+			        	 									
+			        	 									
+															<!--  input name="tel_org_all" id="tel_org_all"-->
+															
+															{{ vac_lan_form.language }}
+														    <!-- select>
+															<option value = 0 class= "no_select">-Выбрать уровень-</option>
+															<option value = 1>Начальный</option>
+															<option value = 2>Средний, профессиональная терминология</option>
+															<option value = 3>Свободный</option>
+															</select-->
+															{{ vac_lan_form.language_level }}
+															{{ vac_lan_form.id }} <!-- hidden -->
+																														
+						        	 					<div class = 'delb'>
+									        	 				<a href="javascript:void(0);" onclick="del_asks(this, 'vac_lan', '{{ vac_lan_form.id.value }}' );">
+																		<img src="/media/images/sprite_delete.png" title="Удалить поле">
+																</a>
+																
+														</div>
+														{{ vac_lan_form.deleted }}
+
+			        	 	</div>
+			        	 	
+			        	 	{% endfor %}
+			        	 		
+				        	 		
+				        <button id="add_id_vac_lan" onclick="ask(this, 'vac_lan');" type = "button" style = "margin-left:5px;">Добавить иностранный язык</button>
+				        	 		
+							
+				
+				
+				
+				
+				<!-- иностранный язык -->
+				
+				
+				<hr class = 'hr_vacancy'>
+				
+				
+				<!--поле возраст-->
+				<div class = 'input_box'>
+					<div class='title_box'>Возраст
+		    			<span class = "error_note"><font class = "red_cl">Только цифры</font></span>
+					</div>
+						{{ duties_and_req_form.age_from }}-{{ duties_and_req_form.age_to }}
+					
+				</div>	
+				
+				
+				<!-- поле пол -->
+				<div class = 'input_block_simple'>
+					<div class = 'input_block_simple_title'>Пол</div>	
+					<div class = 'input_block_simple_data' id = "duties_and_req_sex">
+							{{ duties_and_req_form.sex }}
+					</div>
+				</div>
+				
+				
+				<!-- поле указать требования к гражданству соискателей -->
+				<div class = 'line_input' style = "margin-bottom:18px">
+						<a href='#null' onclick = "$('#nac').toggle();  return false;">Требование к гражданству соискателей</a>
+				</div>	
+				
+				
+				<!--гражданство-->
+				<div class = 'input_block_simple' style="width:430px; display:none; margin-top:-15px;" id = "nac" >
+					<div class='input_block_simple_title'>Гражданство
+		    			<span class = "error_note"><font class = "red_cl">Укажите гражданство</font></span>
+					</div>
+					<div style = "margin-bottom:5px;">{{ duties_and_req_form.nationality }}</div>
+					{{ duties_and_req_form.work_permission }}Соискатель должен иметь разрешение на работу
+				</div>
+				
+				
+				<!-- требуется медецинская книжка -->
+				<div class = 'line_input'>
+						{{ duties_and_req_form.medical_book }} Требуется медецинская книжка
+				</div>
+				
+			
+				<!-- требуется загран паспорт -->
+				<div class='line_input'>
+						{{ duties_and_req_form.international_passport }} Требуется загран паспорт
+				</div>
+			
+				<hr class = 'hr_vacancy'>
+			
+			    
+			    <!-- требуется права  -->
+				<div class='line_input'>
+						Требуются права категории    <font style="font-weight:normal!important;">
+						A {{ duties_and_req_form.driving_license_A }}
+						B {{ duties_and_req_form.driving_license_B }}
+						C {{ duties_and_req_form.driving_license_C }}
+						D {{ duties_and_req_form.driving_license_D }}
+						E {{ duties_and_req_form.driving_license_E }} </font>
+				</div>
+			    
+			    
+				<!-- требуется личный автомобиль  -->
+				<div class='line_input'>
+						{{ duties_and_req_form.car_needed }} Требуется личный автомобиль
+				</div>
+			
+			
+				<!-- дополнительные требования -->
+				<div class = 'input_block_simple'>
+					<div class = 'input_block_simple_title'>Дополнительные требования</div>	
+					<div class = 'input_block_simple_data'>
+						{{ duties_and_req_form.additional_requirements }}
+					</div>
+				</div>
+				</div> <!-- unrap -->
+			</form>
+			
+		
+		
+		<div class = "work_form_submit_block_pale_blue" id = 'but_dut'>
+			<div class = "center_button">
+				<button type="text" class="bt bt-blue2" onclick = 'sumbit_duties_req_form()' id ="duties_button">Сохранить</button>
+			</div>
+		</div>
+		
+		</div>
+		<!-- конец блока обязанности и требования -->
+		
+		
+		
+		
+		
+		<br>
+		
+		<!-- блок условия -->
+		
+		
+		<div id="condition">
+			
+			<form id="condition_form"  name="condition_form" action="#null" method="post" >	
+				<input name ="form_number" style = 'display:none'></input>	
+				<div class = "work_title_block_blue">
+		 			<div class="work_form_title_main" >Условия</div>
+		 			<div class = "edit_current_block" ><a id = "href_condition" href="#null" onclick = "edit_block(2)" return false;>Редактировать блок</a></div>
+				</div>
+				
+				<div id = "condition_to_unwrap" style = "display:none;">
+				
+				<!-- Зарплата в месяц -->
+				<div>
+				<div class = 'input_box'>
+					<div class='title_box'>Зарплата/месяц, руб.
+		    			<span class = "error_note"><font class = "red_cl">Только цифры</font></span>
+					</div>
+							{{ condition_form.salary_from }}-{{ condition_form.salary_to }}
+						
+				</div>
+				<div style = 'display:inline-block'> {{ condition_form.bonus }}+Бонус </div>
+ 				</div>
+				
+
+				<!--Город работы -->
+				<div class = 'input_box' style="width:285px; margin-bottom:1px;">
+					<div class='title_box'>Город работы<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Заполните город</font></span>
+					</div>
+					{{ condition_form.city }}
+				</div>
+			
+			
+				<!-- помощь с переездом -->		
+				<div class = 'line_input'>
+					{{ condition_form.transporting_help }} Помощь иногородним с переездом</input>
+				</div>
+				
+				
+				
+				
+				
+				<!-- Поле адрес -->
+				<div class = 'input_box' style="width:285px;">
+					<div class='title_box'>Адрес
+		    			<span class = "error_note"><font class = "red_cl">Заполните адрес</font></span>
+					</div>
+					{{ condition_form.address }}
+				</div>
+				
+				
+				
+				<!-- Поле регион размещения -->
+				<div>
+				<div class = 'input_box' style="width:285px;">
+					<div class='title_box'>Регион размещения
+		    			<span class = "error_note"><font class = "red_cl">Заполните регион размещения</font></span>
+					</div>
+					{{ condition_form.region }}
+				</div>
+				</div>
+				
+				
+				<!-- Поле режим работы -->
+				
+				<div class = 'input_box' id = "work_mode" >
+					<div class='title_box'>Режим работы<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Выберите режим работы</font></span>
+					</div>
+					<div style = "display:block;">							
+								{{ condition_form.work_mode }}
+					</div>
+				</div>
+				
+				
+				
+				<!-- Поле тип занятости -->
+				<div>
+				<div class = 'input_box' id = "employment_type">
+					<div class='title_box'>Тип занятости<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Выберите тип занятости</font></span>
+					</div>
+							{{ condition_form.employment_type }}
+				</div>
+				</div>
+				
+				<!-- Поле тип работы -->
+				<div>
+				<div class = 'input_box' id = "work_type">
+					<div class='title_box'>Тип работы<font class = "red_cl">*</font>
+		    			<span class = "error_note"><font class = "red_cl">Выберите тип работы</font></span>
+					</div>
+						{{ condition_form.work_type }}	
+				</div>
+				</div>
+				
+				
+				
+				<!-- блоки условий -->
+				<div class = 'line_input'>
+						{{ condition_form.open_air }}  Работа на открытом воздухе
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.traveling }}  Разъездной характер работы
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.business_trip }} Работа предполагает командировки
+				</div>
+				
+				
+				
+				<div class="subtitle_bold">Работадатель предлагает</div>
+				
+				
+				
+				<div class = 'line_input'>
+						{{ condition_form.registration }} Оформление, отпуск, больничный и пр. по ТК
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.DMS_employee }} ДМС для сотрудников
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.DMS_employee_family }} ДМС для сотрудников и членов семей
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.mobile }} Компенсация мобильной связи
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.food }}  Компенсация питания
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.transport }} Компенсация проезда и ГСМ
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.special_clothes }} Предоставление форменной/спецодежды
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.offical_car}} Служебный автомобиль
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.sport_hall}} Спортзал
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.corporate_training }} Корпоративное обучение и тренинги
+				</div>
+				
+				<div class = 'line_input'>
+						{{ condition_form.career_growth }}Возможность профессионального и карьерного роста
+				</div>
+				
+				
+				
+				
+				
+				<!-- поле описание вакансии, обязанности -->
+				<div class = 'input_box' style="width:285px;">
+					<div class='title_box'>Дополнительные условия
+		    			<span class = "error_note"><font class = "red_cl">Заполните описание</font></span>
+					</div>
+					{{ condition_form.additionl_cond }}
+				</div>
+				
+				
+				
+			</div>  <!-- окончание conditiion to unrap -->
+			</form>
+			
+			<div class = "work_form_submit_block_pale_blue" id ="but_cond" style = "display:none;" >
+					<div class = "center_button">
+						<button class="bt bt-blue2" onclick = 'sumbit_condition_form()' id = "condition_button">Сохранить</button>
+					</div>
+			</div>
+			
+			
+			
+		
+		
+		</div>		
+				
+		<!-- окончание блока условия -->
+	   	<!-- окончание моих данных -->
+   </div>
+			
+	</article>
+  
+ 
+   
+	
+
+
+
+<style>
+/* ===========block duties_and_requirements============*/
+#duties_and_requirements{
+	width:750px;
+	border:1px solid black;
+	padding:5px 5px 0px 5px;
+	font-size:14px;
+	}
+
+.hr_vacancy{
+position: relative;top: 8px; margin-bottom:25px;}
+	
+.red_cl{
+	color:red;
+	}
+
+.work_title_block_blue {
+	background:#5591DA;
+	height:40px;
+	padding-left:10px;
+	margin-top: -5px;
+	margin-left: -5px;
+	margin-right: -5px;
+	font-weight:bold;
+	font-size:20px;
+	line-height: 35px;
+	color:white;
+	}
+.work_form_submit_block_pale_blue{
+	/*background:#7DB5F5; */
+	background:#C2DAF7;
+	height:40px;
+	/*margin-bottom: -5px; */
+	margin-left: -5px;
+	margin-right: -5px;
+	}
+.center_button{
+	margin-left:auto;
+	margin-right:auto;
+	width:100px;
+	padding-top: 10px;
+	}
+.subtitle_bold{
+	font-weight:bold;
+	font-size:17px;
+	margin-bottom:5px;
+	padding:5px;
+	}
+
+.line_input{
+	margin-bottom:18px;
+	padding: 5px;}
+
+.input_block_simple{
+	padding: 5px;
+	margin-bottom:18px;
+	}
+
+.input_block_simple .input_block_simple_title{
+	font-weight:bold;
+	}
+	
+.line_input{
+	font-weight:bold;
+	}
+/*============end block duties_and_requirements============*/
+
+/*========input_box============== */
+.error_note{
+	float:right;
+	display:none;
+	
+	}
+/* errror */	
+.input_box_error{
+	padding: 5px;
+	background: rgb(246, 199, 204);
+	border:1px solid red;
+	border-radius:7px 7px 7px 7px;
+	margin-bottom:18px;
+	display:inline-block;
+	
+}
+
+.input_box_error .error_note{
+	display:block;
+	float:right;
+ }
+ 
+.input_box_error input{
+	font-size:16px;
+	width:100%;
+	}
+	
+
+/* end error */
+
+
+.input_box{
+	padding: 5px;
+	border-radius:7px 7px 7px 7px;
+	margin-bottom:18px;
+	display:inline-block;	
+}	
+	
+.input_box input{
+	font-size:16px;
+	width:100%;
+	}
+	
+
+.title_box{
+	margin-top:0px;
+	margin-bottom:2px;
+	font-size:15px;
+	font-weight:bold;}
+
+/*========= end input box =============*/
+
+
+/* ===========help note ===============*/
+.help_note{
+	display:inline-block;
+	padding-bottom:5px;
+	font-size:14px;
+	color:gray;
+	vertical-align: middle;
+	}
+
+/* ========== end help note====================== */
+
+/*====inputn=====*/
+.inputn{
+	padding-left:5px;
+	margin-bottom:18px;
+	font-size:14px;}
+/*====end inputn===*/
+
+
+/*==chosens===*/
+#id_vacancy_name + div{
+	width:420px!important;
+	}
+
+#id_taken_position_level + div{
+	width:420px!important;
+	}
+	
+#id_vacancy_additional_name + div{
+	width:420px!important;
+	}
+#id_activity + div{
+	width:420px!important;
+	}	
+	
+#id_education_level + div{
+	width:420px!important;
+	}
+#id_nationality + div{
+	width:420px!important;
+	}
+
+[id$=-language]+div {
+width:208px!important;
+
+}
+
+[id$=-language_level]+div {
+width:208px!important;
+}
+[id$=-deleted]{
+display:none;
+}
+
+.itemka_vac_lan{
+	overflow:visible!important;}
+}
+/*==end chosens===*/
+
+/*==inputs==*/
+#id_vacancy_discription{
+	width:420px;}
+#id_work_experience{
+	width:50px;}
+#id_age_from{
+	width:100px;}
+#id_age_to{
+	width:100px;}
+
+/*==end of inputs==*/
+
+/*===radio_in_line==*/
+#work_mode ul li{
+	
+	}
+/*===end of radio_in_line==*/
+
+
+/*стиль для chosen multiple*/
+.chosen-container-multi .chosen-choices li.search-field input[type="text"]{
+    height:20px!important;
+    padding-top:0px!important;
+}
+/* окончание стиля для chosen multiple */
+
+
+/*блок условия работы*/
+#condition{
+	width:750px;
+	border:1px solid black;
+	padding:5px 5px 0px 5px;
+	font-size:14px;
+	}
+/*===radio_in_line==*/
+#duties_and_req_sex ul li{
+	display:inline!important;
+	margin-right: 15px;}
+/*===end of radio_in_line==*/
+
+/* chosen */
+#id_city + div{
+	width:275px!important;}
+#id_region + div{
+	width:275px!important;}
+/* endchosen*/
+
+/* input */
+#id_salary_from{
+	width:134px;
+	}
+	
+#id_salary_to{
+	width:134px;
+	}
+	
+#work_mode input{
+	width:initial;}
+
+#work_mode ul li{
+	display:inline!important;
+	margin-right: 15px;}
+	
+#employment_type input{
+	width:initial;}
+	
+#employment_type ul li{
+	display:inline!important;
+	margin-right: 15px;}
+	
+#work_type input{
+	width:initial;}
+	
+#work_type ul li{
+	display:inline!important;
+	margin-right: 15px;}
+/* end of input*/
+	
+/*окончание блока условия работы*/
+.chosen-container-single .chosen-single{
+	border-radius: 0px !important;
+	}
+
+.chosen-container-single .chosen-drop {
+	border-radius:0px! important;
+}
+#duties_and_requirements input[type="text"],
+#condition input[type="text"]
+{
+	height:19px;}
+
+.input_block_simple ul{
+	padding-left:0px;
+	}
+
+.input_box ul{
+	padding-left:0px;
+	}
+
+#duties_and_requirements .edit_current_block,
+#condition_form .edit_current_block  
+{
+	float:right;
+	font-size:16px;
+	line-height: 35px;
+	margin-right: 7px;
+
+	}
+
+.work_form_title_main{
+	font-size:20px;
+	line-height: 35px;
+	font-weight: bold;
+	color:white;
+	float:left;
+	
+	}
+	
+.edit_current_block a{
+	color:white;}
+
+.balance-inner table {
+	border: 0px!important;
+	}
+
+
+</style>
+
+
+
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+
+//==============================================================================================
+function numeric (str) { return /^[0-9(\)\s]+z/.test(str + "z"); }	
+//==============================================================================================	
+	
+	
+var form_number; // глобальная переменная
+form_number_str =  '{{ form_number }}'; 
+if (form_number_str != 'None'){
+		form_number = parseInt(form_number_str)
+		
+}
+else form_number=0
+
+
+
+if ((form_number == 1)|| (form_number == 0)){
+			 d = $('#duties_and_requirements_to_unwrap')
+			 l = $('#href_duties');
+			 b = '#but_dut';
+		 }
+if (form_number == 2)
+		{
+			d = $('#condition_to_unwrap')
+			l = $('#href_condition')
+			b = '#but_cond'
+		}
+		
+d.css("display", "block");
+l.html('Свернуть блок');
+$(b).css('display', 'block');
+if ((form_number==1)||(form_number==2)) //переход на кнопку
+{
+	$('html, body').animate({ scrollTop: $(b).offset().top - 30}, 'fast');	
+}
+
+//==============================================================================================
+function sumbit_duties_req_form(){
+	
+	submit = val_duties_req_form();
+	if (submit == true) {
+		$("input[name='form_number']").val('1');
+		$('#duties_and_requirements_form').submit();
+	}
+}
+
+
+function sumbit_condition_form(){
+	
+	submit = val_condition_form();
+	if (submit==true) {
+		$("input[name='form_number']").val('2');
+		$('#condition_form').submit();
+	}
+
+}
+
+//==============================================================================================
+function interactiv_val_duties_req_form(){
+	
+	//id_vacancy_name
+	 vac_name = '#id_vacancy_name'
+	 $(vac_name).bind('change blur', function()
+					{  
+				 		if (+$(this).val()==0){
+				 			if (!$(this).parent().hasClass("input_box_error")){	
+					 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+				 			}
+				 		}
+				 		else{
+				 			 if ($(this).parent().hasClass("input_box_error")){	
+				 				$(this).parent().addClass("input_box").removeClass("input_box_error");
+				 			 }
+				 		}
+	 				})	
+	 //end id_vacancy_name
+	 
+	 //id_taken_position_level
+	 taken_position = '#id_taken_position_level'
+	 $(taken_position).bind('change blur', function()
+						{  
+					 		if (+$(this).val()==0){
+					 			if (!$(this).parent().hasClass("input_box_error")){	
+						 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+					 			}
+					 		}
+					 		else{
+					 			 if ($(this).parent().hasClass("input_box_error")){	
+					 				$(this).parent().addClass("input_box").removeClass("input_box_error");
+					 			 }
+					 		}
+		 				})	
+	 //end id_taken_position_level
+	
+	 
+	 //id_vacancy_discription
+	 vacancy_desc = '#id_vacancy_discription'
+	 $(vacancy_desc).keyup(function()
+	 {	
+		
+		if (($(this).val() == '') && !($(this).parent().hasClass("input_box_error")))
+			{
+				$(this).parent().addClass("input_box_error").removeClass("input_box");
+			}
+		
+		if ($(this).parent().hasClass("input_box_error") && ($(this).val() != ''))
+			{	
+				$(this).parent().addClass("input_box").removeClass("input_box_error");
+			}
+				
+		
+	 })
+	 //id_vacancy_discription
+	 
+	 //id_activity
+	 id_activity = '#id_activity'
+	 $(id_activity).bind('change blur', function()
+					{  
+				 		if (+$(this).val()==0){
+				 			if (!$(this).parent().hasClass("input_box_error")){	
+					 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+				 			}
+				 		}
+				 		else{
+				 			 if ($(this).parent().hasClass("input_box_error")){	
+				 				$(this).parent().addClass("input_box").removeClass("input_box_error");
+				 			 }
+				 		}
+	 				})	
+	 //id_activity
+	 
+
+	 
+	 
+	 //id_work_experience
+	 id_work_experience = '#id_work_experience';
+	 $(id_work_experience).bind('keyup blur', function()
+	 	   {
+		 		if   (  ( $(this).val() !=  '')   &&  ( !numeric($(this).val()) )    )
+		 			{
+		 				
+				 			if (!$(this).parent().hasClass("input_box_error")){	
+					 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+				 			}
+
+		 			}
+		 		else{
+		 			 		if ($(this).parent().hasClass("input_box_error")){	
+			 				$(this).parent().addClass("input_box").removeClass("input_box_error");}		
+		 			}
+	 	   })
+	 
+	  
+	  //
+	 
+	 
+	  //id_age_from
+	  id_age_from = '#id_age_from';
+	  $(id_age_from).bind('keyup blur', function()
+		 	   {
+			 		if   (  ( $(this).val() !=  '')   &&  ( !numeric($(this).val()) )    )
+			 			{
+			 				
+					 			if (!$(this).parent().hasClass("input_box_error")){	
+						 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+					 			}
+
+			 			}
+			 		else{
+			 			 		if  (  ($(this).parent().hasClass("input_box_error"))  && (         numeric($('#id_age_to').val())          )  ) {	
+				 				$(this).parent().addClass("input_box").removeClass("input_box_error");}		
+			 			}
+		 	   })
+	 
+	 
+		 	   
+	   //id_age_to
+	   id_age_to = '#id_age_to';
+	   $(id_age_to).bind('keyup blur', function()
+		 	   {
+			 		if   (  ( $(this).val() !=  '')   &&  ( !numeric($(this).val()) )    )
+			 			{
+			 				
+					 			if (!$(this).parent().hasClass("input_box_error")){	
+						 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+					 			}
+
+			 			}
+			 		else{
+			 			 		if  (  ($(this).parent().hasClass("input_box_error"))  && (         numeric($('#id_age_from').val())          )  ) {	
+				 				$(this).parent().addClass("input_box").removeClass("input_box_error");}		
+			 			}
+		 	   })	
+	 
+	 
+}	
+	
+	
+	
+//==============================================================================================
+function val_duties_req_form(){
+	var submit = true;
+	var focus_control = '';
+	var fields_array = {'#id_vacancy_name': 'chosen', 
+			 '#id_taken_position_level': 'chosen',
+			 '#id_vacancy_discription':'input',
+			 '#id_activity':'chosen',
+			 '#id_work_experience':'input1',
+			 '#id_age_from':'input1',
+			 '#id_age_to':'input1',
+		}
+	
+	for(var field in fields_array){
+		val_type = fields_array[field];
+		n_field = field;
+
+		//------
+		  if (val_type=='chosen'){
+					if (($(n_field).chosen().val()=='')  || (($(n_field).chosen().val()==null)))        {   // если пусто
+						submit = false;
+						if (focus_control == '') {           //если focus еще не был
+							focus_control = n_field +'^'+val_type; //сохраняем focus
+						 }
+						if(!($(n_field).parent().hasClass("input_box_error"))){ //если нету erro note
+								$(n_field).parent().addClass("input_box_error").removeClass("input_box");
+									 }
+						}
+		 }
+		//-------
+		if (val_type =='input'){
+				if ($(n_field).val()==''){
+					submit=false;
+					if (focus_control == '') {           //если focus еще не был
+						focus_control = n_field +'^'+val_type; //сохраняем focus
+					}
+					if(!($(n_field).parent().hasClass("input_box_error"))){ //если нету erro note
+						$(n_field).parent().addClass("input_box_error").removeClass("input_box");
+					}
+
+				}
+		}
+ 
+		//-------
+		if (val_type =='input1'){
+			if   (($(n_field).val()!='') &&  (!numeric($(n_field).val())))       {
+				submit=false;
+				if (focus_control == '') {           //если focus еще не был
+					focus_control = n_field +'^'+val_type; //сохраняем focus
+				}
+				if(!($(n_field).parent().hasClass("input_box_error"))){ //если нету erro note
+					$(n_field).parent().addClass("input_box_error").removeClass("input_box");
+				}
+
+			}
+		}
+	}// fields for
+	
+	
+	
+	//set focus
+    if (focus_control!='') {
+		focus_control_array = focus_control.split('^');
+		field = focus_control_array[0];
+		val_type = focus_control_array[1];
+		if (val_type == 'chosen')
+			{
+			//$(field).trigger('chosen:activate');
+			$('html, body').animate({ scrollTop: $(field).next().offset().top - 30}, 'fast');
+			}
+		if (  (val_type == 'input') || (val_type == 'input1')  )
+		{
+		 	$(field).focus();
+		}
+		
+    }
+	
+	return submit;
+	
+}	
+//==============================================================================================	
+function interactiv_condition_form(){
+	//id_vacancy_name
+	 city = '#id_city'
+	 $(city).bind('change blur', function()
+					{  
+				 		if (+$(this).val()==0){
+				 			if (!$(this).parent().hasClass("input_box_error")){	
+					 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+				 			}
+				 		}
+				 		else{
+				 			 if ($(this).parent().hasClass("input_box_error")){	
+				 				$(this).parent().addClass("input_box").removeClass("input_box_error");
+				 			 }
+				 		}
+	 				})	
+	 //end id_vacancy_name
+	 
+	
+	 
+	 
+	 
+	  //id_age_from
+	  id_salary_from = '#id_salary_from';
+	  $(id_salary_from).bind('keyup blur', function()
+		 	   {
+			 		if   (  ( $(this).val() !=  '')   &&  ( !numeric($(this).val()) )    )
+			 			{
+			 				
+					 			if (!$(this).parent().hasClass("input_box_error")){	
+						 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+					 			}
+
+			 			}
+			 		else{
+			 					
+			 			 		if  (  ($(this).parent().hasClass("input_box_error"))  &&    (    (numeric($('#id_salary_to').val()))  || ($('#id_salary_to').val() =='')           )    ) {	
+				 				$(this).parent().addClass("input_box").removeClass("input_box_error");}		
+			 			}
+		 	   })
+	 
+	 
+		 	   
+	   //id_age_to
+	   id_salary_to = '#id_salary_to';
+	   $(id_salary_to).bind('keyup blur', function()
+		 	   {
+			 		if   (  ( $(this).val() !=  '')   &&  ( !numeric($(this).val()) )    )
+			 			{
+			 				
+					 			if (!$(this).parent().hasClass("input_box_error")){	
+						 			$(this).parent().addClass("input_box_error").removeClass("input_box");
+					 			}
+
+			 			}
+			 		else{
+			 			 		if  (  ($(this).parent().hasClass("input_box_error"))  && (    (numeric($('#id_salary_from').val()))  || ($('#id_salary_from').val() =='')           )    ) {	
+				 				$(this).parent().addClass("input_box").removeClass("input_box_error");}		
+			 			}
+		 	   })	
+
+}	
+	
+	
+//==============================================================================================
+	
+	
+function val_condition_form(){
+	var submit = true;
+	var focus_control = '';
+	var fields_array = {'#id_city': 'chosen',
+						'#id_salary_from': 'input1',
+						'#id_salary_from': 'input1',
+						}
+			
+		
+	
+	for(var field in fields_array){
+		val_type = fields_array[field];
+		n_field = field;
+
+		//------
+		  if (val_type=='chosen'){
+					if (($(n_field).chosen().val()=='')  || (($(n_field).chosen().val()==null)))        {   // если пусто
+						submit = false;
+						if (focus_control == '') {           //если focus еще не был
+							focus_control = n_field +'^'+val_type; //сохраняем focus
+						 }
+						if(!($(n_field).parent().hasClass("input_box_error"))){ //если нету erro note
+								$(n_field).parent().addClass("input_box_error").removeClass("input_box");
+									 }
+						}
+		 }
+		//-------
+		if (val_type =='input'){
+				if ($(n_field).val()==''){
+					submit=false;
+					if (focus_control == '') {           //если focus еще не был
+						focus_control = n_field +'^'+val_type; //сохраняем focus
+					}
+					if(!($(n_field).parent().hasClass("input_box_error"))){ //если нету erro note
+						$(n_field).parent().addClass("input_box_error").removeClass("input_box");
+					}
+
+				}
+		}
+ 
+		
+		//---
+		if (val_type =='input1'){
+			if   (($(n_field).val()!='') &&  (!numeric($(n_field).val())))       {
+				submit=false;
+				if (focus_control == '') {           //если focus еще не был
+					focus_control = n_field +'^'+val_type; //сохраняем focus
+				}
+				if(!($(n_field).parent().hasClass("input_box_error"))){ //если нету erro note
+					$(n_field).parent().addClass("input_box_error").removeClass("input_box");
+				}
+
+			}
+		}
+		
+		
+			
+	}// fields for
+	
+	
+	
+	//set focus
+    if (focus_control!='') {
+		focus_control_array = focus_control.split('^');
+		field = focus_control_array[0];
+		val_type = focus_control_array[1];
+		if (val_type == 'chosen')
+			{
+			//$(field).trigger('chosen:activate');
+			$('html, body').animate({ scrollTop: $(field).next().offset().top - 30}, 'fast');
+			}
+		if ((val_type == 'input') || (val_type == 'input1'))
+		{
+		 $(field).focus();
+		}
+		
+    }
+	return submit;
+	
+}	
+	
+//=======================================================================================================	
+	
+	
+	
+	
+	
+$(document).ready(function()
+	{
+		//multiple chosens
+		//$('#id_vacancy_additional_name').chosen();
+		//$('#id_nationality').chosen();
+		//$('#id_activity').chosen();
+		
+		$("#id_vacancy_additional_name").chosen({max_selected_options: 3});
+		$("#id_nationality").chosen({max_selected_options: 3});
+		$("#id_activity").chosen({max_selected_options: 3});
+		
+		//set checkbox function
+		$('#id_no_exp_strict').change(function(){
+				if ($('#id_no_exp_strict').attr('checked')){
+					$('#id_work_experience').val('');
+					$('#id_work_experience').attr('disabled', 'disabled');
+					$('#id_work_experience').parent().addClass("input_box").removeClass("input_box_error");
+				}
+				else {
+					$('#id_work_experience').removeAttr('disabled');
+				}
+				
+		})//end checkbox function
+		//checkbox set
+		ch = '{{ duties_and_req_form.no_exp_strict.value }}';
+		if (ch == 'True') {
+			$('#id_work_experience').attr('disabled', 'disabled');
+		}
+		else {
+			$('#id_work_experience').removeAttr('disabled');
+		}
+		
+		
+		//interactive validate
+		interactiv_val_duties_req_form();
+		interactiv_condition_form();	
+		
+		
+		//work_wishes specialization set
+		specializaiton_x_selected = '{{ duties_and_req_specialization_selected }}';
+		spec_sel_array = specializaiton_x_selected.split(',');
+		for (i=0;i<spec_sel_array.length-1;i++){
+			$('#id_activity').find("option[value="+ spec_sel_array[i] +"]").prop("selected", "selected");
+			$('#id_activity').trigger("chosen:updated");
+		}
+		// end work_wishes specialization 
+		
+		
+		
+		
+	})
+	
+//===============================================================================================
+
+//=======================CLONING===================================================
+   function updateElementIndex(el, prefix, ndx) {
+		var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        var replacement = prefix + '-' + ndx + '-';
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+        replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+	function deleteForm(btn, prefix, fid) {
+		if (fid!='none')
+			{ //если есть объект в базе
+			
+				$(btn).parent().next().prop('checked',true);//помечаем на удаление
+				form = $(btn).parent().parent('.itemka_'+prefix+'');
+				//на всякий случай заполняем все элементы для прохождения валидности
+				if (prefix == 'vac_lan'){
+					form.find('select[id $= "-language"]').children(":last").attr("selected", "selected"); 
+					form.find('select[id $= "-language_level"]').children(":last").attr("selected", "selected"); 
+					}
+				//скрываем от пользователя
+				form.css('display','none');		
+			}
+		
+		if (fid=='none') //нет объекта в базе
+		{ 
+			//alert('fid=none')
+			//оригинальный блок удаления элемента
+			
+			var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+			//alert(formCount)
+			if (formCount > 1) {
+				// Delete the item/form
+				$(btn).parent().parent('.itemka_'+prefix+'').remove();
+				var forms = $('.itemka_'+prefix+''); // Get all the forms  
+				// Update the total number of forms (1 less than before)
+				$('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+				var i = 0;
+				// Go through the forms and set their indices, names and IDs
+				for (formCount = forms.length; i < formCount; i++) {
+					$(forms.get(i)).children().children().each(function () {
+						if ($(this).attr('type') == 'text' || $(this).attr('type') == 'comm' || $(this).is('select'))
+							
+							updateElementIndex(this, prefix, i);
+					});
+				}
+			}
+		
+		}
+		
+        return false;
+    }
+
+    function addForm(btn, prefix) {
+		var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+		// You can only submit a maximum of 10 todo items 
+		if (formCount < 10 && formCount != 0) {
+			if (prefix=='vac_lan') {
+					// Clone a form (without event handlers) from the first form
+					var row = $(".itemka_"+prefix+":first").clone(false).get(0);
+					// Insert it after the last form
+					$(row).removeAttr('id').hide().insertBefore("#add_id_"+prefix).slideDown(300);
+					// Remove the bits we don't want in the new row/form
+					// e.g. error messages
+					$(".errorlist", row).remove();
+					$(row).children().removeClass("error");
+					// Relabel or rename all the relevant bits
+					
+					$(row).children().each(function () {
+						updateElementIndex(this, prefix, formCount);
+						$(this).val("");
+					});
+					
+					
+					//clear all select(chosen)
+					$(row).find('select').each(function () {
+						$(this).next().remove(); //remove chosen
+						$(this).chosen(); //load chosen
+					});
+					
+					//del but delb
+					string_attr = "del_asks(this,'" + prefix +"', 'none')"
+					//$(row).find('.delb').find('a').attr('onclick', "del_asks(this,'workplace', 'none')");
+					$(row).find('.delb').find('a').attr('onclick', string_attr);
+					
+					
+					// Add an event handler for the delete item/form link 
+					$(row).find(".delete").click(function () {
+						return deleteForm(this, prefix);
+					});
+					// Update the total form count
+					$("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+				//}
+			}
+			else {
+					// Clone a form (without event handlers) from the first form
+					var row = $(".itemka_"+prefix+":first").clone(false).get(0);
+					// Insert it after the last form
+					$(row).removeAttr('id').hide().insertBefore("#add_id").slideDown(300);
+					// Remove the bits we don't want in the new row/form
+					// e.g. error messages
+					$(".errorlist", row).remove();
+					$(row).children().removeClass("error");
+					// Relabel or rename all the relevant bits
+					$(row).children().children().each(function () {
+						updateElementIndex(this, prefix, formCount);
+						$(this).val("");
+					});
+					// Add an event handler for the delete item/form link 
+					$(row).find(".delete").click(function () {
+						return deleteForm(this, prefix);
+					});
+					// Update the total form count
+					$("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+					$("#id_" + prefix + "-INITIAL_FORMS").val(formCount + 1);
+				}
+        } // End if
+        else if (formCount != 0) {
+			alert("Sorry, you can only enter a maximum of ten items.");
+        }
+        return false;
+    }
+    // Register the click event handlers
+    function ask(asd, pre) {
+		return addForm(asd, pre);
+    };
+
+    function del_asks(asd, pre, fid) {
+    	return deleteForm(asd, pre, fid);
+ 
+    };
+//=========================================ENDCLONING===============================================
+    
+//свернуть или развернуть блок для редактирования
+function  edit_block(a){
+  
+	current_url = window.location.toString();
+ 	current_url_array = current_url.split('/');
+ 	vacancy_id = current_url_array[6];  
+	
+	
+	 if (a==1)
+		 {d = $('#duties_and_requirements_to_unwrap');
+		  l = $('#href_duties'); 
+		  b = $('#but_dut');
+		  }
+	
+	 if (a ==2)
+		 {  
+		 	
+		 	d= $('#condition_to_unwrap');
+		  	l = $('#href_condition');
+		  	b = $('#but_cond');
+		 }
+	
+	
+	//alert(a)
+	//alert(d.css('display'))
+	
+	
+	
+	if ((d.css('display')=='none') && (a==2) && (vacancy_id == 0))
+	{	
+			
+		l.html('<font color=#F37E7E>Заполните предыдущий блок (Обязанности и требования)</font>');
+	}
+	
+	
+	if ((a==1)|| ((a==2) && (vacancy_id!=0))  ) {
+	
+		if (d.css("display") == 'none')  // то разворачиваем
+			{
+				//alert(1)
+				d.css("display", "block")
+				l.html('Свернуть блок')
+				b.css('display', 'block')
+			}
+		
+		
+		
+		else // то сворачиваем
+			{	
+				//alert(2)
+				d.css("display", "none")
+				b.css('display', 'none')
+				l.html('Редактировать блок')
+			}
+	}
+	
+	
+	
+}    
+    
+    
+    
+// окончание моего javascript==================================================================
+
+</script>
+<!--
+<script>
+      div="_ph1968";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1968&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+	<script>
+      div="_ph1971";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1971&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>-->
+   
+		
+	
+		 
+{% endblock %}

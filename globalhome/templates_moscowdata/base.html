@@ -1,0 +1,105 @@
+{% load account_menu %}
+<!DOCTYPE html>
+<html lang="ru" class="nojs">
+<head>
+	{% meta_block %}
+	<!--[if lt IE 9]>
+		<link rel="stylesheet" href="css/ie.css">
+		<script src="js/html5.js"></script>
+	<![endif]-->
+    {% block extrahead %}{% endblock %}
+</head>
+<body>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter23388778 = new Ya.Metrika({id:23388778,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/23388778" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+    
+
+<div  class="page"><div class="page-inner"><div  class="page-inner2">
+        {% block header %}
+	 	{% endblock %}
+		
+		
+       <section class="section">
+           <div class = "cols">
+            {% block left_menu %}
+        	{% endblock %}
+            
+			{% content_menu %}
+            
+            {% block content %}
+                 {% block notifications %}
+                    {% if request.notifications %}
+                        {% for message in request.notifications %}
+                            <div class="status status-{{ message.tags }}">
+                                <i class="ico"></i>
+                                <div class="status-i">
+                                    <p>{{ message }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                 {% endblock %}
+        
+            {% endblock %}
+            <!--cols-section-->
+            
+            {% block rigth_menu %}
+            {% endblock %}
+           
+           </div> <!--cols-->
+		    </section><!--section-->
+        
+		
+		
+			
+</div>
+
+</div>
+
+
+
+
+<!--page--></div>
+
+        
+{% block footer %}   
+
+{% endblock %}
+
+{% block account_change %}
+{% endblock %}
+
+<!-- BEGIN JIVOSITE CODE {literal} -->
+<script type='text/javascript'>
+(function(){ var widget_id = '108234';
+var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//code.jivosite.com/script/widget/'+widget_id; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);})();</script>
+<!-- {/literal} END JIVOSITE CODE -->
+
+</body>
+</html>

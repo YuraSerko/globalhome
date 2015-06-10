@@ -1,0 +1,482 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags %}
+
+{% block extrahead %}
+	{{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" /> 
+    
+	<script type="text/javascript" src="{{ MEDIA_URL }}ajax/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}ajax/jquery.form.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}ajax/ajaxupload.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<script language="javascript">
+	var items=1;
+	
+	function AddItem() {
+		var div=document.getElementById("items");
+		items++;
+		var new_item='\
+						   <li class="iform-item">\
+								<label>\
+									<input id="to_numb'+items+'" type="text" name="to_number'+items+'" class="text" onkeyup="return proverka(this);"style="width: 130px;"/>\
+								</label>\
+							</li>\
+							<li class="iform-item">\
+								<label>\
+									<input id="add_numb'+items+'" type="text"  class="text" name="add_number'+items+'" style="width: 100px;">\
+								</label>\
+							</li>\
+							<a style="margin-left: -17px;" href="javascript:void(0);" onClick="removeItem(' + items + ')"><img src=\"/media/images/sprite_delete.png\" style="margin-top: 3px;" title=\"Удалить поле\"></a>'
+	
+		/*var newitem="<table cellspacing=0 cellpadding=0><tr><td width=\"10%\" nowrap=\"nowrap\" align=\"left\">";
+		newitem+="<input required width=\"25px\" id=\"to_numb" + items;
+		newitem+="\" name=\"to_number" + items;
+		newitem+="\" type=\"text\"></td><td width=\"100px\" nowrap=\"nowrap\"><input id=\"add_numb" + items;
+		newitem+="\" name=\"add_number" + items;
+		newitem+="\" type=\"text\"/>";
+		newitem+="<a href='javascript:void(0);' onClick='removeItem(" + items + ")'><img src=\"/media/fax/delete.png\" title=\"Удалить поле\"></a></td></tr></table>";*/
+		newnode=document.createElement("ul");
+		newnode.id = "item_" + items;
+		newnode.className = "iform";
+		newnode.innerHTML=new_item;
+		div.insertBefore(newnode, null);
+		
+	}
+
+	function removeItem(q){ 
+		var item = document.getElementById("item_" + q);
+		var parent = document.getElementById('items');
+		parent.removeChild(item);
+		//items--;
+	}
+	
+	function proverka(input) { 
+		var value = input.value; 
+		var rep = /[-+\.;":'a-zA-Zа-яА-Я\s]/; 
+		if (rep.test(value)) { 
+			value = value.replace(rep, ''); 
+			input.value = value; 
+		} 
+	} 
+	
+	function eror(){
+		document.getElementById('contentos').style.display = 'block';
+		document.getElementById('contentos').className = 'status status-error';
+		$("#message").html("Заполните все поля");
+	
+	}
+	
+	function eror_format(){
+		document.getElementById('contentos').style.display = 'block';
+		document.getElementById('contentos').className = 'status status-error';
+		$("#message").html("Неверный формат файла. Выберите: \".jpg\", \".jpeg\", \".bmp\", \".tiff\"");
+	}
+
+	function diffsend(){
+		var flag_dif=0;
+		var flag_dif2=0;
+		for (var i = 1; i <= items; i++) 
+			{
+				if (document.getElementById("to_numb" + i)) 
+				{
+					if ((document.getElementById("to_numb" + i).value == "") && (document.getElementById("f_w_n").value == "")) 
+					{
+					flag_dif2=1;
+					}
+				}
+				else {continue;}
+			}
+	 
+	// proverka formata faila
+	var list = new Array();
+	var list_format = new Array();
+		list_format[0] = 'jpg';
+		list_format[1] = 'jpeg';
+		list_format[2] = 'JPG';
+		list_format[3] = 'bmp';
+		list_format[4] = 'tiff';
+		str = document.getElementById("image").value
+		list = str.split('.')
+		for (var i = 0; i <= 4; i++)
+			{
+			if (list[list.length-1] == list_format[i]) 
+				{
+				flag_dif = 0;
+				break;
+				}
+			else 
+				{
+				flag_dif=1;
+				}
+			}
+	//konec proverki formata
+		if ((document.getElementById("image").value != "") && (flag_dif != 1) && (flag_dif2 != 1)) 
+			{
+			document.getElementById("file_123").value = 1;
+			}
+	} //конец функции difsend
+	
+	
+	function diffsee(){
+		var flag_dif = 0;
+		// proverka formata faila
+		var list = new Array();
+		var list_format = new Array();
+			list_format[0] = 'jpg';
+			list_format[1] = 'jpeg';
+			list_format[2] = 'JPG';
+			list_format[3] = 'bmp';
+			list_format[4] = 'tiff';
+			
+			str = document.getElementById("image").value
+			list = str.split('.')
+			for (var i = 0; i <= 4; i++)
+				{
+				if (list[list.length-1] == list_format[i]) 
+					{
+					flag_dif = 0;
+					break;
+					}
+				else 
+					{
+					flag_dif=1;
+					}
+				}
+		//konec proverki formata
+			if ((document.getElementById("image").value != "") && (flag_dif != 1)) 
+				{
+				document.getElementById("file_123").value = 2;
+				}
+	}
+
+	function otkr(){
+		document.getElementById('contentos').style.display = 'none';
+		if (document.getElementById("file_123").value == 2) 
+			{
+				$('#ajall').html('<a class="popup_personal-close" href="#close"></a><table class="type-2"><thead><tr><th style="text-align:left">Подождите, идет конвертация изображения&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th></tr></thead></table><center><img src="{{ MEDIA_URL }}images/loading.gif" align="top"></center>');
+			}
+		if (document.getElementById("file_123").value == 1) 
+			{
+				$('#ajall').html('<a class="popup_personal-close" href="#close"></a><table class="type-2"><thead><tr><th>Подождите, идет отправка изображения&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th></tr></thead></table><center><img src="{{ MEDIA_URL }}images/loading.gif" align="top"></center>');
+				$('.popup_personal-close').click(function() {
+															location.href = '/account/fax/stat/';
+															});
+				$('.overlay').click(function() {
+															location.href = '/account/fax/stat/';
+															});
+
+			}
+		document.getElementById("mod").click();
+	}
+	
+	//na4alo
+	(function() {
+	
+	$('#lalala').ajaxForm({
+	cache: false,
+	async: true,
+	beforeSend: function() 
+	{
+				var flag_format=0;
+				var list = new Array();
+				var list_format = new Array();
+				list_format[0] = 'jpg';
+				list_format[1] = 'jpeg';
+				list_format[2] = 'JPG';
+				list_format[3] = 'bmp';
+				list_format[4] = 'tiff';
+				var flag2=0;
+				var flag=0;
+				
+				for (var i = 1; i <= items; i++) 
+					{if (document.getElementById("to_numb" + i)){
+					if ((document.getElementById("to_numb" + i).value == "") && (document.getElementById("f_w_n").value == "")) 
+						{
+						flag2=1;
+						}
+					}
+					else {continue;}
+					}
+	
+				str = document.getElementById("image").value;
+				list = str.split('.')
+				
+				for (var i = 0; i <= 4; i++)
+					{
+					if (list[list.length-1] == list_format[i]) 
+						{
+						flag=0;
+						flag_format=0;
+						break;
+						}
+					else 
+						{
+						flag=1;
+						flag_format=1;
+						}
+					}
+				if ((document.getElementById("image").value != "") && (flag != 1) && (flag2 != 1)) 
+					{
+					otkr();
+					}
+				else 
+	
+					{
+					if ((flag_format == 1) && (document.getElementById("image").value != "")) 
+						{
+						eror_format();
+						} 
+					else 
+						{
+						eror();
+						}
+					}
+	},
+	
+	complete: function(html) 
+	{		
+			if (document.getElementById("file_123").value == "1")
+			{
+				if (html.responseText.search('a') != -1)
+				{$('#ajall').html(html.responseText);}
+				else
+				{var intervalID = setInterval(function() { fax(html.responseText, intervalID) }, 10000);}
+			}
+			else if (document.getElementById("file_123").value == "2") 
+				{
+				$('#ajall').html(html.responseText);
+				}
+			
+			document.getElementById("file_123").value = "";
+	},
+	
+	}); 
+	
+	})();
+	//konec
+	
+		$(document).ready(function() {
+			//alert(document.getElementById("file").value);
+	if ((document.getElementById("file_123").value != "123") && (document.getElementById("file").value != ""))
+	{	
+	//alert("ssss");
+		//document.getElementById("file_123").value = "123";
+		//document.getElementById("mod").click();
+	}
+	if ((document.getElementById("file_123").value == "123") && (document.getElementById("file").value == "")) {//document.getElementById("close_mod1").click();
+	}
+	
+	
+	//fax();
+	}
+	);
+	
+	//function sleep(ms) {
+	//ms += new Date().getTime();
+	//while (new Date() < ms){}
+	//} 
+	
+	function fax(id,intervalID){
+	{
+		if (id != 0) 
+		{
+		$.ajax({
+		url: "/account/fax/dajax?id_fax="+id, 
+		cache: true,
+		async: true,
+		complete: function(html){
+					if (html) 
+						{
+							if (html.responseText == "no_end")
+								{
+								//setInterval(fax(id), 4000);
+								}
+							else 
+								{
+								$('#ajall').html(html.responseText);
+								clearInterval(intervalID);
+								}
+						}
+					else 
+						{
+						fax();
+						} 
+	
+		}//complete 
+	
+		});//ajax
+	
+	}
+	}}
+</script>
+<style>
+body {
+padding:0px;
+margin:0px;
+} 
+</style>
+
+<h1 class="title">Отправка факса</h1>
+
+<div class="ugc">
+    <p>Укажите с какого номера и на какой будет отправлен факс или укажите файл со списком номеров для отправки, а также выберите изображение и нажмите кнопку "Отправить".</p>
+</div>
+  
+{{ block.super }}
+
+<div id="contentos" style="display:none" class="">
+    <i class="ico"></i>
+    <div class="status-i">
+        <p id="message">{{ message }}</p>
+    </div>
+</div>
+
+{% if have_numbers %}
+	<form id="lalala" name="create-ticket" action="" method="post" enctype="multipart/form-data">
+            
+        
+        		<div class="form-sections">
+                
+                        <div class="form-section">
+                                <label>
+                                    {% form_field form.number block %}
+                                </label>
+                            <div class="hint"><i></i>Выберите номер, с которого необходимо отправить факс</div>
+                        </div><!--form-section-->
+             
+                         <div class="form-section">
+                         <table>
+                         <tr>
+                         	<td valign="top">
+                         	<div id="items" align="justify">
+                                <ul class="iform" id="item_1">
+                                	<li class="iform-item">
+                                        <label>
+                                            <span class="label">
+                                                На номер
+                                            </span>
+                                            <input id="to_numb1" type="text" name="to_number1" class="text" onkeyup="return proverka(this);" style="width: 130px;"/>
+                                        </label>
+                                    </li>
+                                    <li class="iform-item">
+                                        <label>
+                                            <span class="label">
+                                                Добавочный
+                                            </span>
+                                            <input id="add_numb1" type="text"  class="text" name="add_number1" style="width: 100px;">
+                                        </label>
+                                    </li>
+                                </ul>
+                                <!--iform-->
+                                </div>
+                                </td>
+                         
+                                <td width="10%">
+								</td>
+
+                                <td valign="top">
+                                <label>
+                                <span class="label">Или выберите файл со списком номеров для отправки</span>
+                                <input id="f_w_n" name="file_with_num" type="file" accept="text/plain"/>
+                            </label>
+                            <div class="hint"><i></i>Вы можете выбрать файл со списком номеров формата ".txt".<br>Номера в файле должны располагаться через запятую без пробелов.<br>Пример: 1000016,1000014-101,7495xxxxxxx.<br>Номер вида 1000014-101 означает что, "101" добавочный номер.</div>
+                            </td>
+                            
+                            </tr>
+                            
+                            </table>
+                            
+                            <div class="set">
+                      			<input class="bt bt-grey" type="button" value="Ещё номер..." onClick="AddItem();" ID="add">
+                            </div>
+                            <div class="hint"><i></i>Пожалуйста, укажите номер в международном формате (Пример: 7495xxxxxxx), на который вы хотите отправить факс</div>
+                        </div><!--form-section-->
+   
+                
+                        <!--<div class="form-section">
+                            <label>
+                                <span class="label">Выберите файл со списком номеров для отправки</span>
+                                <input id="f_w_n" name="file_with_num" type="file" accept="text/plain"/>
+                            </label>
+                            <div class="hint"><i></i>Выберите файл со списком номеров формата ".txt".<br>Номера в файле должны располагаться через запятую без пробелов.<br>Пример: 1000016,1000014-101,1000123.<br>Номер вида 1000014-101 означает что, "101" добавочный номер.</div>
+                        </div><!--form-section-->
+        		
+                        <div class="form-section">
+                            <label>
+                                <span class="label">Выберите документ для отправки</span>
+                                <input id="image" name="filik" type="file" required/>
+                            </label>
+                            <div class="set">
+                                <label><input name="enabled_size" type="checkbox" value="" />Растянуть изображение по ширине</label>
+                            </div>
+                            <div class="set">
+                                <input class="bt bt-grey" type="submit" name="prosmotr" value="{% trans 'Preview' %}" onclick="diffsee();"/>
+                            </div>
+                            <div class="hint"><i></i>Выберите документ, который необходимо отправить, в формате .jpg, .jpeg, .bmp, .tiff</div>
+                        </div><!--form-section-->
+                
+                </div><!--main_form_section-->
+       
+       <div id="info" class="status status-info" style="border:none;  !important">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p id="info_str" style="color: rgb(181, 180, 180); font-size: 12px; font-weight: 100; !important">Наша компания не гарантирует успешную отправку факса по всем направлениям в связи с тем что в отправке задействованы различные транзитные операторы связи, которые со своей стороны не всегда обслуживают передачу факса. Обращаем Ваше внимание, что средства с баланса за не успешную отправку факса будут списываться в соответствии с тарифом по данному направлению.</p>
+            </div>
+        </div>
+       
+        		<div class="form-sections-submit">
+					<input type="submit" value="Отправить" class="bt bt-blue" name="submitik" onclick="diffsend();"/>
+				</div> 
+        
+                <input id="file" type="hidden" name="file_put" value="{{file_url}}">
+                <input id="file_123" type="hidden" name="file_put" value="">
+                <div id="fax_id"></div>
+                <a href="#showimage1"><input id="mod" name="modal2" type="button" style="display: none;"/></a>
+	</form>
+
+{% else %}
+        <div class="status status-info">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>{% trans "You have no internal numbers. You should create one first" %}</p>
+            </div>
+        </div>
+{% endif %}  
+
+<form>
+</form>
+
+  <a href="#" class="overlay" id="showimage1"></a>
+    <div class="popup_personal" id='ajall'>
+       	<form action="/account/fax/send_zakaz/" id="preview" method="post">
+        <a href="#close" class="popup_personal-close"></a>
+        <table class="type-4 modal">
+            	<caption>
+                    {% if file_url %}
+                     	<h1 class="title" style="margin: 0;">{{ file_url }}</h1>
+                    {% else %}
+                        <h1 class="title" style="margin: 0;">Ошибка:</h1>
+                    {% endif %}
+                </caption>
+                 <tbody>
+                 	<tr>
+                    	<td>
+                            {% if file_url %}
+                                <img id="image" src="{{ file_url }}" alt="" style="border:1px solid black;">
+                            {% else %}
+                                 <p>Проблемы с файлом или незаполнены все поля.</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                 </tbody>
+            </thead>
+         </table>
+      </form>
+      
+	</div>
+    
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'account/profile.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block extrahead %}
+    {{ block.super }} 
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/interface-style1.css" />
+{% endblock %}
+
+{% block content %}
+       <h2>{% trans "Available services:" %}</h2>
+      <table class="data">
+            <thead>
+                <tr>
+                    <th >{% trans "Service:" %}</th>
+                    <th>{% trans "Service type:" %}</th>
+                    <th >{% trans "cost:" %}</th>
+                    <th >{% trans "Way of tariffing:" %}</th>
+                    <th >{% trans "period:" %}</th>
+                    <th >{% trans "Action" %}</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+               {% for serv in service %}
+                    {% if serv.0 == 4 or serv.0 == 6 or serv.0 == 7 or serv.0 == 8%}
+                    {% else %}
+                    <tr>
+                        {% if serv.0 == 3 %}
+                        <td><a href="../../content/article/multiline_number/" target="_blank">{{ serv.1 }}</a></td>
+                        {% else %}
+                        <td><a href="../../change/" target="_blank">{{ serv.1 }}</a></td>
+                        {% endif %}
+                        <td>{% if serv.3 == "onetime" %}{% trans "onetime" %}
+                          {% endif %}
+                            {% if serv.3 == "periodical" %}{% trans "periodical" %}
+                            {% endif %}
+                        <td>{% if serv.6 %}{{ serv.6 }}{% else %}---{% endif %}</td>
+                        <td>{% if serv.4 == "GRADUAL" %}{% trans "withdrawals during the billing period" %}
+                          {% endif %}
+                            {% if serv.4 == "AT_END" %}{% trans "withdrawals at the end of the billing period" %}
+                            {% endif %}
+                            {% if serv.4 == "AT_START" %}{% trans "withdrawals at the start of the billing period" %}
+                            
+                            {% endif %}</td>
+                        
+                        <td>{% if serv.5 == 1 %}{% trans "Month" %}{% else %}---{% endif %}</td>
+                        
+                        {% if serv.0 == 3 %}
+                        <td><a class="addlink" title='{% trans "Add service" %}' href="../localphones/add/">{% trans "Add service" %}</a></td>
+                        {% else %}
+                        <td><a class="addlink" title='{% trans "Add service" %}' href="{{ serv.0 }}/">{% trans "Add_service" %}</a></td>  
+                        {% endif %}
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+   <h2>{% trans "Activated services:" %}</h2>
+   {% if userservice %}
+      <table class="data">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">{% trans "My service:" %}</th>
+                    <th style="width: 15%;">{% trans "cost:" %}</th>
+                    <th style="width: 15%;">НДС(18%):</th>
+                    <th style="width: 15%;">Всего с НДС:</th>
+                    <th style="width: 20%;">Начало расчетного периода:</th>
+                    <th style="width: 15%;">{% trans "Action" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+              
+               {% for userse in userservice %}
+                    {% if userse.6 == 3 %}
+                    {% else %}
+                    <tr >
+                        {% if userse.6 == 4 or userse.6 == 6 or userse.6 == 7 or userse.6 == 8 %}
+                        <td >Аренда городского номера&nbsp;{{ userse.7 }}</td>
+                        {% else %}
+                        <td>{{ userse.2 }}</td>
+                        {% endif %}
+                        <td>{% if userse.3 %}{{ userse.3 }}{% else %}---{% endif %}</td>
+                        <td>{% if userse.4 %}{{ userse.4 }}{% else %}---{% endif %}</td>
+                        <td>{% if userse.5 %}{{ userse.5 }}{% else %}---{% endif %}</td>
+                        <td >{{ userse.1|date }}</td>
+                        {% if userse.6 == 4 or userse.6 == 6 or userse.6 == 7 or userse.6 == 8 %}
+                        <td><a class="delete_link" href="../localphones/delete/{{ userse.8 }}/">{% trans "Delete" %}</a></td>
+                        {% else %}
+                        <td><a class="delete_link" href="delete/{{ userse.0 }}/">{% trans "Delete" %}</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+               
+               {% else %}
+                <h4><p class="warning"> {% trans "No active service!" %}</p></h4>  
+               {%endif%}  
+            </tbody>
+        </table> 
+        
+             
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+{% endblock %}

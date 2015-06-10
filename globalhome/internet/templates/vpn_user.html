@@ -1,0 +1,49 @@
+{% extends 'base_private.html' %}
+{% load form_tags i18n %}
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+{{ block.super }}
+{% if vpn_logins %}
+<table class="type-2">
+            <thead>
+                <tr>
+                    <th>Логин</th>
+                    <th>Пароль</th>
+                    <th>{% trans 'Edit' %}</th>
+                    <th>{% trans 'Delete' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for st in vpn_logins %}
+                    <tr>
+                        <td>{{ st.login }}</td>
+                        <td>{{ st.value }}</td>
+                       
+                        <td><a href="edit/{{ st.id }}/">{% trans 'Edit' %}</a></td>
+                        <td><a href="delete/{{ st.id }}/">{% trans 'Delete' %}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% else %}
+   <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>У Вас нет VPN аккаунта. Вы можете добавить его ниже.</p>
+        </div>
+    </div>  
+{% endif %}
+    <div class="submit-row">
+        <p class="deletelink-box">
+            <p><a class="bt bt-blue2" href="add/">Добавить аккаунт</a></p>
+        </p>
+    </div>
+
+
+{% endblock %}
+
+
+
+
+

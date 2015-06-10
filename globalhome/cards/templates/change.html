@@ -1,0 +1,95 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" /> 
+
+{% if action_form %}{% if actions_on_top or actions_on_bottom %}
+<script type="text/javascript">
+(function($) {
+    $(document).ready(function($) {
+        $("tr input.action-select").actions();
+    });
+})(django.jQuery);
+</script>
+{% endif %}{% endif %}
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="/admin/">
+        {% trans "Home" %}
+      </a>
+       &rsaquo; 
+       <a href="/admin/account/">
+         {{ app_label|capfirst }}
+      </a>
+      &rsaquo;
+      <a href="/admin/account/customeraccount/"> 
+      {{ app_section }}
+      </a>
+      &rsaquo;
+      {{ change_telzone_group_title }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+
+  <div id="content-main">
+    {% if cl.formset.errors %}
+        <p class="errornote">
+        {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+        </p>
+        {{ cl.formset.non_form_errors }}
+    {% endif %}
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+    {% if zones and form %}
+        <h3>{% trans "For next telzones telzone group will be changed:" %}</h3>
+        <ul>
+            {% for zone in zones %}
+                <li><a href="/admin/tariffs/telzone/{{ zone.id }}/">{{ zone }}</a></li>
+            {% endfor %}
+        </ul> 
+        <form id="changelist-form" action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="submit-row">
+                <label>&nbsp;</label>
+                <input type="submit" name="Cancel" value = '{% trans "Cancel" %}' />
+                <input type="submit" name="Change" value = '{% trans "Change" %}' />
+            </div> 
+        </form>
+    {% else %}
+       Не передали список зон или форму!
+    {% endif %}
+    </div>
+  </div>
+{% endblock %}  

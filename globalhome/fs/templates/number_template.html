@@ -1,0 +1,235 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block extrahead %}
+	{{ block.super }} 
+
+	<script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/id_utils.js"></script>
+    <script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/wait_utils.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/general.js"></script>
+    <link href="{{ MEDIA_URL }}css/bh.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" language="javascript" charset="utf-8">
+	
+	function updateElementIndex(el, prefix, ndx) {
+		var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        var replacement = prefix + '-' + ndx + '-';
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+        replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+	function deleteForm(btn, prefix) {
+		var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+		if (formCount > 1) {
+			// Delete the item/form
+			$(btn).parent('.itemka'+prefix+'').remove();
+			var forms = $('.itemka'+prefix+''); // Get all the forms  
+			// Update the total number of forms (1 less than before)
+			$('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+			var i = 0;
+			// Go through the forms and set their indices, names and IDs
+			for (formCount = forms.length; i < formCount; i++) {
+				$(forms.get(i)).children().children().each(function () {
+					if ($(this).attr('type') == 'text' || $(this).attr('type') == 'comm') updateElementIndex(this, prefix, i);
+				});
+			}
+			}
+			
+        return false;
+    }
+
+    function addForm(btn, prefix) {
+		var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+		// You can only submit a maximum of 10 todo items 
+		if (formCount < 10 && formCount != 0) {
+			if (prefix=='number') {
+					// Clone a form (without event handlers) from the first form
+					var row = $(".itemka"+prefix+":first").clone(false).get(0);
+					// Insert it after the last form
+					$(row).removeAttr('id').hide().insertBefore("#add_id_" + prefix).slideDown(300);
+					// Remove the bits we don't want in the new row/form
+					// e.g. error messages
+					$(".errorlist", row).remove();
+					$(row).children().removeClass("error");
+					// Relabel or rename all the relevant bits
+					$(row).children().children().each(function () {
+						updateElementIndex(this, prefix, formCount);
+						$(this).val("");
+					});
+					// Add an event handler for the delete item/form link 
+					$(row).find(".delete").click(function () {
+						return deleteForm(this, prefix);
+					});
+					// Update the total form count
+					$("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+				//}
+			}
+			else {
+					// Clone a form (without event handlers) from the first form
+					var row = $(".itemka"+prefix+":first").clone(false).get(0);
+					// Insert it after the last form
+					$(row).removeAttr('id').hide().insertBefore("#add_id").slideDown(300);
+					// Remove the bits we don't want in the new row/form
+					// e.g. error messages
+					$(".errorlist", row).remove();
+					$(row).children().removeClass("error");
+					// Relabel or rename all the relevant bits
+					$(row).children().children().each(function () {
+						updateElementIndex(this, prefix, formCount);
+						$(this).val("");
+					});
+					// Add an event handler for the delete item/form link 
+					$(row).find(".delete").click(function () {
+						return deleteForm(this, prefix);
+					});
+					// Update the total form count
+					$("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+					$("#id_" + prefix + "-INITIAL_FORMS").val(formCount + 1);
+				}
+        } // End if
+        else if (formCount != 0) {
+			alert("Sorry, you can only enter a maximum of ten items.");
+        }
+        return false;
+    }
+    // Register the click event handlers
+    function ask(asd, pre) {
+		return addForm(asd, pre);
+    };
+
+    function del_asks(asd, pre) {
+		return deleteForm(asd, pre);
+    };
+	
+	
+	
+function change_template() {
+						$.ajax({
+								  url: "/account/number_template/changetemplate?templ="+document.getElementById("name_ready_template").value, 
+								  complete: function(html)
+									{					
+										var tab_item = document.getElementById('shagid');		
+										tab_item.innerHTML = html.responseText;
+										$('#name_template').val($('#selecttempl').val());
+										//alert(html.responseText);
+									},
+							  })
+					  }
+					  
+function check_direction_rule(a) {
+	var re = $(a).parents('.itemkanumber').children().eq(1).children().eq(1).val();
+	var str = $(a).siblings("#id_test_number").val();
+	re = re.replace(/\X/gi,'\\d')
+	var regexp = new RegExp('^'+re+'+$','i');
+	if (regexp.test(str)) 
+	   {
+		 $(a).siblings("#test_ok").show();
+		 $(a).siblings("#test_not_ok").hide();
+	   }
+   else
+	   {
+		 $(a).siblings("#test_ok").hide();
+		 $(a).siblings("#test_not_ok").show();
+	   }
+   }					  
+					  
+					  
+</script>
+
+{% endblock %}
+
+{% block content%}
+{% if error %}
+<style>
+#id_number {
+box-shadow: 0px 0px 0px 2px rgb(238, 238, 238);
+border-color: rgb(255, 64, 64);
+}
+</style>
+
+{% endif %}
+
+{% if error_in_4 %}
+<style>
+.itemkanumber > p > select
+{
+box-shadow: 0px 0px 0px 2px rgb(238, 238, 238);
+border-color: rgb(255, 64, 64);
+}
+
+</style>
+{% endif %}
+
+<h1 class="title">{{title}}</h1>
+
+<div class="ugc">
+	<p>Заполните все поля и нажмите кнопку "Сохранить"</p>
+</div>
+
+{{ block.super }}
+
+<form id="obzvon" name="new_obzvon" action="" method="post" enctype="multipart/form-data">
+
+<div class="form-sections">
+
+        <div class="form-section form-section2">
+            <label for="name_template" style="font: 13px 'Ubuntu', sans-serif;">Название:&nbsp;&nbsp;&nbsp;</label>
+            <input type="text" id="name_template" name="name_template" {% if select_template %}value="{{ select_template_name }}"{% else %}value="Новый шаблон"{% endif %} style="width: 170px;">
+            &nbsp;&nbsp;&nbsp;
+            <label for="name_ready_template" style="font: 13px 'Ubuntu', sans-serif;">Созданные шаблоны:&nbsp;&nbsp;&nbsp;</label>
+            <select id="name_ready_template" name="name_ready_template" style="width: 180px;" onchange="change_template();">
+            	<option value="0">Не выбрано</option>
+                {% if all_account_template %}
+                    {% for ch in all_account_template %}
+                                {% if ch.id == select_template %}
+                                <option  value="{{ ch.id }}" selected="selected">{{ ch.name }}</option>
+                                {% else %}
+                                <option  value="{{ ch.id }}">{{ ch.name }}</option>
+                                {% endif %} 
+                    {% endfor %}
+                {% endif %} 
+            </select>
+		</div>
+
+		
+<h3 class="title" style="font-size:20px; margin-left:15px; margin-top:10px; margin-bottom:5px;">Правила проверки номера</h3>
+    <div class="shag" id="shagid">
+       <div class="form_django form_ul">
+            <div class="form-section form-section2">
+                <table WIDTH="1000">
+                         <tr>
+                                <td valign="top" width="1000">
+                                    {{ formset_number.management_form }}
+                                    {% for form1 in formset_number.forms %}
+                                        <div class="itemkanumber">
+                                          {{ form1.as_p }}
+                                          <a href="javascript:void(0);" onClick="del_asks(this, 'number');"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a>
+                                          <label for="test_number">&nbsp;&nbsp;Проверить номер:</label>
+                                          <input id="id_test_number" style="width:120px;" name="test_number" type="text">
+                                          <input id="id_check_direction_rule" class="small color green button" style="display: inline;" onclick="check_direction_rule(this);" type="button" value="✔"/>
+                                          <label id="test_ok" style="color:#0C0; font-size:12px; font-weight:800; display:none;">&nbsp;Подходит</label>
+                                          <label id="test_not_ok" style="color:#F00; font-size:12px; font-weight:800; display:none;">&nbsp;Не подходит</label>
+                                          <br></br>
+                                          </br>
+                                         </div>
+                                    {% endfor %}
+                                    <button name="add" id="add_id_number" class="bt bt-blue2" type="button" onclick="ask(this, 'number');" style="width: 270px;">Добавить +</button>
+                               </td>
+                               <td>
+                               </td>
+                          </tr>
+                </table>
+    
+             </div>
+         </div>    
+    </div>   
+    
+                    </div>
+
+<div class="form-sections-submit">
+	<input id="subm" class="bt bt-blue" type="submit" name="submit"  value="Сохранить"/>
+</div>
+</form>  
+      
+{% endblock %}

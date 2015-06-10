@@ -1,0 +1,218 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<script>
+	function show()  
+        { var val = $("#all_number_id").val()
+            $.ajax({  
+                url: "/account/obzvon/preold/ajax/?val="+ val,  
+                cache: false,  
+                success: function(html){ 
+				html = JSON.parse(html);
+				for (var i = 0; i < html.length; i++) 
+							{	
+									$('#status_ajax_' + html[i]['id'] + '').each(function() {
+									$( this ).fadeOut(800);
+									});
+									
+									$('#answer_ajax_' + html[i]['id'] + '').each(function() {
+									$( this ).fadeOut(800);
+									});
+									
+									$('#percent_ajax_' + html[i]['id'] + '').each(function() {
+									$( this ).fadeOut(800);
+									});
+									
+									$('#dtmf_ajax_' + html[i]['id'] + '').each(function() {
+									$( this ).fadeOut(800);
+									});
+									
+									$('#status_ajax_' + html[i]['id'] + '').attr('name', html[i]['status']);
+									$('#answer_ajax_' + html[i]['id'] + '').attr('name', html[i]['answer']);
+									$('#percent_ajax_' + html[i]['id'] + '').attr('name', html[i]['percent']);
+									$('#dtmf_ajax_' + html[i]['id'] + '').attr('name', html[i]['digits']);
+									
+									$('#status_ajax_' + html[i]['id'] + '').promise().done(function() {
+										if ($(this).attr("name"))
+													{
+														$(this).text($(this).attr("name"));
+													}
+											else 
+													{
+														$(this).text("Не обзванивался");
+													}
+									$(this).fadeIn(800);
+									});
+									
+									$('#answer_ajax_' + html[i]['id'] + '').promise().done(function() {
+										if ($(this).attr("name")!=0)
+													{
+														$(this).text($(this).attr("name"));
+													}
+											else 
+													{
+														$(this).text("Ответа не было");
+													}
+										
+										
+										$(this).fadeIn(800);
+									});
+									
+									$('#percent_ajax_' + html[i]['id'] + '').promise().done(function() {
+										if ($(this).attr("name")!=0)
+													{
+														$(this).text($(this).attr("name"));
+													}
+											else 
+													{
+														$(this).text("0");
+													}
+										
+										
+										$(this).fadeIn(800);
+									});
+									
+									$('#dtmf_ajax_' + html[i]['id'] + '').promise().done(function() {
+										if ($(this).attr("name")!='None')
+													{
+														$(this).text($(this).attr("name"));
+													}
+											else 
+													{
+														$(this).text("Ничего");
+													}
+										
+										
+										$(this).fadeIn(800);
+									});
+							} 
+
+                }  
+            });  
+        }  
+	
+	$(document).ready(function() {
+		//show($("#all_number_id").val());  
+		if (document.getElementById("buf").value == 0) {intervalID = window.setInterval(show, 10000)
+		}
+		show();
+		//setInterval(show($("#all_number_id").val()), 4000);  
+	})
+	
+	
+</script>
+
+<h1 class="title">{{ title }} &#9742;</h1>
+{% if not statistics %}
+<div class="ugc">
+        <p>Информация по звонкам обновляется каждые 10 секунд</p>
+</div>
+{% endif %}
+
+{% if status == 4 %}
+{% if date_start %}
+<br>
+<div class="ugc">
+        <p>Обзвон приостановлен, следующее время запуска: {{date_start}}</p>
+</div>
+{% endif %}
+{% endif %}
+{{ block.super }}
+        <form action="." method="post" id="rules_list_form">
+        <input id="all_number_id" name="all_number_idas" type="hidden" value="{{all_number_id}}" />
+        <input id="buf" name="bufname" type="hidden" value="{{status}}" />
+            {% if model_number %}
+                <table class="type-2">
+                    <thead>
+                        <tr>
+                            <th width="18%" scope="col">Номер</th>
+                            <th width="20%" scope="col">Файл</th>
+                            <th width="20%" scope="col">Статус</th>
+                            <th width="18%" scope="col">Длительность разговора</th>
+                            <th width="18%" scope="col">Процент прослушанного сообщения, %</th>
+                            {% if interactive %}
+                            <th width="18%" scope="col">Нажатые кнопки</th>
+                            {% endif %}
+                            
+                        </tr>
+                    </thead>
+                    {% for number in model_number %}
+                        <tr>
+                            <td>{{ number.number }}</td>
+                            <td>{% if file %}{{ file }}{% else %}Используется IVR{% endif %}</td>
+                            
+                            <td><div id="status_ajax_{{number.id}}">{% if not number.status %}Не обзванивался{% else %}{{ number.status }}{% endif %}</div></td>
+                            
+                            <td><div id="answer_ajax_{{number.id}}">{% if not number.answer_time %}Ответа не было{% else %}{{ number.answer_time }}{% endif %}</div></td>
+                            <td><div id="percent_ajax_{{number.id}}">{% if not number.percent %}0{% else %}{{ number.percent }}{% endif %}</div></td>
+                            {% if interactive %}
+                            <td><div id="dtmf_ajax_{{number.id}}">{% if number.digits == "None" %}Ничего{% else %}{{ number.digits }}{% endif %}</div></td>
+                            {% endif %}
+                            
+                        </tr>
+                    {% endfor %}
+                </table>
+                
+                {% if interactive %}
+                {% if statistics %}
+                <h1 class="title">Статистика по нажатиям:</h1>
+                 <table class="type-2">
+                 <thead>
+                        <tr>
+                            <th width="18%" scope="col">Что нажали</th>
+                            <th width="20%" scope="col">Сколько человек</th>
+                        </tr>
+                    </thead>
+                    {% for key, value in statistics.items %} 
+                    <tr>
+                           {% if key == "None" %}
+                           		<td>Ничего не нажали</td>
+                           {% else %}
+                           		<td>{{key}}</td>
+                           {% endif %}
+                            <td>{{value}}</td>
+                    </tr>
+                        {% endfor %}
+                  </table>
+               {% endif %}
+                {% endif %}
+                
+                
+            {% else %}
+            
+                <div class="status status-info">
+                    <i class="ico"></i>
+                    <div class="status-i">
+                        <p>Обзвон завершился. Вы можете посмотреть его результаты во вкладке "Завершенные обзвоны"</p>
+                    </div>
+                </div>
+                
+            {% endif %}
+            
+            <div class="form-submit-left">
+                <a class="bt bt-blue2" href="/account/obzvon/new/">Новый обзвон</a>
+            </div>
+            <div class="form-submit-right">
+                <a class="bt bt-blue2" href="/account/obzvon/repeat/{{id_obzvon}}/">Повторить обзвон</a>
+            </div>
+            
+            
+            
+            
+                <div class="form-submit-right" style="text-align: center !important; float:none !important;">
+                {% if status == 4 %}
+                {% if not date_start %}
+                <input id="subm" class="bt bt-blue" type="submit" name="submit_start"  value="Пуск"/>
+                 {% endif %}
+                 {% endif %}
+                 {% if status == 3 %}
+                <input id="subm" class="bt bt-blue" type="submit" name="submit_pause"  value="Пауза"/>
+                {% endif %}
+                </div>
+            
+            
+        </form>
+
+{% endblock %}

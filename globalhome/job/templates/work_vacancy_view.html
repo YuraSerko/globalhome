@@ -1,0 +1,600 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+
+{% block content %} 
+
+
+ {% block sendin %}
+ {{block.super}}
+         {% endblock %}
+ 
+
+  
+ 
+  
+  <article id="right">
+	
+				
+			
+				
+				
+				  {% block burat2 %}
+                  {{block.super}}
+                  {% endblock %}
+				
+				
+			
+			
+		 <div id='centr_field'>
+				{% block cap %}
+				{{block.super}}
+         {% endblock %} 
+                
+    
+	 	<!-- мои данные -->
+ 		{% block work_login %}
+	 	{{ block.super }}
+		{% endblock %}
+	 	
+	 	<div id  = "vac_block">
+	 		<div class = "main_wishes">
+		 			<div>
+						<div id = "vacancy_name">
+							{{ duties_and_req.vacancy_name }}
+						</div>
+						<div id="company" >
+							{{ vacancy_obj.employer_data.company_name }} {{ vacancy_obj.employer_data.get_ownership_form_display }}
+						</div>
+						<div id="date_block">
+					    	Размещено:
+					    	<p>{{ duties_and_req.vacancy.publication_date|date:"d. m. Y" }}</p>
+					    </div>
+					</div>
+					
+					
+					<!-- зарплата -->
+					
+						{% if condition.salary_from != None and condition.salary_to == None %}
+						<div id = "salary_block">
+					 		от <font class = "vacancy_title">{{ condition.salary_from }}</font> руб.
+					 	</div>
+					    {% endif %}
+					    
+					    {% if condition.salary_from == None and condition.salary_to != None %} 
+					    <div id = "salary_block">
+					 		до <font class = "vacancy_title">{{ condition.salary_to }}</font> руб.
+					 	</div>
+					    {% endif %}
+					    
+					    {% if condition.salary_to  and condition.salary_from %}
+					    <div id = "salary_block"> 
+					 		<font class = "vacancy_title">{{ condition.salary_from }}</font>-<font class = "vacancy_title">{{ condition.salary_to }}</font> руб.
+					    </div>
+					    {% endif %}	
+				    
+				    
+				    <!-- exp -->
+				    <!-- строго без опыта работы (можно без опыта работы)-->
+				    <div class = "work_ed_block">
+						<div class = "work_exp">
+							{% if duties_and_req.no_exp_strict == True %}
+								Без опыта работы
+							{% else %}
+								{% if needed_experience != '' %}
+									{{ needed_experience }}	
+								{% else %}
+									Можно без опыта работы;
+								{% endif %}
+							{% endif %}
+						</div>
+						
+						
+						<!-- образование -->
+							<div class = 'education'>
+								{% if duties_and_req.get_education_level_display != None %}
+									{% if duties_and_req.education_level in ed_list %}
+										{{ duties_and_req.get_education_level_display }} образование.
+									{% else %}
+										{{ duties_and_req.get_education_level_display }};
+									{% endif %}
+								{% endif %}
+							</div>
+				    </div>
+				    
+				    <div id = 'teritory_block'>
+				    	{{ condition.city.city }}
+				    </div>
+				</div>	
+				
+				
+				
+			
+				<div id="vacancy_content">
+				
+				<div class = "section_title">
+					Сферы деятельности
+				</div>
+				<div class = 'section_block'>
+					{% for activity in duties_and_req.activity.all %}
+						<p>{{ activity.activity_field.activity_field }}->{{ activity.specialization }}
+						{% if not forloop.last %};{% else %}.  {% endif %}
+					{% endfor %}
+				</div>
+				
+				<div class="section_title">
+					Описание вакансии, обязанности
+				</div>
+				<div class = 'section_block'>
+					{{ duties_and_req.vacancy_discription }}
+				</div>
+				
+				{% if duties_and_req.age_from != None or duties_and_req.age_to != None or duties_and_req.sex != 1 or duties_and_req.nationality.all|length != 0 or for_langs.count != 0 or duties_and_req.work_permission != False or duties_and_req.medical_book != False or duties_and_req.international_passport != False or duties_and_req.driving_license_A != False or  duties_and_req.driving_license_B != False or  duties_and_req.driving_license_C != False or  duties_and_req.driving_license_D != False or duties_and_req.driving_license_E != False or duties_and_req.car_needed != False %}
+				 
+				 
+				  
+					<div class = "section_title">    <!-- перечислить через and все переменные -->
+						Требования
+					</div>
+					<div class = 'section_block'>
+						<!-- возраст -->	
+						{% if duties_and_req.age_from != None and duties_and_req.age_to == None %}
+						<ul class = "params"><li> Возраст:
+					 		от <font class = "vacancy_title">{{ duties_and_req.age_from }}</font> 
+					 	</li></ul>
+					    {% endif %}
+					    
+					    {% if duties_and_req.age_from == None and duties_and_req.age_to != None %} 
+					    <ul class = "params"><li> Возраст:
+					 		до <font class = "vacancy_title">{{ duties_and_req.age_to }}</font> 
+					 	</li></ul>
+					    {% endif %}
+					    
+					    {% if duties_and_req.age_to  and duties_and_req.age_from %}
+					    <ul class = "params"><li> Возраст:
+					 		<font class = "vacancy_title">{{ duties_and_req.age_from }}</font>-<font class = "vacancy_title">{{ duties_and_req.age_to }}</font> 
+					    </li></ul>
+					    {% endif %}	
+							
+							
+						<!-- пол  -->
+						
+						{% if duties_and_req.sex == 2 %}  
+						<ul class = "params"><li> 
+					 		Мужчина
+					 	</li></ul>	
+						{% endif %}	
+						{% if duties_and_req.sex == 3 %}  
+						<ul class = "params"><li> 
+					 		Женщина
+					 	</li></ul>	
+						{% endif %}		
+							
+						
+						
+						<!-- гражданство если есть -->
+						{% if duties_and_req.nationality.all|length != 0 %}
+							<ul class = "params"><li>гражданство:			
+							{% for nat in duties_and_req.nationality.all %}
+								{{ nat.nationality }}
+							    {% if not forloop.last %}, {% else %};{% endif %}
+							{% endfor %}
+							</li></ul>
+						{% endif %}
+							
+							
+							
+						<!--языки-->
+						{% if for_langs.count != 0 %}
+						<ul class = "params"><li>
+							{% for for_lang in for_langs %}
+								{% if for_lang.language != None and for_lang.language_level != None %}
+									{{ for_lang.language }} ({{ for_lang.get_language_level_display }});
+								{% endif %}
+							{% endfor %}
+						</li></ul>						
+						{% endif %}
+						
+						
+						<!-- разрешение на работу -->
+						{% if  duties_and_req.work_permission != False %}
+						<ul class = "params"><li>
+							Необходимо разрешение на работу
+						</li></ul>		
+						{% endif %}
+						
+						
+						<!-- медкнижка -->
+						{% if  duties_and_req.medical_book != False %}
+						<ul class = "params"><li>
+							Нужна медицинская книжка
+						</li></ul>		
+						{% endif %}
+						
+						<!-- загран пасспорт -->
+						{% if  duties_and_req.international_passport != False %}
+						<ul class = "params"><li>
+							Нужен загран паспорт
+						</li></ul>		
+						{% endif %}
+						
+						
+						<!-- права -->
+						{% if duties_and_req.driving_license_A != False or  duties_and_req.driving_license_B != False or  duties_and_req.driving_license_C != False or  duties_and_req.driving_license_D != False or duties_and_req.driving_license_E != False %}
+						<ul class = 'params'><li>Права категории:
+							{% if duties_and_req.driving_license_A != False %}
+							 	A
+							{% endif %}
+							{% if duties_and_req.driving_license_B != False %}
+							 	B
+							{% endif %}
+							{% if duties_and_req.driving_license_C != False %}
+							 	C
+							{% endif %}
+							{% if duties_and_req.driving_license_D != False %}
+							 	D
+							{% endif %}
+							{% if duties_and_req.driving_license_E != False %}
+							 	E
+							{% endif %}
+						</li></ul>
+					   {% endif %}
+					   
+					   <!-- ла -->
+					   {% if duties_and_req.car_needed != False %}
+						<ul class = 'params'><li>Необходимо наличие личного автомобиля
+						</li></ul>
+					   {% endif %}
+					</div>
+				{% endif %} <!-- long long if -->				
+				
+				<!-- дополнительные требования -->
+			   
+			   {% if duties_and_req.additional_requirements != '' %}
+			   <div class = "section_title">    <!-- перечислить через and все переменные -->
+				Дополнительные требования
+			   </div>
+			   <div class = 'section_block'>
+					{{ duties_and_req.additional_requirements }}
+			   </div>
+			   {% endif %}
+			   
+			
+			   
+			   <!-- теперь условия (работодатель предлагает) -->
+			   <!-- пройтись по всем -->
+			   {% if condition.open_air != False or condition.traveling != False or  condition.business_trip != False or condition.registration != False or condition.DMS_employee != False or condition.DMS_employee_family != False or condition.mobile != False or condition.food != False or condition.transport != False or condition.special_clothes != False or condition.offical_car != False or condition.sport_hall != False or condition.corporate_training != False or condition.career_growth != False %}
+			        <div class = "section_title">   
+						Работодатель предлагает
+					</div>
+					<div class = 'section_block'>
+						<!-- открытый воздух -->
+					   	{% if  condition.open_air != False %}
+					   	<ul class = 'params'><li>
+					   		Работа на открытом воздухе
+						</li></ul>
+						{% endif %}
+						
+						<!-- разъездной характер -->
+					   	{% if  condition.traveling != False %}
+					   	<ul class = 'params'><li>
+					   		Разъездной характер работы
+						</li></ul>
+						{% endif %}
+						
+						<!-- командировки -->
+					   	{% if  condition.business_trip != False %}
+					   	<ul class = 'params'><li>
+					   		Командировки
+						</li></ul>
+						{% endif %}
+						
+						<!-- оформление больничного -->
+					   	{% if  condition.registration != False %}
+					   	<ul class = 'params'><li>
+					   		Оформление, отпуск, больничный и пр. по ТК
+						</li></ul>
+						{% endif %}
+						
+						<!-- ДМС для сотрудников -->
+					   	{% if  condition.DMS_employee != False %}
+					   	<ul class = 'params'><li>
+					   		ДМС для сотрудников
+						</li></ul>
+						{% endif %}
+						
+						<!-- ДМС для сотрудников и членов семей -->
+					   	{% if  condition.DMS_employee_family != False %}
+					   	<ul class = 'params'><li>
+					   		ДМС для сотрудников и членов семей
+						</li></ul>
+						{% endif %}
+						
+						<!-- мобильная связь -->
+					   	{% if  condition.mobile != False %}
+					   	<ul class = 'params'><li>
+					   		Компенсация мобильной связи
+						</li></ul>
+						{% endif %}
+						
+						<!-- Компенсация питания -->
+					   	{% if  condition.food != False %}
+					   	<ul class = 'params'><li>
+					   		Компенсация питания
+						</li></ul>
+						{% endif %}
+						
+						
+						<!-- Компенсация проезда и ГСМ -->
+						{% if  condition.transport != False %}
+					   	<ul class = 'params'><li>
+					   		Компенсация проезда и ГСМ
+						</li></ul>
+						{% endif %}
+						
+						<!-- спецодежда -->
+						{% if  condition.special_clothes != False %}
+					   	<ul class = 'params'><li>
+					   		Предоставление форменной/спецодежды
+						</li></ul>
+						{% endif %}
+						
+						
+						<!-- служебный автомобиль -->
+						{% if  condition.offical_car != False %}
+					   	<ul class = 'params'><li>
+					   		Служебный автомобиль
+						</li></ul>
+						{% endif %}
+						
+						
+						<!-- Спортзал -->
+						{% if  condition.sport_hall != False %}
+					   	<ul class = 'params'><li>
+					   		Спортзал
+						</li></ul>
+						{% endif %}
+						
+						
+						<!-- Корпоративное обучение и тренинги -->
+						{% if  condition.corporate_training != False %}
+					   	<ul class = 'params'><li>
+					   		Корпоративное обучение и тренинги
+						</li></ul>
+						{% endif %}
+						
+						
+						<!-- Возможность профессионального и карьерного роста -->
+						{% if  condition.career_growth != False %}
+					   	<ul class = 'params'><li>
+					   		Возможность профессионального и карьерного роста
+						</li></ul>
+						{% endif %} 
+						
+						
+				   </div>
+			   {% endif %} <!-- long long if ended -->
+			   
+			   
+			   <!-- дополнительные условия -->
+			   {% if condition.additionl_cond != '' %}
+			   <div class = "section_title">   
+				Дополнительные условия
+			   </div>
+					{{ condition.additionl_cond }}
+			   {% endif %}
+			   
+			   <div id = "display_contacts" >показать контакты</div>
+			  
+				   <div id = "contacts" style = "display:none;">
+				   		Контактное лицо: {{ vacancy_obj.employer_data.name }} {{ vacancy_obj.employer_data.surname }}
+				   		<p> тел.+ 7 ({{ vacancy_obj.employer_data.telephone_code }}){{ vacancy_obj.employer_data.telephone_number }}
+				   		{% if  vacancy_obj.employer_data.telephone_code_add != None and vacancy_obj.employer_data.telephone_number_add != None %}
+				   			<p> тел.+ 7 ({{ vacancy_obj.employer_data.telephone_code_add }}){{ vacancy_obj.employer_data.telephone_number_add }}
+				   		{% endif %}
+				   </div>
+			  		
+		</div>
+		
+		</div> <!-- vac_block -->
+	   	<!-- окончание моих данных -->
+   
+   
+   
+   </div>
+			
+	</article>
+  
+  
+  
+<style type="text/css">
+
+#vac_block{
+	width:700px;
+	border:1px solid lightgray;
+	}
+
+
+
+#vacancy_content{
+	width:700px;
+	/*border:1px solid lightgray; */
+	padding-left:5px;
+	padding-right:5px;
+	padding-top:15px;
+	padding-bottom:15px;
+	}
+
+#vacancy_name{
+	font-size:29px;
+	font-weight:bold;
+	margin-bottom:15px;
+	color:#2268C6;
+	display:inline-block;
+	width:60%;
+	}
+	
+#salary_block{
+	font-size:29px;
+	margin-bottom:15px;
+	font-weight:bold;
+	color:#2268C6;
+	}
+	
+#date_block{
+	display:inline-block;
+	vertical-align:middle;
+	width:14%;
+	float:right;
+	padding-top:5px;	
+	}
+	
+#teritory_block{
+	margin-bottom:15px;
+	font-weight:bold;
+	}
+
+.section_title{
+	font-size:29px;
+	margin-bottom:13px;
+	
+	}
+	
+.section_block{
+	margin-bottom:25px;}
+
+.hr_single{
+	border:1px solid lightgray
+	}
+	
+.hr_double{
+	border:2px solid lightgray
+	}
+
+.main_wishes{
+	background:#F0EEEE;
+	padding:5px;
+	
+	}
+	
+.work_exp{
+	display:inline-block;}
+	
+.education{
+	display:inline-block;}
+
+.work_ed_block{
+	font-weight:bold;
+	}
+
+.params li{
+	margin-left:20px;}	
+	
+.params{
+	list-style-type: square}
+	
+#display_contacts{
+	 border-bottom: 1px dashed #000080;
+	 display:inline-block;
+	 color: #2268C6;
+	 cursor:pointer;
+	 }
+
+#company{
+	display:inline-block;
+	 width:24%;
+	 vertical-align:top;
+	 padding-top:5px;	
+	 }
+	
+</style>
+  
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+
+// мой javascript
+
+
+
+// блог залогирован
+$(document).ready(function(){
+		
+		
+			})
+
+// окончание блока залогирован
+
+$('#display_contacts').click(function () {
+	$('#contacts').toggle();
+    })
+
+
+    
+
+    
+// окончание моего javascript
+
+</script>
+<!--
+<script>
+      div="_ph1968";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1968&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+	<script>
+      div="_ph1971";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1971&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>-->
+    
+    <a href="#" class="overlay" id="hs_login2" ></a>
+		<div class="main_modal_tip">
+			<div class="modal_tip">
+				<a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+				<h2>Вы воспользовались услугами Бесплатной* Wi-Fi сети<br> <a href='http://globalhome.su/content/article/hot_spot/' target="_blank">HotSpot GlobalHome </a><h2>
+				<ul>
+					<li>Скорость доступа к интернет ресурсам составляет до 15 мбит\с.</li>
+					<li>Для более подробной информации нажмите<a href="http://globalhome.su/content/article/hot_spot/" target="_blank">здесь</a></li>
+					<li>Для открытия сайта или получения нужной информации введите запрос в поисковой строке.  Далее перейдите по ссылке в выдаче информации.</li>
+				</ul>
+				<p>* - на период тестирования.</p>
+				
+				<div class="lower_part">
+				
+				{%if trial%}
+					<form action = '/' method = 'GET' class="forma modal" id='' name = 'search_form' onsubmit = 'javascript:log();'>
+					{% else%}
+					<form action = '/' method = 'GET' class="forma modal"  name = 'search_form' >
+					{% endif%}
+					<input tabindex="4" type="text" class="searchbox modal" name="query" value=""  id = 'ya_input_log' />
+					<input  type="submit"   class="searchbox_submit modal"   value="Найти"  /><span class="tri"></span>
+						
+					</form>
+				</div>	
+			</div>
+		</div>
+		
+		{% block login_1 %}
+		{{block.super}}
+         {% endblock %}
+		
+		 {% block complaint_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+         {% block review_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base_private.html' %}
+{% load form_tags i18n %}
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+<div class="ugc">
+    <p>Исправте форму и сохраните изменения.</p>
+</div>   
+
+{{ block.super }}
+<div class="form_django">
+<form name="user_edit" action="#" method="post">
+
+           {% for field in form %}
+		            {% form_field field block %}
+		   {% endfor %}
+
+            <div class="form-submit">
+                <div class="form-submit-left">
+                    <small><span class="req">*</span> — пункты обязательные для заполнения</small>
+                </div>
+                 
+            <div class="form-submit-right">
+                <input type="button" class="bt bt-blue2" value='{% trans "Cancel" %}' name="cancel" onclick="location.href='/account/internet/vpn/'"/>
+                <input type="submit" class="bt bt-blue2" value='Сохранить' name="Сохранить" />
+            </div>
+            </div>  
+		    
+ 
+</form>
+</div>
+{% endblock %}
+
+
+
+
+

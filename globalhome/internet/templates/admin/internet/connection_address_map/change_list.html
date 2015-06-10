@@ -1,0 +1,336 @@
+﻿{% extends "admin/change_list.html" %}
+
+
+
+
+{% block content %}
+<script src="{{ MEDIA_URL }}js/jquery-1.7.2.min.js"></script>
+
+
+<div style ="float:left; height: 450px;width: 50%; ">
+
+
+
+
+{{ block.super }}
+
+
+
+
+<style>
+.addlink{ position:absolute;  width:300px;}
+#changelist-filter {width:45%; position:relative; height:203px;  display:inline-block !important; float:left; top:-1px;}
+#changelist-filter h3 {  display:inline-block;  position:absolute; bottom:164px;} 
+#changelist-filter h3:nth-child(4) {right:130px;  } 
+#changelist-filter ul{ display:inline-block;  margin-top:33px; right:210px;} 
+#changelist-filter ul:nth-child(3){  position:relative;bottom:16px; left:0px; }
+#changelist-filter ul:nth-child(5){  position:absolute; top:0px;  right:0px; }
+#changelist #toolbar{background:#efefef;!important; }
+.ymaps-i-ua_js_yes{border: solid 2px #ccc;!important;}
+ymaps.ymaps-map {z-index:1 !important;}
+.note{color:#666;}
+.check_box_list{margin-left:50px;}
+
+.actions{margin-right:0px; !important;}
+.results{margin-right:0px; !important;}
+.exactions{
+ 	color: #999;
+    padding: 3px;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #ddd;
+    background: white ;
+}
+.expaginator{ color: #666;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    background: white;
+    overflow: hidden;
+    width:auto;
+    font-size: 11px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	line-height: 22px;
+	margin: 0;}
+</style>
+
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block sidebar  %}
+
+
+
+
+
+<div id="map" style=" float:left; height: 450px; width:50% ; left:10px;"></div>
+
+ <style>
+   .list {
+    list-style-type: none; /* Убираем маркеры */
+   }
+    .uli {
+ 	margin-left: 10px; /* Отступ слева в браузере IE и Opera */
+ 	padding-left: 0px; /* Отступ слева в браузере Firefox */
+ </style>
+<div class = "legend" style=" border:solid 2px #ccc; clear:both; width:50%; margin-left:50%; padding-top:10px; padding-bottom:10px;">
+<ul class = "uli">
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotgrey.png" width="21" height="24" align=absmiddle />
+0 Планируется подключение </li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotdarkgreen.png" width="21" height="24" align=absmiddle />
+1 Установлены центральные ящики </li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotviolet.png" width="21" height="24" align=absmiddle />
+2 Дом подключен к интернет
+</li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotnight.png" width="21" height="24" align=absmiddle />
+3 Протянуты кабели </li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotgreen.png" width="21" height="24" align=absmiddle />
+4 Установлены ящики на этажах и сделана оконцовка
+</li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotpink.png" width="21" height="24" align=absmiddle />
+5 Установлены микротики и коммутаторы </li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotred.png" width="21" height="24" align=absmiddle />
+6 Дом запущен в тест
+</li>
+<li class = "list"><img src="/media/img/yamapsplacemarks/dotlightblue.png" width="21" height="24" align=absmiddle />
+<img src="/media/img/yamapsplacemarks/wifi.png" width="21" height="24" align=absmiddle />
+7 Дом запущен в продакшн
+
+</li>
+</ul>
+</div>
+
+
+<div id="rfilter" style="margin-left:40.5%; padding-top:0px; padding-bottom:0px; padding-left:10px; color:#999;width:400px;
+margin-top:0px; position:relative; top:-1px; background:#efefef; font-size: 11px;  height:203px;   ">
+ 
+ 
+<form  id = "myform" name= "myform"   method="POST" > {% csrf_token %}
+<div class = "note"><br> <b>Готовность  </b></br>  </div>
+    <div class = "note"><input type="checkbox" id ="all_nothing" value="1"  onchange = "all_nothing_set()">Выделить все/снять выделение<br>
+        <div class = "check_box_list">
+          
+  	       <input type="checkbox" id ="readiness0" value="Q(readiness_degree0__exact=1)" name="readiness0">Планируется подключение<br>
+           <input type="checkbox" id ="readiness1" value="Q(readiness_degree1__exact=1)" name="readiness1">Установлены центральные ящики<br>
+           <input type="checkbox" id ="readiness2" value="Q(readiness_degree2__exact=1)" name="readiness2">Дом подключен к интернет<br>
+           <input type="checkbox" id ="readiness3" value="Q(readiness_degree3__exact=1)" name="readiness3">Протянуты кабели<br>
+           <input type="checkbox" id ="readiness4" value="Q(readiness_degree4__exact=1)" name="readiness4">Установлены ящики на этажах и сделана оконцовка<br>
+           <input type="checkbox" id ="readiness5" value="Q(readiness_degree5__exact=1)" name="readiness5">Установлены микротики и коммутаторы<br>
+           <input type="checkbox" id ="readiness6" value="Q(readiness_degree6__exact=1)" name="readiness6">Дом запущен в тест<br>
+           <input type="checkbox" id ="readiness7" value="Q(readiness_degree7__exact=1)" name="readiness7">Дом запущен в продакшн<br>
+        </div>
+        <input type="submit" name="submit" onclick="filter()" value="Применить фильтр" style = "padding:1px 1px 1px 1px;" />
+    </div> 
+ </div>
+</form>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+$("#changelist-filter").after($("#rfilter"));
+$("#rfilter").after($("#rhidfilter"));
+
+$(".actions").addClass("exactions").removeClass("actions")
+$(".results").addClass("exresults").removeClass("results")
+$(".paginator").addClass("expaginator").removeClass("paginator")
+//добавить onclick к элементу
+
+
+ //меняем ссылку фильтра -  добавлеяем функцию 
+for (var li_id = 1; li_id<=7; li_id++){ 	
+ 		param = $("#changelist-filter ul:nth-child(3) li:nth-child(" + li_id.toString() + ") a").attr('href');
+ 		st_link = $("#changelist-filter ul:nth-child(3) li:nth-child(" + li_id.toString() + ") a").text();
+ 		$("#changelist-filter ul:nth-child(3) li:nth-child(" + li_id.toString() + ") a").attr('href', '#');
+ 		str_fin = "standart_filter(this," +   '"' +"/admin/internet/connection_address_map/" + param +  '"' + ")";
+ 		$("#changelist-filter ul:nth-child(3) li:nth-child(" + li_id.toString() + ") a").attr('onclick', str_fin);
+ }
+ 
+ 
+// добавляем функцию в кнопку "Найти"
+$("#changelist-search input[type=submit]").attr("onclick", "search()");
+$("#changelist-search input[type=submit]").get(0).type = 'button';
+
+
+
+function search(){ 
+	to_go = $("#changelist-search input[type=text]").val();
+	cur_url = window.location.toString();
+	if (cur_url.indexOf('?') != -1)
+		url = cur_url + '&q=' + to_go;
+	if (cur_url.indexOf('?') == -1)
+		url = cur_url + '?q=' + to_go;
+	$('#myform').attr('action',url);
+	myform.submit.click();
+	}
+	
+
+function standart_filter(qwe, url){ 
+	$('#myform').attr('action',url);
+	myform.submit.click();
+	}
+
+
+
+
+function all_nothing_set(){
+if (document.getElementById("all_nothing").checked == false)
+    // clear all checkboxes
+    {for( i = 0; i<=7; i++)
+        {id =  "readiness"+i;;
+         document.getElementById(id).checked = false;}}    
+    //end of clearing 
+if (document.getElementById("all_nothing").checked == true)
+  //full all checkboxes
+    {for( i = 0; i<=7; i++)
+        {id =  "readiness"+i;
+         document.getElementById(id).checked = true;}}    
+    //end of fulling
+}
+
+
+ // check box set
+ $( document ).ready(function() {
+ var temp_str ="";
+ temp_str = temp_str + '{{ fill_checkbox }}';
+ if (temp_str !="") {
+   arr_chb = temp_str.split(',')
+   //ставим checbox true где надо (массив )
+   var arr_chb_len = arr_chb.length;
+     for (i=0; i<arr_chb_len-1; i++) {
+ 		id = "readiness"+arr_chb[i];
+		document.getElementById(id).checked = true;
+	 }
+ }
+//менеяем количество всех адресов
+var quantity_st = "";
+	quantity_st = quantity_st + '{{ obj_quantity }}';
+	if (quantity_st!="") {
+	$(".question a").text('Выбрать все Адреса подключения к интернет с картойa '+ quantity_st);}
+	$(".small a").text(quantity_st + ' всего');
+	
+});  
+  
+
+</script>
+
+
+
+
+ 
+<script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+
+
+
+
+
+
+
+ <script type="text/javascript">
+        ymaps.ready(init);
+        var myMap, 
+            myPlacemark, myPlacemark1;
+            
+
+        function init(){
+  
+
+            myMap = new ymaps.Map ("map", {
+                center: [55.76, 37.64],
+                zoom:12,
+                behaviors: ["default", "scrollZoom"],
+            }); 
+        
+
+            myMap.controls.add(
+            new ymaps.control.ZoomControl()
+            );
+
+
+
+ 		    {% for e in coordhotspot  %}
+ 		    {% if e.readiness_degree == 0 %}
+                   pr= "twirl#greyDotIcon"
+               {% endif %}    
+ 		    {% if e.readiness_degree == 1 %}
+                   pr= "twirl#darkgreenDotIcon"
+               {% endif %}  
+ 		    {% if e.readiness_degree == 2 %}
+                   pr= "twirl#violetDotIcon"
+               {% endif %}  
+            {% if e.readiness_degree == 3 %}
+                   pr= "twirl#nightDotIcon"
+            {% endif %}  
+             {% if e.readiness_degree == 4 %}
+                   pr= "twirl#greenDotIcon"
+               {% endif %}  
+ 		    {% if e.readiness_degree == 5 %}
+                   pr= "twirl#pinkDotIcon"
+               {% endif %}  
+            {% if e.readiness_degree == 6 %}
+                   pr= "twirl#redDotIcon"
+            {% endif %} 
+            {% if e.readiness_degree == 7 %}
+                  {% for n in e.persons.all %}
+                      {% if n.id == 2 %}
+                      	 pr= "twirl#lightblueDotIcon"
+                      {% endif %}
+                      {% if n.id == 5 %}
+                      	 pr= "twirl#wifiIcon"
+                      {% endif %}
+                      {% if n.id == 2 and   n.id == 5 %}
+                      	 pr= "twirl#wifiIcon"
+                      {% endif %}
+                  {% endfor %}
+            {% endif %}   
+           
+            
+         
+           myPlacemark = new ymaps.Placemark([{{e.y|escapejs}},{{e.x|escapejs}}],
+                {
+                balloonContentHeader: "{{e.street.street_type|escapejs}}"+ " " + "{{e.street.street|escapejs}}"+ ", "+"{{ e.house.house|escapejs }}",
+				balloonContentBody: '{{e.notes|escapejs}}',}, {
+                preset:pr,
+                iconImageOffset: [0, -43],
+                hideIconOnBalloonOpen: false,
+                balloonOffset:[12,-13],
+                balloonMaxWidth:155,
+                
+                             
+            });
+          
+
+           // Добавляет метку на карту
+           myMap.geoObjects.add(myPlacemark);
+           //Добавить событие на клик по точке на карте
+           myPlacemark.events.add('dblclick', function () {
+           var clickedid  =  {{e.id|escapejs}};
+  		   window.location =  "/admin/internet/connection_address_map/" + clickedid+ "/"
+		   });
+
+            {% endfor%}             
+           myMap.setBounds(myMap.geoObjects.getBounds());
+           
+          
+        
+ 
+        }
+        
+  
+    </script>
+    
+
+    
+    
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "admin/services/base_functional_configure.html" %}
+{% load i18n %}
+
+{% block functional_setup %}
+	<table>
+		<tr>
+			<th>{% trans "When you detach local number - make it" %}</th>
+			<td>
+				<select name="detach_mode">
+					<option value="1"{% if detach_mode = 1 %}selected="selected"{% endif %}>{% trans "Free" %}</option>
+					<option value="2"{% if detach_mode = 2 %}selected="selected"{% endif %}>{% trans "Reserved" %}</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+{% endblock %}

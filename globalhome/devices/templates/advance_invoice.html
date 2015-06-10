@@ -1,0 +1,34 @@
+{% extends 'base_private.html' %}
+{% load form_tags %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+{{ block.super }}
+
+{% if not no_findoc %}
+<form method="POST" action="">
+    <h4 class="h4_style">Укажите сумму на которую будет выставлен авансовый счет (минимальная сумма 500 рублей):</h4>
+    
+    <div class="form_django form_ul">
+    
+        {% for field in form %}  
+              {% form_field field block %}      
+        {% endfor %}	
+        
+        <div class="form-submit">
+            <div class="form-submit-left">
+                <small><span class="req">*</span> — пункты обязательные для заполнения</small>
+            </div>
+            <div class="form-submit-right">
+            	<input id="submit-button" type="submit" class="bt bt-blue2" name="submit" value="Выставить"/>
+            </div>
+        </div>
+    
+    </div>
+    
+</form>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base_public.html' %}
+ {% block img_composition %}
+			<div class="composition">
+				<img src="{{ MEDIA_URL }}images/compositions/10.png" alt="">
+			</div>
+				{% endblock %} 
+{% block content %}
+
+<h1 class="title">Помощь</h1>
+
+<div class="ugc">
+    <p>Выберите тип услуги для получения информации:</p>
+</div>
+
+<div id = "display_N"class="toggle">
+    <div class="toggle-item">
+        <a href="#" class="toggle-head toggle-drop"><i></i>Телефония</a>
+        <div class="toggle-body">
+            <ul>
+                <li><a href="/content/article/city_number/">Подключение городского номера</a></li>
+                <li><a href="/content/article/how_to_use/">Звонки с компьютера</a></li>
+                <li><a href="/content/article/sip_accaunt/">SIP/Звонки без подключения номера </a></li>
+                <li><a href="/content/article/device_settings/">Настройка оборудования</a></li>
+                <li><a href="/content/article/nomer_800/">Подключить номер 8-800</a></li>
+            </ul>
+        </div>
+    </div><!--toggle-item-->
+
+    <div class="toggle-item">
+        <a href="#" class="toggle-head toggle-drop"><i></i>Офисная АТС</a>
+        <div class="toggle-body">
+            <ul>
+                <li><a href="/content/article/virtual_ip_ats/">Возможности виртуальной АТС</a></li> 
+                <li><a href="/content/article/call_transfer/">Перевод звонка</a></li>
+                <li><a href="/content/article/send_fax/">Отправка факса</a></li>
+                <li><a href="/content/article/voice_menu/">Голосовое меню</a></li>
+                <li><a href="/content/article/call_forwarding/">Переадресация</a></li>
+                <li><a href="/content/article/golosovaya-pochta/">Голосовая почта</a></li>
+                <li><a href="/content/article/zapis_telefonnyh_razgovorov/">Запись разговоров</a></li>
+                <li><a href="/content/article/avtoobzvon/">Автообзвон</a></li>
+                <li><a href="/content/article/sip_registratsiya/">Внешние SIP регистрации</a></li>
+                <li><a href="/content/article/chernyi_belyi_spisok/">Черные и белые списки </a></li>
+                <li><a href="/content/article/ochered_zvonkov/">Очередь звонков</a></li>
+                
+            </ul>
+        </div>
+    </div><!--toggle-item-->
+
+<!--<div class="toggle-item">
+        <a href="#" class="toggle-head"><i></i>Аренда оборудования</a>
+    </div>--><!--toggle-item-->
+
+    <div class="toggle-item">
+        <a href="#" class="toggle-head toggle-drop"><i></i>Интернет</a>
+        <div class="toggle-body">
+            <ul>
+                <li><a href="/content/article/internet_ip-tv/">Подключение для физических лиц</a></li>
+                <li><a href="/content/article/internet_office/">Подключение для юридических лиц</a></li>
+                <li><a href="/content/article/internet_v_chastnyi_dom/">Подключение интернета для коттеджных поселков </a></li>
+                <li><a href="/content/article/optovolokno_internet_dlya_operatorov/">Подключение для операторов связи</a></li>
+                <li><a href="/content/article/proxy_server/">Интернет через прокси-сервер</a></li>
+                <li><a href="/content/article/nastroit_internet_windows_7_vista/">Настройка интернета Windows 7/Vista</a></li>
+            </ul>
+        </div>
+    </div><!--toggle-item-->
+
+    <div class="toggle-item">
+        <a href="#" class="toggle-head toggle-drop"><i></i>Дата центр</a>
+        <div class="toggle-body">
+            <ul>
+                <li><a href="/content/article/arenda_s_s/">Аренда серверных стоек</a></li>
+                <li><a href="/content/article/razmeschenie_s/">Размещение серверов</a></li>
+                <li><a href="/content/article/arenda_s/">Аренда сервера</a></li>
+                <li><a href="/content/article/virtual_s/">Виртуальные серверы</a></li>
+            </ul>
+        </div>
+    </div><!--toggle-item-->
+
+</div>	   
+	
+
+{% endblock %}

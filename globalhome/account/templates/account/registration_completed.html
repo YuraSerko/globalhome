@@ -1,0 +1,9 @@
+{% extends 'base_public.html' %}
+{% load i18n form_tags %}
+{% block content %}
+<h1 class="title" align="center">{% trans 'You are signed up now!' %}</h1>
+<div class="ugc">
+<p>Вы успешно зарегистрировались на нашем сайте. Однако вам необходимо активировать учётную запись, ключ для активации был выслан на введённый вами e-mail. Пожалуйста, <strong>проверьте</strong> свою электронную почту.</p>
+</div>
+{% endblock %}
+

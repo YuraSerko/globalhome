@@ -1,0 +1,28 @@
+{% load form_tags i18n %}
+{% block content %}
+
+{% if not close_window %}
+<form method="post" action="">
+<div>&nbsp;</div>
+          <div align="center">{{ check.text|safe }}</div>
+          
+   
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    {% if not sent %}
+    <div class="form-buttons">
+    <div align="center" style="border: solid 3px #cccccc; padding: 5px">Отправить на  {{ form.email }}<input class="default" type="submit" align="left" value='{% trans "Send" %}' /></div>
+    {% else %}
+    <div align="center" style="border: solid 3px #cccccc; padding: 5px; color:#990000;" > ЭТОТ СЧЕТ УЖЕ БЫЛ ОТПРАВЛЕН!!! </div>
+    {% endif %}
+{% else %}
+<script type="text/javascript">
+    window.opener.location.reload(true);
+    window.close();
+</script>
+    
+{% endif %}
+{% endblock %}
+</form>

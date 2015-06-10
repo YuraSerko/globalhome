@@ -1,0 +1,36 @@
+{% load i18n %}
+{% if title %}
+    <title>{{ title }}</title>
+{% endif %}
+{% if variables %}
+    <table width="100%" border="1px" cellspacing="0px">
+        <thead>
+            <tr>
+                <th>{% trans "Variable name" %}</th>
+                <th>{% trans "Description" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for var in variables %}
+                <tr>
+                    <th style="text-align: left; width: 30%;">
+                        {{
+                        {{ var.name }}
+                        }}
+                        </th>
+                    {% if var.description %}
+                        <td>{{ var.description }}</td>
+                    {% else %}
+                        <td>&lt;NO DESCRIPTION&gt;</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    {% if vars_count == 0 %}
+        Модуль загружен, но переменных в нем не объявлено...
+    {% else %}
+        Ошибка загрузки указанного модуля...
+    {% endif %}
+{% endif %}

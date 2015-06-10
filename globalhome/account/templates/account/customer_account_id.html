@@ -1,0 +1,292 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+
+{% block extrastyle %}
+  {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+	<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+	<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+	<link rel="stylesheet" href="/static/admin_tools/css/menu.css" type="text/css" media="screen, projection"/>
+
+	<script type="text/javascript" src="/admin/jsi18n/"></script>
+	<script type="text/javascript" src="/static/admin/js/core.js"></script>
+	<script type="text/javascript" src="/media/js/add_new_related_object.js"></script>
+	<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+	<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+	<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+	<script type="text/javascript" src="/media/js/changelist-filter.js"></script>
+	<script type="text/javascript" src="/media/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/media/js/chosen.jquery.js"></script>
+	<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+	<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+	<script type="text/javascript">
+	(function($) {
+		$(document).ready(function($) {
+			$("tr input.action-select").actions();
+		});
+	})(django.jQuery);
+	</script>
+
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+
+{% endblock %}
+
+{% block content %}
+    <div class="breadcrumbs">
+      <a href="../../../">
+        Home
+      </a>
+       &rsaquo; 
+       <a href="../../">
+         Account
+      </a>
+      &rsaquo;
+       <a href="../">
+         Учётные записи пользователей
+      </a>
+      &rsaquo; 
+      Запись пользователя
+    </div>
+	
+    <h2>Запись пользователя</h2>
+    <div id="content" class="colM">
+    <ul class="object-tools">
+	{% if identification_numbers.values|first %}
+    <li><a href="/admin/billing/balancehistory/?q={{ username }}" class="viewsitelink" target="_blank">История по балансу</a></li>
+	<li><a href="/admin/payment/billservice_transaction/add/?account={{ identification_numbers.values| first }}" class="viewsitelink" onclick="return showAddAnotherPopup(this);">Пополнить счёт</a>
+	</li>
+	{% endif %}
+		<li><a href="/admin/r/3/{{ user_id }}/" class="viewsitelink">Смотреть на сайте</a></li>
+    </ul>
+<form enctype="multipart/form-data" action="" method="post" id="profile_form">
+<input type='hidden' name='csrfmiddlewaretoken' value='QDUTfesVrr25wDOQObGOJuclyStPHf4x' />
+<div>
+ <fieldset class="module aligned ">
+
+	{% if form_is_not_valid %}
+		{% for form in form_is_not_valid %}
+		<a style="color:red;">{{ form }}<br></a>
+		{% endfor %}
+	{% endif %}
+	
+	
+	
+	<p align="right">
+	{% for id_key, id in identification_numbers.items %}
+		<a style="margin-left:2em">{{ id_key }} : {{ id }}</a>
+	{% endfor %}
+	</p>
+	
+	{% if balance_form %}
+	<div class="form-row">
+	{% for field in balance_form %}
+		<div class="form-row field-sign_face">
+		{{ field.errors }}
+		{% if field.field.required %}<label class="required">{{ field.label_tag }}</label>{% else %}<label>{{ field.label_tag }}</label>{% endif %}
+		{% if field.name == "ballance" %}
+		<p>{{ field.value }} </p>
+		{% else %}
+		<div class="f_input">
+				{{ field }}
+		</div>{% endif %}
+		</div>
+	{% endfor %}
+	</div>	
+	{% endif %}
+
+	
+	{% if uform %}
+	<div class="form-row last_login">
+	{% for field in uform %}
+		<div class="form-row field-sign_face">
+			{{ field.errors }}
+			{% if field.field.required %}<label class="required">{{ field.label_tag }}</label>{% else %}<label>{{ field.label_tag }}</label>{% endif %}
+			<div class="f_input">
+				{{ field }}
+				{% if field.help_text %}<p class="help">{{ field.help_text }}</p>{% endif %}
+			</div>
+		</div>
+	{% endfor %}	</div>	
+	{% endif %}
+
+	{% if form %}
+	<h2>Данные пользователя:</h2>
+	<div class="form-row last_login">
+	{% for field in form %}
+		<div class="form-row field-sign_face">
+			{{ field.errors }}
+			{% if field.field.required %}<label class="required">{{ field.label_tag }}</label>{% else %}<label>{{ field.label_tag }}</label>{% endif %}
+			<div class="f_input">
+				{{ field }}
+				{% if field.help_text %}<p class="help">{{ field.help_text }}</p>{% endif %}
+			</div></div>
+	{% endfor %}
+	</div>
+	{% endif %}
+	
+	{% if aform %}
+	<h2>Адреса:</h2>
+		<div class="form-row last_login">
+		{% for field in aform %}
+			<div class="form-row field-sign_face">
+				{{ field.errors }}
+				{% if field.field.required %}<label class="required">{{ field.label_tag }}</label>{% else %}<label>{{ field.label_tag }}</label>{% endif %}
+					<div class="f_input">
+						{{ field }}
+						{% if field.help_text %}<p class="help">{{ field.help_text }}</p>{% endif %}
+					</div></div>
+		{% endfor %}
+		</div>
+	{% endif %}
+	
+	{% if aform2 %}
+	<div class="form-row last_login">
+	{% for field in aform2 %}
+		<div class="form-row field-sign_face">
+			{{ field.errors }}
+			{% if field.field.required %}<label class="required">{{ field.label_tag }}</label>{% else %}<label>{{ field.label_tag }}</label>{% endif %}
+				<div class="f_input">
+					{{ field }}
+					{% if field.help_text %}<p class="help">{{ field.help_text }}</p>{% endif %}
+				</div></div>
+		{% endfor %}
+	</div>
+	{% endif %}
+
+   	 {% if zakaz_objs %}
+	<fieldset class="module aligned ">
+<h2>Заказы</h2>
+
+
+<div class="form-row last_login">
+<div>
+<table border="1">
+  <thead>
+  <tr>
+	{% for th in z_form %}
+    <th>{{ th }}</th>
+	{% endfor %}
+  </tr></thead>
+  <tbody>
+	{% for field in zakaz_objs %}
+		<tr class="{{field.row}}">
+		{{ i }}
+		<td><a href = "/admin/data_centr/zakazy/{{ field.id }}">{{ field.id}}</a></td>
+		<td>{{ field.service_type}}</td>
+		<td>{{ field.date_create }}</td>
+		<td>{{ field.date_activation }}</td>
+		<td>{{ field.date_deactivation }}</td>
+		<td>{{ field.status_zakaza }}</td>
+			
+		</tr>
+		{% endfor %}
+		</tbody>
+			</table>
+				</div>
+					</div>
+
+</fieldset>
+{% endif %}					   	
+
+<fieldset class="module aligned ">
+{% if telgrs_objs or tel_objs%}
+<h2>Телефоны</h2>
+{% if tel_objs %}
+<h5>Внутренние номера</h5>
+<div class="form-row last_login">
+<div>
+<table border="1">
+  <thead>
+  <tr>
+	{% for th in tel_form %}
+    <th>{{ th }}</th>
+	{% endfor %}
+  </tr></thead>
+  <tbody>
+	{% for field in tel_objs %}
+		<tr class="{{field.row}}">
+		{{ i }}
+		<td>{{ field.tel_number }}</td>
+		<td>{{ field.person_name }}</td>
+		<td>{{ field.internal_phone }}</td>
+		<td>{{ field.password }}</td>
+		<td>
+		{% for field in field.numbers %}
+		{% for field in field %}
+		{{ field.number }}<br>{% endfor %}{% endfor %}</td>
+		</tr>
+		{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+{% endif %}
+	{% if telgrs_objs %}
+	<h5>Городские номера</h5>
+		<div class="form-row last_login">
+		<div>
+		<table>
+			<thead>
+			<tr>
+			{% for th in telgrs_form %}
+				<th>{{ th }}</th>
+			{% endfor %}
+			</tr></thead>
+		<tbody>
+			{% for field in telgrs_objs %}
+			<tr class="{{field.row}}">
+				<td>
+				{% for field in field.numbers %}
+					{{ field.number }}{% endfor %}
+				</td>
+				<td>{{ field.name }}</td>
+				<td>{% for field in field.internal_numbers %}
+					{{ field.telnumber }}{% endfor %}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		</table>
+		</div>
+		</div>
+	{% endif %}
+	{% endif %}
+	
+	{% if billIdleForm %}
+	<div class="form-row billIdleForm">
+	{% for field in billIdleForm %}
+		<div class="form-row field-sign_face">
+			{{ field.errors }}
+			{% if field.field.required %}<label class="required">{{ field.label_tag }}</label>{% else %}<label>{{ field.label_tag }}</label>{% endif %}
+			<div class="f_input">
+				{{ field }}
+				{% if field.help_text %}<p class="help">{{ field.help_text }}</p>{% endif %}
+			</div>
+		</div>
+	{% endfor %}
+	</div>	
+	{% endif %}
+	
+	{% if profile_create_invoice_form %}
+		<div class="form-row profile_create_invoice"><div class="f_input">
+		{{ profile_create_invoice_form }}
+		</div>
+		</div>
+	{% endif %}
+</fieldset>
+</fieldset>
+</div>
+<div class="submit-row">
+<input type="submit" value="Сохранить" class="default" name="_save" />
+<p class="deletelink-box"><input type="submit" name="delete" class="deletelink" value="Заблокировать" />
+<label><input style="margin-left: 20px" type="checkbox" name="send_email" value="send_email" />Отправить письмо</label></p>
+</div>
+</form>
+</div>
+{% endblock %}
+
+
+

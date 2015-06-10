@@ -1,0 +1,29 @@
+{% extends 'base_public.html' %}
+
+{% block content %}
+
+<div class="cols">
+<section class="section">
+	<div class="error-box">
+        <p>Вы ошиблись адресом, такого дома не существует.<br>Попробуйте вернуться на <a href="moscowdata.ru">главную</a>.</p>
+        <p><img src="{{ MEDIA_URL }}images/moscowdata/404.png" alt=""></p>
+	</div>
+</section>
+</div>
+
+</div></div>
+
+<div class="lenin"></div>
+<div class="pigeon"></div>
+
+</div>
+{% endblock %}
+		
+{% block left_menu %}
+{{ super }}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+

@@ -1,0 +1,96 @@
+{% load i18n form_tags lib_tags %}
+{% block content %}
+
+<script type="text/javascript" src="/media/js/jquery.form.js"></script>
+<script type="text/javascript" language="javascript" charset="utf-8">
+	
+
+		$(".modal_window_title").html('Добавление проверки времени дня');
+		
+		(function() {
+		  $('#mainForm').ajaxForm({
+			cache: false,
+			async: false,
+			success: function(html) 
+				{				
+					if (html.split('_')[0] == "createnewelement") 
+							{
+							var goods = html.split('_');
+							$.ajax({
+								type: "POST",
+								url: "/account/constructor/save",  // or just url: "/my-url/path/"
+								data: {new_element: $('#newelement').val() + '_' + goods[goods.length-1], parent_new_element: $('#parent_newelement').val(), number_id: $('#number_id').val(), draft_flag: $('#draft_flag').val() },
+								success: function(data) {
+									window.location.reload(true)
+									//window.location.href=window.location.href;
+								},
+								error: function(xhr, textStatus, errorThrown) {
+									alert("Please report this error: "+errorThrown+xhr.status+xhr.responseText);
+								}
+							});
+							
+							}
+						else if (html.split('_')[0] == "editnewelement")
+							{
+								window.location.reload(true)
+							//$(".tab_container").html(html);
+							}
+						else {$(".tab_container").html(html);}
+				},
+			
+			});
+			})();
+	
+	
+	
+</script>
+
+<style>
+.form-section {
+	width: 250px !important;
+	}
+</style>
+
+</br>
+<div class="ugc">
+	<p>Введите время начала и окончания временного диапазона.</p>
+</div>
+ 
+
+<form action="/account/constructor/createnewelement/{{newelement}}/{{parent_newelement}}/" method="post" id="mainForm">
+
+<input name="number_id" type="hidden" {% if number_id %} value="{{ number_id }}" {% else %} value="0" {% endif %} id="number_id"/>
+<input name="newelement" type="hidden" {% if newelement %} value="{{ newelement }}" {% else %} value="0" {% endif %} id="newelement"/>
+<input name="parent_newelement" type="hidden" {% if parent_newelement %} value="{{ parent_newelement }}" {% else %} value="0" {% endif %} id="parent_newelement"/>
+<input name="draft_flag" type="hidden" {% if draft_flag %} value="{{ draft_flag }}" {% else %} value="0" {% endif %} id="draft_flag"/>
+<input name="time_id" type="hidden" {% if time_id %} value="{{ time_id }}" {% else %} value="0" {% endif %} id="time_id"/>
+
+
+
+    <div class="form-sections">
+     
+        <div class="form-section form-section2 form_django">
+            {% form_field form.date_time_begin block %}
+            <div class="hint"><i></i>Время начала временного диапазона</div>
+        </div>
+        
+        <hr>
+         
+        <div class="form-section form-section2 form_django">
+           {% form_field form.date_time_end block %}
+           <div class="hint"><i></i>Время окончания временного диапазона</div>
+        </div>
+        
+    </div>
+    <br>
+    <div class="form-sections-submit">
+            <div class="form-submit-right">   
+                <input type="submit" class="bt bt-blue2" name="submit" value='Добавить'/>
+            </div>
+        </div>
+    
+    
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block extrahead %}
+	{{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" /> 
+    <link type="text/css" href="{{ MEDIA_URL }}css/egplant_cost.css" rel="stylesheet" />
+    <script type="text/javascript" src="/media/js/Localnumbers_relocating.js"></script>
+	<script src="{{ MEDIA_URL }}js/jquery-1.11.1.min.js"></script>
+	<script src="{{ MEDIA_URL }}js/jquery-ui-1.9.1.custom.min.js"></script>
+	
+	
+{% endblock %}
+
+
+
+
+{% block content %}
+
+<script>
+    function hot_key()
+    {
+        $.ajax({
+                url: "/hot_key/",  
+                cache: false,
+                async: false, 
+                success: function(html){
+                    
+                    $("#ajall").html(html);
+                    
+                      
+                }  
+            });
+        
+        }
+   
+
+    </script>
+
+<h1 class="title">Городские номера</h1>
+      
+{% if numbers %}
+
+    <div class="ugc">
+        <p>Страница управления городскими номерами.</p>
+        <p>ВАЖНО: Для функционирования городского номера необходимо его закрепить за группой внутренних номеров</p>
+    </div>  
+
+	{{ block.super }}
+    
+    <table class="type-2">
+        <thead>
+            <tr>
+                <th style="width: 10%;">Городской номер</th>
+                <th style="width: 10%;">{% trans "Region" %}</th>
+                <th style="width: 20%;">{% trans "Group name" %}</th>
+                {% if add %}
+                <th style="width: 10%;">{% trans "Edit" %}</th>
+                <th style="width: 15%;">{% trans "Delete" %}</th>
+                {% else %}
+                <th style="width: 30%;">{% trans "Delete" %}</th>
+                {% endif %}
+                {% if globalhome %}
+                <th style="width: 30%;">Конструктор</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for number in numbers %}
+                <tr>
+                    <td>{{ number.number }}</td>
+                    <td>{{ number.region }}</td>
+                    <td>{% if number.phone_numbers_group %}{{ number.phone_numbers_group }}{% else %}---{% endif %}</td>
+                    <td><a href="edit/{{ number.id }}/">{% trans "Edit" %}</a></td>
+                    {% if add %}
+                    	{% if number.date_deactivation %}
+                    		<td><font color="#00CC00" style="vertical-align: top; margin-left: 2px;">Активен до {{ number.date_deactivation }}</font></td>
+                    	{% else %}
+                   			<td><a href="delete/{{ number.id }}/">{% trans "Delete" %}</a></td>
+                    	{% endif %}
+                    {% else %}
+                    	<td><a href="delete/{{ number.id }}/">{% trans "Delete" %}</a></td>
+                    {% endif %}
+                    {% if globalhome %}
+                    <td><a href="scheme/new/{{ number.id }}/">Редактировать схему входящего вызова</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+
+    {% if have_free_numbers %}
+        <div class="status status-info">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>У Вас нет местных номеров. Вы можете добавить его ниже.</p>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if have_free_numbers  %}
+    {% if add %}
+    
+    	<p><a class="bt bt-blue2" id='nbtn' onclick="hot_key()" href="#showimage1" name="modal">{% trans "Add numbers" %}</a></p>
+    {% endif %}
+{% else %}
+  {% if add %}        
+    <div class="status status-warning">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>{% trans "Unfortunately at the moment there are no free city numbers. Please contact technical support." %}</p>
+        </div>
+    </div>
+  {% endif %}
+{% endif %}
+
+<a href="#" class="overlay" id="showimage1"></a>
+    <div class="popup_personal mngs" id='ajall'>
+	</div>
+{% endblock %}

@@ -1,0 +1,226 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+{{ block.super }}
+<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+{% endblock %} 
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+{{ form.media }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/js/ui/i18n/ui.datepicker-{{ language }}.js"></script>
+<script type="text/javascript" src="/media/ajax/jquery.form.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.min.js"></script> 
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.flot.js"></script> 
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.flot.time.js"></script> 
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+{{rawData_1 |safe}}
+
+
+
+try {
+var plot = $.plot($("#placeholder"),dataset,
+       {
+        yaxis: {
+            min: -1,
+            max: 1,
+            tickLength: 0
+        },
+        xaxis: {
+            mode: "time",     
+            min: (new Date("{{time_start_norm}}")).getTime() + 7200000,
+            max: (new Date("{{time_end_norm}}")).getTime() + 7200000,
+        },
+        "lines": {"show": "false"},
+        "points": {"show": "true"},
+           clickable:true,
+           hoverable: true,
+           grid: {
+                hoverable: true 
+            },
+           tooltip: true,         //false
+           tooltipOpts: {
+               content:        "%s | X: %x | Y: %y.2",          //"%s | X: %x | Y: %y.2"
+               dateFormat:     "%y-%0m-%0d",          //"%y-%0m-%0d"
+               shifts: { 
+                    x:          10,             //10
+                    y:          20             //20
+                },
+               defaultTheme:   true         //true
+        }
+       });
+}
+catch(e) {alert(e);}
+$("#placeholder").bind("plothover", function (event, pos, item) {
+
+			if (1 > 0) {
+				if (item) {
+					var x = item.datapoint[0],
+						y = item.datapoint[1];
+					var theDate = new Date((x/1000) *1000);
+					dateString = theDate.toGMTString();
+					$("#tooltip").html("Call_id = " + item.series.call_id + ",</br> Time = " + dateString)
+						.css({top: item.pageY+5, left: item.pageX+5})
+						.fadeIn(200);
+				} else {
+					$("#tooltip").hide();
+				}
+			}
+		});
+//yAxis y1Axis tickLabel visibility: hidden
+$( ".yAxis .tickLabel" ).css("visibility","hidden");
+$("<div id='tooltip'></div>").css({
+			position: "absolute",
+			display: "none",
+			border: "1px solid #fdd",
+			padding: "2px",
+			"background-color": "#fee",
+			opacity: 0.80
+		}).appendTo("body");
+
+function getMonday(d) {
+  d = new Date(d);
+  var day = d.getDay(),
+      diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+  return new Date(d.setDate(diff));
+}
+
+function getSunday(d) {
+  d = new Date(d);
+  var day = d.getDay(),
+      diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+  return new Date(d.setDate(diff+6));
+}
+		
+$("#only_day").click(function () {
+	var today = new Date();
+	var today2 = new Date();
+	var dd = today.getDate();
+	var dd2 = today.getDate()+1;
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	if(dd2<10){dd2='0'+dd2} 
+	if(dd<10){dd='0'+dd}
+	if(mm<10){mm='0'+mm};
+	today = yyyy+'/'+mm+'/'+dd;
+	today2 = yyyy+'/'+mm+'/'+dd2;
+	plot.getOptions().xaxes[0].min = (new Date(today)).getTime() + 7200000;
+	plot.getOptions().xaxes[0].max = (new Date(today2)).getTime() + 7200000;
+	plot.setupGrid();
+	plot.draw();
+});
+var today = new Date();
+	var today2 = new Date();
+	var dd = today.getDate();
+	var dd2 = today.getDate()+1;
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	if(dd2<10){dd2='0'+dd2} 
+	if(dd<10){dd='0'+dd}
+	if(mm<10){mm='0'+mm};
+	today = yyyy+'/'+mm+'/'+dd;
+	today2 = yyyy+'/'+mm+'/'+dd2;
+	plot.getOptions().xaxes[0].min = (new Date(today)).getTime() + 7200000;
+	plot.getOptions().xaxes[0].max = (new Date(today2)).getTime() + 7200000;
+	plot.setupGrid();
+	plot.draw();
+$("#only_week").click(function () {
+	var today = new Date();
+	var today2 = new Date();
+	var dd = getMonday(new Date());
+	dd1 = dd.getDate();
+	mm = dd.getMonth()+1;
+	yyyy = dd.getFullYear();
+	var dd2 = getSunday(new Date());
+	dd22 = dd2.getDate();
+	mm2 = dd2.getMonth()+1;
+	yyyy2 = dd2.getFullYear();
+	today = yyyy+'/'+mm+'/'+dd1;
+	today2 = yyyy2+'/'+mm2+'/'+dd22;
+	if(dd<10){dd='0'+dd} if(dd2<10){dd2='0'+dd2} 
+	plot.getOptions().xaxes[0].min = (new Date(today)).getTime() + 7200000;
+	plot.getOptions().xaxes[0].max = (new Date(today2)).getTime() + 7200000;
+	plot.setupGrid();
+	plot.draw();
+});
+
+
+$("#only_month").click(function () {
+	var today = new Date();
+	var today2 = new Date();
+	var mm = today.getMonth()+1; //January is 0!
+	var mm2 = today.getMonth()+1+1;
+	var yyyy = today.getFullYear();
+	if(mm<10){mm='0'+mm}
+	today = yyyy+'/'+mm+'/01';
+	today2 = yyyy+'/'+mm2+'/01';
+	plot.getOptions().xaxes[0].min = (new Date(today)).getTime() + 7200000;
+	plot.getOptions().xaxes[0].max = (new Date(today2)).getTime() + 7200000;
+	plot.setupGrid();
+	plot.draw();
+});
+
+
+$("#accept").click(function () {
+	var today = $("#id_date_from").val();
+	var today2 = $("#id_date_to").val();
+	plot.getOptions().xaxes[0].min = (new Date(today.substr(-4,4) + "/" + today.substr(-7,2) + "/" + today.substr(-10,2))).getTime() + 7200000;
+	plot.getOptions().xaxes[0].max = (new Date(today2.substr(-4,4) + "/" + today2.substr(-7,2) + "/" + today2.substr(-10,2))).getTime() + 7200000;
+	plot.setupGrid();
+	plot.draw();
+});
+
+$(".legendLabel").parent('tr').css('display','none');
+
+$(".legend:first-child").css('height','60px');
+
+var tableRow = $(".legendLabel").filter(function() {
+    return $(this).text() == "176.124.137.231";
+}).parent('tr:first').css('display','block');
+
+var tableRow = $(".legendLabel").filter(function() {
+    return $(this).text() == "176.124.137.232";
+}).parent('tr:first').css('display','block');
+
+});
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+<form enctype="application/x-www-form-urlencoded" id="start" name="start" method="post" action="">
+
+<div class="filter-body-left">
+Дата с:
+            <input type="text" name="date_from" id="id_date_from" value="17.01.2014">
+            <script type="text/javascript">
+            $(document).ready(function(){
+                $('#id_date_from').datepicker({dateFormat:'dd.mm.yy', yearRange:'-60:+10', firstDay: 1, showButtonPanel: true, changeMonth: true, changeYear: true});
+              });
+        	</script>
+           
+           
+   по:         
+            <input type="text" name="date_to" id="id_date_to" value="18.01.2014">
+            <script type="text/javascript">
+            $(document).ready(function(){
+                $('#id_date_to').datepicker({dateFormat:'dd.mm.yy', yearRange:'-60:+10', firstDay: 1, showButtonPanel: true, changeMonth: true, changeYear: true});
+              });
+        	</script>
+            <input id="accept" type="button" value="Ok"/>
+</div>
+
+
+<input id="only_month" type="button" value="Этот месяц"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="only_week" type="button" value="Эта неделя"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="only_day" type="button" value="Сегодня"/>
+<div id="placeholder" style="height:300px;"></div>
+</form>
+
+{% endblock %}         

@@ -1,0 +1,1281 @@
+{% extends 'base.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+
+
+
+
+{% endblock %}
+
+<!--mikluho-maklaya23 | 13-yaparkovaya20k1-->
+{% block left_menu %}
+
+	<base target="_self">
+			<aside>
+			<div id='leftside'>
+                
+              <!--form name="sub_r" action="" method = "post"><input 
+
+type="text" name="identity" value = "GH2">
+<input type="text" name="link-login-only" value=""> 
+<input type="text" name="query" value="ff"> 
+<input type="submit" value="identity"> </form>
+<div> --------------------------</div>
+<form name="sub_r" action="" ><input type="text" 
+
+name="bytes-in-nice" value = "2">
+
+<input type="text" name="username" value="varik1"> 
+<input type="text" name="link-logout" value=""> 
+<input type="submit" value="trafic"> </form-->
+
+				<div id="loginform">
+					<h1 class="side_h1"><span onclick='window.location.hash="{% if trial %}#hs_login2{% else %}#hs_login{% endif %}"'>HotSpot Wi-Fi</span>{% if no_content and content_trafic %}<a style="height: 20px; margin-top: 10px; font-size: 13px;" href="/account/" class="user_cabinet">Кабинет пользователя</a>{% endif %}{% if not no_content  %}<br><div class="ofer_label">вход в интернет</div></h1>
+					<div id="error_log" >{%if not popup%}{% if error %} <div class = 'error_masege'>{{ error }}</div>{% endif %}{% endif %}</div>
+					<style>
+					@media only screen and (min-width: 720px){
+						.side_h1{
+							width: 150px;
+							margin-left:30px;
+						}
+                             #loginform input {  
+                             max-width: 100px;
+                             }                             }
+					</style>
+                    
+                   
+					<form name="login_l"  method="post"  id="login_form">
+					<input tabindex="1" class="reg_field name" type="text" name="username_l" id = 'user_f' placeholder="логин" onKeyDown="javascript:if(13==event.keyCode){check_main_form();}"   />
+					<input tabindex="2" class="reg_field pass" type="password" name="password_l" id = 'pass_f' placeholder="пароль" onKeyDown="javascript:if(13==event.keyCode){check_main_form();}"/>
+					<input  tabindex="3" class="reg_enter" type="button"  onClick=" check_main_form(); " value="Вход"/>
+					
+					<input type="hidden" name="dst" value="{{ linkorig }}" />
+            		<input type="hidden" name="popup" value="true" />	
+					</form>
+
+					<a href="/content/article/payment_methods_cards/" style="margin-top: -10px;" class="buy_log buy_log_login">Купить логин</a>
+                   <style>
+
+                   </style>
+                    <a href="/account/" style="color:#FFBB00;" class="user_cabinet user_cabinet_login">Кабинет пользователя</a>
+                    <!--a  href="/account/service_choice/" class="user_cabinet">Кабинет пользователя</a-->
+                       
+  {% if residential_sector and not trial %}<form style = "font-size: 12px;color: white;" name="check_ofer" style="color: black;  font-size: 11px;" class="buy_log buy_log_login notification_ofer" ><input type="checkbox" name="checkbox_ofer" checked="checked"  class="check_ofer">Согласен с &nbsp;<a class="findoc_oferta"  href="/content/findoc/residential_sector/" > договором оферты </a></form>
+{% endif %}{% if hostel and not trial %}<form style = "font-size: 12px;color: white;" name="check_ofer" style="color: black;  font-size: 11px;" class="buy_log buy_log_login notification_ofer" ><input type="checkbox" name="checkbox_ofer" checked="checked" class="check_ofer">Согласен с &nbsp;<a class="findoc_oferta"  href="/content/findoc/hostel/" > договором оферты </a></form>{% endif %}
+                        
+
+					{%else%}
+					</h1> 
+					{%endif%}
+					
+					
+					
+					
+					<!-- логирование без микротика -->
+					{% if no_microtic and request.user.username == '' %}
+					<style>
+						@media screen and (min-width: 720px) and (max-width: 1200px){
+							#loginform .user_cabinet{
+								position: relative;
+								top: -20px;
+							}
+						}
+						@media screen and (max-width: 720px) {
+							#loginform .user_cabinet{
+								margin-top: 10px;
+							}
+						}
+					</style>
+					<a style="height: 20px; font-size: 13px;" href="/account/" class="user_cabinet">Кабинет пользователя</a>	
+					{%endif%}
+					<!-- окончание логирования без микротика -->
+					
+
+					<div id='burat'>Уважаемые пользователи!<br>
+					Спасибо за проявленный интерес к Нашей сети.
+					Просим Вас использовать нашу «СТРОКУ ПОИСКА» чтобы отыскать нужные Вам товары, услуги, сервисы и просто информацию.
+					<br>Это позволит оставить доступ в интернет<br>БЕСПЛАТНЫМ.
+					</div>
+					<hr color="white"/>
+				
+                <!--Блок показаний трафика и логирования -->
+                {% if content_trafic and no_content %}
+                <style>
+                    @media only screen and (min-width: 720px){
+                        .side_h1{
+                            width: 150px;
+                            margin-left:30px;
+                        }
+                                                            }
+                         @media only screen and (min-width: 720px) and (max-width: 1200px){
+                                #planshet{
+                                    margin-top: -50px;
+                                }
+                         }
+                    </style>
+        
+                <div class="trafic_user_log">
+                        <table width="100%" height="100%">
+                            <tr>
+                    <td align="center" valign="middle"> <!--align="center" valign="middle"-->
+                            <form action="http://gh.mobi/logout" name="logout">
+                                <table border="1" class="tabula">
+                               {% if loginby == 'trial' %}
+                                    <br><div id="planshet" style="text-align: center;">Добро пожаловать trial пользователь !</div><br>
+                                {% elif loginby != 'mac' %}
+                                    <br><div id="planshet" style="text-align: center;">Добро пожаловать {{username}} !</div><br>
+                                {% endif %}
+                                <div style="text-align: center;"><div class="left_columns">Ваш ip:</div><div class="tabula_column">&nbsp;&nbsp;{{ip}}</div></div>
+                                    <!--tr style="text-align: center;"><td class="left_columns" >Ваш ip:</td><td class="tabula_column">{{ip}}</td></tr-->
+
+                                    <tr><td></td></tr>
+                                     <tr><td></td></tr>
+                                      <tr><td></td></tr>
+                                {% comment %}
+                                    <tr><td class="left_columns" align="left">Трафик:</td><td class="tabula_column">{{bytesinnice}}/{{bytesoutnice}}</td></tr>
+                                   
+                                {% if sessiontimeleft %}
+                                    <tr><td class="left_columns" align="left">Время:</td><td class="tabula_column">{{uptime}} / {{sessiontimeleft}}</td></tr>
+                                {% else %}
+                                    <tr><td class="left_columns" align="left">Время:</td><td class="tabula_column">{{uptime}}</td></tr>
+                                {% endif %}
+                               {% endcomment %}
+
+                                </table>
+                                
+                                <input class="log_out" type="submit" onclick="clear_cookies_trafic_user_form()" value="Выход из сети">
+                              
+                            </form>
+                                    </td>
+                        </table>
+                </div>
+                {% endif %}
+                <!--Конец блока показаний трафика и логирования --> 
+                
+                
+                
+                
+                <!-- блок показания пользователя без микротика -->
+                {% if no_microtic == True and request.user.username != ''  %}
+                <a style="height: 20px; top: 10px; font-size: 13px;" href="/account/" class="user_cabinet">Кабинет пользователя</a>
+                <style>
+                    @media only screen and (min-width: 720px){
+                        .side_h1{
+                            width: 150px;
+                            margin-left:30px;
+                        }
+                       
+                      }
+                         @media only screen and (min-width: 720px) and (max-width: 1200px){
+                                #planshet{
+                                    margin-top: 10px;
+                                }
+                               
+                         }
+                         
+                     
+                </style>
+        
+                <div class="trafic_user_log">
+               
+                          
+                               {% if loginby == 'trial' %}
+                                    <div id="planshet" style="text-align: center;">Добро пожаловать trial пользователь !</div><br>
+                                {% elif loginby != 'mac' %}
+                                    <div id="planshet" style="text-align: center;">Добро пожаловать {{ request.user.username }} !</div><br>
+                                {% endif %}
+                                
+                </div>
+                {% endif %}
+                <!-- блок логирования без тика-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+				</div><!--id ='leftside'-->
+				
+			
+				<div id="side_spisok">
+						
+						<nav class='clearfix'>
+							<ul class="clearfix" id="slide_menu" >
+							{% if login_page%}							    							
+								<li onclick = ""><a id = "near_you_menu" href="#null" class="dot" onclick='$("#near_dot").toggle(); $(this).toggleClass("down_arrow");  '>Рядом с вами</a>
+															
+								<ul id="near_dot" style="display: none;">
+									
+									<li><a href = 'nearby/banks/'>- Банки</a></li><!-- ?org_type=2 -->
+									
+									<!--li><a href = '#null' onclick='$("#inserted_orgtype2").toggle()'>- Финансы</a></li>
+											<ul id="inserted_orgtype2"  style=" display:  none; margin-left:14px;">												
+												<li><a href = 'hotspot/orgs/?org_type=2'>- Банки</a></li>
+											</ul-->
+									<li><a href = '#null' onclick='$("#inserted_orgtype300").toggle();'>- Медицина</a></li>
+											<ul id="inserted_orgtype300" style="display:none; margin-left:14px;">												
+												<li><a  href = 'nearby/pharmacies/'>- Аптеки</a></li>
+												<li><a href = 'nearby/hospitals/'>- Больницы</a></li>
+												<li><a href = 'nearby/antenatalclinics/'>- Женские консультации</a></li>
+												<li><a href = 'nearby/clinics/'>- Клиники</a></li>
+												<li><a href = 'nearby/medicalceters/'>- Медицинские цетры</a></li>
+												<li><a href = 'nearby/policlinic/'>- Поликлиники</a></li>
+												<li><a href = 'nearby/maternities/'>- Родильные дома</a></li>
+												<li><a href = 'nearby/ambulance/'>- Скорая помощь</a></li>
+												<li><a href = 'nearby/stomatology/'>- Стоматология</a></li>
+												<li><a href = 'nearby/traumacenters/'>- Травмпункты</a></li>
+											</ul>
+											
+									<li><a href = '#null' onclick='$("#inserted_orgtype400").toggle()'>- Красота и уход</a></li>
+											<ul id="inserted_orgtype400" style="display:none; margin-left:14px;">												
+												<li><a href = 'nearby/hairdressing/'>- Парикмахерские</a></li>
+												<li><a href = 'nearby/beautysalons/'>- Салоны красоты</a></li>
+												<li><a href = 'nearby/tanning/'>- Солярии</a></li>
+												<li><a href = 'nearby/spa-salons/'>- СПА-салоны</a></li>
+											</ul>	
+									<li><a href = '#null' onclick='$("#inserted_orgtype500").toggle()'>- Услуги</a></li>
+											<ul id="inserted_orgtype500" style="display:none; margin-left:14px;">												
+												<li><a href = 'nearby/emergencyservices/'>- Аварийные службы</a></li>
+												<li><a href = 'nearby/tailoringclothes/'>- Ателье по пошиву одежды</a></li>
+												<li><a href = 'nearby/utilityservice/'>- Коммунальные службы</a></li>
+												<li><a href = 'nearby/pawnshops/'>- Ломбарды</a></li>
+												<li><a href = 'nearby/notaryservices/'>- Нотариальные услуги</a></li>
+												<li><a href = 'nearby/printingservices/'>- Полиграфические услуги</a></li>
+												<li><a href = 'nearby/laundry/'>- Прачечные</a></li>
+												<li><a href = 'nearby/taxi/'>- Такси</a></li>
+												<li><a href = 'nearby/photoservices/'>- Фото услуги</a></li>
+												<li><a href = 'nearby/dry-cleaning/'>- Химчистки</a></li>
+												<li><a href = 'nearby/lawyers/'>- Юристы</a></li>
+											</ul>
+									<li><a href = '#null' onclick='$("#inserted_orgtype600").toggle()'>- Спорт и фитнес</a></li>
+											<ul id="inserted_orgtype600" style="display:none; margin-left:14px;">												
+												<li><a href = 'nearby/bathroomsandsauns/'>- Бани и сауны</a></li>
+												<li><a href = 'nearby/pools/'>- Бассейны</a></li>
+												<li><a href = 'nearby/sportscomplexes/'>- Спортивные комплексы</a></li>
+												<li><a href = 'nearby/stadiums/'>- Стадионы</a></li>
+												<li><a href = 'nearby/clubs/'>- Фитнес-клубы</a></li>
+											</ul>
+									<li><a href = '#null' onclick='$("#inserted_orgtype700").toggle()'>- Магазины</a></li>
+											<ul id="inserted_orgtype700" style="display:none; margin-left:14px;">												
+												<li><a href = 'nearby/hypermarkets/'>- Гипермаркеты</a></li>
+												<li><a href = 'nearby/babyshops/'>- Детские магазины</a></li>
+												<li><a href = 'nearby/bookstores/'>- Книжные магазины</a></li>
+												<li><a href = 'nearby/computerstores/'>- Компьютерные магазины</a></li>
+												<li><a href = 'nearby/furniturestores/'>- Магазины мебели</a></li>
+												<li><a href = 'nearby/clothesandshoes/'>- Магазины одежды и обуви</a></li>
+												<li><a href = 'nearby/shopsproducts/'>- Магазины продуктов</a></li>
+												<li><a href = 'nearby/shopstissue/'>- Магазины ткани</a></li>
+												<li><a href = 'nearby/householdgoodsstores/'>- Магазины хозтоваров</a></li>
+												<li><a href = 'nearby/electronicsstores/'>- Магазины электроники</a></li>
+												<li><a href = 'nearby/musicstores/'>- Музыкальные магазины</a></li>
+												<li><a href = 'nearby/perfumestores/'>- Парфюмерные магазины</a></li>
+												<li><a href = 'nearby/huntingandfishing_stores/'>- Охотничьи и рыболовные магазины</a></li>
+												<li><a href = 'nearby/markets/'>- Рынки</a></li>
+												<li><a href = 'nearby/sportshops/'>- Спортивные магазины</a></li>
+												<li><a href = 'nearby/supermarkets/'>- Супермаркеты</a></li>
+												<li><a href = 'nearby/shoppingmalls/'>- Торговые центры</a></li>
+												<li><a href = 'nearby/jewelrystores/'>- Ювелирные магазины</a></li>
+											</ul>
+									<li><a href = '#null' onclick='$("#inserted_orgtype800").toggle()'>- Развлечения</a></li>
+											<ul id="inserted_orgtype800" style="display:none; margin-left:14px;">												
+												<li><a href = 'nearby/restaurantscafesbars/'>- Рестораны, кафе, бары</a></li>
+												<li><a href = 'nearby/movietheaters/'>- Кинотеатры</a></li>
+											</ul>	
+									<li><a href = '#null' onclick='$("#inserted_orgtype900").toggle()'>- Авто</a></li>
+											<ul id="inserted_orgtype900" style="display:none; margin-left:14px;">												
+												<li><a href = 'nearby/pfs/'>- АЗС</a></li>
+											</ul>
+									<li><a href = '#null' onclick='$("#inserted_orgtype1000").toggle()'>- Государство и общество</a></li>
+											<ul id="inserted_orgtype1000" style="display:none; margin-left:14px;">												
+												<li><a href = 'nearby/employmentcenters/'>- Центры занятости</a></li>
+											</ul>
+									
+								</ul>	
+								</li>
+								<li><a class = "none_arrow" href="administration/" id="adm">Администрация района</a></li>
+							 	<li class="nav_rev"><a onclick = 'javascript:clear_form("complaint_form"); window.location.hash = "complaint_window";  $.cookie("r_c","complaint")  ' class = "none_arrow">Пожаловаться на качество</a></li>
+								<li class='nav_rev'><a onclick = 'javascript: clear_form("review_form"); window.location.hash ="review_window";  $.cookie("r_c","review")' class = "none_arrow" >Отзывы и предложения</a></li>
+								<li style="display: block;" class='nav_rev'><a href = '/mail/' class = "none_arrow" >Почта</a></li>
+								<li><a href="#null" onclick='$(".news_p2").toggle(); $(this).toggleClass("down_arrow");'>Новости</a>
+								<ul class="news_p2 clear_arrow" {% if news_page %}style = "display: block;" {% else %}style = "display: none;"{% endif %}>
+								    <li><a href = '/news' {% if it == 'all_news' %} class = 'selected' {%endif%}>- Все новости</a></li>
+								 	<li><a  href = '/news/politics/' {% if it == 'politics' %} class = 'selected' {%endif%}>- Политика</a></li>
+									<li><a  href = '/news/economy/'{% if it == 'economy' %} class = 'selected' {%endif%}>- Экономика</a></li>
+									<li><a  href = '/news/culture/'{% if it == 'culture' %} class = 'selected' {%endif%}>- Культура</a></li>
+									<li><a  href = '/news/science/'{% if it == 'science' %} class = 'selected' {%endif%}>- Наука и техника</a></li>
+									<li><a  href = '/news/sport/'{% if it == 'sport' %} class = 'selected' {%endif%}>- Спорт</a></li>
+									<li><a  href = '/news/rus/'{% if it == 'rus' %} class = 'selected' {%endif%}>- Новости Росcии</a></li>	
+									<li><a  href = '/news/world/'{% if it == 'world' %} class = 'selected' {%endif%}>- Мировые новости</a></li>
+									<li><a  href = '/news/auto/'{% if it == 'auto' %} class = 'selected' {%endif%}>- Авто</span></a></li>
+									<li><a  href = '/news/latest/'{% if it == 'latest' %} class = 'selected' {%endif%}>- Последние новости</span></a></li>
+								</ul>
+								</li>
+								<li class='nav_rev'><a href = '/weather/' class = "none_arrow">Погода</a></li>
+								<li class='nav_rev'><a  id = "finance_menu" href = '#null' onclick='$(".finan_toggle").toggle(); $(this).toggleClass("down_arrow"); ' >Финансы</a>
+									<ul class = "finan_toggle finance_menu" id="near_dot" {% if rate_page or rate_data %}style="display: block;"{% else %} style="display: none;" {% endif %} >
+									<li ><a href="/finance/currency/" {% if rate_page %}class = 'selected'{% endif %}>- Курсы валют</a></li>
+									<li><a href="/finance/history/?select_date={{first_page_date}}&second_date={{now}}&char_code=USD&name=Доллар" {% if rate_data %}class = 'selected'{% endif %}  >- История котировок</a></li>
+									</ul>
+								</li>
+								<li><a href="#null" class = "games_menu" onclick='$(".games_toggle1").toggle(); $(this).toggleClass("down_arrow");' >Игры</a>
+								<ul class = "games_toggle1 clear_arrow"  {% if games%}style="display: block"{% else %}style="display: none" {% endif %}>
+									
+									<li><a href="/games/top/" {% if top  %} class = 'selected' {%endif%} >- Топ 10</a></li>
+									<li><a href = '/games/shut/' {% if shut  %} class = 'selected' {%endif%}>- Шутеры</a></li>
+									<li><a href = '/games/role/' {% if role  %} class = 'selected' {%endif%}>- Ролевые</a></li>
+									<li><a href = '/games/strategy/' {% if strategy  %} class = 'selected' {%endif%}>- Стратегии</a></li>
+									<li><a href = '/games/sport/' {% if sport  %} class = 'selected' {%endif%}>- Спортивные</a></li>
+									<li><a href = '/games/exsn/' {% if exsn  %} class = 'selected' {%endif%}>- Экшен</a></li>
+									<li><a href = '/games/arkadi/' {% if arkadi  %} class = 'selected' {%endif%}>- Аркады</a></li>
+									<li><a href = '/games/azart/' {% if azart  %} class = 'selected' {%endif%}>- Азартные</a></li>
+									<li><a href = '/games/ios/'   {% if ios  %} class = 'selected' {%endif%}>- Игры для iOS</a></li>
+									<li><a href = '/games/android/'   {% if android  %} class = 'selected' {%endif%}>- Игры для Android</a></li>
+											
+								</ul>	
+								</li>
+
+								<!--  <li class='nav_rev'><a href = '/video/'>Видео</a> -->
+								<li><a href = '#null' class = "dot" id = "video_menu" onclick='$("#inserted_video").toggle(); $(this).toggleClass("down_arrow");'>Видео</a></li>
+									<ul id="inserted_video" class = 'clear_arrow' style="display:none; margin-left:14px;">												
+										<li><a  href = '/films/'>- Фильмы</a></li>
+										<li><a  href = '/serials/'>- Сериалы</a></li>
+									</ul>
+								</li>
+								<li><a href = 'http://www.e-pos.ru/main.php?group=commun&amp;p=e63f999fadf010689ca0e01cd8e1e64b' class = "none_arrow">Прием платежей</a></li>
+								<li><a href = '/tickets/' class = "none_arrow">Продажа билетов</a></li>
+								<li style="display: block;" class='nav_rev'><a href = "/tv_programma/" class = "none_arrow" >Телепрограмма</a></li>
+								
+								<li><a href="/work" id="dot" >Работа</a></li>
+								
+								
+								{% comment %}
+								<li><a href = '/tickets/' class = "none_arrow">Билеты</a></li>
+								{% endcomment %}
+								{% endif%}
+								
+								{% comment %}
+								{% if news_page or games or weather_page or rate_page or rate_data or administration_page or login_page_account or article_page_on_hotspot or org_page or mail_page or article_mobi_slug_page or video_page or ticket_page %}
+								{% endcomment %}
+								{% if not login_page %}
+								
+								<li><a href = '/' class = "none_arrow">На главную</a></li>
+								<li><a id = "near_you_menu" href="#" class="dot" onclick='$("#near_dot").toggle(); $(this).toggleClass("down_arrow");'>Рядом с вами</a>															
+								<ul  id="near_dot" {% if org_page %}style="display: block"{% else %}style="display: none" {% endif %}>	
+								
+									<li><a href = '/nearby/banks/'  {% if banks  %} class = 'selected' {%endif%}>- Банки</a></li>
+																	
+									<!--li><a href = '#null' onclick='$("#inserted_orgtype2").toggle()'>- Финансы</a></li>
+											<ul id="inserted_orgtype2"  {% if org_type == 2 %} style="margin-left:14px; display: block"{% else %}style="margin-left:14px; display: none" {% endif %}>
+                                                <li><a href = '/hotspot/orgs/?org_type=2'  {% if org_type == 2  %} class = 'selected' {%endif%}>- Банки</a></li>
+                                            </ul-->
+                                    </li>
+                                    <li><a href = '#null' onclick='$("#inserted_orgtype300").toggle()'>- Медицина</a></li>
+											<ul id="inserted_orgtype300"  {% if org_type >= 300 and org_type <= 309 %} style="margin-left:14px; display: block"{% else %}style="margin-left:14px; display: none" {% endif %}>
+                                                <li><a  href = '/nearby/pharmacies/'  {% if org_type == 300  %} class = 'selected' {%endif%}>- Аптеки</a></li>
+                                                <li><a href = '/nearby/hospitals/'  {% if org_type == 301  %} class = 'selected' {%endif%}>- Больницы</a></li>
+                                                <li><a href = '/nearby/antenatalclinics/'  {% if org_type == 302  %} class = 'selected' {%endif%}>- Женские консультации</a></li>
+                                                <li><a href = '/nearby/clinics/'  {% if org_type == 303  %} class = 'selected' {%endif%}>- Клиники</a></li>
+                                                <li><a href = '/nearby/medicalceters/'  {% if org_type == 304  %} class = 'selected' {%endif%}>- Медицинские центры</a></li>
+                                                <li><a href = '/nearby/policlinic/'  {% if org_type == 305  %} class = 'selected' {%endif%}>- Поликлиники</a></li>
+                                                <li><a href = '/nearby/maternities/'  {% if org_type == 306  %} class = 'selected' {%endif%}>- Родильные дома</a></li>
+                                                <li><a href = '/nearby/ambulance/'  {% if org_type == 307  %} class = 'selected' {%endif%}>- Скорая помощь</a></li>
+                                                <li><a href = '/nearby/stomatology/'  {% if org_type == 308  %} class = 'selected' {%endif%}>- Стоматология</a></li>
+                                                <li><a href = '/nearby/traumacenters/'  {% if org_type == 309  %} class = 'selected' {%endif%}>- Травмпункты</a></li>
+                                            </ul>
+                                    </li>
+                                    <li><a href = '#null' onclick='$("#inserted_orgtype400").toggle()'>- Красота и уход</a></li>
+											<ul id="inserted_orgtype400"  {% if org_type >= 400 and org_type <= 403 %} style="margin-left:14px; display: block"{% else %}style="margin-left:14px; display: none" {% endif %}>
+                                                <li><a href = '/nearby/hairdressing/'  {% if org_type == 400  %} class = 'selected' {%endif%}>- Парикмахерские</a></li>
+                                                <li><a href = '/nearby/beautysalons/'  {% if org_type == 401  %} class = 'selected' {%endif%}>- Салоны красоты</a></li>
+                                                <li><a href = '/nearby/tanning/'  {% if org_type == 402  %} class = 'selected' {%endif%}>- Солярии</a></li>
+                                                <li><a href = '/nearby/spa-salons/'  {% if org_type == 403  %} class = 'selected' {%endif%}>- СПА-салоны</a></li>
+                                            </ul>
+                                    </li>
+                                    <li><a href = '#null' onclick='$("#inserted_orgtype500").toggle()'>- Услуги</a></li>
+											<ul id="inserted_orgtype500"  {% if org_type >= 500 and org_type <= 510 %} style="margin-left:14px; display: block"{% else %}style="margin-left:14px; display: none" {% endif %}>
+                                                <li><a href = '/nearby/emergencyservices/'  {% if org_type == 500  %} class = 'selected' {%endif%}>- Аварийные службы</a></li>
+                                                <li><a href = '/nearby/tailoringclothes/'  {% if org_type == 501  %} class = 'selected' {%endif%}>- Ателье по пошиву одежды</a></li>
+                                                <li><a href = '/nearby/utilityservice/'  {% if org_type == 502  %} class = 'selected' {%endif%}>- Коммунальные службы</a></li>
+                                                <li><a href = '/nearby/pawnshops/'  {% if org_type == 503  %} class = 'selected' {%endif%}>- Ломбарды</a></li>
+                                                <li><a href = '/nearby/notaryservices/'  {% if org_type == 504  %} class = 'selected' {%endif%}>- Нотариальные услуги</a></li>
+                                                <li><a href = '/nearby/printingservices/'  {% if org_type == 505  %} class = 'selected' {%endif%}>- Полиграфические услуги</a></li>
+                                                <li><a href = '/nearby/laundry/'  {% if org_type == 506  %} class = 'selected' {%endif%}>- Прачечные</a></li>
+                                                <li><a href = '/nearby/taxi/'  {% if org_type == 507  %} class = 'selected' {%endif%}>- Такси</a></li>
+                                                <li><a href = '/nearby/photoservices/'  {% if org_type == 508  %} class = 'selected' {%endif%}>- Фотоуслуги</a></li>
+                                                <li><a href = '/nearby/dry-cleaning/'  {% if org_type == 509  %} class = 'selected' {%endif%}>- Химчистки</a></li>
+                                                <li><a href = '/nearby/lawyers/'  {% if org_type == 510  %} class = 'selected' {%endif%}>- Юристы</a></li>
+                                            </ul>
+                                    </li>
+                                    <li><a href = '#null' onclick='$("#inserted_orgtype600").toggle()'>- Спорт и фитнес</a></li>
+											<ul id="inserted_orgtype600"  {% if org_type >= 600 and org_type <= 604 %} style="margin-left:14px; display: block"{% else %}style="margin-left:14px; display: none" {% endif %}>
+                                                <li><a href = '/nearby/bathroomsandsauns/'  {% if org_type == 600  %} class = 'selected' {%endif%}>- Бани и сауны</a></li>
+                                                <li><a href = '/nearby/pools/'  {% if org_type == 601  %} class = 'selected' {%endif%}>- Бассейны</a></li>
+                                                <li><a href = '/nearby/sportscomplexes/'  {% if org_type == 602  %} class = 'selected' {%endif%}>- Спортивные комплексы</a></li>
+                                                <li><a href = '/nearby/stadiums/'  {% if org_type == 603  %} class = 'selected' {%endif%}>- Стадионы</a></li>
+                                                <li><a href = '/nearby/clubs/'  {% if org_type == 604  %} class = 'selected' {%endif%}>- Фитнес-клубы</a></li>
+                                            </ul>
+                                    </li>
+                                    <li><a href = '#null' onclick='$("#inserted_orgtype700").toggle()'>- Магазины</a></li>
+											<ul id="inserted_orgtype700"  {% if org_type >= 700 and org_type <= 717 %} style="margin-left:14px; display: block"{% else %}style="margin-left:14px; display: none" {% endif %}>
+                                                <li><a href = '/nearby/hypermarkets/'  {% if org_type == 700  %} class = 'selected' {%endif%}>- Гипермаркеты</a></li>
+                                                <li><a href = '/nearby/babyshops/'  {% if org_type == 701  %} class = 'selected' {%endif%}>- Детские магазины</a></li>
+                                                <li><a href = '/nearby/bookstores/'  {% if org_type == 702  %} class = 'selected' {%endif%}>- Книжные магазины</a></li>
+                                                <li><a href = '/nearby/computerstores/'  {% if org_type == 703  %} class = 'selected' {%endif%}>- Компьютерные магазины</a></li>
+                                                <li><a href = '/nearby/furniturestores/'  {% if org_type == 704  %} class = 'selected' {%endif%}>- Магазины мебели</a></li>
+                                                <li><a href = '/nearby/clothesandshoes/'  {% if org_type == 705  %} class = 'selected' {%endif%}>- Магазины одежды и обуви</a></li>
+                                                <li><a href = '/nearby/shopsproducts/'  {% if org_type == 706  %} class = 'selected' {%endif%}>- Магазины продуктов</a></li>
+                                                <li><a href = '/nearby/shopstissue/'  {% if org_type == 707  %} class = 'selected' {%endif%}>- Магазины ткани</a></li>
+                                                <li><a href = '/nearby/householdgoodsstores/'  {% if org_type == 708  %} class = 'selected' {%endif%}>- Магазины хозтоваров</a></li>
+                                                <li><a href = '/nearby/electronicsstores/'  {% if org_type == 709  %} class = 'selected' {%endif%}>- Магазины электроники</a></li>
+                                                <li><a href = '/nearby/musicstores/'  {% if org_type == 710  %} class = 'selected' {%endif%}>- Музыкальные магазины</a></li>
+                                                <li><a href = '/nearby/perfumestores/'  {% if org_type == 711  %} class = 'selected' {%endif%}>- Парфюмерные магазины</a></li>
+                                                <li><a href = '/nearby/huntingandfishing_stores/'  {% if org_type == 712  %} class = 'selected' {%endif%}>- Охотничьи и рыболовные магазины</a></li>
+                                                <li><a href = '/nearby/markets/'  {% if org_type == 713  %} class = 'selected' {%endif%}>- Рынки</a></li>
+                                                <li><a href = '/nearby/sportshops/'  {% if org_type == 714  %} class = 'selected' {%endif%}>- Спортивные магазины</a></li>
+                                                <li><a href = '/nearby/supermarkets/'  {% if org_type == 715  %} class = 'selected' {%endif%}>- Супермаркеты</a></li>
+                                                <li><a href = '/nearby/shoppingmalls/'  {% if org_type == 716  %} class = 'selected' {%endif%}>- Торговые центры</a></li>
+                                                <li><a href = '/nearby/jewelrystores/'  {% if org_type == 717  %} class = 'selected' {%endif%}>- Ювелирные магазины</a></li>
+                                            </ul>
+                                    </li>
+                                    <li><a href = '#null' onclick='$("#inserted_orgtype800").toggle()'>- Развлечения</a></li>
+											<ul id="inserted_orgtype800"  {% if org_type >= 800 and org_type <= 801 %} style="margin-left:14px; display: block"{% else %}style="margin-left:14px; display: none" {% endif %}>
+                                                <li><a href = '/nearby/restaurantscafesbars/'  {% if org_type == 800  %} class = 'selected' {%endif%}>- Рестораны, кафе, бары</a></li>
+                                                <li><a href = '/nearby/movietheaters/'  {% if org_type == 801  %} class = 'selected' {%endif%}>- Кинотеатры</a></li>
+                                            </ul>
+                                    </li>
+                                    <li><a href = '#null' onclick='$("#inserted_orgtype900").toggle()'>- Авто</a></li>
+											<ul id="inserted_orgtype900"  {% if org_type >= 900 and org_type <= 900 %} style="margin-left:14px; display: block"{% else %}style="margin-left:14px; display: none" {% endif %}>
+                                                <li><a href = '/nearby/pfs/'  {% if org_type == 900  %} class = 'selected' {%endif%}>- АЗС</a></li>
+                                            </ul>
+                                    </li>
+                                    <li><a href = '#null' onclick='$("#inserted_orgtype1000").toggle()'>- Государство и общество</a></li>
+											<ul id="inserted_orgtype1000"  {% if org_type >= 1000 and org_type <= 1000 %} style="margin-left:14px; display: block"{% else %}style="margin-left:14px; display: none" {% endif %}>
+                                                <li><a href = '/nearby/employmentcenters/'  {% if org_type == 1000  %} class = 'selected' {%endif%}>- Центры занятости</a></li>
+                                            </ul>
+                                    </li>									
+								</ul>	
+								</li>
+								<li><a href="/administration" class = "none_arrow {% if administration_page %}selected"{% else %}"{% endif %}>Администрация района</a></li>
+							 	<li class="nav_rev"><a onclick = 'javascript:clear_form("complaint_form"); window.location.hash = "complaint_window";  $.cookie("r_c","complaint")  ' class = "none_arrow">Пожаловаться на качество</a></li>
+								<li class='nav_rev'><a onclick = 'javascript: clear_form("review_form"); window.location.hash ="review_window";  $.cookie("r_c","review")' class = "none_arrow" >Отзывы и предложения</a></li>
+								<li style = "display:block;" class='nav_rev'><a href = '/mail/' class = "none_arrow {% if mail_page %} selected" {% else %} " {% endif %}>Почта</a></li>
+								
+								
+								<li><a id = "news_menu" class = "" href="#null"  onclick='$(".news_p").toggle(); $(this).toggleClass("down_arrow");' >Новости</a>
+								<ul  class="news_p clear_arrow" {% if news_page %}style = "display: block;" {% else %}style = "display: none;"{% endif %}>
+								    <li><a href = '/news' {% if news %} class = 'selected' {%endif%}>- Все новости</a></li>
+								 	<li><a  href = '/news/politics/' {% if it == 'politics' %} class = 'selected' {%endif%}>- Политика</a></li>
+									<li><a  href = '/news/economy/'{% if it == 'economy' %}onload = "$('#news_menu').addClass('open')" class = 'selected' {%endif%}>- Экономика</a></li>
+									<li><a  href = '/news/culture/'{% if it == 'culture' %} class = 'selected' {%endif%}>- Культура</a></li>
+									<li><a  href = '/news/science/'{% if it == 'science' %} class = 'selected' {%endif%}>- Наука и техника</a></li>
+									<li><a  href = '/news/sport/'{% if it == 'sport' %} class = 'selected' {%endif%}>- Спорт</a></li>
+									<li><a  href = '/news/rus'{% if it == 'rus' %} class = 'selected' {%endif%}>- Новости Росcии</a></li>	
+									<li><a  href = '/news/world/'{% if it == 'world' %} class = 'selected' {%endif%}>- Мировые новости</a></li>
+									<li><a  href = '/news/auto/'{% if it == 'auto' %} class = 'selected' {%endif%}>- Авто</span></a></li>
+									<li><a  href = '/news/latest/'{% if it == 'latest' %} class = 'selected' {%endif%}>- Последние новости</span></a></li>
+								</ul>
+								</li>	
+									
+								<li class='nav_rev'><a href = '/weather/' class = "none_arrow {% if weather_page %}selected" {% else %}"{% endif %} >Погода</a></li>							
+								<li><a id = "finance_menu" href = '#null' onclick='$(".finan_toggle2").toggle(); $(this).toggleClass("down_arrow");'> Финансы</span></a></li>								
+								<ul  class = "finan_toggle2 finance_menu" id="near_dot" {% if rate_page or rate_data %}style="display: block;"{% else %} style="display: none;" {% endif %} >
+								<li ><a href="/finance/currency/" {% if rate_page %}class = 'selected'{% endif %}>- Курсы валют</a></li>
+								    <li><a  href = "/finance/history/?select_date={{first_page_date}}&second_date={{now}}&char_code=USD"  {% if rate_data %}class = 'selected'{% endif %}  >- История котировок</a></li>
+								
+								</ul>
+								<li><a href="#null" class = "games_menu" onclick='$(".games_toggle").toggle(); $(this).toggleClass("down_arrow");'>Игры</a>
+								<ul class = "games_toggle clear_arrow" {% if games%}style="display: block"{% else %}style="display: none" {% endif %}>
+									
+									<li><a href="/games/top/" {% if top  %} class = 'selected' {%endif%} >- Топ 10</a></li>
+									<li><a href = '/games/shut/' {% if shut  %} class = 'selected' {%endif%}>- Шутеры</a></li>
+									<li><a href = '/games/role/' {% if role  %} class = 'selected' {%endif%}>- Ролевые</a></li>
+									<li><a href = '/games/strategy/' {% if strategy  %} class = 'selected' {%endif%}>- Стратегии</a></li>
+									<li><a href = '/games/sport/' {% if sport  %} class = 'selected' {%endif%}>- Спортивные</a></li>
+									<li><a href = '/games/exsn/' {% if exsn  %} class = 'selected' {%endif%}>- Экшен</a></li>
+									<li><a href = '/games/arkadi/' {% if arkadi  %} class = 'selected' {%endif%}>- Аркады</a></li>
+									<li><a href = '/games/azart/' {% if azart  %} class = 'selected' {%endif%}>- Азартные</a></li>
+									<li><a href = '/games/ios/'   {% if ios  %} class = 'selected' {%endif%}>- Игры для iOS</a></li>
+									<li><a href = '/games/android/'   {% if android  %} class = 'selected' {%endif%}>- Игры для Android</a></li>
+											
+								</ul>	
+								</li>
+								<li class='nav_rev'><a href = '#null' id = "video_menu" onclick='$(".video_toggle").toggle(); $(this).toggleClass("down_arrow");'>Видео</a>
+									<ul class = "video_toggle clear_arrow" id="video_dot" {% if video_page %}style="display: block; margin-left:14px; "{% else %} style="display: none;" {% endif %} >
+										<!--  <li ><a href="/video/?section=films" {% if section == 'films' %}class = 'selected'{% endif %}>- Фильмы</a></li> -->
+										<li><a {% if slug == 'films' %} id ="films"{% endif %} href="/films/">- Фильмы</a></li>
+								    	<li><a {% if slug = 'serials' %} id ="serials"{% endif %} href="/serials/">- Сериалы</a></li>								    
+									</ul>	
+								</li>
+								<li><a href = 'http://www.e-pos.ru/main.php?group=commun&amp;p=e63f999fadf010689ca0e01cd8e1e64b' class = "none_arrow">Прием платежей</a></li>
+								<li><a href = '/tickets/' class = "none_arrow">Продажа билетов</a></li>
+								<li style = "display:block;" class='nav_rev'><a href = "/tv_programma/" class = "none_arrow {% if tv_forecast %} selected" {% else %} " {% endif %}>Телепрограмма</a></li>
+								{% comment %}
+								<li><a href = '/tickets/' class = "none_arrow">Билеты</a></li>
+								{% endcomment %}
+								
+
+								<li><a href="/work" class="dot" onclick='$(".work_list").toggle()'>Работа</a>
+										<ul class= "work_list" id="near_dot"  {% if work_page %}style="display: block"{% else %}style="display: none" {% endif %}>
+										{% if work_logged = False or not work_logged %}
+											<li><a href = '/work_acount/work_vacancy_search'{% if  work_vacancy_search  %} class = 'selected' {% endif %}>- Поиск вакансий</a></li>
+											<li><a href = '/work_acount/work_resume_search' {% if  resume_search  %} class = 'selected' {% endif %}>- Поиск резюме</a></li>
+											<li><a href = '/work_acount/resume' {% if my_resume  %} class = 'selected' {%endif%}>- Мои резюме </a></li>
+											<li><a href = '/work_acount/vacancy'  {% if  work_vacancy_list  %} class = 'selected' {% endif %}>- Мои вакансии</a></li>	
+										{% else  %}
+											<li><a href = '/work_acount/personal_data' {% if personal_data  %} class = 'selected' {% endif %}>- Данные соискателя</a></li>
+											<li><a href = '/work_acount/resume' {% if my_resume  %} class = 'selected' {%endif%}>- Мои резюме </a></li>
+											<li><a href = '/work_acount/work_employer_data' {% if work_eployer_data  %} class = 'selected' {% endif %}>- Данные работадателя</a></li>
+											<li><a href = '/work_acount/vacancy'  {% if  work_vacancy_list  %} class = 'selected' {% endif %}>- Мои вакансии</a></li>
+											<li><a href = '/work_acount/work_vacancy_search'{% if  work_vacancy_search  %} class = 'selected' {% endif %}>- Поиск вакансий</a></li>
+											<li><a href = '/work_acount/work_resume_search' {% if  resume_search  %} class = 'selected' {% endif %}>- Поиск резюме</a></li>
+										{% endif %}
+										</ul>
+									{% endif %}
+								
+								
+								
+									<!-- 
+									<!-- для работы 
+									{% if work_page_private %}
+										<ul class= "work_list" id="near_dot"  {% if work_page_private %}style="display: block"{% else %}style="display: none" {% endif %}>
+										<li><a href = '/work_acount/resume' {% if my_resume  %} class = 'selected' {%endif%}>- Мои резюме </a></li>
+										<li><a href = 'hotspot/orgs/?org_type=301'>- Мои вакансии</a></li>
+										<li><a href = 'hotspot/orgs/?org_type=301'>- Поиск вакансий</a></li>
+										<li><a href = 'hotspot/orgs/?org_type=301'>- Поиск резюме</a></li>
+									</ul>
+									{% endif %}			
+									 окончание блока для работы -->
+									 
+									
+									
+									
+							
+							</ul>
+							
+							{% if login_page %}
+							<a href="#" id="pull">Меню<span>.<span></a>
+							{% elif news_page %}
+							<a href="#" id="pull">Разделы новостей<span>.<span></a>
+							{% elif not login_page %}
+							<a href="#" id="pull">Меню<span>.<span></a>
+							
+							
+							{% comment %}
+							{% elif games %}
+							<a href="#" id="pull">Меню<span>.<span></a>
+							{% elif weather_page %}
+							<a href="#" id="pull">Меню<span>.<span></a>
+							{% elif rate_page %}
+							<a href="#" id="pull">Меню<span>.<span></a>
+							{% elif rate_data %}
+							<a href="#" id="pull">Меню<span>.<span></a>
+                            {% elif administration_page %}
+                            <a href="#" id="pull">Меню<span>.<span></a>
+                            {% elif login_page_account %}
+                            <a href="#" id="pull">Меню<span>.<span></a>
+                            {% elif article_page_on_hotspot %}
+                            <a href="#" id="pull">Меню<span>.<span></a>
+                            {% elif article_mobi_slug_page %}
+                            <a href="#" id="pull">Меню<span>.<span></a>
+                            {% elif mail_page %}
+                            <a href="#" id="pull">Меню<span>.<span></a>
+                            {% elif video_page %}
+                            <a href="#" id="pull">Меню<span>.<span></a>
+                            {% elif ticket_page %}
+                            <a href="#" id="pull">Меню<span>.<span></a>
+                            {% endcomment %}
+                            
+							{% endif %}
+						</nav>
+				</div>
+		
+		
+
+			</div>
+			
+	</aside>
+
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/left_menu.js"></script>
+{% endblock %}  
+
+ {% block cap%}
+ {% if trial %}
+ <div class="trial_cl"></div>
+ {% endif %}
+ {% if free_internet%}
+ <div class="free_internet"></div>
+ {% endif %}
+<div class="main_spisok">
+						<!-- Вместо интернета - Размещение рекламы, стили к нему-->	
+						<style>
+							@media only screen and (min-width: 720px) and (max-width: 1020px){
+								.main_spisok ul li {
+									
+								}
+								}
+								@media only screen and (min-width: 1290px){
+								.main_spisok ul li {
+									float: none;
+									display: inline-block
+								}
+									}
+							
+								@media only screen and (max-width: 720px){
+								#inet {
+									left: 40px;
+									}
+									}
+						</style>
+					<ul><!--li class = "li_block"></li-->
+						<li id="tel_li" style = "margin-left: -5px;" ><a id='tel' href="http://globalhome.su/homepage/localphones/" target="_blank">Телефония</a></li>
+						<li id='data_li'><a id='data' href="http://moscowdata.ru/" target="_blank">Дата-центр</a></li>
+						<li id='gh_li'><a id='ghspot' href="http://globalhome.su/content/article/hot_spot/" class="punkt" target="_blank">WiFi GlobalHome</a></li>
+						<!--li id="inet_li"><a id='inet' href="http://globalhome.su/internet/" target="_blank">Интернет</a></li-->
+						<li id="inet_li"><a id='inet' href="http://ghmedia.ru" target="_blank">Размещение рекламы</a></li>
+					</ul>
+					
+				</div>
+	
+			    <div id="searchwrapper">
+
+                {% if google %}
+                <!-- Google Search -->
+                    <form {% if not trial %}action="/"{% else %}action="http://gh.mobi/status"{% endif %} id="cse-search-box" class="forma"  name = 'search_form' id="s_form" {%if trial%} onsubmit = "javascript:log();" {% endif%}>
+                      <div>
+                        <input type="hidden" name="cx" value="partner-pub-1422687476563367:6578216739" />
+                        <input type="hidden" name="cof" value="FORID:10" />
+                        <input type="hidden" name="ie" value="UTF-8" />
+                        <input type="text" name="q" size="55" class="searchbox"/>
+                        <input type="submit" name="sa" value="&#x041f;&#x043e;&#x0438;&#x0441;&#x043a;" class="searchbox_submit"/>
+                      </div>
+                    </form>
+                <!-- Google Search -->
+
+                <script type="text/javascript" src="http://www.google.ru/coop/cse/brand?form=cse-search-box&amp;lang=ru"></script>
+                
+                {% endif %}
+
+                
+                <!--Yandex search-->
+                    {% if yandex %}   
+                    {%if trial%}
+                    <form action = 'http://gh.mobi/status' method = 'GET' class="forma"  name = 'search_form' id="s_form" onsubmit = 'javascript:log();'>
+                    {% else%}
+                    <form action="/" method = 'GET' class="forma"  name = 'search_form' id="s_form" >
+                    {% endif%}
+                    <input tabindex="4" type="text" class="searchbox" name="query" value="{{query}}"  id = 'ya_input' />
+                    <input  type="submit"   class="searchbox_submit" href='' value="Найти"  /><span class="tri"></span>                 
+                    </form>
+                    <input type = 'hidden' id = 'addr_hid' value = '{{address}}'>
+                    
+                    <script>
+                        
+                    </script>
+                    {% endif %}
+                    <!--Yandex search-->
+
+                    {% if not search %}
+                    <!--div id="advert2" style="margin-left: -40px">
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        < mobi_wide >
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:970px;height:90px"
+                             data-ad-client="ca-pub-1422687476563367"
+                             data-ad-slot="6446472330"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div-->
+                    {% endif %}
+                    {% if not search %}
+                    {% if trial or free_internet  %}
+                    <style>
+                    	@media screen and (max-width: 720px) {
+                          .main_spisok ul{
+                                 position: relative;
+                                 top: 140px;
+                                        }
+                                                             }
+                    </style><p class = 'trial_mes'>{% if trial %} В данный момент сеть находится в тестовом режиме,<br> для использования сети нажмите {% endif %}
+                    
+                    
+                     <a onmousedown = 'javascript: window.location.hash="#hs_login2"' class = 'trial_a' style = 'cursor:pointer;'>{% if trial %}<span>Здесь</span>{% endif %}{% if free_internet %}<span>Получить бесплатный доступ</span>{% endif %}</a><br>
+                  
+                     
+                     
+                     <a  href="{{ linkloginonly }}?dst={{ linkorigesc }}&username=T-{{ macesc }}&popup=false" onclick="clear_all_cookies()" class = 'over_button'>{% if trial %}<span>здесь</span>{% endif %}{% if free_internet %}<span>Получить бесплатный доступ</span>{% endif %}</a><br>
+                     
+                    
+
+
+                    {% comment %} 
+                    <a href="{{ linkloginonly }}?dst={{ linkorigesc }}&username=T-{{ macesc }}&popup=false" class = 'over_button'><span>здесь</span></a><br>
+                     <br><a class='over_button' href="{{ linkloginonly }}?dst={{ linkorigesc }}&username=T-{{ macesc }}&popup=false">здесь</a><a onmousedown = 'javascript: window.location.hash="#hs_login2"' class = 'trial_a' style = 'cursor:pointer;'><span>здесь</span></a><br>
+                     <a onmousedown = 'javascript: window.location.hash="#hs_login2"' class = 'trial_a' style = 'cursor:pointer;'><span>здесь</span></a><br>
+                   
+                        <br><a class='over_button' href="{{ linkloginonly }}?dst={{ linkorigesc }}&username=T-{{ macesc }}&popup=false">здесь</a><a onmousedown = 'javascript: window.location.hash="#hs_login2"' class = 'trial_a' style = 'cursor:pointer;'><span>здесь</span></a><br>
+                    {% endcomment %}
+
+
+                    {% if trial %}
+                    <span>До окончания тестового периода осталось {{ trial }} дней</span><br>{% endif %}
+                    <style>
+                        @media screen and (min-width: 720px){
+                            .oferta_mobile{
+                                visibility: hidden;
+
+                            }
+                        }
+                    </style>
+
+                    {% if free_internet %}
+                    <span class = "oferta_mobile" style="color: gray; margin-top: -15px; font-size: 11px;" class="" >Нажимая на кнопку "Здесь", вы подтверждаете свое согласие с<a  href="/content/findoc/free_internet/"> договором оферты</a></span>
+                    {% endif %}
+
+
+                    </p>
+                    {% endif %}
+                    {% endif %}  
+					
+					{% comment %}
+					{% if begun %}
+     
+						<div class='new_adv'>
+						<span class='new_adv_text'><index>{{query}}</index></span>
+						<script type="text/javascript">
+						var begun_self_keywords = '{{query}}';
+						var begun_auto_pad = 366188286;
+						var begun_block_id = 366189674;
+						</script>
+						<script src="http://autocontext.begun.ru/autocontext2.js" type="text/javascript"></script>
+					
+						<!--  	<script type="text/javascript">
+							var begun_auto_pad = 366188286;
+							var begun_block_id = 366189674;
+							</script>
+							<script id='last_script' src='http://autocontext.begun.ru/autocontext2.js' type="text/javascript"></script>-->
+						</div>
+
+					{% endif %}
+                    {% endcomment %} 
+				</div>
+
+                        {% if not search %}
+                <style>
+                        @media only screen and (min-width: 1200px){
+                           .new_adv {
+                            /*margin: 0 13% 30px auto;*/
+                            margin: 0;
+                            width: 728px;
+                            position: relative;
+                           	z-index:1;
+                           	margin-bottom: 95px;
+                            } 
+                            
+                            .new_adv {
+                            width: 728px;
+                           	height: 90px;
+                           	/*border: 1px solid #4282D2;*/
+                            }
+                            .new_adv p{
+                            	text-align: center;
+                            	font-family: Segoe UI;
+                            	font-size20px;
+                            	color: #4282D2;
+                            	font-weight: bold;
+                            	margin-top: 35px;
+                            	vertical-align: middle !important;
+                            }
+                            
+                        }
+                            
+                    </style>
+                    <style>
+					.new_adv {
+						display: inline-block;
+						position: relative;
+						
+					}
+				
+					
+			</style>
+			
+			
+                <div class='new_adv'>
+                    <!--script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement}}"></script-->
+                 </div>
+                 <!--div style="position: relative;right: 200px; top: 0;display:  inline-block;width: 10%;background: blue;height: 20px;"></div-->
+                 <!--div class = "advert2"></div-->
+                <!--div style = "clear: both;"></div-->
+                 {% endif %}
+
+{% endblock %}
+	 {% block sendin %}
+	 <!-- Форма отправки данных входа на сервер -->
+	<form name="sendin" action="{{ linkloginonly }}" id = 'sendin' method="POST">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="{{ linkorig }}" />
+        <input type="hidden" name="popup" value="false" />
+    </form>
+    <!--  -->
+         {% endblock %}
+         {% block login_1 %}
+         {% if not no_content and not trial%}
+
+        <a href="#" class="overlay" id="hs_login" ></a>
+    <div class="main_modal">
+   	<form name="login_1" action="" method="POST"  > 
+    	<div id="modal">
+			<a href="#close" id='krest' onclick = 'clear_cookies()'></a>
+			<div id="mleft">
+				<article class="left_modal_article">
+					<h2>Возможности</h2>
+						<ul>
+						<li>безлимитный доступ в Интернет<br>до {{ hotspot_speed }} Мбит/сек;</li>
+						<li>свободное перемещение в зоне покрытия;</li>
+						</ul>
+					<h2>Стоимость подключения</h2>		
+					<p>{{cost_connection}} руб/сутки</p>
+
+					<h2>Как подключиться</h2>
+					<ul>
+					<li>найти беспроводную сеть GlobalHome и<br> подключиться к ней <a href="http://globalhome.su/content/article/hot_spot/">(смотрите карту покрытия) </a>;</li>
+					<li>при открытии любого веб-сайта в вашем браузере,<br> отобразится страница авторизации с логотипом GlobalHome;</li>
+					<li>ввести логин и пароль полученный при оплате<br> карты доступа и нажать «Войти».</li>
+					</ul>
+					
+					<p class="esli_p">Если у Вас возникли проблемы с подключением к Wi-Fi<br> - обратитесь в нашу службу технической поддержки.</p>
+					<a class="podr_info" href="http://globalhome.su/content/article/hot_spot/">Подробнее...</a>
+				</article>
+			</div>
+			<div id='mright'>
+					<h1 class="side_h1"><span>HotSpot Wi-Fi</span><br>вход в интернет</h1>
+					<!--div id = 'error_show'></div-->
+					<div  id="error_log" class = "error_show" >{% if error %} <div class = 'error_masege'>{{ error }}</div>{% endif %}</div>
+					<form name = '' class="form_login_modal" id="login_form">
+					
+					<input tabindex="1" class="reg_field name" type="text" name="username" id="m_username" placeholder="логин" onkeydown="javascript:if(13==event.keyCode){check_main_form1();}">
+					<input tabindex="2" class="reg_field pass" type="password" name="password" id="m_password" placeholder="пароль" onkeydown="javascript:if(13==event.keyCode){check_main_form1();}">
+					<input tabindex="3" class="reg_enter" type="button" onclick="check_main_form1()" value="Вход">
+					<input type="hidden" name="dst" value="{{ linkorig }}" />
+            		<input type="hidden" name="popup" value="true" />
+					</form>
+
+                        <center>
+					 {% if residential_sector and not trial %}<form style = "font-size: 12px;color: white;" name="check_ofer2" style="color: black;  font-size: 11px;" class="buy_log buy_log_login notification_ofer" ><input type="checkbox" name="checkbox_ofer2" checked="checked"  class="check_ofer">&nbsp;Согласен с &nbsp;<a class="findoc_oferta"  href="/content/findoc/residential_sector/" > договором оферты </a></form>
+                    {% endif %}{% if hostel and not trial %}<form style = "font-size: 12px;color: white;" name="check_ofer2" style="color: black;  font-size: 11px;" class="buy_log buy_log_login notification_ofer" ><input type="checkbox" name="checkbox_ofer2" checked="checked" class="check_ofer">&nbsp;Согласен с &nbsp;<a class="findoc_oferta"  href="/content/findoc/hostel/" > договором оферты </a></form>{% endif %}</center>
+					
+					<a href="/content/article/payment_methods_cards/" class='mbuy'>Купить логин</a>
+					
+
+			</div>
+
+		</div>
+    	</form>
+    	</div>
+    	 {% else %}
+    	  <a href="#" class="overlay" id="hs_login" ></a>
+    <div class="main_modal">
+   	<form name="login_1" action="" method="POST"  > 
+    	<div id="modal">
+			<a href="#close" id='krest' onclick = 'clear_cookies()'></a>
+			<div id="mleft">
+				<article class="left_modal_article">
+					<h2>Возможности</h2>
+						<ul>
+						<li>безлимитный доступ в Интернет<br>до {{ hotspot_speed }} Мбит/сек;</li>
+						<li>свободное перемещение в зоне покрытия;</li>
+						</ul>
+					<h2>Стоимость подключения</h2>		
+					<p>{{cost_connection}} руб/сутки</p>
+
+					<h2>Как подключиться</h2>
+					<ul>
+					<li>найти беспроводную сеть GlobalHome и<br> подключиться к ней <a href="http://globalhome.su/content/article/hot_spot/">(смотрите карту покрытия) </a>;</li>
+					<li>при открытии любого веб-сайта в вашем браузере,<br> отобразится страница авторизации с логотипом GlobalHome;</li>
+					<li>ввести логин и пароль полученный при оплате<br> карты доступа и нажать «Войти».</li>
+					</ul>
+					
+					<p class="esli_p">Если у Вас возникли проблемы с подключением к Wi-Fi<br> - обратитесь в нашу службу технической поддержки.</p>
+					<a class="podr_info" href="http://globalhome.su/content/article/hot_spot/">Подробнее...</a>
+				</article>
+			</div>
+			<div id='mright'>
+					<h1 class="side_h1"><span>HotSpot Wi-Fi</span></h1>
+
+					<!--div id = 'error_show'></div-->
+					<div  id="error_log" class = "error_show" >{% if error %} <div class = 'error_masege'>{{ error }}</div>{% endif %}</div>
+					
+					
+					{% if trial %}
+					<p class = 'trial_mes'> В данный момент сеть<br> находится в тестовом режиме<br></p>
+					{% endif %}
+					
+					
+					
+
+			</div>
+
+		</div>
+    	</form>
+    	</div>
+    	{% endif %}
+         {% endblock %}
+    	
+{% block hs_login2 %}
+{% if not no_content and trial or free_internet %}
+<a href="#null" class="overlay" id="hs_login2" ></a>
+    <div class="main_modal_tip">
+        <div class="modal_tip">
+            <a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+          <h2>Вы воспользовались услугами Бесплатной* Wi-Fi сети<br> <a href='http://globalhome.su/content/article/hot_spot/' target="_blank">HotSpot GlobalHome </a><h2>
+          <ul>
+              <li>Скорость доступа к интернет ресурсам составляет до {{ hotspot_speed }} мбит\с.</li>
+              <li>Для более подробной информации нажмите<a href="http://globalhome.su/content/article/hot_spot/" target="_blank">здесь</a></li>
+              <li>Для открытия сайта или получения нужной информации введите запрос в поисковой строке.  Далее перейдите по ссылке в выдаче информации.</li>
+          </ul>
+          <p>* - на период тестирования.</p>
+          
+          <div class="lower_part">
+          
+          {% if yandex %}
+          <!-- Yandex Search -->
+          {%if trial%}
+              <form action = 'http://gh.mobi/status' method = 'GET' class="forma modal" id='' name = 'search_form' onsubmit = 'javascript:log();'>
+          {% else%}
+              <form action="/" method = 'GET' class="forma modal"  name = 'search_form' >
+          {% endif%}
+              <input tabindex="4" type="text" class="searchbox modal" name="query" value=""  id = 'ya_input_log' />
+              <input  type="submit"   class="searchbox_submit modal"   value="Найти"  /><span class="tri"></span>
+                 
+                <br>
+                 {% if free_internet %}
+                 <span  style="color:orange;  font-size: 11px;" >Нажимая на кнопку "Найти", вы подтверждаете свое согласие с<a  href="/content/findoc/free_internet/"> договором оферты</a></span>
+
+                 <p  style="padding: 0px; text-align: center; color:orange;  font-size: 11px;"  >
+                 Тариф указан с ограничением доступа к ресурсам сторонних поисковых систем и их сервисов. Например – GOOGLE, Yandex, Mail, Rambler. Список ресурсов на которые распространяются ограничения может меняться Оператором в одностороннем порядке. Действующий список публикуется на сайте – Globalhome.su. При попытке захода Абонентом на данные ресуры, он будет перенаправлен на сайт – GLOBALHOME.MOBI</p>
+                 {% endif %}
+              </form>
+          
+          
+          {% endif %}
+          <!-- Yandex Search -->
+          
+          {% if google %}
+          <!-- Google Search  <form action="{{ auth_url }}"-->
+              <form action="http://gh.mobi/status" id="cse-search-box" class="forma modal"  name = 'search_form' id="s_form" {%if trial%} onsubmit = "javascript:log();" {% endif%}>
+                <div>
+                  <input type="hidden" name="cx" value="partner-pub-1422687476563367:6578216739" />
+                  <input type="hidden" name="cof" value="FORID:10" />
+                  <input type="hidden" name="ie" value="UTF-8" />
+                  <input type="text" name="q" size="55" class="searchbox modal"/>
+                  <input type="submit" name="sa" value="&#x041f;&#x043e;&#x0438;&#x0441;&#x043a;" class="searchbox_submit modal"/>
+                </div>
+
+                {% if free_internet %}
+                 <span  style="color:orange;  font-size: 11px;" >Нажимая на кнопку "Поиск", вы подтверждаете свое согласие с<a  href="/content/findoc/free_internet/"> договором оферты</a></span>
+
+                 <p  style="padding: 0px; text-align: center; color:orange;  font-size: 11px;"  >
+                 Тариф указан с ограничением доступа к ресурсам сторонних поисковых систем и их сервисов. Например – GOOGLE, Yandex, Mail, Rambler. Список ресурсов на которые распространяются ограничения может меняться Оператором в одностороннем порядке. Действующий список публикуется на сайте – Globalhome.su. При попытке захода Абонентом на данные ресуры, он будет перенаправлен на сайт – GLOBALHOME.MOBI</p>
+                {% endif %}    
+
+              </form>
+
+          <!-- Google Search -->
+
+          <script type="text/javascript" src="http://www.google.ru/coop/cse/brand?form=cse-search-box&amp;lang=ru"></script>
+          {% endif %}
+
+          </div>  
+      </div>
+  </div>
+  {% endif %}
+{% endblock %}
+
+ {% block complaint_window %}
+    <a href="#" class="overlay" id="complaint_window" ></a>
+        <div class="main_modal_tip">
+            <div class="modal_tip">
+                <a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+                <div id = 'review' >
+                <h2>Пожаловаться на качество </h2>
+                <div class = 'err'></div>
+                <form name ='complaint_form' action = '\'>
+                <ul>
+                    {% for field in comp_form %}    
+                        <li>{% form_field field block %}</li>
+                    {% endfor %}                 
+                 <li><input type = 'button' id = 'com_cont_sub' value = "Оставить"  onclick = 'win("complaint_form")'></li>
+                 <li><input type = "hidden" name = 'ident_field' id = 'ident_field' value='complaint'></li>
+                 <div class='loading'></div>
+                 </ul>
+                </form>
+                </div>              
+            </div>
+        </div>
+         {% endblock %}
+         {% block review_window %}
+          <a href="#" class="overlay" id="review_window" ></a>
+        <div class="main_modal_tip">
+            <div class="modal_tip">
+                <a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+                <div id = 'review' >
+                <h2>Оставить отзыв или предложение </h2>
+                <div class = 'err'></div>
+                <form name ='review_form' action = '\'>
+                <ul>
+                    {% for field in rew_form %}    
+                        <li>{% form_field field block %}</li>
+                    {% endfor %}                 
+                 <li><input type = 'button' id = 'com_cont_sub' value = "Оставить"  onclick = 'win("review_form")'></li>
+                 <li><input type = "hidden" name = 'ident_field' id = 'ident_field' value = "review"></li>
+                 <div class='loading'></div>
+                 </ul>
+                </form>
+                </div>              
+            </div>
+        </div>
+         {% endblock %}
+        
+        
+{% block work_login %}    
+<!-- мои данные -->
+
+<!-- pop up регистрация/вход-->
+<div class="tint"></div>
+<div class="popup">
+	<i class="popup-close" ></i>
+
+	<div class="popup-info">
+		<h2>Добро пожаловать на сайт компании GlobalHome!</h2>
+		<p><b>Мы рады предложить вам наш список услуг.</b></p>
+		<p>Если вы на сайте в первый раз, то вам необходимо зaрегистрироваться. Сама регистрация очень проста и не занимает много времени.Нужно указать ваш логин, пароль и e-mail, на который придет ссылка на активацию аккаунта, после чего вы можете заходить в личный кабинет и добавлять услуги.</p>
+		<p>Для доступа в личный кабинет необходимо ввести логин и пароль, указанный при регистрации.</p>
+	</div>
+    
+	<div class="popup-form register-form">
+		<h2><i></i>Регистрация</h2>
+		<form class="clearfix" name="reg_form" id="reg_form" action="#" method="post" onKeyDown="javascript:if(13==event.keyCode){func_reg();}">
+            <fieldset>
+                 <div class="popup-form-item">
+                    {% if reg_compite %}
+                   	<script>
+                    	document.location.href="/#success_reg_complete";
+                    </script>
+                    	<!-- div class="reg_success">
+                        	<reg_success>Регистрация завершена, на ваш почтовый ящик выслано письмо для активации аккаунта.</reg_success>
+                        </div-->
+                                              
+                    {% endif %}
+                    {{ form_reg.media }}
+                   {% for field in form_reg %}    
+                        {% form_field field block %}
+                    {% endfor %}
+                </div>
+                <input name="registr" style="display: none;"/>
+                <input type="button" class="submit" id="button_reg" value="Регистрация" class="bt_register" onclick="func_reg()" />
+            </fieldset>
+        </form>
+	</div>
+	  
+	<div class="popup-form login-form">
+		<h2><i></i>Вход в кабинет</h2>
+        <form class="clearfix" name="log_form" id="log_form" action="#" method="post" onKeyDown="javascript:if(13==event.keyCode){var form = document.getElementById('log_form'); form.submit(); return false;}">
+            <fieldset>
+                <div class="popup-form-item">
+                    {% if error_login %}
+                        <div class="error">
+                            <error_login>Заполните правильно все поля!</error_login>
+                        </div>
+                    {% endif %}
+                    {% if not_active %}
+                     	<div class="error">{{ top_errors|safe }}</div>
+                    {% endif %}
+                    {% for field2 in form_login %}
+                    	{% form_field field2 block %}
+                    {% endfor %}       
+                </div>
+            	<input type="hidden" name="login_m" />
+            </fieldset>
+        </form>         
+          
+        <form class="clearfix" name="reset_form" action="#" method="post" onKeyDown="javascript:if(13==event.keyCode){document.forms["reset_form"].submit();return false;}">
+            <fieldset>     
+                <div class="popup-form-forgot">
+                    <a href="#" class="popup-form-forgot-h">
+                        <span>Забыли пароль</span>
+                        <span style="display:none;">Спрятать</span>
+                    </a>
+                    
+                    <div class="popup-form-forgot-i">
+                        <h4>Востановление пароля</h4>
+                        <p>Введите имя пользователя, и на электронный ящик, указанный Вами при регистрации, будет выслано письмо с новым паролем.</p>
+                        <label>
+                            {% if reset_password_error %}
+                            <div class="error2">
+                                <error_login>{{ reset_password_error }}</error_login>
+                            </div>
+                          {% endif %}
+                          
+                          {% if reset_password_success %}
+                              <p class="message box success">
+                                  {{ reset_password_success }}
+                              </p>
+                          {% endif %}
+                          {% for field_reset in form_reset %}
+                              {% form_field field_reset block %}
+                          {% endfor %}
+                        </label>
+                        <input type="submit" name="reset_password" value="Отправить" class="submit" />
+                    </div>
+                </div>
+                
+                <div class="popup-form-item">
+                    <small><i class="req">*</i> – поля обязательные для заполнения</small>
+                </div>
+                  
+            </fieldset>
+        </form>    
+        
+		<input type="button" class="submit" name="login_m" value="Войти" class="bt_register" onclick="{var form = document.getElementById('log_form'); form.submit(); return false;}" />
+	</div>
+</div><!--popup--><!-- popup ends -->
+      
+<!-- окончание pop up  регистарция/вход -->	  	
+<!-- окончание моих данных -->
+   
+
+ 
+   
+	
+<style type = "text/css">
+.error3 {
+	margin: 0 25px 7px -10px;
+	padding: 0 10px 7px;
+	border: 2px solid #fff;
+	border-radius: 5px;
+	background: #ffeded;
+	border-color: #f00;
+}
+
+.register-form{
+	width: 265px;
+}
+	
+.popup-info{
+	display:none;
+}
+
+.popup{
+	width:600px;
+}
+
+#form-field-wrapper-profile{
+	display:none; 
+	}
+	
+.user_block{
+	width: 815px;
+	text-align: center; 
+	margin-bottom: 20px;
+	}
+	
+
+
+</style>
+
+
+<script src="{{ MEDIA_URL }}js/work_script_public.js"></script>
+
+
+<script>
+// мой javascript
+ 
+$(document).ready(function()
+	{  
+		//уберем класс error
+		$('.form-row').each( function() {
+			if ($(this).hasClass('error')) {
+				$( this ).addClass('error3').removeClass('error'); 
+			}
+		})
+	})
+</script>	
+	{% if not panel_off %}
+    	{% if user_name %}
+    		  <div class = "user_block">
+	    		<div class="user user-logged"><i class="icon"></i>
+					<span class="username">Привет, <font title="Ваше имя"><i></i>{{ user_name }}!</font></span>
+					<span class="logout"><br> <a href={% if not user.get_profile.is_card %}"/account/"{% else %}"/account/"{% endif %}>Личный кабинет</a></span>
+				</div>
+			  </div>
+		{% else %}
+
+				{% if login_er %}
+				 <script>
+			         $(function load()
+			         {
+			            $('.tint, .popup').fadeIn('fast');
+			            $('.login-form').find('input:first').focus();
+			            return false
+			         });
+		         </script>
+		       
+		    {% endif %}
+		    
+		    {% if reg_er %}
+				 <script>
+		         $(function load()
+		         {
+		            $('.tint, .popup').fadeIn('fast');
+		            $('.register-form').find('input:first').focus();
+		            return false
+		         });
+		        </script>
+		    {% endif %}
+		    
+		    {% if reset_er %}
+				
+				<script>
+		        // Forgot
+		        $(function load()
+		        {
+		            $('.tint, .popup').fadeIn('fast');
+					$('.popup-form-forgot').addClass('popup-form-forgot-opened');
+					$('.popup-form-forgot').find('span').toggle();
+		            $('.popup-form-forgot-i').show();
+		            $('.popup-form-forgot-i').find('input:first').focus();
+		        });
+		        </script>
+		    {% endif %}
+		    <div class = "user_block">
+				<div class="user"><i class="icon"></i>
+		            <a href="#" class="link-js link-login" ">Вход</a>
+		            <span>|</span>
+		            <a href="#" class="link-js link-register" ">Регистрация</a>	
+	            </div>
+	        </div>
+	   {% endif %}
+   {% endif %}		
+			
+<!--  -->			
+	
+<script>
+function func_reg() {
+		$('#button_reg').attr('disabled', 'disabled');
+		$("#reg_form").attr('onKeyDown', '');
+		$("#reg_form").serialize();
+		$("#reg_form").submit();
+		return false;
+}	
+</script>
+{% endblock %}	
+		
+        

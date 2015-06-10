@@ -1,0 +1,60 @@
+{% extends 'base_public.html' %}
+{% load i18n form_tags %}
+
+{% block content %}
+
+<h1 class="title">{% trans 'Sign up' %}</h1>
+
+<div class="ugc">
+    <p>Регистрация на сайте необходима для:</p>
+    <ol>
+        <li>
+            &nbsp;Получения<strong> <a href="/service/">услуг</a>,</strong> оказываемых нашей компанией.</li>
+        <li>
+            Для оказания помощи Вам нашей службой технической поддержки.</li>
+        <li>
+            Для реализации стоящих перед Вами задач в области связи.</li>
+    </ol>
+</div>
+
+{{ block.super }}
+
+<script>
+	function func_reglog() {
+		$('#button_reglog').attr('disabled', 'disabled');
+		$("#reglog").attr('onKeyDown', '');
+		$("#reglog").serialize();
+		$("#reglog").submit();
+		return false;
+}
+</script>
+
+<div class="popup-form register2-form">
+
+    <form class="reglog" id="reglog" name="registration_form" action="" method="post" onKeyDown="javascript:if(13==event.keyCode){func_reglog();}">
+         {% if top_errors %}
+          <div class="error">
+          {{ top_errors|safe }}
+          </div>
+        {% endif %}
+        
+        {% if form.non_field_errors %}
+          <div class="error">
+          {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+        {{form.media}}
+        {% for field in form %}
+            {% form_field field block %}
+        {% endfor %}
+        <div class="form-submit">
+            <div class="form-submit-right">
+                <input type="button" class="submit" id="button_reglog" value="Регистрация" class="bt_register" onclick="func_reglog()" />
+            </div>
+        </div>
+    </form>
+    
+</div>
+
+{% endblock %}
+

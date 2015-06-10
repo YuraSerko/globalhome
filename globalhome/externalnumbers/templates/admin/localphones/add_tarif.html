@@ -1,0 +1,162 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+{{ form.media }}
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" />
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/forms1.css" type="text/css"> 
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/interface-style1.css" />
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+	var nts = 0
+	var nrtr = 0
+	
+	function TypeChanged() {
+		if (nts.val() == 2) {
+			nrtr.show()
+		} else {
+			nrtr.hide()
+		}
+	}
+	
+	$(document).ready(function() {
+		nts = $("#numbers_type_select")
+		nts.attr("onChange", "TypeChanged()")
+		nrtr = $("#numbers_region_tr")
+		nrtr.hide()
+	})
+</script>
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+		<a href="../../../">
+		    {% trans "Home" %}
+		</a>
+		&rsaquo; 
+		<a href="../../">
+		    {{ app_label|capfirst }}
+		</a>
+		&rsaquo; 
+		<a href="../">
+		    {{ app_section }}
+		</a>
+		&rsaquo;
+		{% trans "Add" %}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+    {% if cl.formset.errors %}
+        <p class="errornote">
+        {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+        </p>
+        {{ cl.formset.non_form_errors }}
+    {% endif %}
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+    
+    {% block notifications %}
+      {% if request.notifications %}
+        {% for message in request.notifications %}
+          <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+            {{ message|safe }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock %}
+
+    <div style="width: 700px;" id="border_div">
+		<h3>{% trans "Adding new local numbers" %}</h3>
+		<form method="POST" action=".">
+    		<table>
+    			<tr>
+    				<th style="text-align: right;">Название:</th>
+    				<td style="text-align: left;">
+    					<input type="text" name="name" value="{{ start_range_str }}"/>
+    				</td>
+    			</tr>
+    			<tr>
+    				<th style="text-align: right;">Описание:</th>
+    				<td style="text-align: left;">
+                    <textarea name="about" cols="50" rows="4" wrap="physical"></textarea>
+    					
+    				</td>
+    			</tr>
+    			<tr>
+    				<th style="text-align: right;">Цена подключения:</th>
+    				<td style="text-align: left;">
+    					<select name="price_add">
+    						{% for region in all_numbs %}
+    							<option value="{{ region.0 }}">
+    								{{ region.1 }}({{ region.2 }})
+    							</option>
+    						{% endfor %}
+    					</select>
+    				</td>
+    			</tr>
+				<tr>
+    				<th style="text-align: right;">Абонентская плата:</th>
+    				<td style="text-align: left;">
+    					<select name="price_abon">
+    						{% for region in all_numbs1 %}
+    							<option value="{{ region.0 }}">
+    								{{ region.1 }}({{ region.2 }})
+    							</option>
+    						{% endfor %}
+    					</select>
+    				</td>
+    			</tr>
+                <tr>
+    				<th style="text-align: right;">Ценовой регион:</th>
+    				<td style="text-align: left;">
+    					<select name="precode">
+ <option value="0">Не виден</option>   						
+    							<option value="1">Москва 495</option>
+                                <option value="2">Москва 499</option>
+                                <option value="3">Ст. Петербург 812</option>
+    						
+    					</select>
+    				</td>
+    			</tr>
+    		</table>
+    		
+            <div class="submit-row">
+                <input type="submit" class="default" value='{% trans "Add" %}' name="add" />
+                {% if not is_popup %}
+                	<input type="submit" class="default" value='{% trans "Cancel" %}' name="cancel" />
+                {% endif %}
+            </div>
+		</form>
+    	
+    </div>
+{% endblock %}

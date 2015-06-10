@@ -1,0 +1,19 @@
+{% extends "admin/services/base_edit.html" %}
+{% load i18n %}
+
+{% block edit_service_content %}
+	<table>
+		<tr>
+			<th style="text-align: right">{% trans "Minutes left" %}:</th>
+			<td><input type="text" name="minutes" value="{{ free_minutes.minutes }}"></td>
+		</tr>
+		<tr>
+			<th style="text-align: right">{% trans "To number" %}:</th>
+			<td><a class="popup" href="/admin/telnumbers/externalnumber/{{ number.id }}/">{{ number }}</a></td>
+		</tr>
+		<tr>
+			<th style="text-align: right">{% trans "To zone" %}:</th>
+			<td><a class="popup" href="/admin/tariffs/telzone/{{ telzone.id }}/">{{ telzone }}</td>
+		</tr>
+	</table>
+{% endblock %}

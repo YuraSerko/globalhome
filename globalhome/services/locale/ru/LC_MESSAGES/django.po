@@ -1,0 +1,341 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-10-13 15:37+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: .\admin.py:24
+msgid "Setup service functional"
+msgstr "Настроить функционал услуги"
+
+#: .\admin.py:24
+msgid "Service functionals"
+msgstr "Функционал услуги"
+
+#: .\admin.py:78
+msgid "Service packet application editing"
+msgstr "Редактирование заявки на подключение/отключение пакета услуг"
+
+#: .\admin.py:78 .\models.py:433
+msgid "Service packets applications"
+msgstr "Заявки на пакеты услуг"
+
+#: .\admin.py:137
+msgid "Assigned service packet editing"
+msgstr "Редактирование назначенного пакета услуг"
+
+#: .\admin.py:137 .\models.py:501
+msgid "Assigned services packets"
+msgstr "Назначенные пакеты услуг"
+
+#: .\admin.py:186
+msgid "Application for detaching service packet created."
+msgstr "Заявка на отключение пакета услуг создана."
+
+#: .\admin.py:194
+msgid "Assigning service packet"
+msgstr "Назначение пакета услуг"
+
+#: .\admin.py:194 .\models.py:1362
+msgid "Assign service packet"
+msgstr "Назначить пакет услуг"
+
+#: .\consts.py:9
+msgid "Telematic services"
+msgstr "Телематические услуги"
+
+#: .\consts.py:10
+msgid "Local phone number services"
+msgstr "Услуги местной телефонной связи"
+
+#: .\consts.py:11
+msgid "Rental equipment service"
+msgstr "Услуги аренды оборудования"
+
+#: .\consts.py:18
+msgid "Connecting"
+msgstr "Подключение"
+
+#: .\consts.py:19
+msgid "Detaching"
+msgstr "Отключение"
+
+#: .\models.py:24
+msgid "Service template"
+msgstr "Шаблон услуги"
+
+#: .\models.py:25
+msgid "Services templates"
+msgstr "Шаблоны услуг"
+
+#: .\models.py:29
+#: .\templates\admin\services\base_functional_configure.html.py:83
+msgid "Functional name"
+msgstr "Имя функционала"
+
+#: .\models.py:31
+#: .\templates\admin\services\base_functional_configure.html.py:99
+msgid "Python module name"
+msgstr "Имя Python модуля"
+
+#: .\models.py:52 .\models.py:59
+msgid "Service functional"
+msgstr "Функционал услуги"
+
+#: .\models.py:53
+msgid "Services functionals"
+msgstr "Функционалы услуг"
+
+#: .\models.py:57
+msgid "Available service name"
+msgstr "Имя доступной услуги"
+
+#: .\models.py:58
+#: .\templates\admin\services\base_functional_configure.html.py:91
+msgid "Slug"
+msgstr ""
+
+#: .\models.py:61
+msgid "Connect price"
+msgstr "Цена подключения"
+
+#: .\models.py:62
+msgid "License fee"
+msgstr "Абонентская плата"
+
+#: .\models.py:64
+msgid "One-time document"
+msgstr "Одноразовый документ"
+
+#: .\models.py:65
+msgid "This document user will sign only one time"
+msgstr "Этот документ пользователь будет подписывать только один раз"
+
+#: .\models.py:66
+msgid "Reusable document"
+msgstr "Многоразовый документ"
+
+#: .\models.py:67
+msgid "This document user will sign every time"
+msgstr "Этот документ пользователь будет подписывать каждый раз"
+
+#: .\models.py:68
+msgid "Cancel document"
+msgstr "Документ отключения"
+
+#: .\models.py:69
+msgid "This document user will sign when canceling service"
+msgstr "Этот документ пользователь будет подписывать при отключении услуги"
+
+#: .\models.py:77
+msgid "Available service"
+msgstr "Доступная услуга"
+
+#: .\models.py:78
+msgid "Available services"
+msgstr "Доступные услуги"
+
+#: .\models.py:85
+msgid "Is published"
+msgstr "Опубликован"
+
+#: .\models.py:86
+msgid "Name"
+msgstr "Имя"
+
+#: .\models.py:87
+msgid "Display name"
+msgstr "Отображаемое имя"
+
+#: .\models.py:89
+msgid "Services in this packet"
+msgstr "Услуги в этом пакете"
+
+#: .\models.py:90
+msgid "Text template"
+msgstr "Шаблон описания"
+
+#: .\models.py:91
+msgid "Short text template"
+msgstr "Шаблон краткого описания"
+
+#: .\models.py:179 .\models.py:184 .\models.py:438 .\models.py:505
+#: .\templates\admin\services\base_assign_service_packet.html.py:129
+#: .\templates\admin\services\base_sp_application_edit.html.py:99
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:104
+msgid "Available service packet"
+msgstr "Доступный пакет услуг"
+
+#: .\models.py:180
+msgid "Available services packets"
+msgstr "Доступные пакеты услуг"
+
+#: .\models.py:185
+#: .\templates\admin\services\base_sp_application_edit.html.py:103
+msgid "Application type"
+msgstr "Тип заявки"
+
+#: .\models.py:186 .\models.py:439 .\models.py:506
+msgid "Assigned to"
+msgstr ""
+
+#: .\models.py:187 .\models.py:441 .\models.py:507
+#: .\templates\admin\services\base_sp_application_edit.html.py:111
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:112
+msgid "Assigned at"
+msgstr ""
+
+#: .\models.py:188 .\models.py:442 .\models.py:508
+msgid "Assigned by"
+msgstr ""
+
+#: .\models.py:206 .\models.py:455
+#: .\templates\admin\services\base_sp_application_edit.html.py:129
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:134
+msgid "Extra text"
+msgstr "Дополнительное описание"
+
+#: .\models.py:339
+#, python-format
+msgid ""
+"An application for service packet connection \"%(packet)s\" to the user \"%"
+"(user)s\""
+msgstr ""
+
+#: .\models.py:344
+#, python-format
+msgid ""
+"An application for service packet detaching \"%(packet)s\" from the user \"%"
+"(user)s\""
+msgstr ""
+
+#: .\models.py:364 .\models.py:1351
+msgid "Operation aborted by user"
+msgstr "Операция прервана пользователем"
+
+#: .\models.py:425
+#, python-format
+msgid "Assigning service packet '%s'"
+msgstr "Назначение пакета услуг '%s'"
+
+#: .\models.py:432
+msgid "Service packet application"
+msgstr "Заявка на пакет услуг"
+
+#: .\models.py:440
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:116
+msgid "Application created at"
+msgstr "Дата создания заявки"
+
+#: .\models.py:445
+#, python-format
+msgid "Assigned service packet \"%(packet)s\" to user \"%(user)s\""
+msgstr "Назначенный пакет услуг \"%(packet)s\" пользователю \"%(user)s\""
+
+#: .\models.py:495
+msgid "Operation successfully completed"
+msgstr "Операция успешно завершена"
+
+#: .\models.py:500
+msgid "Assigned service packet"
+msgstr "Назначенный пакет услуг"
+
+#: .\models.py:1294
+msgid ""
+"The transaction was successfully off and the invoice was sent to your e-mail."
+msgstr "Операция успешно завершена и на ваш e-mail выслан счет для оплаты."
+
+#: .\templates\admin\services\base_assign_service_packet.html.py:58
+#: .\templates\admin\services\base_functional_configure.html.py:41
+#: .\templates\admin\services\base_sp_application_edit.html.py:58
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:58
+msgid "Home"
+msgstr ""
+
+#: .\templates\admin\services\base_assign_service_packet.html.py:76
+#: .\templates\admin\services\base_functional_configure.html.py:63
+#: .\templates\admin\services\base_sp_application_edit.html.py:80
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:80
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\templates\admin\services\base_assign_service_packet.html.py:97
+msgid "Please select user"
+msgstr ""
+
+#: .\templates\admin\services\base_assign_service_packet.html.py:107
+msgid "Please select available service packet"
+msgstr "Пожалуйста, выберите доступный пакет услуг"
+
+#: .\templates\admin\services\base_assign_service_packet.html.py:119
+msgid "Continue"
+msgstr "Продолжить"
+
+#: .\templates\admin\services\base_assign_service_packet.html.py:125
+msgid "To user"
+msgstr "Пользователю"
+
+#: .\templates\admin\services\base_assign_service_packet.html.py:144
+msgid "Assign"
+msgstr "Назначить"
+
+#: .\templates\admin\services\base_assign_service_packet.html.py:145
+#: .\templates\admin\services\base_functional_configure.html.py:126
+msgid "Cancel"
+msgstr "Отмена"
+
+#: .\templates\admin\services\base_functional_configure.html.py:52
+msgid "Setup"
+msgstr "Настроить"
+
+#: .\templates\admin\services\base_functional_configure.html.py:122
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\templates\admin\services\base_functional_configure.html.py:125
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:154
+msgid "Save"
+msgstr "Сохранить"
+
+#: .\templates\admin\services\base_sp_application_edit.html.py:107
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:108
+msgid "Assigned to user"
+msgstr "Назначен пользователю"
+
+#: .\templates\admin\services\base_sp_application_edit.html.py:115
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:120
+msgid "Assigned by user/admin"
+msgstr "Назначен пользователем/персоналом"
+
+#: .\templates\admin\services\base_sp_application_edit.html.py:124
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:129
+msgid "By user itself"
+msgstr "Самим пользователем"
+
+#: .\templates\admin\services\base_sp_application_edit.html.py:147
+msgid "Cancel application"
+msgstr "Отменить заявку"
+
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:100
+msgid "Enabled"
+msgstr ""
+
+#: .\templates\admin\services\base_sp_assigned_edit.html.py:151
+msgid "Detach packet"
+msgstr "Отсоединить пакет"

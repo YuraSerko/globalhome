@@ -1,0 +1,41 @@
+{% load i18n form_tags %}
+<form id='form_auth'>
+	<table class="type-4 modal">
+    	<caption>
+        	<h1 class="title">Вход в личный кабинет</h1>
+        </caption>
+        <tbody>
+        	<tr>
+            	<td>
+                {% if errors.error_auth %}
+                    <div class="status status-error">
+                        <i class="ico"></i>
+                        <div class="status-i">
+                            <p>Заполните правильно все поля!</p>
+                        </div>
+                    </div>
+   				{% endif %} 
+                </td>
+            </tr>
+        	<tr>
+            	<td style="padding: 0; height: auto;">
+                    <div class="popup-form login2-form" style="min-height: 100px;">
+                        {% for field2 in form_login %}
+                        	{% form_field field2 block %}
+                        {% endfor %}
+                        <div style="clear: both"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+            	<td style="padding-right: 5px; padding-bottom: 10px;">
+                    <div class="form-submit-right">
+                        <input class="bt bt-blue2" type="button" value='Назад' onclick="step_zakaz('{{ server_id }}')"/>
+                        <input class="bt bt-blue2" type="button" value="Далее" onclick="step_final('login')"/>
+                        <input type="hidden" name="data" id="textfield" value="{{ data }}" /></input>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+     </table>  
+</form>

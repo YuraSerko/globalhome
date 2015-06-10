@@ -1,0 +1,31 @@
+<a class="popup-close" href="#close"></a>
+<a class="popup_personal-close" href="#close"></a>
+<form action="." method="post" id="status_list">
+    {% if status %}
+        <table class="type-2">
+            <thead>
+                <tr>
+                    <th>С номера</th>
+                    <th>На номер</th>
+                    <th>Добавочный</th>
+                    <th>Статус</th>
+               </tr>
+            </thead>
+            <tbody>
+            {% for stat in status %}
+                <tr>
+                    <td>{{ stat.number }}</td>
+                    <td>{{ stat.to_numb }}</td>
+                    <td>{% if stat.add_number == '' %}-{% else %}{{ stat.3 }}{% endif %}</td>
+                    <td>{% if stat.status == '2' %}Номер не доступен{% else %}{% if stat.status == 'USER_BUSY' %}Номер занят{% else %}{% if stat.status == '1' %}Отправлен{% else %}{% if stat.status == 'ORIGINATOR_CANCEL' %}Номер не отвечает{% else %}{% if stat.status == 'CALL_REJECTED' %}Не достаточно средств, пополните баланс{% else %}{% if stat.status == 'OUTGOING_CALL_BARRED' %}Не достаточно средств, пополните баланс{% else %}{% if stat.status == 'NORMAL_CLEARING' %}Факс не отправлен{% else %}{{ stat.status }}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+    {% else %}
+        <div class="information">
+            У Вас нет статусов
+        </div>
+    {% endif %}
+</form>

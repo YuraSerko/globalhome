@@ -1,0 +1,31 @@
+  <form id="form_auth" name="form_auth" method="post">
+    	<a class="popup_personal-close" href="#close"></a>
+    	<table class="type-4 modal">
+        	<caption>
+            	<h1 class="title">Авторизация</h1>
+                <div class="ugc" style="margin: 0;">
+                    <p>Для оформления заказа необходимо авторизоваться</p>
+                </div>
+            </caption>
+            <tbody>
+                <tr>
+                    <td colspan="2" style="padding: 0; padding-left: 15px; padding-bottom: 10px; padding-top: 10px; background: none;">
+                        <label><input name="face" type="radio" id="face_0"  value="0" checked="checked"><strong>Зарегистрироваться</strong></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding: 0; padding-left: 15px; padding-right: 15px; padding-bottom: 10px; background: none;">
+                       <label><input type="radio" name="face" id="face_1" value="1"><strong>Авторизоваться в системе</strong></label>
+                    </td>
+                </tr>
+                <tr>
+                	<td>
+                    <div class="form-submit-right" id="ajf">
+                    <input class="bt bt-blue2" name="next" type="button" id='next_button' value="Далее" onclick="step_auth()"/>
+                    <input type="hidden" name="data" id="data_field" value="{{ data }}" /></input>
+                    </div>
+                    </td>
+               </tr>
+            </tbody>
+        </table>
+	</form>

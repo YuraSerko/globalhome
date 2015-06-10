@@ -1,0 +1,453 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+{{ block.super }}
+
+	<script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/id_utils.js"></script>
+    <script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/wait_utils.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/general.js"></script>
+    <link href="{{ MEDIA_URL }}css/bh.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" language="javascript" charset="utf-8">
+	
+	$( document ).ready(function() {
+		$("#id_type_out_in_0").parent().append($('<label class="hint">').text(' (Номера будут проверяться при получении входящего звонка)'));
+		$("#id_type_out_in_1").parent().append($('<label class="hint">').text(' (Номера будут проверяться при совершении исходящего звонка)'));
+	
+		$("#id_number").keydown(function(event) {
+        // Allow: backspace, delete, tab, escape, and enter
+        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || 
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        else {
+            // Ensure that it is a number and stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault(); 
+            }   
+        }
+    });
+	
+	$("#selected_numbers").keyup(function(event) {
+        if ( event.keyCode == 46 ) {
+               del_r();
+        }
+    });
+		
+		refr();
+		if ($('#id_type_out_in_1').is(":checked")) {
+			$('#form-field-wrapper-type_out').show();
+			$('#form-field-wrapper-type_in').hide();
+			$('#black1').hide();
+			$('#in').hide();
+			if ($('#id_type_out_1').is(":checked")) {
+				$('#black2').hide();
+				$('#black22').hide();
+				
+				}
+			else if ($('#id_type_out_0').is(":checked")) {
+				$('#white2').hide();
+				$('#white22').hide();
+				
+				}
+			}
+		else if ($('#id_type_out_in_0').is(":checked")) {
+			$('#form-field-wrapper-type_out').hide();
+			$('#form-field-wrapper-type_in').show();
+			$('#white1').hide();
+			$('#out').hide();
+			if ($('#id_type_in_1').is(":checked")) {
+				$('#black2').hide();
+				$('#black22').hide();
+			
+				}
+			else if ($('#id_type_in_0').is(":checked")) {
+				$('#white2').hide();
+				$('#white22').hide();
+				
+				}
+			}
+			else {$('#form-field-wrapper-type_out').hide();
+			$('#form-field-wrapper-type_in').hide();}
+			
+			
+			
+	});
+	
+	
+	function type_call(rad) {
+		if (rad.value == '1') {
+			$('#form-field-wrapper-type_out').hide();
+			$('#white1').hide();
+			$('#form-field-wrapper-type_in').show();
+			$('#black1').show();
+			$('#out').hide();
+			$('#in').show();
+			}
+		else {
+			$('#form-field-wrapper-type_out').show();
+			$('#black1').hide();
+			$('#form-field-wrapper-type_in').hide();
+			$('#white1').show();
+			$('#out').show();
+			$('#in').hide();
+			}
+		
+	}
+	
+	function type_call_pod(rad) {
+		if (rad.value == '1') {
+			$('#white2').hide();
+			$('#black2').show();
+			$('#white22').hide();
+			$('#black22').show();
+			}
+		else {
+			$('#black2').hide();
+			$('#white2').show();
+			$('#black22').hide();
+			$('#white22').show();
+			}
+		
+	}
+	
+	function PageLoaded() // вызовется, когда страница загрузится
+		{	
+			var busy_div = GetI("dtmf_conditions");
+			var busy_cb = GetI("id_answer_dtmf");
+			busy_cb.onclick = function() { 
+			Sdown(busy_div, busy_cb); 
+			}
+			Sdown(busy_div, busy_cb);
+		}
+	WaitForLoaded("conditions", PageLoaded);  
+	
+	function updateElementIndex(el, prefix, ndx) {
+	  	var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        var replacement = prefix + '-' + ndx + '-';
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+        replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+	function deleteForm(btn, prefix) {
+		var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+		if (formCount > 1) {
+				// Delete the item/form
+				$(btn).parent('.itemka'+prefix+'').remove();
+				var forms = $('.itemka'+prefix+''); // Get all the forms  
+				// Update the total number of forms (1 less than before)
+				$('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+				var i = 0;
+				// Go through the forms and set their indices, names and IDs
+				for (formCount = forms.length; i < formCount; i++) {
+					$(forms.get(i)).children().children().each(function () {
+						if ($(this).attr('type') == 'text' || $(this).attr('type') == 'comm') updateElementIndex(this, prefix, i);
+					});
+				}
+				}
+		return false;
+    }
+
+    function addForm(btn, prefix) {
+		var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+		// You can only submit a maximum of 10 todo items 
+		if (formCount < 10 && formCount != 0) {
+			if (prefix=='number' || prefix=='group' || prefix=='extnumber') {
+				//if (btn.id == $(".itemka"+prefix+":last").children().children("select").attr('id')) {
+					// Clone a form (without event handlers) from the first form
+					var row = $(".itemka"+prefix+":first").clone(false).get(0);
+					// Insert it after the last form
+					$(row).removeAttr('id').hide().insertBefore("#add_id_"+prefix).slideDown(300);
+					// Remove the bits we don't want in the new row/form
+					// e.g. error messages
+					$(".errorlist", row).remove();
+					$(row).children().removeClass("error");
+					// Relabel or rename all the relevant bits
+					$(row).children().children().each(function () {
+						updateElementIndex(this, prefix, formCount);
+						$(this).val("");
+					});
+s					// Add an event handler for the delete item/form link 
+					$(row).find(".delete").click(function () {
+						return deleteForm(this, prefix);
+					});
+					// Update the total form count
+					$("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+				//}
+			}
+			else {
+					// Clone a form (without event handlers) from the first form
+					var row = $(".itemka"+prefix+":first").clone(false).get(0);
+					// Insert it after the last form
+					$(row).removeAttr('id').hide().insertBefore("#add_id").slideDown(300);
+					// Remove the bits we don't want in the new row/form
+					// e.g. error messages
+					$(".errorlist", row).remove();
+					$(row).children().removeClass("error");
+					// Relabel or rename all the relevant bits
+					$(row).children().children().each(function () {
+						updateElementIndex(this, prefix, formCount);
+						$(this).val("");
+					});
+					// Add an event handler for the delete item/form link 
+					$(row).find(".delete").click(function () {
+						return deleteForm(this, prefix);
+					});
+					// Update the total form count
+					$("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+					$("#id_" + prefix + "-INITIAL_FORMS").val(formCount + 1);
+				}
+        } // End if
+        else if (formCount != 0) {
+			alert("Sorry, you can only enter a maximum of ten items.");
+        }
+        return false;
+    }
+    // Register the click event handlers
+    function ask(asd, pre) {
+		return addForm(asd, pre);
+    };
+
+    function del_asks(asd, pre) {
+		return deleteForm(asd, pre);
+    };
+	
+	function OpenInNewTab(url )
+	{
+	  var win=window.open(url, '_blank');
+	  win.focus();
+	}
+	
+	function del_r()
+	{
+		var x = document.getElementById('selected_numbers');
+		   for (i = x.length - 1; i>=0; i--) {
+			  if (x.options[i].selected) {
+				x.remove(i);
+				}
+		   }
+		refr();
+	}
+	
+	function add_r()
+	{	
+		arr = document.getElementById("int_numb").value.split(',')
+		for (i = arr.length - 1; i>=0; i--) {
+			if (document.getElementById("id_number").value == arr[i])
+				{
+					alert("Такой номер уже есть в списке !");
+					return
+				}
+		}
+		
+		var x=document.getElementById("selected_numbers");
+		var option=document.createElement("option");
+		option.text=document.getElementById("id_number").value
+		var k=0
+		try
+		  { 
+			x.add(option,x.options[null]);
+		   }
+		catch (e)
+		  {
+		 x.add(option,x.options[null]);}
+		  
+		refr();
+	}
+	
+	function refr()
+	{
+	var x = document.getElementById("selected_numbers");
+	document.getElementById("int_numb").value="";
+	   for (i = x.length - 1; i>=0; i--) {
+		document.getElementById("int_numb").value=document.getElementById("int_numb").value+document.getElementById("selected_numbers").options[i].text.split(" ")[0]+",";   
+		}
+	}
+	
+</script>
+    
+</br>
+<div class="ugc">
+    <p>Выберите нужные номера и/или группы и сохраните изменения</p>
+</div>   
+{% if error %}
+<style>
+#id_number {
+box-shadow: 0px 0px 0px 2px rgb(238, 238, 238);
+border-color: rgb(255, 64, 64);
+}
+</style>
+
+{% endif %}
+{% if error_in_4 %}
+<style>
+.itemkanumber > p > select
+{
+box-shadow: 0px 0px 0px 2px rgb(238, 238, 238);
+border-color: rgb(255, 64, 64);
+}
+.itemkagroup > p > select
+{
+box-shadow: 0px 0px 0px 2px rgb(238, 238, 238);
+border-color: rgb(255, 64, 64);
+}
+.itemkaextnumber > p > select
+{
+box-shadow: 0px 0px 0px 2px rgb(238, 238, 238);
+border-color: rgb(255, 64, 64);
+}
+</style>
+{% endif %}
+<form id="obzvon" name="new_obzvon" action="" method="post" enctype="multipart/form-data">
+		<input name="call_type" type="hidden" value="{{ call_type }}" />
+		
+       
+<div class="form-sections">
+	<div class="shag">
+        <ol class="asd">
+            <li class="mli">
+					<div class="form-section form-section2 form_django">
+               			{% form_field form.name block %}
+                    </div><!--form-section-->
+             </li>
+             <li class="mli">     
+             		<div class="form-section form-section2">
+                       {% form_field form.type_out_in block %}
+                        {% form_field form.type_out block %}
+                        {% form_field form.type_in block %}
+                        <div class="hint"><i></i>Выберите тип вызова и тип списка</div>
+                    </div><!--form-section-->
+    		</li>
+           	<li class="mli">
+                    <div class="form-section form-section2 form_django">
+                    
+                    <table>
+                         <tr>
+                         	
+                         	<label id="black1" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;">Номера которым&nbsp</label>
+                            
+                            <label id="white1" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;">Номера на которые&nbsp</label>
+                            
+                            <label id="black2" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;"> запрещены вызовы:</label>
+                            <label id="white2" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;"> разрешены вызовы:</label>
+                        <td>    
+                    <div class="field">
+                    <input id="id_number" name="number" type="text" style="margin-bottom:5px; width:250px;"></input>
+                    <button name="add" id="add_id" class="bt bt-blue2" type="button" onclick="add_r();" style="margin-bottom:5px; width:250px;">Добавить +</button>
+                    <select ondblclick="del_r()" name="oper2" size="9" id="selected_numbers" style="height:100%; width: 250px;">
+                    {% for ch in model_number_detail_list %}
+                             <option  value="{{ ch }}">{{ ch }}</option>
+                        {% endfor %}
+                    </select>
+                    <input id="int_numb" name="int_numb" type="hidden" /> 
+                    </div>
+                                </td>
+                         
+                                <td width="10%">
+								</td>
+
+                                <td valign="top">
+                                {% form_field form.file_text block %}
+                            
+                            <div class="hint"><i></i>Вы можете выбрать файл со списком номеров формата ".txt".<br>Номера в файле должны располагаться через запятую без пробелов.<br>Пример: 1000016,1000014,74951234567,74991234567.</div>
+                            </td>
+                            
+                            </tr>
+                            
+                            </table>
+                    
+                    </div><!--form-section-->
+            
+            </li>
+            <li class="mli">
+                        
+ <div class="form_django form_ul">
+        <div class="form-section form-section2">
+        <label id="in" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;">Номера и/или группы на которые будут</label>
+        <label id="out" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;">Номера и/или группы которым будут</label>
+        <label id="black22" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;"> запрещены вызовы:</label>
+        <label id="white22" style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;"> разрешены вызовы:</label>
+        <table WIDTH="800">
+                         <tr>
+                         	<td valign="top" width="450">
+                            {{ formset_number.management_form }}
+                            {% for form1 in formset_number.forms %}
+                                <div class="itemkanumber">
+                                  {{ form1.as_p }}
+                                  <a href="javascript:void(0);" onClick="del_asks(this, 'number');"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a>
+                                 <br></br>
+                                  </br></div>
+                            {% endfor %}
+                            <button name="add" id="add_id_number" class="bt bt-blue2" type="button" onclick="ask(this, 'number');" style="width: 270px;">Ещё внутренний номер...</button>
+                            <hr class="for_itemka_number"></hr>
+                            </td>
+                         	<td>
+                            </td>
+                            </tr>
+ 
+                            <tr>
+                            <td valign="top" width="350">
+                            {{ formset_group.management_form }}
+                            {% for form2 in formset_group.forms %}
+                                <div class="itemkagroup">
+                                  {{ form2.as_p }}
+                                <a href="javascript:void(0);" onClick="del_asks(this, 'group');"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a><br></br>
+                                  </br></div>
+                            {% endfor %}
+                            <button name="add" id="add_id_group" class="bt bt-blue2" type="button" onclick="ask(this, 'group');" style="width: 270px;">Ещё группа...</button>
+                            <hr class="for_itemka_group"></hr>
+                            </td>
+                            <td>
+                            </td>
+                            </tr>
+                            
+                            <tr>
+                            <td valign="top" width="350">
+                            {{ formset_extnumber.management_form }}
+                            {% for form3 in formset_extnumber.forms %}
+                                <div class="itemkaextnumber">
+                                  {{ form3.as_p }}
+                                <a href="javascript:void(0);" onClick="del_asks(this, 'extnumber');"><img src="/media/images/sprite_delete.png" style="margin-top: 3px;" title="Удалить поле"></a><br></br>
+                                  </br></div>
+                            {% endfor %}
+                            <button name="add" id="add_id_extnumber" class="bt bt-blue2" type="button" onclick="ask(this, 'extnumber');" style="width: 270px;">Ещё городской номер...</button>
+                            <hr class="for_itemka_extnumber"></hr>
+                            </td>
+                            <td>
+                            </td>
+                            </tr>
+                            
+       </table>
+
+         </div>
+         </div>    
+ 
+        </li>
+        		 </ol>
+                    </div> 		
+                        
+         				</div>
+         
+         
+         
+         
+            <div class="form-submit">
+                <div class="form-submit-right">
+                    <input type="submit" class="bt bt-blue2" value='{% trans "Cancel" %}' name="cancel" />
+                    <input type="submit" class="bt bt-blue2" value='{% trans "Save changes" %}' name="save" />
+                </div>
+            </div>
+            
+        
+
+</form>
+
+{% endblock %}

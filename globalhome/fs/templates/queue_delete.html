@@ -1,0 +1,26 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<p class="breadcrumbs"><a href="/account/service_choice/">Выбор раздела</a><span>→</span><a href="/account/">Телефония</a><span>→</span><a href="/account/queue/">Очередь</a><span>→</span>Удаление очереди</p>
+
+<h1 class="title">{{ title }}</h1>
+
+<form action="." method="post" enctype="multipart/form-data">
+
+    <div class="confirm2">
+        <h4 class="h4_style">Вы уверены что хотите удалить очередь "{{queue}}"?</h4>
+    </div>
+    <div class="confirm">
+        <div class="form-submit">
+            <div class="form-submit-right">
+                <input type="submit" class="bt bt-blue2" value='Отмена' name="cancel" />
+                <input type="submit" class="bt bt-blue2" value='Удалить' name="delete" />
+            </div>
+        </div>
+    </div>
+
+
+</form>
+{% endblock %}

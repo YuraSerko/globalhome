@@ -1,0 +1,66 @@
+.selector .filtered {
+	height: 140px;
+	width: 250px;
+	padding: 4px 8px;
+	background: #fff;
+	box-shadow: insert 0 1px 0 rgba(0,0,0,.06);
+	border: 1px solid #d4d4d4;
+	border-radius: 4px;
+	color: #535353;
+	fonr: 11px Arial, sans-serif;
+}
+
+.selector-available {
+	display: inline-block;
+}
+
+.selector-chosen {
+	display: inline-block;
+}
+
+.selector-available p{
+	display: none;
+}
+
+.selector-available h2{
+	display: none;
+}
+
+.selector-chosen p{
+	display: none;
+}
+
+.selector-chosen h2{
+	display: none;
+}
+
+.selector-chooser {
+	display: inline-block;
+	padding: 0px;
+	list-style: none;
+	/*margin: 0px auto 0px auto;*/
+	margin: 0px;
+}
+
+.selector .selector-chooser li {
+	width: 23px;
+	padding: 5px 11px 3px;
+	background: #4ba6e9;
+	background: -moz-linear-gradient(top, #4ba6e9 0%, #2570c7 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4ba6e9), color-stop(100%,#2570c7));
+	background: -webkit-linear-gradient(top, #4ba6e9 0%,#2570c7 100%);
+	background: -o-linear-gradient(top, #4ba6e9 0%,#2570c7 100%);
+	background: -ms-linear-gradient(top, #4ba6e9 0%,#2570c7 100%);
+	background: linear-gradient(to bottom, #4ba6e9 0%,#2570c7 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4ba6e9', endColorstr='#2570c7',GradientType=0 );
+	box-shadow: 0 1px 0 #c0c0c0;
+	border: none;
+	border-radius: 5px;
+	margin: 15px 15px 0 15px;
+	color: #fff;
+	font: 700 12px Arial, sans-serif;
+	text-shadow: 0 -1px 0 #2465b4;
+	cursor: pointer;
+	text-align: center;
+	float: none;
+}

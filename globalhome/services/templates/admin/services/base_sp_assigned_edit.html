@@ -1,0 +1,159 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+	<style type="text/css">
+		#border_div table {
+			width: 100%;
+		}
+		.left_allign_in_table {
+			width: 100%;
+		}
+		.left_allign_in_table tr th, .left_allign_in_table tr td {
+			text-align: left;
+		}
+	</style>
+{% endblock %}
+
+{% block extrahead %}
+	{{ block.super }}
+	{{ media.js }}
+	
+	{{ form.media }}
+	
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/forms1.css" type="text/css"> 
+	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/interface-style1.css" />
+
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/utils.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("a.popup").attr("onClick", "return PopupWindow(this)")
+		})
+	</script>
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+		<a href="../../../">
+		    {% trans "Home" %}
+		</a>
+		&rsaquo; 
+		<a href="../../">
+		    {{ app_label|capfirst }}
+		</a>
+		&rsaquo; 
+		<a href="../">
+		    {{ app_section }}
+		</a>
+		&rsaquo;
+		{{ assigned_sp }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+    {% if cl.formset.errors %}
+        <p class="errornote">
+        {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+        </p>
+        {{ cl.formset.non_form_errors }}
+    {% endif %}
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+    
+    {% block notifications %}
+      {% if request.notifications %}
+        {% for message in request.notifications %}
+          <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+            {{ message|safe }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock %}
+    
+    <div style="width: 700px;" id="border_div" class="module">
+    	<form method="post" action=".">
+	    	<table>
+	    		<tr>
+	    			<th><label for="enabled_checkbox">{% trans "Enabled" %}:</label></th>
+	    			<td><input id="enabled_checkbox" type="checkbox" name="enabled" {% if assigned_sp.enabled %}checked="checked"{% endif %}/></td>
+	    		</tr>
+	    		<tr>
+	    			<th>{% trans "Available service packet" %}:</th>
+	    			<td><a class="popup" href="/admin/services/availableservicepacket/{{ assigned_sp.packet.id }}/">{{ assigned_sp.packet }}</a></td>
+	    		</tr>
+	    		<tr>
+	    			<th>{% trans "Assigned to user" %}:</th>
+	    			<td><a class="popup" href="/admin/account/customeraccount/{{ assigned_sp.assigned_to.id }}/">{{ assigned_sp.assigned_to }}</a></td>
+	    		</tr>
+	    		<tr>
+	    			<th>{% trans "Assigned at" %}:</th>
+	    			<td>{{ assigned_sp.assigned_at }}</td>
+	    		</tr>
+	    		<tr>
+	    			<th>{% trans "Application created at" %}:</th>
+	    			<td>{{ assigned_sp.application_cteated_at }}</td>
+	    		</tr>
+	    		<tr>
+	    			<th>{% trans "Assigned by user/admin" %}:</th>
+	    			<td>
+	    				{% if assigned_sp.assigned_by %}
+	    					{% if assigned_sp.assigned_by.is_staff %}
+	    						<a class="popup" href="/admin/auth/staff/{{ assigned_sp.assigned_to.id }}/">{{ assigned_sp.assigned_by }}</a>
+	    					{% else %}
+	    						<a class="popup" href="/admin/auth/staff/{{ assigned_sp.assigned_to.id }}/">{{ assigned_sp.assigned_by }}</a>
+	    					{% endif %}
+	    				{% else %}
+	    					{% trans "By user itself" %}
+	    				{% endif %}
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<th>{% trans "Extra text" %}:</th>
+	    			<td>{{ assigned_sp.extra_text }}</td>
+	    		</tr>
+	    	</table>
+	    	
+		    {% block custom_application_edit %}
+		    	{% for custom_service_template in custom_services_templates %}
+		    		<h3>{{ custom_service_template.service.functional }}:</h3>
+		    		<div class="module" style="margin: 5px;">
+		    			{% include custom_service_template.template %}
+		    		</div>
+		    	{% endfor %}
+		    {% endblock %}
+	    	
+	    	
+	        <div class="submit-row">
+	            <p class="deletelink-box">
+	                <a class="deletelink" href="delete/">{% trans "Detach packet" %}</a>
+	            </p>
+	            
+				<input type="submit" value='{% trans "Save" %}' class="default" name="save"/>
+	        </div>
+        </form>
+    </div>
+    
+{% endblock %}

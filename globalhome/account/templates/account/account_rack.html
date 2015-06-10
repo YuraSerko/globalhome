@@ -1,0 +1,427 @@
+{% extends 'base_private.html' %}
+
+{% block extrahead %}
+	{{ block.super }}
+	<link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+{{ block.super }}
+
+<style>
+.delete {
+	background: transparent url(/media/img/inline-delete.png) no-repeat;
+	text-indent: -9999px;
+	width: 15px;
+	height: 15px;
+	border: 0px none;
+	outline: 0;
+	float: right;
+}
+.delete:hover {
+	background-position: -15px 0;
+}
+
+
+/*для rack*/
+.rack {
+	/*box-shadow: 0 0 5px rgba(20,52,89,.75), 0 0 46px rgba(23,110,215,.75);*/
+	border-radius: 7px;
+	margin: 23px 0 10px;
+}
+
+.rack select,
+.rack input[type="text"],
+.rack input[type="number"] {
+	width: 100%;
+	margin: 0;
+	padding: 4px 8px;
+	background: #fff;
+	box-shadow: inset 0 1px 0 rgba(0,0,0,.06);
+	border: 1px solid #d4d4d4;
+	border-radius: 4px;
+	color: #535353;
+	font: 11px Arial, sans-serif;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+.rack select:focus,
+.rack input[type="text"]:focus,
+.rack input[type="number"]:focus {
+	outline: none;
+	box-shadow: inset 0 0 1px rgba(148,148,148,.59), 0 0 4px 1px #2884ea;
+	border-color: #e6e6e6;
+}
+
+.rack th{
+	padding: 9px 7px 10px;
+}
+
+.rack tr td {
+	padding: 2px;
+}
+.rack tr td:first-child {
+	padding: 2px 2px 2px 7px;
+}
+
+.rack-submit {
+	padding: 0px 0px 20px 0px;
+	margin: 0;
+}
+
+.error input {
+	border-color: #ff4040 !important;
+	box-shadow: 0 0 0 2px #eee !important;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+	cost_all_zakaz();
+    // Code adapted from http://djangosnippets.org/snippets/1389/  
+    function updateElementIndex(el, prefix, ndx) {
+        var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        var replacement = prefix + '-' + ndx + '-';
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+        replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+    function deleteForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        if (formCount > 1) {
+            // Delete the item/form
+            $(btn).parents('.item').remove();
+            var forms = $('.item'); // Get all the forms  
+            // Update the total number of forms (1 less than before)
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+            var i = 0;
+            // Go through the forms and set their indices, names and IDs
+            for (formCount = forms.length; i < formCount; i++) {
+                $(forms.get(i)).children().children().each(function () {
+                    if ($(this).attr('type') == 'text') updateElementIndex(this, prefix, i);
+					if ($(this).is("select")) updateElementIndex(this, prefix, i);
+                });
+            }
+			cost_all_zakaz();
+        } // End if
+        else {
+            alert("У Вас должно быть по крайней мере одно наименование!");
+        }
+        return false;
+    }
+
+    function addForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+		// Clone a form (without event handlers) from the first form
+		var row = $(".item:first").clone(false).get(0);
+		// Insert it after the last form
+		$(row).removeAttr('id').hide().insertAfter(".item:last").slideDown(300);
+
+		// Remove the bits we don't want in the new row/form
+		// e.g. error messages
+		$(row).children().removeClass("error");
+
+		// Relabel or rename all the relevant bits
+		$(row).children().children().each(function () {
+			updateElementIndex(this, prefix, formCount);
+			$(this).val("");
+		});
+
+		// Add an event handler for the delete item/form link 
+		$(row).find(".delete").click(function () {
+			return deleteForm(this, prefix);
+		});
+		// Update the total form count
+		$("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+		$(row).find('cost').html($('#initial_cost').val());
+		ajax_size_rack(formCount, $('#id_form-'+ formCount +'-size_rack').val());
+		ajax_channel(formCount, $('#id_form-'+ formCount +'-inet_channel').val())
+		cost_all_zakaz();
+        return false;
+    }
+    // Register the click event handlers
+    $("#add").click(function () {
+        return addForm(this, "form");
+    });
+
+    $(".delete").click(function () {
+        return deleteForm(this, "form");
+    });
+});
+
+
+function ajax_channel(row_id, value) {	
+	$.ajax({
+	
+			url: "/dedicated/change_type_inet/"+value+"/",
+			beforeSend: function () 
+			{
+				$('#id_form-'+row_id+'-inet_speed').find('option').remove();
+			},
+			async: false,
+			complete: function(html)
+			{	
+				var id_plus_speed = html.responseText;
+				id_plus_speed = id_plus_speed.split('_');
+				spis_id = id_plus_speed[0].split(', ');
+				speed = id_plus_speed[1].split(', ');
+				select_obj = document.getElementById('id_form-'+row_id+'-inet_speed');
+				for (var i=0; i < spis_id.length; i++) {
+					select_obj.options[select_obj.options.length] = new Option(speed[i], spis_id[i]);
+				}
+			}, 
+	
+	  })
+	return false
+}
+
+function change_channel(obj) {
+	ajax_channel(obj.id[8], $(obj).val());
+	cost_all_zakaz();
+}
+
+function ajax_size_rack(row_id, value) {	
+	$.ajax({
+	
+			url: "/rack/change_ip/"+value+"/",
+			beforeSend: function () 
+			{
+				$('#id_form-'+row_id+'-count_ip').find('option').remove();
+			},
+			async: false,
+			complete: function(html)
+			{	
+				var row_ip = html.responseText;
+				row_ip = row_ip.split('_');
+				spis_id = row_ip[0].split(', ');
+				count_ip = row_ip[1].split(', ');
+				select_obj = document.getElementById('id_form-'+row_id+'-count_ip');
+				for (var i=0; i < spis_id.length; i++) {
+					select_obj.options[select_obj.options.length] = new Option(count_ip[i], spis_id[i]);
+				}
+			}, 
+	
+	  })
+	
+	$.ajax({
+	
+			url: "/rack/change_socket/"+value+"/",
+			beforeSend: function () 
+			{
+				$('#id_form-'+row_id+'-count_socket').find('option').remove();
+			},
+			async: false,
+			complete: function(html)
+			{	
+				var row_socket = html.responseText;
+				row_socket = row_socket.split('_');
+				spis_id = row_socket[0].split(', ');
+				count_socket = row_socket[1].split(', ');
+				select_obj = document.getElementById('id_form-'+row_id+'-count_socket');
+				for (var i=0; i < spis_id.length; i++) {
+					select_obj.options[select_obj.options.length] = new Option(count_socket[i], spis_id[i]);
+				}
+			}, 
+	
+	  })  
+	$.ajax({
+	
+			url: "/rack/change_electro/"+value+"/",
+			beforeSend: function () 
+			{
+				$('#id_form-'+row_id+'-count_electro').find('option').remove();
+			},
+			async: false,
+			complete: function(html)
+			{	
+				var row_electro = html.responseText;
+				row_electro = row_electro.split('_');
+				spis_id = row_electro[0].split(', ');
+				count_electro = row_electro[1].split(', ');
+				select_obj = document.getElementById('id_form-'+row_id+'-count_electro');
+				for (var i=0; i < spis_id.length; i++) {
+					select_obj.options[select_obj.options.length] = new Option(count_electro[i], spis_id[i]);
+				}
+			}, 
+	
+	  })  
+	 
+	return false
+}
+
+
+function change_size_rack(obj) {
+	ajax_size_rack(obj.id[8], $(obj).val());
+	cost_all_zakaz();
+}
+
+function cost_one_zakaz(row_id) {
+	var cost = 0;
+	var get = '';
+	get += '?&size_rack=' + $('#id_form-'+ row_id +'-size_rack').val();
+	get += '&inet_channel=' + $('#id_form-'+ row_id +'-inet_channel').val();
+	get += '&inet_speed=' + $('#id_form-'+ row_id +'-inet_speed').val();
+	get += '&count_ip=' + $('#id_form-'+ row_id +'-count_ip').val();
+	get += '&count_socket=' + $('#id_form-'+ row_id +'-count_socket').val();
+	get += '&count_electro=' + $('#id_form-'+ row_id +'-count_electro').val();
+	$.ajax({
+		url: "/rack/cost_zakaz/" + get,
+		cache: false,
+		async: false,
+		success: function(html){
+			$('#id_form-'+ row_id +'-size_rack').parents('.item').find('cost').html(html);
+			cost = html;
+		}  
+	});
+	return cost
+}
+
+function cost_all_zakaz() {
+	var all_cost = 0
+    var formCount = parseInt($('#id_form-TOTAL_FORMS').val());
+	var forms = $('.item');
+    var i = 0;
+	for (formCount = forms.length; i < formCount; i++) {
+		cost = cost_one_zakaz(i);
+		all_cost += parseFloat(cost);
+	}
+	$('all_cost').html(all_cost);
+}
+</script>
+
+<h1 class="title"> Аренда серверных стоек</h1>
+
+<form method="post">
+{{ rack_formset.management_form }}
+<table class="type-2 rack" id="my_table">
+	<thead>
+    	<tr>
+        	<th style="width: 120px;">Размер<br/>стойки</th>
+        	<th>Глубина<br/>стойки</th>
+        	<th colspan="2">Интернет</th>
+        	<th style="width: 50px;">Кол-во<br/>IP</th>
+        	<th style="width: 50px;">Кол-во<br/>розеток</th>
+        	<th>Электро-<br/>питание</th>
+        	<th colspan="2">Стоимость<br/>услуги, руб*</th>
+        </tr>
+    </thead>
+    <tbody>
+    	{% for rack_form in rack_formset.forms %}
+            <tr class="item">
+            {% for field in rack_form %}
+            	{% if field.errors %}
+	                <td class="error">{{ field.errors }}{{ field }}</td>
+                {% else %}
+	                <td>{{ field }}</td>
+                {% endif %}
+            {% endfor %}
+            <td style="padding: 3px 9px 4px"><strong><cost>{{ initial_cost }}</cost></strong></td>
+            <td style="padding: 3px 9px 4px"><a class="delete" href="#">Удалить</a></td>
+            </tr>
+        {% endfor %}
+        <tr>
+        	<td colspan="2"><input class="bt bt-grey" type="button" value="Добавить ещё оборудование..." id="add"></td>
+        	<td colspan="5" style="text-align: right;"><strong><i>Ежемесячный платеж за аренду серверных стоек:</i></strong></td>
+            <td colspan="2" style="padding: 3px 9px 4px"><strong><i><all_cost>{{ initial_cost }}</all_cost></i></strong></td>
+        </tr>
+    </tbody>
+</table>
+<input type="hidden" id="initial_cost" value="{{ initial_cost }}" />
+<div class="form-submit-right rack-submit">
+    <input id="add-group-button" type="submit" class="bt bt-blue2" value="Оформить заказ" name="add">
+</div>
+</form>
+ 		
+<table class="type-2">
+	<thead>
+		<tr>
+			<th>Основные характеристики услуги</th>
+			<th colspan="2">Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Высота серверной стойки</td>
+			<td colspan="2">42U (unit) / 2070 мм</td>
+		</tr>
+		<tr>
+			<td>Глубина стойки</td>
+			<td colspan="2">600 / 800 / 1000 мм на выбор</td>
+		</tr>
+		<tr>
+			<td>Предоставляемое электропитание</td>
+			<td colspan="2">5 кВт</td>
+		</tr>
+		<tr>
+			<td>Порт коммутатора Ethernet 100 Мбит/сек</td>
+			<td colspan="2">1 шт</td>
+		</tr>
+		<tr>
+			<td>Скорость доступа в интернет</td>
+			<td colspan="2">100 Мбит/сек</td>
+		</tr>
+		<tr>
+			<td>Количество включенного траффика</td>
+			<td colspan="2">Неограничено</td>
+		</tr>
+		<tr>
+			<td>IP-адрес</td>
+			<td colspan="2">10 шт</td>
+		</tr>
+		<tr>
+			<td>Блок розеток</td>
+			<td colspan="2">2 шт</td>
+		</tr>
+		<tr>
+			<td>Источник бесперебойного питания</td>
+			<td colspan="2">1 шт</td>
+		</tr>
+		<tr>
+			<td>IP-KVM</td>
+			<td colspan="2">Неограничено</td>
+		</tr>
+		<tr>
+			<td>Установочная плата за размещение</td>
+			<td colspan="2">Бесплатно</td>
+		</tr>
+	</tbody>
+</table>
+
+<h1 class="title">Дополнительные услуги и параметры</h1>
+<table class="type-2">
+<thead>
+		<tr>
+			<th>Наименование услуги</th>
+			<th>Цена, рублей в месяц</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Дополнительный 1 кВт на стойку</td>
+			<td>4000</td>
+		</tr>
+		<tr>
+			<td>Дополнительный (второй и более ) порт коммутатора 100 Мбит/сек, за каждый</td>
+			<td>500</td>
+		</tr>
+		<tr>
+			<td>Дополнительный IP-адрес</td>
+			<td>20</td>
+		</tr>
+	</tbody>
+</table>
+     
+<div class="ugc">
+    <p><small><req>*</req> Все цены приведены без учёта НДС.</small></p>
+</div>
+
+{% endblock %}
+
+
+
+
+

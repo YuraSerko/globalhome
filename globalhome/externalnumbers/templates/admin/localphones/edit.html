@@ -1,0 +1,234 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+	<style type="text/css">
+		#border_div table {
+			width: 100%;
+		}
+		.left_allign_in_table {
+			width: 100%;
+		}
+		.left_allign_in_table tr th, .left_allign_in_table tr td {
+			text-align: left;
+		}
+	</style>
+{% endblock %}
+
+{% block extrahead %}
+	{{ block.super }}
+	{{ media.js }}
+	
+	{{ form.media }}
+	
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/forms1.css" type="text/css"> 
+	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/interface-style1.css" />
+
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/utils.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("a.popup").attr("onClick", "return PopupWindow(this)")
+		})
+	</script>
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+		<a href="../../../">
+		    {% trans "Home" %}
+		</a>
+		&rsaquo; 
+		<a href="../../">
+		    {{ app_label|capfirst }}
+		</a>
+		&rsaquo; 
+		<a href="../">
+		    {{ app_section }}
+		</a>
+		&rsaquo;
+		{{ number }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+    {% if cl.formset.errors %}
+        <p class="errornote">
+        {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+        </p>
+        {{ cl.formset.non_form_errors }}
+    {% endif %}
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+    
+    {% block notifications %}
+      {% if request.notifications %}
+        {% for message in request.notifications %}
+          <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+            {{ message|safe }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock %}
+    
+    <div style="width: 700px;" id="border_div">
+	    {% if readonly_number %}
+	    	<table class="left_allign_in_table">
+	    		<tr>
+	    			<th>{% trans "Number" %}:</th>
+	    			<td>{{ number.number }}</td>
+	    		</tr>
+	    		<tr>
+	    			<th>{% trans "Region" %}:</th>
+	    			<td>{{ number.region_str }}</td>
+	    		</tr>
+	    		<tr>
+	    			<th>{% trans "Assigned at" %}:</th>
+	    			<td>{{ number.assigned_at }}</td>
+	    		</tr>
+	    		<tr>
+	    			<th>{% trans "Assigned to" %}:</th>
+	    			<td>
+	    				<a class="popup" href="/admin/account/customeraccount/{{ number.account.get_user.id }}/">
+	    					{{ number.account.adv_company_name }}
+	    				</a>
+	    			</td>
+	    		</tr>
+	    		{# а вот тут может быть еще такая бяка, что этот номер еще в процессе назначения, потому надо это тут озвучить #}
+	    		{% if number.phone_numbers_group %}
+		    		<tr>
+		    			<th>{% trans "Group" %}:</th>
+		    			<td>
+		    				<a class="popup" href="/admin/telnumbers/telnumbersgroup/edit_group/{{ number.phone_numbers_group.id }}/">
+		    					{{ number.phone_numbers_group }}
+		    				</a>
+		    			</td>
+		    		</tr>
+		    		{% if number.get_assigned_service_packet %}
+			    		<tr>
+			    			<th>{% trans "Assigned service packet" %}:</th>
+			    			<td>
+			    				<a class="popup" href="/admin/services/assignedservicepacket/{{ number.get_assigned_service_packet.id }}/">
+			    					{{ number.get_assigned_service_packet }}
+			    				</a>
+			    			</td>
+			    		</tr>
+			    	{% endif %}
+		    	{% else %}
+		    		<tr>
+		    			<th colspan="2">
+		    				<h3>{% trans "Phone number in the appointment process!" %}</h3>
+		    			</th>
+		    		</tr>
+		    		<tr>
+		    			<th>{% trans "Service packet application" %}:</th>
+		    			<td>
+		    				<a class="popup" href="/admin/services/servicepacketapplication/{{ number.get_service_packet_application.id }}/">
+		    					{{ number.get_service_packet_application }}
+		    				</a>
+		    			</td>
+		    		</tr>
+		    	{% endif %}
+	    	</table>
+	    {% else %}
+	    	{% if number.is_free %}
+	    		<h3>{% trans "It is a free number." %}</h3>
+	    		<form method="POST" action=".">
+		    		<table>
+		    			<tr>
+		    				<th>{% trans "Number" %}:</th>
+		    				<td>{{ number.number }}</td>
+		    			</tr>
+		    			<tr>
+		    				<th>{% trans "Region" %}:</th>
+		    				<td>{{ number.region_str }}</td>
+		    			</tr>
+                        <tr>
+		    				<th>Тарифная группа:</th>
+		    				<td>{{ number.get_about }}</td>
+		    			</tr>
+                        
+		    		</table>
+		    		
+	                <div class="submit-row">
+	                    <p class="deletelink-box">
+	                        <a class="deletelink" href="delete/">{% trans "Delete number" %}</a>
+	                    </p>
+	                    
+	                    {% comment %}
+	                    <input type="submit" class="default" value='{% trans "Save changes" %}' name="save" />
+	                    {% endcomment %}
+                        
+	                    <input type="submit" class="default" value='{% trans "Make reserved" %}' name="make_reserved" />
+	                    <input type="submit" class="default" value='{% trans "Cancel" %}' name="cancel" />
+	                </div>
+	    		</form>
+	    	{% else %}
+	    		<h3>{% trans "It is a reserved number." %}</h3>
+	    		<form method="POST" action=".">
+		    		<table>
+		    			<tr>
+		    				<th>{% trans "Number" %}:</th>
+		    				<td>{{ number.number }}</td>
+		    			</tr>
+		    			<tr>
+		    				<th>{% trans "Please select region to make number free" %}:</th>
+		    				<td>
+		    					<select id="region_select" name="region">
+		    						{% for region in all_regions %}
+		    							<option value="{{ region.0 }}" {% if number.region == region.0 %}
+		    								selected="selected"
+		    							{% endif %}>{{ region.1 }}</option>
+		    						{% endfor %}
+		    					</select>
+		    				</td>
+		    			</tr>
+                        <tr>
+		    				<th>Тариф:</th>
+		    				<td>
+		    					<select id="region_select" name="tarif">
+		    						{% for region in all_numbs %}
+		    							<option value="{{ region.0 }}" {% if number.tarif_group == region.0 %}
+		    								selected="selected"
+		    							{% endif %}>{{ region.1 }}</option>
+		    						{% endfor %}
+		    					</select>
+		    				</td>
+		    			</tr>
+		    		</table>
+		    		
+	                <div class="submit-row">
+	                    <p class="deletelink-box">
+	                        <a class="deletelink" href="delete/">{% trans "Delete number" %}</a>
+	                    </p>
+	                    <input type="submit" class="default" value='Сохранить' name="set_tarif" />
+	                    <input type="submit" class="default" value='{% trans "Make free" %}' name="make_free" />
+	                    <input type="submit" class="default" value='{% trans "Cancel" %}' name="cancel" />
+	                </div>
+	    		</form>
+	    	{% endif %}
+	    {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,208 @@
+{% extends 'base_private.html' %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+<script>
+	function view_zayavka(id, type)
+	{
+		$.ajax({
+                url: "/account/internet/demands/view_"+type+"/"+id,
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+ 					
+                    $("#id_popup_"+type).html(html);
+					  
+                }  
+            });
+	}
+	function view_zayavka2()
+	{   html="<table class='type-4 modal'>\
+                <caption><h1 class='title' style='margin: 0'>Ваша заявка принята</h1></caption>\
+                <tbody>\
+                    <tr>\
+                        <td>Менеджер свяжется с Вами для согласования даты и времени подключения.</td>\
+                    </tr>\
+                </tbody>\
+              </table>";
+        $("#id_popup_zayavka").html(html);
+
+    }
+	function configuration(id)
+	{
+		$.ajax({
+                url: "/account/internet/demands/configuration/"+id+"/",
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+ 					
+                    $("#configuration_popup").html(html);
+					  
+                }  
+            });
+	}
+</script>
+
+{{ block.super }}
+
+<h1 class="title">Мои заявки на услугу "доступ в интернет"</h1>
+
+{% if check_zayavki == 'true' %}
+    <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>У Вас нет заявок на услугу "доступ в интернет"</p>
+        </div>
+    </div>
+{% else %}
+    <table class="type-2">
+        <thead>
+              <tr>
+                <th width="5%">Номер заявки</th>
+                <th width="25%">Тариф</th>
+                <th>Дата создания заявки</th>
+                <th>Стоимость услуги, руб.</th>
+                <th>Активация</th>
+                <th>Отмена заявки</th>
+              </tr> 
+        </thead>
+    	<tbody>
+        {% for i in zayavki %}
+        <tr>
+            <td>{{ i.id }}</td>
+             <td>
+                {% if i.status_zayavki.id == 6 %}
+                 <a href="/account/internet/demands/activation/{{ i.id }}/"
+                    {% comment %}
+                    onclick="view_zayavka({{ i.id }}, 'zayavka')"
+                    {% endcomment %}
+                    >{{ i.tariff }}</a>
+                {% else %}
+                <a href="#zayavka" onclick="view_zayavka2()">{{ i.tariff }}</a>
+                {% endif %}
+             </td>
+            <td>{{ i.date_create }}</td>
+            <td>{{ i.cost }}</td>
+            <td>
+                {% if i.status_zayavki.id == 6 %}
+                <a href="/account/internet/demands/activation/{{ i.id }}/"
+                   {% comment %}
+                   onclick="view_zayavka({{ i.id }}, 'zayavka')"
+                   {% endcomment %}
+                   >Активировать</a>
+                {% else %}
+                <a href="#zayavka" onclick="view_zayavka2()">В обработке</a>
+                {% endif %}
+            </td>
+            <td><a href="zayavka/{{ i.id }}/">Отмена</a></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+{% endif %}
+
+<h1 class="title">Мои действующие услуги</h1>
+
+{% if check_zakazy == 'true' %}
+    <div class="status status-info">
+        <i class="ico"></i>
+        <div class="status-i">
+            <p>У Вас нет действующих услуг.</p>
+        </div>
+    </div>
+{% else %}
+    <table class="type-5">
+        <thead>
+            <tr>
+                <th width="3%">Номер заказа</th>
+                <th width="10%"></th>
+                <th width="20%">Наименование услуги</th>
+                <th width="18%">Конфигурация</th>
+                <th>Дата заказа</th>
+                <th width="14%">Стоимость услуги, руб.</th>
+                <th width="16%">Статус услуги</th>
+                <th width="16%">Деактивация услуги</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for j in zakazy %}
+                <tr class="zakaz">
+                    <td><div class="div_number">{{ j.id }}</div></td>
+                    <td><span class="tooltip_div">
+                    	<div class="div_person">{{ j.for_person }}</div>
+                            <span class="tooltip-i">{{ j.message_for_person }}</span>
+                        </span>
+                    </td>
+                    <td><a href="#zakaz" onclick="view_zayavka({{ j.id }}, 'zakaz')">{{ j.service|safe }}</a></td>
+        			<td><a href="#configuration" onclick="configuration('{{ j.id }}')">Изменить</a></td>
+                    <td>{{ j.date_activation }}</td>
+                    <td>{{ j.cost }}</td>
+                    {% if j.date_deactivation %}
+                        <td style="text-align:left"><i class="valid"></i><font color="#00CC00" style="vertical-align: top; margin-left: 2px;">{{ j.status_zakaza }} до {{ j.date_deactivation }}</font></td> 
+                        <td><i class="not_valid"></i><font color="#FF0000" style="vertical-align: top; margin-left: 2px;">Недоступна</font></td>
+                    {% else %}
+                        {% if j.test_date_activation %}
+                            <td style="text-align:left"><i class="valid"></i><font color="#00CC00" style="vertical-align: top; margin-left: 2px;">{{ j.status_zakaza }} с {{ j.date_activation }}</font></td>
+                        {% else %}
+                            <td style="text-align:left"><i class="valid"></i><font color="#00CC00" style="vertical-align: top; margin-left: 2px;">{{ j.status_zakaza }}</font></td>
+                        {% endif %} 
+                        <td><a href="zakaz/{{ j.id }}/">Деактивация</a></td>
+                    {% endif %}
+                </tr>
+                {% for k in pod_zakazy %}
+                    {% if k.main_zakaz == j.id %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>{{ k.service|safe }}</td>
+                            <td></td>
+                            <td>{{ k.date_activation }}</td>
+                            <td>{{ k.cost }}</td>
+                            {% if k.date_deactivation %}
+                                <td style="text-align:left"><i class="valid"></i><font color="#00CC00" style="vertical-align: top; margin-left: 2px;">{{ k.status_zakaza }}<br />до {{ k.date_deactivation }}</font></td> 
+                                <td><i class="not_valid"></i><font color="#FF0000" style="vertical-align: top; margin-left: 2px;">Недоступна</font></td>
+                            {% else %}
+                                {% if k.test_date_activation %}
+                                    <td style="text-align:left"><i class="valid"></i><font color="#00CC00" style="vertical-align: top; margin-left: 2px;">{{ k.status_zakaza }} с {{ k.date_activation }}</font></td>
+                                {% else %}
+                                    <td style="text-align:left"><i class="valid"></i><font color="#00CC00" style="vertical-align: top; margin-left: 2px;">{{ k.status_zakaza }}</font></td>
+                                {% endif %} 
+                                <td><a href="zakaz/{{ k.id }}/">Деактивация</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endif %}
+                 {% endfor %}  
+             {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+<a href="#" class="overlay" id="zayavka"></a>
+<div class="popup_personal">
+    <a class="popup_personal-close" href="#close"></a>
+    <div id="id_popup_zayavka">
+    </div>
+</div>
+
+<a href="#" class="overlay" id="zakaz"></a>
+<div class="popup_personal">
+    <a class="popup_personal-close" href="#close"></a>
+    <div id="id_popup_zakaz">
+    </div>
+</div>
+
+<a href="#" class="overlay" id="configuration"></a>
+    <div class="popup_personal" style="min-width: 400px;">
+        <a class="popup_personal-close" href="#close"></a>
+        <div id="configuration_popup">
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,646 @@
+{% load account_menu %}
+<!DOCTYPE html>
+<html lang="ru" class="nojs">
+<head>
+<meta name="verify-admitad" content="ddb1d96c34" />
+{% if video_page %}
+<title>{% if video_name.title %}{{video_name.title}}{% else %} {{video_name.orig_title}}{% endif %} смотреть онлайн бесплатно в хорошем качестве и переводе | Global Home</title>
+<meta name="description" content="{% if video_name.title %}{{video_name.title}} ({{video_name.orig_title}}) {% else %} {{video_name.orig_title}}{% endif %} - {{meta_description}}">
+<meta name="keywords" content="{% if video_name.title %}{{video_name.title}}{% else %} {{video_name.orig_title}}{% endif %}, смотреть, фильм, онлайн, бесплатно, online">
+{% endif %}
+
+{% if not video_page %}
+<title> Сеть бесплатных Wi-Fi HotSpot в Москве Москва | GlobalHome </title>
+<meta name="description" content="Самая крупная сеть бесплатных Wi-Fi HotSpot точек в Москве. Подключение к интернету через хот-спот.">
+<meta name="keywords" content="хот-спот, hotspot, wi-fi hotspot, wi-fi точки">
+{% endif %}
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% if not video_page %}
+	{% meta_block %}
+	{% endif %}
+	
+	
+	
+<link rel="SHORTCUT ICON" href="{{ MEDIA_URL }}img/icons/faviconwifi.ico" type="image/x-icon">
+{%if mobile %}
+<link href="{{ MEDIA_URL }}css/adaptive.css" rel="stylesheet" type="text/css">
+{%else%}
+<link href="{{ MEDIA_URL }}css/adaptive.css" rel="stylesheet" type="text/css">
+{%endif%}
+<link href="{{ MEDIA_URL }}css/public_hotspot.css" rel="stylesheet" type="text/css">
+<link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" >
+<link href="/media/css/left_menu_mobi.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.7.2.min.js"></script>
+
+<script type="text/javascript" src="//api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" ></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/md5.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.coookie.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/error.js"></script>
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/scrollTo.js"></script>
+
+
+
+<script>
+$(function(){
+
+
+var input=document.getElementById('ya_input')
+
+if(input){
+if($('#ya_input').val()){$('#ya_input').css('background-image', "none")}
+else{$('#ya_input').css({'background-image':'url("/media/images/yandex-for-white-background.png")','background-repeat':'no-repeat', 'background-position': '7px 9px'})}
+input.oninput = function() { 
+if($('#ya_input').val()!=''){
+var user_val = $('#ya_input').val()
+$('.new_adv_text').children().text(user_val)
+$('#ya_input').css('background-image', "none")
+}
+else{$('#ya_input').css({'background-image':'url("/media/images/yandex-for-white-background.png")','background-repeat':'no-repeat', 'background-position': '7px 9px'}) }}
+
+
+var input_dop=document.getElementById('ya_input_log')
+if($('#ya_input_log').val()){$('#ya_input_log').css('background-image', "none")}
+    if(input_dop){
+input_dop.oninput = function() { 
+if($('#ya_input_log').val()!=''){
+$('#ya_input_log').css('background-image', "none")
+}
+else{$('#ya_input_log').css({'background-image':'url("/media/images/yandex-for-white-background.png")','background-repeat':'no-repeat', 'background-position': '7px 9px'}) }}
+}
+
+}//end if input
+var pull 		= $('#pull');
+	menu 		= $('#slide_menu');
+	menuHeight	= menu.height();
+
+$(pull).click( function(e) {
+	e.preventDefault();
+	menu.slideToggle();
+});
+
+if('{{ identity }}'){
+    $.cookie('administration', "{{ identity }}");
+    $.cookie('organization', "{{ identity }}");
+                }
+/*$('.searchbox').on('keyup', function() {*/
+
+
+
+ 
+//if($('#loginform').children().length < 4){
+	//$('.side_h1').css({'position':'relative','margin':'0 auto','display':'block '});
+	//$('#loginform').css('height','auto');
+
+//}
+
+
+//<!--href-->
+	$(".ya_links").click(function(){
+		var selected = $(this).attr('href');	
+		$.scrollTo(selected, 700);		
+		$('#user_f').focus().css('border','3px dotted red');
+		
+		return false;
+		
+	});	
+    //Добавляет href при изменинии структуры html (в моем случае появление сведениий траффика для пользователя)
+	//if($('#loginform').children().length > 4){
+	//	$('.ya_links').attr('href','#loginform')
+
+	//}
+	
+
+	
+	$(".searchbox_submit").click(function(){
+		$(this).attr('href','')
+		var selected = $(this).attr('href');	
+		$.scrollTo(selected, 700);		
+		
+			
+		
+		
+		return false;
+		
+	});	
+//<!--href-->
+
+//$.cookie('identity', '12{{ identity }}', { expires: now, path: '/',/*domain: 'globalhome.mobi',*/ })
+//$.cookie('macesc', '55{{ macesc }}', { expires: now, path: '/', 	/*domain: 'globalhome.mobi',*/ })
+var now = new Date(new Date().getTime() + 3600*1000)
+if('{{ identity }}'){
+	$.cookie('identity', '{{ identity }}', { expires: now, path: '/',/*domain: 'globalhome.mobi',*/ })
+	$.cookie('linkloginonly', '{{ linkloginonly }}', { expires: now, path: '/', /*domain: 'globalhome.mobi',*/ })
+	$.cookie('linkorigesc', '{{ linkorigesc }}', { expires: now, path: '/', /*domain: 'globalhome.mobi',*/ })
+	$.cookie('macesc', '{{ macesc }}', { expires: now, path: '/', 	/*domain: 'globalhome.mobi',*/ })
+	$.cookie('chapidenc', '{{ chapidenc }}', { expires: now, path: '/', 	/*domain: 'globalhome.mobi',*/ })
+	$.cookie('chapchallengeenc', '{{ chapchallengeenc }}', { expires: now, path: '/', 	/*domain: 'globalhome.mobi',*/ })
+	$.cookie('trial', '{{ trial }}', { expires: now, path: '/', 	/*domain: 'globalhome.mobi',*/ })
+}
+
+// Создание куков для показаний пользователю трафика и логирования
+
+if('{{ bytesinnice }}'){
+    $.cookie('bytesinnice', '{{ bytesinnice }}', { expires: now, path: '/',/*domain: 'globalhome.mobi',*/ })
+    $.cookie('username', '{{ username }}', { expires: now, path: '/',/*domain: 'globalhome.mobi',*/ })
+    $.cookie('linkadvert', '{{ linkadvert }}', { expires: now, path: '/', /*domain: 'globalhome.mobi',*/ })
+    $.cookie('hotspot_advert', '{{ hotspot_advert }}', { expires: now, path: '/', /*domain: 'globalhome.mobi',*/ })
+    $.cookie('linklogout', '{{ linklogout }}', { expires: now, path: '/',   /*domain: 'globalhome.mobi',*/ })
+    $.cookie('loginby', '{{ loginby }}', { expires: now, path: '/',     /*domain: 'globalhome.mobi',*/ })
+    $.cookie('ip', '{{ ip }}', { expires: now, path: '/',   /*domain: 'globalhome.mobi',*/ })
+    $.cookie('sessiontimeleft', '{{ sessiontimeleft }}', { expires: now, path: '/',     /*domain: 'globalhome.mobi',*/ })
+    $.cookie('uptime', '{{ uptime }}', { expires: now, path: '/',   /*domain: 'globalhome.mobi',*/ })
+    $.cookie('blocked', '{{ blocked }}', { expires: now, path: '/',   /*domain: 'globalhome.mobi',*/ })
+    $.cookie('refreshtimeout', '{{ refreshtimeout }}', { expires: now, path: '/',   /*domain: 'globalhome.mobi',*/ })
+    $.cookie('bytesoutnice', '{{ bytesoutnice }}', { expires: now, path: '/',   /*domain: 'globalhome.mobi',*/ })
+    $.cookie('sessiontimeleft', '{{ sessiontimeleft }}', { expires: now, path: '/',   /*domain: 'globalhome.mobi',*/ })
+    $.cookie('hostname', '{{ hostname }}', { expires: now, path: '/',   /*domain: 'globalhome.mobi',*/ })
+}
+
+if('{{error}}' == 'invalid username or password'){
+	if('{{popup}}'){
+	    if( $.cookie('popup')){
+	        check_window();
+	    }
+	}
+}
+else{
+    clear_cookies();
+}		 		
+
+
+/*$('#near_dot > li').click(function(){
+var slog = $(this).html()
+var slog1 = $('#addr_hid').val()
+if(slog1){slog = slog + ' рядом с '+ slog1}
+window.location.search = '?query=' + encodeURIComponent(slog)
+})
+*/
+ 		
+});
+
+function error_show(form){
+	var fields = $('[name = "'+ form +'" ]').serializeArray()
+	//alert($('[name = "'+ form +'" ]').serialize())
+	 $.each(fields, function(i, field){
+	if(field.name == 'password' && field.value ==''){
+			$('#error_show').text('заполните все поля').css('color','red')
+			$('#m_password').addClass('red');
+		}
+		else if(field.name == 'username' && field.value ==''){
+			$('#error_show').text('заполните все поля').css('color','red')
+			$('#m_username').addClass('red');
+		}
+		else if(field.name == 'password' && field.value !=''){
+			$('#m_password').removeClass('red');
+											}
+		else if(field.name == 'username' && field.value !=''){
+			$('#m_username').removeClass('red');
+											}
+		 if((field.name == 'username' && field.value !='')){
+			$('#error_show').text('');
+											}
+
+
+									});
+
+}
+
+
+function win(form){
+
+var fields = $('[name = "'+ form +'" ]').serializeArray()
+//alert($('[name = "'+ form +'" ]').serialize())
+	
+var submit = true
+ $.each(fields, function(i, field){
+     if(submit){ 
+     	if($.cookie('r_c') && $.cookie('r_c') == 'complaint'){   	
+	        if(field.name != 'mail' && field.value == ''){
+	        $('[name = "'+ field.name +'"]').focus().css('border','solid 2px red')
+	        $('.err').text('заполните все поля').css('color','red')
+	        submit = false }
+	        if(submit && field.name == 'telnumber'){
+	        var re = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/.test(field.value)
+	        if(!re){
+	        submit = false
+	         $('.err').text('введите правильный номер').css('color','red!important')
+	         $('#telnumber').focus().css('border','solid 1px red')
+         	} } 
+         	if(submit){$('[name = "'+ field.name +'"]').css('border','inset 0px ')}
+
+         	}
+         	
+        else/*{*/ if($.cookie('r_c') && $.cookie('r_c') == 'review'){
+        		if(field.name == 'text' && field.value == ''){
+        			$('[name = "'+ field.name +'"]').focus().css('border','solid 2px red')
+	        		$('.err').text('заполните все поля').css('color','red')
+	        		submit = false 
+        	}
+        	/*if(submit){$('[name = "'+ field.name +'"]').css('border','inset 0px ')}  */
+
+        	}
+        	
+        //}
+        else{
+            if($.cookie('r_c') && $.cookie('r_c') == 'bad_link'){
+                if(field.name == 'text' && field.value == ''){
+                    $('[name = "'+ field.name +'"]').focus().css('border','solid 2px red')
+                    $('.err').text('заполните поле').css('color','red')
+                    submit = false 
+            }
+            //document.getElementById('broken_video_id').value = '{{video_name.id}}'
+            if(submit){$('[name = "'+ field.name +'"]').css('border','inset 0px ')} 
+         }
+
+        }
+
+     } });
+if(submit){
+if($('.err').text() != ''){$('.err').text('')}
+$('.loading').show()
+    if ($.cookie('r_c') && $.cookie('r_c') == 'bad_link'){
+        ajax_url = '/hotspot/bad_link/'
+    }
+    else{
+        ajax_url = '/hotspot/ajax_review/'
+    }
+$.ajax({url: ajax_url ,
+		type: "POST", 
+		data:fields,
+		cache: true, 
+		async: true,
+		success:function(res){
+		if(res == 'Введите правильный адрес электронной почты.'){
+		$('.err').text('Введите правильный адрес электронной почты.')
+		$('#mail').focus()
+		$('.loading').hide() }
+		else{		
+		$('.err').text(res).css('color','white')
+		$('.loading').hide()
+        $('#form_bad_video_link_gl').css('display', 'none')	
+        $('#close_modal_form_link').css('display', 'block') 	
+        
+		}	
+		}
+		})
+		}
+
+}
+function clear_form(form){
+var fields = $('[name = "'+ form +'" ]').serializeArray()
+var submit = true
+ $.each(fields, function(i, field){
+ 		if(field.name != 'ident_field'){
+ 		$('[name = "'+ field.name +'" ]').val('') }
+ 		
+})
+		$('.err').text('')
+}
+
+function log(){
+
+$.ajax({url: "{{ linkloginonly }}?username=T-{{ macesc }}", type: "GET", cache: false, async: false,})
+
+clear_cookies();
+clear_all_cookies();
+}
+
+
+
+
+//function get_information
+
+
+function check_window(event,obj){
+if(event){
+//event.stopImmediatePropagation();
+event.preventDefault();
+
+//event.stopPropagation();
+}
+
+if(obj){
+$('#log_submit').attr('onclick','check_form("' + href + '")')
+var href = $(obj).attr('href')
+$.cookie('href', ''+href)
+}
+$('.news-item-img div div a img').css('display', 'none'); // значки с баннера
+window.location.hash = "#hs_login"
+$('#log_submit').attr('onclick','check_form("' + $.cookie("href") + '")')
+$('#sendin').attr('action',$.cookie('linkloginonly'))
+$('.trial_a').attr('href', $.cookie('linkloginonly') + '?dst=' + $.cookie('linkorigesc') + '&username=T-' + $.cookie('macesc'))
+if($.cookie('trial') != 'False'){$('#pred').show()}
+}
+
+
+function check_form(new_dst){
+var submit = true;
+var title_error;	
+if(submit){if($('#m_username').val() == ''){submit = false; title_error = 'Заполните Логин'}}
+if(submit){if($('#m_password').val() == ''){submit = false; title_error = 'Заполните Пароль'}}
+if(submit){Login_dop_form(new_dst)}
+if(! submit ){$("#win_error").html(title_error)
+							.addClass('error_masege')
+							.css('color','#5892df')}
+}
+
+
+function clear_cookies_trafic_user_form(){
+
+    $.cookie('bytesinnice', '', { expires: -1 });
+    $.cookie('username', '', { expires: -1 });
+    $.cookie('linkadvert', '', { expires: -1 });
+    $.cookie('hotspot_advert', '', { expires: -1 });
+    $.cookie('linklogout', '', { expires: -1 });
+    $.cookie('loginby', '', { expires: -1 });
+    $.cookie('ip', '', { expires: -1 });
+    $.cookie('sessiontimeleft', '', { expires: -1 });
+    $.cookie('uptime', '', { expires: -1 });
+    $.cookie('blocked', '', { expires: -1 });
+    $.cookie('refreshtimeout', '', { expires: -1 });
+    $.cookie('bytesoutnice', '', { expires: -1 });
+    $.cookie('hostname', '', { expires: -1 });
+    
+}
+
+//$.cookie('bytesinnice', 'the_value')
+//$.cookie('identity', 'value')
+
+        {% if identity_clear_log_off %}
+                    $(document).ready(function (){
+                      clear_cookies_trafic_user_form();  
+                    })
+                    
+                    //alert("ss")
+                    {% endif %}
+
+function check_main_form(){
+var submit = true;
+var title_error;
+var user = document.getElementById('user_f');
+var pass = document.getElementById('pass_f');
+
+if(submit){if($('#user_f').val() == ''){submit = false; title_error = 'Заполните Логин!'; user.style.border = "2px solid red"; pass.style.border = "1px solid white";}}
+if(submit){if($('#pass_f').val() == ''){submit = false; title_error = 'Заполните Пароль!'; user.style.border = "1px solid white"; pass.style.border = "2px solid red";}}
+
+if(document.check_ofer){
+        if(!document.check_ofer.checkbox_ofer.checked & submit){
+                submit = false;
+                user.style.border = "1px solid white"; pass.style.border = "1px solid white";
+                $(".check_ofer").css('outline', '2px solid red');
+                document.getElementById('error_log').innerHTML = 'Вам необходимо согласиться с договором оферты!'
+             }  
+
+}
+  
+
+if(submit){doLogin()}
+if(! submit ){$("#error_log").html(title_error)
+								.addClass('error_masege'); }
+                           
+                    
+
+}
+function check_main_form1(){
+var submit = true;
+var title_error;
+var user = document.getElementById('m_username');
+var pass = document.getElementById('m_password');
+if(submit){if($('#m_username').val() == ''){submit = false; title_error = 'Заполните Логин!'; user.style.border = "2px solid red"; pass.style.border = "1px solid white";}}
+if(submit){if($('#m_password').val() == ''){submit = false; title_error = 'Заполните Пароль!'; user.style.border = "1px solid white"; pass.style.border = "2px solid red";}}
+
+
+if(document.check_ofer2){
+        if(!document.check_ofer2.checkbox_ofer2.checked & submit){
+                        submit = false;
+                        user.style.border = "1px solid white"; pass.style.border = "1px solid white";
+                        $(".error_show").html('Вам необходимо согласиться с договором оферты!') 
+                     }  
+            }  
+
+if(submit){doLogin1()}
+//if(! submit ){if($('#m_username').val() != ''){submit = true;}}
+//if(! submit ){if($('#m_password').val() != ''){submit = true;}}
+if(! submit ){$(".error_show").html(title_error)
+								.addClass('error_masege')}
+                            
+}
+
+function clear_all_cookies(){
+	var date = new Date(0);
+    $.cookie('identity', '', { expires: date.toUTCString(), path: '/',/*domain: 'globalhome.mobi',*/ })
+    $.cookie('linkloginonly', '', { expires: date.toUTCString(), path: '/', /*domain: 'globalhome.mobi',*/ })
+    $.cookie('linkorigesc', '', { expires: date.toUTCString(), path: '/', /*domain: 'globalhome.mobi',*/ })
+    $.cookie('macesc', '', { expires: date.toUTCString(), path: '/',   /*domain: 'globalhome.mobi',*/ })
+    $.cookie('chapid', '', { expires: date.toUTCString(), path: '/',   /*domain: 'globalhome.mobi',*/ })
+    $.cookie('chapchallenge', '', { expires: date.toUTCString(), path: '/',     /*domain: 'globalhome.mobi',*/ })
+    $.cookie('chapidenc', '', { expires: date.toUTCString(), path: '/',   /*domain: 'globalhome.mobi',*/ })
+    $.cookie('chapchallengeenc', '', { expires: date.toUTCString(), path: '/',     /*domain: 'globalhome.mobi',*/ })
+    $.cookie('chapid', '', { expires: date.toUTCString(), path: '/',   /*domain: 'globalhome.mobi',*/ })
+    $.cookie('chapchallenge', '', { expires: date.toUTCString(), path: '/',     /*domain: 'globalhome.mobi',*/ })
+    $.cookie('trial', '', { expires: date.toUTCString(), path: '/',     /*domain: 'globalhome.mobi',*/ })
+}
+
+
+function doLogin() {
+	clear_all_cookies();
+    clear_cookies();
+	document.sendin.username.value = document.login_l.username_l.value;
+	document.sendin.password.value = hexMD5('{{chapid}}'  + document.login_l.password_l.value + '{{ chapchallenge }}');
+    //document.sendin.password2.value = document.login_l.password_l.value
+    log_cabinet();
+    //alert(document.login_l.password_l.value)
+	document.sendin.submit();
+
+	return false;
+	}
+
+
+
+function doLogin1() {
+    clear_all_cookies();
+    clear_cookies();
+    document.sendin.username.value = document.login_1.username.value;
+    document.sendin.password.value = hexMD5('{{ chapid }}'  + document.login_1.password.value + '{{ chapchallenge }}');
+    //document.sendin.password2.value = document.login_1.password.value
+    log_cabinet1();
+    document.sendin.submit();
+    return false;
+}
+
+function log_cabinet(){
+
+$.ajax({url: "/?password2=login_l&username=Giv_usr".replace('login_l', document.login_l.password_l.value).replace('Giv_usr', document.login_l.username_l.value ), type: "GET", cache: false, async: false,})
+
+}
+
+function log_cabinet1(){
+
+$.ajax({url: "/?password2=login_l&username=Giv_usr".replace('login_l', document.login_1.password.value).replace('Giv_usr', document.login_1.username.value ), type: "GET", cache: false, async: false,})
+
+}
+
+function Login_dop_form(new_dst) {
+	clear_all_cookies();
+    clear_cookies();
+    document.sendin.username.value = document.login_1.username.value;
+    document.sendin.password.value = hexMD5($.cookie('{{ chapid }}') + document.login_1.password.value + $.cookie('{{ chapchallenge }}'));
+    document.sendin.dst.value = new_dst
+	var now_time_p  = new Date(new Date().getTime() + 5*1000)
+	var time_q = new Date(new Date().getTime() + 400*1000)
+
+	var cook = window.location.search.split('#')
+	if(cook != ''){
+	    cook = cook[0].split("=")
+        $.cookie('query', ''+ decodeURIComponent(cook[1]) ,{ expires: time_q, path: '/', 	domain: 'globalhome.mobi' })
+    }
+    $.cookie('popup', ''+window.location.hash , { expires: now_time_p})//	domain: 'globalhome.mobi', })
+    document.sendin.submit();
+    return false;
+}  
+
+  
+function yandex_map(block_id, adres_str, manuf_adr,org_name){ 
+       myMap = new ymaps.Map (block_id, {
+            center: [adres_str[0],adres_str[1]],           
+            zoom: 12,
+            type: 'yandex#publicMap',
+            behaviors: ["default", "scrollZoom"],
+            
+        });
+        myMap.controls
+        // Кнопка изменения масштаба.
+        .add('zoomControl', { left: 5, top: 5 })
+        // Список типов карты
+        .add('typeSelector')
+        // Стандартный набор кнопок
+        .add('mapTools', { left: 35, top: 5 });        
+		 ymaps.route([adres_str, manuf_adr],{ mapStateAutoApply: true }).then(function (route) {
+        var points = route.getWayPoints(),
+        lastPoint = points.getLength() - 1;
+        points.options.set('preset', 'twirl#redStretchyIcon');
+        points.get(lastPoint).properties.set('iconContent', 'Точка прибытия').set('balloonContent', org_name);
+        points.get(0).properties.set('iconContent', 'Вы тут')
+        var homeGeocoder = ymaps.geocode(adres_str);
+		homeGeocoder.then(function (res) {
+    	var homeballoon =  res.geoObjects.get(0).properties.get('name')
+    	points.get(0).properties.set('balloonContent', homeballoon);
+    	myMap.geoObjects.add(route);
+    })
+																									        
+    }, function (error) {
+        alert('Возникла ошибка: ' + error.message);
+    });
+        
+}
+ 
+
+function show_map(cli_a, adres_str, manuf_adr){
+if($(cli_a).parent().find("#ya_map").is(':visible')){
+$(cli_a).parent().find("#ya_map").hide()
+$(cli_a).parent().find("#ya_map").children().empty()
+$(cli_a).val('Показать на карте')
+
+}
+else{
+var block_id = $(cli_a).parent().find("#ya_map").children().attr("id")
+var org_name =  $(cli_a).parent().find("H5").html()
+$(cli_a).parent().find("#ya_map").html(yandex_map(block_id,adres_str,manuf_adr,org_name))
+$(cli_a).parent().find("#ya_map").show()
+$(cli_a).val('Скрыть карту')
+}
+}
+
+function clear_cookies(){
+    $.cookie('popup', null)
+    //$.cookie('query',null)
+    var date = new Date(0);
+    document.cookie="query=; expires="+date.toUTCString();
+}
+</script>
+
+{% block extrahead %}{% endblock %}
+<style type="text/css">
+    .nav ul{
+        display: inline;
+    }
+</style>
+</head>
+
+<body>
+
+	<!-- Yandex.Metrika counter -->
+		<script type="text/javascript">
+		(function (d, w, c) {
+		    (w[c] = w[c] || []).push(function() {
+		        try {
+		            w.yaCounter23589658 = new Ya.Metrika({id:23589658,
+		                    webvisor:true,
+		                    clickmap:true,
+		                    trackLinks:true,
+		                    accurateTrackBounce:true});
+		        } catch(e) { }
+		    });
+		
+		    var n = d.getElementsByTagName("script")[0],
+		        s = d.createElement("script"),
+		        f = function () { n.parentNode.insertBefore(s, n); };
+		    s.type = "text/javascript";
+		    s.async = true;
+		    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+		
+		    if (w.opera == "[object Opera]") {
+		        d.addEventListener("DOMContentLoaded", f, false);
+		    } else { f(); }
+		})(document, window, "yandex_metrika_callbacks");
+		</script>
+		<noscript><div><img src="//mc.yandex.ru/watch/23589658" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+	<!-- /Yandex.Metrika counter -->
+
+
+
+    <div id='main'>
+        {% block header %}
+	 	{% endblock %}
+        
+        {% block left_menu %}
+       	{% endblock %}
+            
+            
+			   
+            {% block content %}
+
+         {% block cap %}
+         {% endblock %} 
+         {% block sendin %}
+         {% endblock %}
+         
+         {% block login_1 %}
+         {% endblock %}
+         {% block burat2 %}
+         {% endblock %}
+         {% block notbegun %}
+         {% endblock %}
+         {% block complaint_window %}
+         {% endblock %}
+         {% block review_window %}
+         {% endblock %}
+            {% endblock %}
+           
+            
+<div>           
+ 
+   
+
+
+
+ 
+</body>
+</html>

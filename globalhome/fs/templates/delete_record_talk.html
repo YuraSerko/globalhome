@@ -1,0 +1,52 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+<form action="." method="post" enctype="multipart/form-data">
+
+	<div class="confirm">
+        <h4 class="h4_style">Вы уверены что хотите деактивировать данную запись?</h4>
+        
+        <table class="type-2">
+            <thead>
+                <th>Запись</th>
+                <th></th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{% trans "Enabled" %}</td>
+                <td>{% if record.enabled %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
+            </tr>
+            <tr>
+                <td>Номер</td>
+                <td>{{ record.number }}</td>
+            </tr>
+            <tr>
+                <td>Тип вызова</td>
+                <td>{% if '1' in record.record_type and '2' in record.record_type %}Вce{% else %}{% if '1' in record.record_type %}Входящие{% endif %}{% if '2' in record.record_type %} Исходящие{% endif %}{% endif %}</td>
+            </tr>
+            <tr>
+                <td>Дни записи</td>
+                <td>{% if "[u'1', u'2', u'3', u'4', u'5', u'6', u'7']" == record.record_day %}Каждый день{% else %}{% if '1' in record.record_day %}Понедельник{% endif %}{% if '2' in record.record_day %} Вторник{% endif %}{% if '3' in record.record_day %} Среда{% endif %}{% if '4' in record.record_day %} Четверг{% endif %}{% if '5' in record.record_day %} Пятница{% endif %}{% if '6' in record.record_day %} Суббота{% endif %}{% if '7' in record.record_day %} Воскресенье{% endif %}{% endif %}</td>
+            </tr>
+            
+            
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="delete_all" name="delete_all" type="checkbox"/></td>
+                <td><label for="delete_all"><b>Удалить все сохранённые записи</b></label></td>
+            </tr>
+            </tbody>
+        </table>
+        
+        <div class="form-sections-submit">
+            <div class="form-submit-right" id="form-submit-right">
+                <input type="submit" class="bt bt-blue2" name="abort" value="{% trans 'Cancel' %}"/>
+                <input type="submit" class="bt bt-blue2" name="submit" value="{% trans 'Yes' %}"/>
+            </div>
+        </div>
+	</div>
+</form>
+{% endblock %}

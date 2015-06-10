@@ -1,0 +1,669 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block extrahead %}
+  
+   
+	<script src="/media/js/chosen.jquery.js"></script>
+	<script src="/media/js/chosen_select.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.raty.min.js"></script>
+    <link href="/media/css/chosen.css" rel="stylesheet" type="text/css">
+    <link href="/media/css/video_styles.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %} 
+
+
+ {% block sendin %}
+ {{block.super}}
+         {% endblock %}
+<script>
+        function translite(str){
+               var arr={'а':'a', 'б':'b', 'в':'v', 'г':'g', 'д':'d', 'е':'e', 'ж':'g', 'з':'z', 'и':'i', 'й':'y', 'к':'k', 'л':'l', 'м':'m', 'н':'n', 'о':'o', 'п':'p', 'р':'r', 'с':'s', 'т':'t', 'у':'u', 'ф':'f', 'ы':'i', 'э':'e', 'А':'a', 'Б':'b', 'В':'v', 'Г':'g', 'Д':'d', 'Е':'e', 'Ж':'g', 'З':'z', 'И':'i', 'Й':'y', 'К':'k', 'Л':'l', 'М':'m', 'Н':'n', 'О':'o', 'П':'p', 'Р':'r', 'С':'s', 'Т':'t', 'У':'u', 'Ф':'f', 'Ы':'i', 'Э':'e', 'ё':'yo', 'х':'h', 'ц':'ts', 'ч':'ch', 'ш':'sh', 'щ':'shch', 'ъ':'', 'ь':'', 'ю':'yu', 'я':'ya', 'Ё':'yo', 'Х':'h', 'Ц':'ts', 'Ч':'ch', 'Ш':'sh', 'Щ':'shch', 'Ъ':'', 'Ь':'',
+                'Ю':'yu', 'Я':'ya'};
+                var replacer=function(a){return arr[a]||a};
+                return str.replace(/[А-яёЁ]/g,replacer)
+                }
+
+    </script>
+  <article id="right">
+			
+				
+				  {% block burat2 %}
+                  {{block.super}}
+                  {% endblock %}
+		
+		
+		<style>
+		@media only screen and (min-width: 1200px){
+			.advert_2{
+					float: right;
+					margin: 20px;
+					width: 240px;
+					margin-right: -200px;
+					height: 400px;
+					/*border: 2px solid #4282D2;*/
+				}
+				}
+		</style>
+	<div class = "advert_2">
+		<script language="JavaScript" charset="UTF-8" type="text/javascript" src="http://ghmedia.ru/get/?sid=2&placement={{placement|add:17}}"></script>
+	</div>
+		
+		 <div id='centr_field'>
+				{% block cap %}
+				{{block.super}}
+         {% endblock %} 
+
+
+    <div class="genres" >
+            	<ul class="clearfix">
+                 {% if slug == 'films' %}
+                        <li><a {% if not category %}id = 'active_all' {% endif %} 
+                       
+                        href="/films/">все жанры</a></li>
+                        {% endif %}
+                        {% if slug == 'serials' %}
+                        <li><a {% if not category %}id = 'active_all'{% endif %}  
+                       
+                        href="/serials/">все жанры</a></li>
+                        {% endif %}
+            			{% for obj in video_genre %}
+                        
+                        {% if obj.genre == category %}
+                        <li><a  id = 'active' value = '{{obj.translit_genre}}' href="javascript:location.href='/{{slug}}/{{obj.translit_genre}}'">{{obj.genre}}</a></li>
+                        {% else %}
+                        {% if obj.id = 21 %}
+                        <li><a class = "active_href" style = "font-size: 9px; padding-top: 6px;" value = '{{obj.translit_genre}}' href="javascript:location.href='/{{slug}}/{{obj.translit_genre}}'">{{obj.genre}}</a></li>
+                        {% else %}
+                        <li><a class = "active_href" value = '{{obj.translit_genre}}' href="javascript:location.href='/{{slug}}/{{obj.translit_genre}}'">{{obj.genre}}</a></li>
+                        {% endif %}
+                        
+                        {% endif %}
+                        {% endfor %}
+ 	                   
+                </ul>
+
+            </div>
+ 	<!-- мои данные -->
+    <script>
+
+    </script>
+    
+
+ 		{% if category %}<p style="color:#9E9E9E; margin: 10px;"><b>Категория  </b> >>  <b>{{category}}</b> </p>{% endif %}
+
+      <!-- hidden форму для отправки post id видео ресурса -->
+	  <div style = "display:none;">
+	  	<form id="internal_number" action = ""  method="POST"> {% csrf_token %}
+	  		<input name = "int_id" id = "int_id"> </input>
+            <!--input name = "film_id" id = "film_id"> </input-->
+	  		<input  type='submit'></input>
+	  	</form>
+	  </div>
+	  <!-- окончание hidden формы отправки post id видео ресурса -->
+	  
+	  <form  method="GET" name="form_video_id"  id = "form_video_id" action = "" > {% csrf_token %}
+                		<p><input type="text" id="video_id" name = "video_id" width="20" style = "display: none;">
+                    
+                        <div id="add_parameter_video"></div>
+        				</form>	
+                        
+                         <form  method="GET" name="form_year" id = "form_year" action = "" > {% csrf_token %}
+                        <p><input type="text" id="year" name = "year" width="20" style = "display: none;">
+                        <div id="add_parameter_year"></div>
+                        
+                        </form> 
+                      
+
+        				<!--Выбор года-->
+                     
+        				
+      
+    
+        <select data-placeholder="{% if selected_year %}{{selected_year}}{% else %}Выбрать год {% endif %}" style="width: 280px;" id = "select_year"  onchange='year_video_chosen(this)' >
+                    <option value=""></option>                   
+                  <!--option id = "hidden_option" value="" disabled selected>Выбрать год</option-->
+    {% for year in  year_objects%}
+                   
+                        <option value ="{{year}}">{{year}}</option>
+  
+   {% endfor %}
+  </select>
+
+
+	
+	  <div style = "display: inline-block; position: relative;
+right: -30%;" class="find_element">
+	  	<p style= "margin:10px;"><span >{{poisk_name}}<span></p>
+					<select data-placeholder="{% if chosen_value.title %}{{chosen_value.title}} {% else %}
+                    {{chosen_value.orig_title}} {% endif %}" style="width: 280px;" id = "select_film"  onchange='find_video_chosen(this)' >
+					<!--option id = "hidden_option" value="" disabled selected>{% if chosen_value.title %}{{chosen_value.title}} {% else %}
+                    {{chosen_value.orig_title}} {% endif %}</option-->
+                    <option value=""></option>
+        				{% for  v in select_list %}
+        					{% if v.title %}
+        				<option value = "{{v.id}}" >{{v.title}}</option>
+        					{% else %}
+        				<option value = "{{v.id}}" >{{v.orig_title}}</option>
+        				    {% endif %}	
+
+
+   
+        				{% endfor %}
+        			</select>
+        			<script>
+        			
+        			$('#select_year').chosen({search_contains:true, no_results_text: "К сожалению ничего не нашлось по запросу:"});
+        			$('#select_film').chosen({search_contains:true, no_results_text: "К сожалению ничего не нашлось по запросу:"});
+        			</script>
+       </div>
+
+
+  
+
+                      
+        			<script>
+					
+        				function find_video_chosen(obj)
+														{   
+								video_id =  $(obj).val();
+								document.getElementById("video_id").value  = video_id;
+                                active = document.getElementById("active")
+                                if (active){
+                                    document.getElementById('add_parameter_video').innerHTML =  '<input type="text" id="active_class" name = "active_class" width="20" style = "display: none;">'
+                                    document.getElementById("active_class").value  = active.innerHTML;
+                                }
+                                
+                                
+								$('#form_video_id').submit();
+							}
+                            function year_video_chosen(obj)
+                                                        {   
+                                year =  $(obj).val();
+                                document.getElementById("year").value  = year;
+
+                                serials = document.getElementById("serials")
+                                films = document.getElementById("films")
+                                if(films){
+                                    active_gl =films
+                                }
+                                if(serials){
+                                active_gl =serials
+                                }
+
+                                if(films || serials){
+                                    id = active_gl.getAttribute('id')
+                                    document.getElementById('add_parameter_year').innerHTML =  '<input type="text" id = "section"  name = "section" width="20" style = "display: none;">'
+
+                                    document.getElementById("section").value  = id;
+                                }
+
+                                active = document.getElementById("active")
+                                if (active){
+                                    document.getElementById('add_parameter_year').innerHTML =  '<input type="text" id="active_class_year" name = "active_class_year" width="20" style = "display: none;">'
+                                    document.getElementById("active_class_year").value  = active.innerHTML;
+                                  
+                                }
+                                
+                                document.form_year.submit()
+                                //
+                            }
+								
+								
+						 if('{{selected_year}}'){
+               $('#select_year option:selected').text('{{selected_year}}')
+                        }	
+
+        			</script>
+	  
+
+               <!--Определение IP-->
+
+      <script type="text/javascript">
+      if('{{client_ip}}'){
+        ip = "{{client_ip}}"
+      }
+ 
+  
+  </script>
+
+	  <!-- окончание добавления данных из базы -->
+	  <!--Добавление с новым пагинатором-->
+	  		{% if video_list %}
+{% load endless %}
+{% paginate video_list %}
+{% for v in video_list %}
+    {% if forloop.last %}
+	  		   <div class = "one_video_desc_last"> 
+	  		   {% if v.title %}
+	  		   <div class="film_title"><p>{{v.title}}</p></div>
+	  		   {% else %}
+	  		   <div class="film_title" ><p>{{v.orig_title}}</p></div>
+	  		   {% endif %}
+
+
+	  		   {% else %}
+
+	  		  
+	  		   {% if v.title %}
+	  		   <div class="film_title"><p>{{v.title}}</p></div>
+	  		   {% else %}
+	  		   <div class="film_title"><p>{{v.orig_title}}</p></div>
+	  		   {% endif %}
+
+	  		   <div class = "one_video_desc">
+	  		   {% endif %}	
+	  				<div class="img_left">
+	  				
+	  					<a class = "image_href" href= {% if v.title %}"javascript:location.href='/video/'+translite('{{v.title}}'.replace(new RegExp(' ', 'gi'), '').replace(new RegExp(',', 'gi'), '').replace(new RegExp('!', 'gi'), '') ) +'?id={{v.id}}'" value = "{{v.translit_video_name}}" alt = "{{v.id}}"{% else %}"javascript:location.href='/video/'+translite('{{v.orig_title}}'.replace(new RegExp(' ', 'gi'), '').replace(new RegExp(',', 'gi'), '').replace(new RegExp('!', 'gi'), '') ) +'?id={{v.id}}'" value = "{{v.translit_video_name}}" alt = "{{v.id}}"{% endif %} ><img src = '{% if v.rating %}http://st.kp.yandex.net/images/film_iphone/iphone360_{{v.rating}}.jpg {% else %} {{v.image_link}}  {% endif %}' onerror = "this.setAttribute('src', 'http://st.kp.yandex.net/images/movies/poster_none.png')" width="270" height = "340"></a>
+	  				</div>
+	  				<!--onclick="sendpost('{{v.player_video_url}}', '{{v.id}}'); return false;"-->
+	  				<ul class="video_desc_right"> 
+                        {% if v.orig_title %}
+	  					<li> <b>Оригинальное название </b>
+	  					: {{ v.orig_title }}
+	  					</li>
+                        {% endif %}
+                        {% if v.title %}
+	  					<li> <b>Русское название </b> 
+	  					: {{ v.title }}
+	  					</li>
+                        {% endif %}
+                        {% if v.premiere_date %}
+	  					<li> <b>Премьера </b>
+	  					: {{ v.premiere_date }}
+	  					</li>
+	  					{% endif %}
+	  					{% if v.genres_client_view %}
+	  					<li> <b>Жанр </b> 
+	  					:
+	  					<a class = "link_genre" href="/{{slug}}/{{v.genres.all.0.translit_genre}}">
+	  					 {{ v.genres_client_view }}
+	  					</a>
+	  					</li>
+	  					{% endif %}
+	  					{% if v.country %}
+	  					<li> <b>Страна </b>
+	  					: {{ v.country }}
+	  					</li>
+	  					{% endif %}
+	  					{% if v.year %}
+	  					<li> <b>Год </b>
+	  					: {{ v.year }}
+	  					</li>
+	  					{% endif %}
+	  					{% if v.quality %}
+	  					<li> <b>Качество </b>
+	  					: {{ v.quality }}
+	  					</li>
+	  					{% endif %}
+	  					{% if v.sound %}
+	  					<li> <b>Звук </b> 
+	  					: {{ v.sound }}
+	  					</li>
+	  					{% endif %}
+                        {% if v.budget %}
+	  					<li> <b>Бюджет </b>
+	  					: {{ v.budget }}
+	  					</li>
+                        {% endif %}
+                        {% if v.director %}
+	  					<li> <b>Режиссер </b> 
+	  					: {{ v.director }}
+	  					</li>
+	  					{% endif %}
+	  					{% if v.cast %}
+	  					<li> <b>В главных ролях </b>
+	  					: {{ v.cast }}
+	  					</li>
+	  					{% endif %}
+	  					{% if v.time %}
+	  					<li> <b>Время </b> 
+	  					: {{ v.time }}
+	  					</li>
+	  					{% endif %}
+	  					<li style="min-height: 100px;"> <b>Краткое описание </b>
+	  					: {{ v.description|safe }}
+              {% if not v.kp_rating %}
+              <div style="height: 30px;"></div>
+              {% endif %}
+	  					</li>
+	  					<li style = 'height:20px; clear: both;'></li>
+                        
+                        
+	  					
+	  					
+	  				</ul>
+	  				
+	  				{% if v.rating or v.imdb_id %}
+	  				<p id="rating_films">
+	  				{% if v.rating %}
+	  				<a style = "z-index: 10; height: 40px; width: 110px; display:block; position: absolute; text-decoration: none;" href='http://www.kinopoisk.ru/film/{{v.rating}}/'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a><embed onerror = "this.setAttribute('src','http://rating.kinopoisk.ru/{{v.rating}}.gif')" onclick = "document.location = 'http://www.kinopoisk.ru/film/{{v.rating}}/'" style = "cursor: pointer; height: 40px; width: 110px;" src='http://rating.kinopoisk.ru/{{v.rating}}.gif' border='0'><!--  /iframe-->
+	  				{% endif %}	
+	  					
+	  				{% if v.imdb_id %}
+                        <a href='http://www.imdb.com/title/tt{{v.imdb_id}}/' target="_blank">
+                        <img  src = "http://tracker.0day.kiev.ua/imdb/imdb_tt{{v.imdb_id}}.gif">
+                        </a>
+                    {% endif %}
+	  				
+	  				</p>
+	  				 {% else %}
+                         <!--p style="position: relative; width: 30%; display:inline-block;"></p-->
+                         <p style="position: relative; width: 31%; display:inline-block;"></p>
+                        
+	  				
+	  				{% endif %}
+	  				
+	  			
+	  				
+	  				{% comment %}
+                    {% if v.kp_rating %}
+                        
+                        <p id="rating_films">
+                        <a href='http://www.kinopoisk.ru/film/{{v.rating}}/' target="_blank"><img src='/media/images/kip.png' border='0'></a><a href = "http://www.kinopoisk.ru/film/{{v.rating}}/" target="_blank" style="display: inline-block; text-decoration: none; color: black; position: absolute;
+top: 25px;margin-left: -90px; margin-right: 60px; margin-top:-5px; font-size: 10px; font-weight: bold;">{{v.kp_rating}}</a>
+                        
+                        {% if v.imdb_rating %}
+                        <a href='http://www.kinopoisk.ru/film/{{v.rating}}/' target="_blank">
+                        <img style = "" src = "/media/images/imbd.png"><a style="position: relative; top: -10px; font-size: 10px; font-weight:bold;">{{v.imdb_rating}}</a>
+                        </a>
+                        {% endif %}
+
+                        </p>
+                        {% else %}
+                         <!--p style="position: relative; width: 30%; display:inline-block;"></p-->
+                         <p style="position: relative; width: 31%; display:inline-block;"></p>
+                        {% endif %}
+                        {% endcomment %}
+                       
+                        <span class = "rating_stars" id = 'video_{{v.id}}' value = "{{v.id}}" style = "position: relative; margin-top: 40px;"></span><span class = "display_score_and_votes" value = '{{v.rate_site}}' style = "position: relative;  font-weight: bold; font-size:10px; top: -2px; margin-left: 5px;"><div style = "position:absolute;text-align: center; top: 0px; display:inline-block; box-sizing: content-box; width: inherit; min-width: 70px; ">{{v.rate_site}}{% if v.site_rating.rating_votes %}&nbsp;({{v.site_rating.rating_votes}}) {% endif %}</div></span>
+
+                       <span style = "position: relative; left: 75px;" ><span id="score{{v.id}}" style="position: absolute; top: 6px;  font-weight: bold; font-size:10px; width: 150px;"></span></span>
+
+                       <span style = "position: relative; left: 75px;" ><div id="success{{v.id}}" style="position: absolute; top: 6px;  font-weight: bold; font-size:10px; width: 150px;"></div></span>
+                  
+                   <a href = "#null" class="buttom_new_video" {% if v.title %} value = "{{v.translit_video_name}}" alt = "{{v.id}}"{% else %} value = "{{v.translit_video_name}}" alt = "{{v.id}}"{% endif %}>      
+                 <button id = "buttom" class="bt bt-blue2" onclick=""> смотреть</button> 
+                    </a>      
+	  		   </div>
+
+ <form name="voted_form" id="voted_form" method="POST" action ="">
+          <input type = 'hidden' name="voted_ip" id="voted_ip">
+          <input type = 'hidden' name="voted_id" id="voted_id">
+        </form>
+
+<script >
+
+function sleep(ms) {
+ms += new Date().getTime();
+while (new Date() < ms){}
+} 
+
+/*voted_arr = false
+if ('{{v.voted_ip}}'){
+    voted_arr = '{{v.voted_ip}}'.split(', ')
+}*/
+
+//alert(voted_arr)
+
+locked = true
+/*if(voted_arr){
+  for (i=0; i < voted_arr.length; i++){
+  if (voted_arr[i] == ip){
+    locked = true
+    
+  }
+ }
+}*/
+
+    
+    if (!locked){
+      $('.rating_stars').raty({
+            number: 10,
+            //half: true,
+            //targetScore: '#success'
+            path:'/media/images',
+            click: function(score, evt) {
+              id = this.getAttribute('value')
+              $('#score'+id).html('Ваша оценка '+score+".")
+          
+
+              //$('#score'+id).html('Спасибо за ваш голос!')
+                 
+              //alert(score)
+             
+              $(this).addClass('readonly_rate')
+            //alert('ID: ' + this.getAttribute('value') )
+            var vote_url = "/count_rate/" + id + "/" + score + "/" ;
+              $.ajax({
+                url: vote_url,
+                score_click: score,
+                id: id,
+                type: "GET",
+
+                success: function(score_click){
+
+                  $.ajax({
+                    url: "", data: {
+                    //voted_ip: ip,
+                    voted_id: id
+                    }, type: "POST", cache: false, async: false, success: function(data){}
+                    });
+
+                  $('#score'+id).html('')
+                   $('#success'+id).html('Спасибо за ваш голос!') 
+                  //alert(id)
+                  
+                                
+                  $('.readonly_rate').raty({
+                    number: 10,
+                    path:'/media/images',
+                    readOnly:true,
+                    score: score,
+                  })
+                   
+                  //document.getElementById('voted_ip').value = ip
+                  //document.getElementById('voted_id').value = id
+
+                  //$('#voted_form').submit()
+                   
+                },
+               complete: function(){
+                   sleep(2000) 
+                 }
+          });
+             }
+          });
+    }  
+      // Отображение которое не дает проголосовать 
+       else{
+          //alert($('#video_{{v.id}} + span.display_score_and_votes').attr('value'))
+              $('#video_{{v.id}}').removeClass('rating_stars')
+              $('#video_{{v.id}}'.toString() ).raty({
+                    number: 10,
+                    path:'/media/images',
+                    readOnly:true,
+                    score: $('#video_{{v.id}} + span.display_score_and_votes').attr('value'), // Отражение полной статистики уже проголосовавшего
+                  })  
+              //#centr_field > div:nth-child(16) > span.display_score_and_votes
+         
+      } 
+  
+  
+
+ 
+</script>
+
+{% endfor %}
+
+<script type="text/javascript">
+    // Рабатает с не пустым значением value объекта
+    activ = document.getElementById("active")
+    if (activ){
+       obj_genre = activ.getAttribute('value')
+   
+    activ.setAttribute('href', '/{{slug}}/'+ translite(obj_genre)  )  //'/{{obj.genre}}/') 
+    }
+
+    activ_other = document.getElementsByClassName("active_href")
+    if (activ_other){
+
+        for(i=0; i < activ_other.length; i++){
+            obj_genre = activ_other[i].getAttribute('value')
+            activ_other[i].setAttribute('href', '/{{slug}}/'+ translite(obj_genre) )
+        }
+    }
+    
+   image_href = document.getElementsByClassName('image_href')
+   if(image_href){
+        for(i=0; i < image_href.length; i++){
+            obj_name = image_href[i].getAttribute('value')
+            obj_id = image_href[i].getAttribute('alt')
+            image_href[i].setAttribute('href', '/video/'+ translite(obj_name.replace(new RegExp(' ', 'gi'), '').replace(new RegExp(',', 'gi'), '').replace(new RegExp('!', 'gi'), '').replace(new RegExp('—', 'gi'), '').replace(new RegExp('-', 'gi'), '').replace(new RegExp(':', 'gi'), '')  )  )
+        }
+   }
+
+   buttom_new_video = document.getElementsByClassName('buttom_new_video')
+   if(buttom_new_video){
+        for(i=0; i < buttom_new_video.length; i++){
+          //alert(buttom_new_video[i])
+            obj_name = buttom_new_video[i].getAttribute('value')
+            obj_id = buttom_new_video[i].getAttribute('alt')
+            buttom_new_video[i].setAttribute('href', '/video/'+ obj_name)
+        }
+   }
+    //"javascript:location.href='/video/'+translite('{{v.title}}'.replace(new RegExp(' ', 'gi'), '').replace(new RegExp(',', 'gi'), '').replace(new RegExp('!', 'gi'), '') ) +'?id={{v.id}}'"  
+</script>
+
+
+<div class = "numbers_of_paginator">{% show_pages %}</div>
+
+{% else %}
+{{message}}
+{% endif %}
+	  <!--Окончание-->
+	  
+	  
+	  
+	  <!-- hidden форму для отправки post смещения по qs  -->
+	  <div style = "display:none;">
+	  	<form id="slice" action = ""  method="POST"> {% csrf_token %}
+	  		<input name = "start" id = "start"> </input>
+	  		<input name = "end" id = "end"> </input>
+	  		<input  type='submit'></input>
+	  	</form>
+	  </div>
+	  <!-- окончание hidden формы отправки post id смещения поqs -->
+	  
+   <!-- окончание моих данных -->
+   
+   
+   
+   </div>
+			
+			
+
+
+
+
+
+	</article>
+  
+ 
+
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+
+// мой javacript=================================================================================
+
+function sendpost(internal_id, id){
+	//alert(internal_id)
+	$('#int_id').val(internal_id);
+    //$('#film_id').val(id);
+    $('#internal_number').attr('action', id.toString()+"/") //'?id='+id
+	$('#internal_number').submit();
+}
+//===============================================================================================
+
+//===============================================================================================
+$(document).ready(function(){
+	objs_count = {{ objs_count }}
+	
+})
+
+//===============================================================================================
+function another_page(a,b){
+	//alert(a)
+	//alert(b)
+	$('#start').val(a);
+	$('#end').val(b);
+	$('#slice').submit();
+	
+}
+
+// окончание моего javascript====================================================================
+</script>
+
+
+    
+
+   
+
+
+    <a href="#" class="overlay" id="hs_login2" ></a>
+		<div class="main_modal_tip">
+			<div class="modal_tip">
+				<a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+				<h2>Вы воспользовались услугами Бесплатной* Wi-Fi сети<br> <a href='http://globalhome.su/content/article/hot_spot/' target="_blank">HotSpot GlobalHome </a><h2>
+				<ul>
+					<li>Скорость доступа к интернет ресурсам составляет до 15 мбит\с.</li>
+					<li>Для более подробной информации нажмите<a href="http://globalhome.su/content/article/hot_spot/" target="_blank">здесь</a></li>
+					<li>Для открытия сайта или получения нужной информации введите запрос в поисковой строке.  Далее перейдите по ссылке в выдаче информации.</li>
+				</ul>
+				<p>* - на период тестирования.</p>
+				
+				<div class="lower_part">
+				
+				{%if trial%}
+					<form action = '/' method = 'GET' class="forma modal" id='' name = 'search_form' onsubmit = 'javascript:log();'>
+					{% else%}
+					<form action = '/' method = 'GET' class="forma modal"  name = 'search_form' >
+					{% endif%}
+					<input tabindex="4" type="text" class="searchbox modal" name="query" value=""  id = 'ya_input_log' />
+					<input  type="submit"   class="searchbox_submit modal"   value="Найти"  /><span class="tri"></span>
+						
+					</form>
+				</div>	
+			</div>
+		</div>
+		
+		{% block login_1 %}
+		{{block.super}}
+         {% endblock %}
+		
+		 {% block complaint_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+         {% block review_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+{% endblock %}
+
+
+

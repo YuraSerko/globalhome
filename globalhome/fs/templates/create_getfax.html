@@ -1,0 +1,229 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+{% block content %}
+
+<script>
+	
+	function test_number() {
+					$.ajax({
+							  url: "/account/getfax/check?number_fax="+document.getElementById("select_number").value, 
+							  beforeSend: function () 
+							  	{
+									if (document.getElementById('change_number_id'))
+										{
+											var change_number_id = document.getElementById('change_number_id');
+											change_number_id.parentNode.removeChild(change_number_id);
+										}
+								},
+							  complete: function(html)
+								{							
+									if (html.responseText == "gra4") 
+										{
+										add_message_number('На данном номере существует переадресация', 'no');
+										}
+									else if (html.responseText == "getfax_gra4") 
+										{
+										add_message_number('На данном номере стоит функция приёма факса', 'no');
+										}
+									else if (html.responseText == "ivr_gra4") 
+										{
+										add_message_number('На данном номере включено IVR', 'no');
+										} 
+									else
+									 	{
+										add_message_number('Данный номер свободен', 'yes');
+										}
+								},
+						  })
+						  }
+	
+	function add_message_number(message, type) {
+		if (document.getElementById('notifications_p'))
+			{
+				var notifications_p = document.getElementById('notifications_p');
+				notifications_p.parentNode.removeChild(notifications_p);
+			}
+		$("#notifications_number").append('<p id="notifications_p" style="margin-left: 20px;">'+ message +'</p>');
+		$('#notifications_number').css('background', 'url(/media/img/valid'+ type +'.png) no-repeat');
+		$('#notifications_number').css('background-position', '3px 12px');
+		document.getElementById('hidden_notif').value = type;
+		};
+	
+	function add_warning(message) {
+		if (document.getElementById('warning_i') == null)
+			{
+				$("#warning").append('<i id="warning_i"class="ico"></i>');
+			}
+		if (document.getElementById('warning_div') == null)
+			{
+				$("#warning").append('<div id="warning_div" class="status-i"><p id="warning_p"></p></div>');
+			}
+		if (document.getElementById('warning_p'))
+			{
+				var warning_p = document.getElementById('warning_p');
+				warning_p.parentNode.removeChild(warning_p);
+				$("#warning_div").append('<p id="warning_p">'+ message +'</p>');
+			}
+		document.getElementById('warning').className = 'status status-warning';		
+		};
+	
+	
+	function lol(f, i) {
+		var cont = "#validEmail" + i;
+		var email = f.value;
+		if (email != 0)
+		{
+			if (isValidEmailAddress(email))
+			{ 
+				$(cont).css({
+					"background-image": "url('/media/img/validyes.png')"
+				});
+			} 
+			else 
+			{
+				$(cont).css({
+					"background-image": "url('/media/img/validno.png')"
+				});
+			}
+		} 
+		else 
+		{
+			$(cont).css({
+				"background-image": "none"
+			});			
+		}
+	};
+	
+	
+	function isValidE(form) {
+	var flag = true;
+	var i = document.getElementById("count_email").value;
+	if (document.getElementById("select_number").value == "Выберите номер") 
+		{	
+			add_warning('Выберите номер');
+			flag = false;
+		} 	
+	else if (document.getElementById("hidden_notif").value == 'no')
+		{
+			add_warning('Выберите свободный номер');
+			flag = false;
+		}
+	if (flag == true)
+		{
+			for (var k = 1; k <= i; k++) 
+				{
+				  var cont = "#validate" + k;
+				  var email = $(cont).val();
+				  if (email != 0)
+						{
+							if (isValidEmailAddress(email)==false) 
+								{
+								add_warning('Вы ввели неправильный email адрес');
+								flag=false;
+								break;
+								}
+						}
+				  else
+						{	
+							add_warning('Пожалуйста, заполните поле email адрес');
+							flag=false;
+							break;
+						}
+				} 	
+		}
+	return flag;}
+	
+	
+	function isValidEmailAddress(emailAddress) {
+ 		var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+ 		return pattern.test(emailAddress);
+	}
+
+
+	$(function(){
+		last = document.getElementById("count_email").value
+		$('#addNewEmail').click(function(){
+			last++;
+			document.getElementById("count_email").value = last;
+			$('<li></li>')
+			   .append('<input name="email_adress' + last + '" type="text" onkeyup="lol(this, ' + last + ')" autocomplete="off" width="30" id="validate' + last + '" {% if email %}value="{{ email }}"{% endif %}/>')
+			   
+			   .append('<span id="validEmail' + last + '" class="validEmail"></span>')
+			   .append('<img id="part_row" src=\"/media/images/sprite_delete.png\" style="margin-top: 3px;" title=\"Удалить поле\">')
+			   .appendTo('#email_list');
+			});
+	   
+	   $('img').live('click', function(){ 
+	   las2t = document.getElementById("count_email").value;
+			
+			if ($(this).attr("id") == 'part_row') {
+			document.getElementById("count_email").value = las2t - 1;
+			  $(this).parent().remove();
+			  $(this).value() == '';
+			}  
+		
+		});
+	});
+	
+</script>
+
+<h1 class="title">{{ title }}</h1>
+
+<div class="ugc">
+	<p>Выберите номер на котором будет приём факса, затем введите e-mail адрес, на который будет перенаправлен факс.</p>
+</div>
+ 
+{{ block.super }}
+<div id="warning"></div>
+        
+<form id="getfax" name="getfaxname" action="" onSubmit="return isValidE(this)" method="post" enctype="multipart/form-data">
+	<input name="count_email" type="hidden" {% if len_email %} value="{{ len_email }}" {% else %} value="1" {% endif %} id="count_email"/>
+    <div class="form-sections">
+        <div class="form-section">
+                <span class="label">
+                    Номер
+                </span>
+                <select id="select_number" name="number" onChange="test_number()">
+                {% if not red_fax %}
+                	<option id="change_number_id">Выберите номер</option>
+                {% endif %}
+                {% for ch in choices %}
+                    <option {% if red_fax.number in ch %} selected {% endif %} {% if number == ch %} selected {% endif %} value="{{ ch }}">
+                    {{ ch }}
+                    </option> 
+                {% endfor %}
+                </select>
+                <div id="notifications_number" style="display: inline-block;">
+                	<input type="hidden" id="hidden_notif" value="">
+                </div>
+            <div class="hint"><i></i>{% trans "Select a number, which will be a receive fax." %}</div>
+        </div><!--form-section-->
+        
+        <div class="form-section form_getfax">
+                <span class="label">
+                    Email адрес:
+                </span>
+                <ul id="email_list">
+                    {% if html %}
+                        {{ html|safe }}
+                    {% else %}
+                    <li><input name="email_adress1" onkeyup="lol(this, 1)" type="text" autocomplete="off" id="validate1" width="30" {% if email %} value="{{ email }}"{% endif %}><span id="validEmail1" class="validEmail"></span></li>
+                    {% endif %}
+                </ul>
+                <a href="javascript:void(0);" class="link-add" id="addNewEmail">+</a>
+            <div class="hint"><i></i>{% trans "E-mail address, which will be sent fax." %}</div>
+        </div><!--form-section-->
+        
+    </div><!--form-sections-->
+
+    <input id="id_id" name="id" type="hidden" value="{{ red_fax.id }}"/>
+    <div class="form-submit-right">
+    {% if red_fax %}
+                	<input type="submit" class="bt bt-blue" name="abort" value="{% trans 'Cancel' %}"/> 
+        {% endif %}
+        <input class="bt bt-blue" type="submit" name="submit" value="{% trans 'Save' %}"/>
+        
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,207 @@
+﻿{% extends "admin/change_list.html" %}
+
+
+
+
+{% block content %}
+<script src="{{ MEDIA_URL }}js/jquery-1.7.2.min.js"></script>
+
+
+<div style ="float:left; height: 450px; width: 100%; ">
+
+
+
+
+{{ block.super }}
+
+<style>
+
+
+
+
+.note{color:#666; margin-left:8px;}
+.check_box_list{margin-left:20px;}
+
+.actions{margin-right:200px; !important;}
+.results{margin-right:200px; !important; }
+
+.exactions{
+    width:78%;
+ 	color: #999;
+    padding: 3px;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #ddd;
+    background: white ;
+}
+.expaginator{ color: #666;
+    margin-right:200px; !important;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    background: white;
+    overflow: hidden;
+    width:auto;
+    font-size: 11px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	line-height: 22px;
+	margin: 0;
+	}
+#changelist table{width:78%;}
+#changelist-filter{width:22%;}
+#changelist-form{background: none repeat scroll 0 0 #EFEFEF;}
+.change-list .filtered {background:none !important;}
+</style>
+
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}
+
+
+
+
+{% block sidebar  %}
+
+
+
+
+
+
+
+
+<div id="rfilter" style="  color:#999;width:22%; float:right; top: -290px;
+ position:relative; background:#efefef; font-size: 11px;  margin-left:0px; 
+  height:inherit;  ">
+ 
+ 
+<form  id = "myform" name= "myform"   method="POST" > {% csrf_token %}
+<div class = "note"><br> <b>Готовность  </b></br>  </div>
+    <div class = "note"><input type="checkbox" id ="all_nothing" value="1"  onchange = "all_nothing_set()">Выделить все/снять выделение<br>
+        <div class = "check_box_list">
+          
+  	       <input type="checkbox" id ="readiness0" value="Q(readiness_degree0__exact=1)" name="readiness0">Планируется подключение<br>
+           <input type="checkbox" id ="readiness1" value="Q(readiness_degree1__exact=1)" name="readiness1">Установлены центральные ящики<br>
+           <input type="checkbox" id ="readiness2" value="Q(readiness_degree2__exact=1)" name="readiness2">Дом подключен к интернет<br>
+           <input type="checkbox" id ="readiness3" value="Q(readiness_degree3__exact=1)" name="readiness3">Протянуты кабели<br>
+           <input type="checkbox" id ="readiness4" value="Q(readiness_degree4__exact=1)" name="readiness4">Установлены ящики на этажах и сделана оконцовка<br>
+           <input type="checkbox" id ="readiness5" value="Q(readiness_degree5__exact=1)" name="readiness5">Установлены микротики и коммутаторы<br>
+           <input type="checkbox" id ="readiness6" value="Q(readiness_degree6__exact=1)" name="readiness6">Дом запущен в тест<br>
+           <input type="checkbox" id ="readiness7" value="Q(readiness_degree7__exact=1)" name="readiness7">Дом запущен в продакшн<br>
+        </div>
+        <input type="submit" name="submit" onclick="filter()" value="Применить фильтр" style = "padding:1px 1px 1px 1px;" />
+    </div> 
+ </div>
+</form>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+$(".actions").addClass("exactions").removeClass("actions")
+$(".results").addClass("exresults").removeClass("results")
+$(".paginator").addClass("expaginator").removeClass("paginator")
+
+
+
+
+//добавить onclick к элементу
+
+
+ //меняем ссылку фильтра -  добавлеяем функцию 
+for (var li_id = 1; li_id<=7; li_id++){ 	
+ 		param = $("#changelist-filter ul:nth-child(3) li:nth-child(" + li_id.toString() + ") a").attr('href');
+ 		st_link = $("#changelist-filter ul:nth-child(3) li:nth-child(" + li_id.toString() + ") a").text();
+ 		$("#changelist-filter ul:nth-child(3) li:nth-child(" + li_id.toString() + ") a").attr('href', '#');
+ 		str_fin = "standart_filter(this," +   '"' +"/admin/internet/connection_address/" + param +  '"' + ")";
+ 		$("#changelist-filter ul:nth-child(3) li:nth-child(" + li_id.toString() + ") a").attr('onclick', str_fin);
+ }
+ 
+ 
+// добавляем функцию в кнопку "Найти"
+$("#changelist-search input[type=submit]").attr("onclick", "search()");
+$("#changelist-search input[type=submit]").get(0).type = 'button';
+
+
+
+function search(){ 
+	to_go = $("#changelist-search input[type=text]").val();
+	cur_url = window.location.toString();
+	if (cur_url.indexOf('?') != -1)
+		url = cur_url + '&q=' + to_go;
+	if (cur_url.indexOf('?') == -1)
+		url = cur_url + '?q=' + to_go;
+	$('#myform').attr('action',url);
+	myform.submit.click();
+	}
+	
+
+function standart_filter(qwe, url){ 
+	$('#myform').attr('action',url);
+	myform.submit.click();
+	}
+
+
+
+
+function all_nothing_set(){
+if (document.getElementById("all_nothing").checked == false)
+    // clear all checkboxes
+    {for( i = 0; i<=7; i++)
+        {id =  "readiness"+i;;
+         document.getElementById(id).checked = false;}}    
+    //end of clearing 
+if (document.getElementById("all_nothing").checked == true)
+  //full all checkboxes
+    {for( i = 0; i<=7; i++)
+        {id =  "readiness"+i;
+         document.getElementById(id).checked = true;}}    
+    //end of fulling
+}
+
+
+ // check box set
+ $( document ).ready(function() {
+ var temp_str ="";
+ temp_str = temp_str + '{{ fill_checkbox }}';
+ if (temp_str !="") {
+   arr_chb = temp_str.split(',')
+   //ставим checbox true где надо (массив )
+   var arr_chb_len = arr_chb.length;
+     for (i=0; i<arr_chb_len-1; i++) {
+ 		id = "readiness"+arr_chb[i];
+		document.getElementById(id).checked = true;
+	 }
+ }
+//менеяем количество всех адресов
+var quantity_st = "";
+	quantity_st = quantity_st + '{{ obj_quantity }}';
+	if (quantity_st!="") {
+	$(".question a").text('Выбрать все Адреса подключения к интернет с картойa '+ quantity_st);}
+	$(".small a").text(quantity_st + ' всего');
+	
+});  
+  
+
+</script>
+
+
+
+
+ 
+
+    
+    
+
+{% endblock %}

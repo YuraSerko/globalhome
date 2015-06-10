@@ -1,0 +1,274 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+
+if (cur_url[index+key.length] == '-'){
+{% block extrastyle %}
+  {{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  <script type="text/javascript">
+	
+	function link(key, value) {
+		cur_url = window.location.toString();
+		part_for_add = ''
+		if(index = cur_url.indexOf(key+'=') + 1)
+		{	
+			part_for_add = key+'='+value;
+			cur_url = cur_url.substr(0,index-1);
+		}
+		else
+		{
+		part_for_add = '&'+key+'=' + value;
+		if (cur_url[cur_url.length - 1] == '/'){
+			part_for_add = '?'+key+'='+value;}
+		}
+		if (cur_url[cur_url.length - 1] == '?'){
+			part_for_add = key+'='+value;
+		}
+		location.href = cur_url + part_for_add;
+	}
+</script>
+  
+     <style>
+    /*paging*/
+
+.paging {
+	margin: -2px 0 0;
+	border:none;
+}
+
+.paging ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 12px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.paging li {
+	display: inline-block;
+	margin: 0 2px;
+	vertical-align: middle;
+	color: #535353;
+}
+
+.paging .start a,
+.paging .prev a,
+.paging .next a,
+.paging .end a {
+	position: relative;
+	top: 2px;
+	display: block;
+	width: 17px;
+	height: 18px;
+	background: url(/media/images/sprite_private.png) no-repeat;
+	text-indent: -999em;
+	text-decoration: none;
+	border:none;
+}
+
+.paging .start {
+	margin-right: 5px;
+	border:none;
+}
+
+.paging .start a {
+	background-position: 0 -63px;
+	width:5px;
+	border:none;
+}
+
+.paging .prev {
+	margin-right: 4px;
+	border:none;
+}
+
+.paging .prev a {
+	width: 3px;
+	background-position: -18px -63px;
+	border:none;
+}
+
+.paging .next {
+	margin-left: 4px;
+	border:none;
+}
+
+.paging .next a {
+	width:3px;
+	background-position: -33px -63px;
+	border:none;
+}
+
+.paging .end {
+	margin-left: 5px;
+	border:none;
+}
+
+.paging .end a {
+	background-position: -48px -63px;
+	border:none;
+}
+
+.paging .text {
+	width: 32px;
+	margin: 0 3px;
+	padding: 5px 8px;
+	background: #fff;
+	box-shadow: inset 0 1px 0 rgba(0,0,0,.06);	
+	border:none;
+	color: #535353;
+	font: 14px Arial, sans-serif;
+	text-align: center;
+}
+    </style>
+
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+{% endblock %}
+
+
+
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="../../">
+        {% trans "Home" %}
+      </a>
+       &rsaquo; 
+       <a href="../">
+         Account
+      </a>
+      &rsaquo; 
+      Учетные записи пользователей
+    </div>
+	{% if notifications %}
+	<a style="color:red;margin-left:2%">
+		{% for message in notifications %}{{ message }}{% endfor %}
+	</a>
+	{% endif %}
+  {% endblock %}
+
+
+
+{% block content %}
+  <div id="content-main">
+  
+  <h1>Выберите profile для изменения</h1>
+       <div class="module filtered" id="changelist">
+<div id="toolbar"><form id="changelist-search" action="" method="get">
+<div><!-- DIV needed for valid HTML -->
+<label for="searchbar"><img src="/static/admin/img/icon_searchbox.png" alt="Search" /></label>
+<input type="text" size="40" name="q"  id="searchbar" value="{{ q }}"/>
+<input type="submit" value="Найти" />
+	{% if is_jur %}<input type="hidden" name="is_jur" value= {{ is_jur }} /> {% endif %}
+    {% if is_act %}<input type="hidden" name="is_act" value= {{ is_act}} />{% endif %}
+	{% if o != 0 %}<input type="hidden" name="o" value={{ o }} />{% endif %}
+	<a style="margin-left:100px">{% block date_hierarchy %}Всего {{ count }}{% endblock %}</a>
+</div>
+</form>
+</div>
+    <div id="changelist-filter">
+	<h2>Is juridicle</h2>
+	<ul>			  
+	{% for filter in filter %}
+		<li{% if filter.selected %} class="selected"{% endif %}>
+		<a href="{{ filter.url }}">{{ filter.display }}</a></li>
+	{% endfor %}
+	</ul>
+	<h2>Is active</h2>
+	<ul>			  
+	{% for filter in active_filter %}
+		<li{% if filter.selected %} class="selected"{% endif %}>
+		<a href="{{ filter.url }}">{{ filter.display }}</a></li>
+	{% endfor %}
+	</ul>
+    </div>       
+       <form id="changelist-form" action="" method="post">  
+       <div class="actions">
+    <label>Действие: </label><input type="hidden" class="select-across" value="0" name="select_across" />
+    <button type="submit" class="button" title="Выполнить выбранное действие" name="index" value="0" onclick='selected_profile()'>Заблокировать пользователей</button>   
+</div>
+
+<div class="tablesort"  style="margin-right:160px">
+<table id="change_list">
+    <thead>
+    <tr>
+	    <th class="action-checkbox-column">
+			<input type="checkbox" id="action-toggle" style="display: inline-block;">
+		</th>
+		{% for i, column in columns.items %}
+			{% if  i != abs_o %}
+			<th scope="col"  class="sortable sorted ascending">
+				   <div class="sortoptions">
+					 <a onClick="link('o', '-{{ i }}')" class="toggle descending" title="Сортировать по убыванию"></a>
+					 <a onClick="link('o', '{{ i }}')" class="toggle ascending" title="Сортировать по возрастанию"></a>
+				   </div>
+			   <div class="text"> {{ column }} </div>
+			   <div class="clear"></div>
+			</th>
+			{% endif %}
+			{% if i == o %}
+			<th scope="col"  class="sortable sorted ascending">
+				   <div class="sortoptions">
+					 <a class="sortremove" onClick="link('o','0')" title="Удалить из сортировки"></a>
+					 <a onClick="link('o','-{{ i }}')" class="toggle descending" title="Сортировать по убыванию"></a>
+				   </div>
+			   <div class="text"> {{ column }} </a></div>
+			   <div class="clear"></div>
+			</th>
+			{%  endif %}
+			{% if o < 0 and i == abs_o %}
+			<th scope="col"  class="sortable sorted ascending">
+				   <div class="sortoptions">
+					 <a class="sortremove" onClick="link('o','0')" title="Удалить из сортировки"></a>
+					 <a onClick="link('o','{{ i }}')" class="toggle ascending" title="Сортировать по возрастанию"></a>
+				   </div>
+			   <div class="text"> {{ column }} </a></div>
+			   <div class="clear"></div>
+			</th>
+			{% endif %}
+	{% endfor %}
+    </tr>
+    </thead>
+	<tbody>
+	
+    {% for profile in cl %}
+		<tr class="{{profile.row}}">
+		<td><input type="checkbox" class="action-select" value="{{ profile.user_id }}" name="_selected_action" /></td>
+		<td><a name="user_id" href="{{ profile.user_id }}/">{{ profile.user_id }}</a></td>
+        <td><a name="username" href="{{ profile.user_id }}/">{{ profile.username }}</a></td>
+		<td><a name="user">{{ profile.user }}</a></td>
+		<td><a name="email">{{ profile.email }}</a></td>
+		<td><a name="balance">{{ profile.balance }}</a></td>
+		<td><a name="credit">{{ profile.credit }}</a></td>
+		{% if profile.is_juridical %}
+        <td><img name="is_juridical" src="/media/img/icons/icon-yes.gif" alt="{{ profile.is_juridical }}" value="jur_val"> </td>
+		{% else %}
+		<td><img name="is_juridical" src="/media/img/icons/icon-no.gif" alt="{{ profile.is_juridical }}" value="jur_val"> </td>
+		{% endif %}
+		{% if profile.is_active %}
+        <td><img name="is_active" src="/media/img/icons/icon-yes.gif" alt="{{ profile.is_active }}" value="act_val"> </td>
+		{% else %}
+		<td><img name="is_active" src="/media/img/icons/icon-no.gif" alt="{{ profile.is_active }}" value="act_val"> </td>
+		{% endif %}
+        </tr>
+     {% endfor %}
+	</tbody>
+</table>
+</div>
+	 <div class="ctrls">
+     {% if paginator %}
+        {% include 'paginator.html' %}
+     {% endif %}
+	 <script type="text/javascript"></script>
+     </form>
+     </div>
+     </div><!--ctrls-->
+    </div>
+  </div>
+{% endblock %}

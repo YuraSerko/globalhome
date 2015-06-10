@@ -1,0 +1,684 @@
+{% extends 'base_private.html' %}
+{% block content %}
+
+<div class="under-construction">
+
+    <h1 class="title">Виртуальные сервера</h1>
+
+    <p><img src="{{ MEDIA_URL }}images/construction.png" alt=""></p>
+    <p>Данный раздел находится на реконструкции.<br>Вы можете просмотреть другие услуги нашего <a href="/account/data_centr/">дата-центра</a>.</p>
+
+</div>
+
+<!--<h1 align="left"> Аренда виртуального выделенного сервера</h1>
+ 
+<link href="/media/css/slider_vds.css" rel="stylesheet" type="text/css" />
+<script src="/media/js/jquery.min.js"></script><script src="/media/js/jquery-ui.min.js"></script><style type="text/css">
+/*Фон слайдера*/
+.slider {
+width:230px;
+height:11px;
+background:url(/media/jpg/slider-bg.png);
+position:relative;
+margin:0;
+padding:0 10px;
+}
+.slider_cpu {
+width:230px;
+height:11px;
+background:url(/media/jpg/slider-bg.png);
+position:relative;
+margin:10px;
+padding:0 10px;
+}
+.slider_ram {
+width:230px;
+height:11px;
+background:url(/media/jpg/slider-bg.png);
+position:relative;
+margin:10px;
+padding:0 10px;
+}
+.slider_hdd {
+width:230px;
+height:11px;
+background:url(/media/jpg/slider-bg.png);
+position:relative;
+margin:10px;
+padding:0 10px;
+}
+.slider_ip {
+width:230px;
+height:11px;
+background:url(/media/jpg/slider-bg.png);
+position:relative;
+margin:10px;
+padding:0 10px;
+}
+
+/*Стиль кнопки слайдера*/
+.ui-slider-handle {
+width:24px;
+height:24px;
+position:absolute;
+top:-7px;
+margin-left:-12px;
+z-index:200;
+background:url(/media/jpg/slider-button.png);
+}
+.ui-slider-handle:focus {
+width:24px;
+height:24px;
+position:absolute;
+top:-7px;
+margin-left:-12px;
+z-index:200;
+background:url(/media/jpg/slider-button_focus.png);
+}
+
+/*Элемент div результата, в котором выводится значение слайдера*/
+#slider_cpu-result {
+font-size:20px;
+height:24px;
+font-family:Arial, Helvetica, sans-serif;
+color:#fff;
+width:100px;
+text-align:center;
+text-shadow:0 1px 1px #000;
+font-weight:16;
+padding:10px 0;
+}
+/*Элемент div результата, в котором выводится значение слайдера*/
+#slider_ram-result {
+font-size:20px;
+height:24px;
+font-family:Arial, Helvetica, sans-serif;
+color:#fff;
+width:100px;
+text-align:center;
+text-shadow:0 1px 1px #000;
+font-weight:16;
+padding:10px 0;
+}
+/*Элемент div результата, в котором выводится значение слайдера*/
+#slider_hdd-result {
+font-size:20px;
+height:24px;
+font-family:Arial, Helvetica, sans-serif;
+color:#fff;
+width:100px;
+text-align:center;
+text-shadow:0 1px 1px #000;
+font-weight:16;
+padding:10px 0;
+}
+/*Элемент div результата, в котором выводится значение слайдера*/
+#slider_ip-result {
+font-size:20px;
+height:24px;
+font-family:Arial, Helvetica, sans-serif;
+color:#fff;
+width:100px;
+text-align:center;
+text-shadow:0 1px 1px #000;
+font-weight:16;
+padding:10px 0;
+}
+/*Элемент div результата, в котором выводится значение слайдера*/
+#cost {
+font-size:20px;
+height:24px;
+font-family:Arial, Helvetica, sans-serif;
+color:#00B4FF;
+width:100%;
+text-align:center;
+text-shadow:0 1px 1px #000;
+font-weight:16;
+padding:10px 0;
+}
+#cost2 {
+font-size:20px;
+height:24px;
+font-family:Arial, Helvetica, sans-serif;
+color:#fff;
+width:100%;
+text-align:center;
+text-shadow:0 1px 1px #000;
+font-weight:16;
+padding:10px 0;
+margin-right:1px
+}
+
+/*Полоска заполнителя слайдера*/
+.ui-widget-header {
+background:url(/media/jpg/fill.png) no-repeat left;
+height:8px;
+left:1px;
+top:1px;
+position:absolute;
+}
+
+a {
+outline:none;
+-moz-outline-style:none;
+}</style>
+<table class="data" style="width: 600px; ">
+  <thead>
+    <tr>
+      <th scope="col"> Характеристики / Тариф</th>
+      <th scope="col" style="text-align: center; "> VDS-256</th>
+      <th scope="col" style="text-align: center; "> VDS-512</th>
+      <th scope="col" style="text-align: center; "> VDS-1024</th>
+      <th scope="col" style="text-align: center; "> VDS-2048</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="width: 230px; "> Частота процессора</td>
+      <td style="text-align: center; "> 256</td>
+      <td style="text-align: center; "> 512</td>
+      <td style="text-align: center; "> 1024</td>
+      <td style="text-align: center; "> 2048</td>
+    </tr>
+    <tr>
+      <td> Оперативная память</td>
+      <td style="text-align: center; "> 256</td>
+      <td style="text-align: center; "> 512</td>
+      <td style="text-align: center; "> 1024</td>
+      <td style="text-align: center; "> 2048</td>
+    </tr>
+    <tr>
+      <td> Объем жесткого диска</td>
+      <td style="text-align: center; "> 25.6</td>
+      <td style="text-align: center; "> 51.2</td>
+      <td style="text-align: center; "> 102.4</td>
+      <td style="text-align: center; "> 204.8</td>
+    </tr>
+    <tr>
+      <td> Скорость доступа в интернет</td>
+      <td colspan="4" style="text-align: center; "> 100 Мбит / сек</td>
+    </tr>
+    <tr>
+      <td> Количество включенного трафика</td>
+      <td colspan="4" style="text-align: center; "> Неограничено</td>
+    </tr>
+    <tr>
+      <td> Количество IP-адресов</td>
+      <td style="text-align: center; "> 1</td>
+      <td style="text-align: center; "> 1</td>
+      <td style="text-align: center; "> 1</td>
+      <td style="text-align: center; "> 1</td>
+    </tr>
+    <tr>
+      <td> Операционная система</td>
+      <td style="text-align: center; "><select  name="OS256" onchange="pc256(this);" style="width:100%; height:20px">
+        <option value="CentOS 5 (x32)" selected="selected">CentOS 5 (x32)</option>
+        <option value="CentOS 5 (x64)" >CentOS 5 (x64)</option>
+        <option value="Debian 5 (x32)">Debian 5 (x32)</option>
+        <option value="Debian 5 (x64)">Debian 5 (x64)</option>
+        <option value="Debian 6 (x32)">Debian 6 (x32)</option>
+        <option value="Debian 6 (x64)">Debian 6 (x64)</option>
+        <option value="Ubuntu (x32)">Ubuntu (x32)</option>
+        <option value="Ubuntu (x64)">Ubuntu (x64)</option>
+      </select></td>
+      <td style="text-align: center; "><select name="OS512" onchange="pc512(this);" style="width:100%; height:20px">
+        <option value="CentOS 5 (x32)" selected="selected">CentOS 5 (x32)</option>
+        <option value="CentOS 5 (x64)" >CentOS 5 (x64)</option>
+        <option value="Debian 5 (x32)">Debian 5 (x32)</option>
+        <option value="Debian 5 (x64)">Debian 5 (x64)</option>
+        <option value="Debian 6 (x32)">Debian 6 (x32)</option>
+        <option value="Debian 6 (x64)">Debian 6 (x64)</option>
+        <option value="Ubuntu (x32)">Ubuntu (x32)</option>
+        <option value="Ubuntu (x64)">Ubuntu (x64)</option>
+      </select></td>
+      <td style="text-align: center; "><select name="OS1024" onchange="pc1024(this);" style="width:100%; height:20px">
+        <option value="CentOS 5 (x32)" selected="selected">CentOS 5 (x32)</option>
+        <option value="CentOS 5 (x64)" >CentOS 5 (x64)</option>
+        <option value="Debian 5 (x32)">Debian 5 (x32)</option>
+        <option value="Debian 5 (x64)">Debian 5 (x64)</option>
+        <option value="Debian 6 (x32)">Debian 6 (x32)</option>
+        <option value="Debian 6 (x64)">Debian 6 (x64)</option>
+        <option value="Ubuntu (x32)">Ubuntu (x32)</option>
+        <option value="Ubuntu (x64)">Ubuntu (x64)</option>
+      </select></td>
+      <td style="text-align: center; "><select name="OS2048" onchange="pc2048(this);" style="width:100%; height:20px">
+        <option value="CentOS 5 (x32)" selected="selected">CentOS 5 (x32)</option>
+        <option value="CentOS 5 (x64)" >CentOS 5 (x64)</option>
+        <option value="Debian 5 (x32)">Debian 5 (x32)</option>
+        <option value="Debian 5 (x64)">Debian 5 (x64)</option>
+        <option value="Debian 6 (x32)">Debian 6 (x32)</option>
+        <option value="Debian 6 (x64)">Debian 6 (x64)</option>
+        <option value="Ubuntu (x32)">Ubuntu (x32)</option>
+        <option value="Ubuntu (x64)">Ubuntu (x64)</option>
+      </select></td>
+    </tr>
+    <tr>
+      <td><em><strong>Стоимость</strong></em></td>
+      <td style="text-align: center; "><em><strong>220 руб.*</strong></em></td>
+      <td style="text-align: center; "><em><strong>440 руб.*</strong></em></td>
+      <td style="text-align: center; "><em><strong>880 руб.*</strong></em></td>
+      <td style="text-align: center; "><em><strong>1760 руб.*</strong></em></td>
+    </tr>
+    <tr>
+      <td><em><strong>Заказ</strong></em></td>
+      <td style="text-align: center; "><em style="text-align: right; white-space: nowrap; "><a href="#zakaz256" onclick="form_hide()"><img alt="" onmousedown=" this.src='/media/jpg/button_sergei_down_vds.png'" onmouseout=" this.src='/media/jpg/button_sergei_vds.png' " onmouseover=" this.src='/media/jpg/button_sergei_over_vds.png' " src="/media/jpg/button_sergei_vds.png" style="border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; margin-left: 7px; margin-right: 7px; margin-top: 3px; margin-bottom: 3px; " /></a></em></td>
+      <td style="text-align: center; "><em style="text-align: right; white-space: nowrap; "><a href="#zakaz512" onclick="form_hide()"><img alt="" onmousedown=" this.src='/media/jpg/button_sergei_down_vds.png'" onmouseout=" this.src='/media/jpg/button_sergei_vds.png' " onmouseover=" this.src='/media/jpg/button_sergei_over_vds.png' " src="/media/jpg/button_sergei_vds.png" style="border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; margin-left: 7px; margin-right: 7px; margin-top: 3px; margin-bottom: 3px; " /></a></em></td>
+      <td style="text-align: center; "><em style="text-align: right; white-space: nowrap; "><a href="#zakaz1024" onclick="form_hide()"><img alt="" onmousedown=" this.src='/media/jpg/button_sergei_down_vds.png'" onmouseout=" this.src='/media/jpg/button_sergei_vds.png' " onmouseover=" this.src='/media/jpg/button_sergei_over_vds.png' " src="/media/jpg/button_sergei_vds.png" style="border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; margin-left: 7px; margin-right: 7px; margin-top: 3px; margin-bottom: 3px; " /></a></em></td>
+      <td style="text-align: center; "><em style="text-align: right; white-space: nowrap; "><a href="#zakaz2048" onclick="form_hide()"><img alt="" onmousedown=" this.src='/media/jpg/button_sergei_down_vds.png'" onmouseout=" this.src='/media/jpg/button_sergei_vds.png' " onmouseover=" this.src='/media/jpg/button_sergei_over_vds.png' " src="/media/jpg/button_sergei_vds.png" style="border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; margin-left: 7px; margin-right: 7px; margin-top: 3px; margin-bottom: 3px; " /></a></em></td>
+    </tr>
+  </tbody>
+</table>
+<p>&nbsp;
+</p>
+
+<table border="0" cellpadding="1" cellspacing="1" class="data" style="width: 600px;">
+	<thead>
+		<tr>
+			<th colspan="3" scope="col">
+				<strong>Задайте сами необходимые Вам характеристики сервера</strong></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 250px; " width="246">
+				Частота процессора</td>
+			<td style="text-align: center; width: 270px; " width="266">
+				<div class="slider_cpu" id="slider_cpu">
+			  </div>
+			</td>
+			<td style="width: 120px; " width="202">
+				<div id="slider_cpu-result">
+					256 МГц</div>
+				<input id="hidden_cpu" type="hidden" /> <script> 
+	             $( ".slider_cpu" ).slider({
+			    animate: true,
+                range: "min",
+                value: 256,
+                min: 256,
+                max: 3072,
+		step: 64,
+                
+     
+				//Получаем значение и выводим его на странице
+                slide: function( event, ui ) {
+                    $( "#slider_cpu-result" ).html( ui.value + " МГц" );
+                    $( "#cost" ).html((ui.value-256)/64*6+220 + (Number((document.getElementById("hidden_ram").value)-256)/32*10) + (Number((document.getElementById("hidden_hdd").value)-25.6)/1.6*5) + (Number((document.getElementById("hidden_ip").value)-1)*20) + " руб." );
+					document.getElementById("hidden_cost").value = ((ui.value-256)/64*6+220 + (Number((document.getElementById("hidden_ram").value)-256)/32*10) + (Number((document.getElementById("hidden_hdd").value)-25.6)/1.6*5) + (Number((document.getElementById("hidden_ip").value)-1)*20) + " руб." );
+                    
+                },
+
+
+				//обновляем скрытое поле формы, так что можно передать данные с помощью формы
+                change: function(event, ui) { 
+                $('#hidden_cpu').attr('value', ui.value);
+                }
+			
+				});
+
+
+        </script></td>
+		</tr>
+		<tr>
+			<td>
+				Оперативная память</td>
+			<td>
+				<div class="slider_ram" id="slider_ram">
+					&nbsp;</div>
+			</td>
+			<td>
+				<div id="slider_ram-result">
+					256 Мб</div>
+				<input id="hidden_ram" type="hidden" /> <script> 
+										
+	             $( ".slider_ram" ).slider({
+			    animate: true,
+                range: "min",
+                value: 256,
+                min: 256,
+                max: 16384,
+		       step: 32,
+                
+				//Получаем значение и выводим его на странице
+                slide: function( event, ui ) {
+                    $( "#slider_ram-result" ).html( ui.value + " Мб" );
+                    $( "#cost" ).html((ui.value-256)/32*10+220 + (Number((document.getElementById("hidden_cpu").value)-256)/64*6) + (Number((document.getElementById("hidden_hdd").value)-25.6)/1.6*5) + (Number((document.getElementById("hidden_ip").value)-1)*20) + " руб." );
+                    document.getElementById("hidden_cost").value = ((ui.value-256)/32*10+220 + (Number((document.getElementById("hidden_cpu").value)-256)/64*6) + (Number((document.getElementById("hidden_hdd").value)-25.6)/1.6*5) + (Number((document.getElementById("hidden_ip").value)-1)*20) + " руб." );
+					
+                },
+
+				//обновляем скрытое поле формы, так что можно передать данные с помощью формы
+                change: function(event, ui) { 
+                $('#hidden_ram').attr('value', ui.value);
+                }
+			
+				});
+
+
+        </script></td>
+		</tr>
+		<tr>
+			<td>
+				Объем жесткого диска</td>
+			<td>
+				<div class="slider_hdd" id="slider_hdd">
+					&nbsp;</div>
+			</td>
+			<td>
+				<div id="slider_hdd-result">
+					25.6 Гб</div>
+				<input id="hidden_hdd" type="hidden" /> 
+				<script> 
+         					
+	             $( ".slider_hdd" ).slider({
+			    animate: true,
+                range: "min",
+                value: 25.6,
+                min: 25.6,
+                max: 2048,
+		step: 1.6,
+                
+				//Получаем значение и выводим его на странице
+                slide: function( event, ui ) {
+                    $( "#slider_hdd-result" ).html( ui.value + " Гб" );
+                    $( "#cost" ).html(Number((ui.value-25.6)/1.6*5+220 + (Number((document.getElementById("hidden_cpu").value)-256)/64*6) + (Number((document.getElementById("hidden_ram").value)-256)/32*10) + (Number((document.getElementById("hidden_ip").value)-1)*20)).toFixed() + " руб." );
+                    document.getElementById("hidden_cost").value = (Number((ui.value-25.6)/1.6*5+220 + (Number((document.getElementById("hidden_cpu").value)-256)/64*6) + (Number((document.getElementById("hidden_ram").value)-256)/32*10) + (Number((document.getElementById("hidden_ip").value)-1)*20)).toFixed() + " руб." );
+                },
+
+				//обновляем скрытое поле формы, так что можно передать данные с помощью формы
+                change: function(event, ui) { 
+                $('#hidden_hdd').attr('value', ui.value);
+                }
+			
+				});
+
+
+        </script></td>
+		</tr>
+		<tr>
+			<td>
+				Количество IP адресов</td>
+			<td>
+				<div class="slider_ip" id="slider_ip">
+					&nbsp;</div>
+			</td>
+			<td>
+				<div id="slider_ip-result">
+					1 шт</div>
+				<input id="hidden_ip" type="hidden" /> <script> 
+					document.getElementById("hidden_cpu").value=256
+					document.getElementById("hidden_ram").value=256
+					document.getElementById("hidden_hdd").value=25.6
+					document.getElementById("hidden_ip").value=1
+         
+	             $( ".slider_ip" ).slider({
+			    animate: true,
+                range: "min",
+                value: 1,
+                min: 1,
+                max: 8,
+		step: 1,
+                
+				//Получаем значение и выводим его на странице
+                slide: function( event, ui ) {
+                    $( "#slider_ip-result" ).html( ui.value + " шт" );
+                    $( "#cost" ).html((ui.value-1)*20+220 + (Number((document.getElementById("hidden_cpu").value)-256)/64*6) + (Number((document.getElementById("hidden_ram").value)-256)/32*10) + (Number((document.getElementById("hidden_hdd").value)-25.6)/1.6*5) + " руб." );
+					document.getElementById("hidden_cost").value = ((ui.value-1)*20+220 + (Number((document.getElementById("hidden_cpu").value)-256)/64*6) + (Number((document.getElementById("hidden_ram").value)-256)/32*10) + (Number((document.getElementById("hidden_hdd").value)-25.6)/1.6*5) + " руб." );
+                },
+
+				//обновляем скрытое поле формы, так что можно передать данные с помощью формы
+                change: function(event, ui) { 
+                $('#hidden_ip').attr('value', ui.value);
+                }
+			
+				});
+
+
+        </script></td>
+		</tr>
+		<tr>
+			<td style="height: 50px; ">
+				Операционная система</td>
+			<td colspan="2">
+				<select name="os" onchange="pc_vds(this);" style="width:100%; height:20px">
+        <option value="CentOS 5 (x32)" selected="selected">CentOS 5 (x32)</option>
+        <option value="CentOS 5 (x64)">CentOS 5 (x64)</option>
+        <option value="Debian 5 (x32)">Debian 5 (x32)</option>
+        <option value="Debian 5 (x64)">Debian 5 (x64)</option>
+        <option value="Debian 6 (x32)">Debian 6 (x32)</option>
+        <option value="Debian 6 (x64)">Debian 6 (x64)</option>
+        <option value="Ubuntu (x32)">Ubuntu (x32)</option>
+        <option value="Ubuntu (x64)">Ubuntu (x64)</option>
+		</select></td>
+		</tr>
+		<tr>
+			<td align="right" style="height: 50px; ">
+				<div id="cost2">
+					Стоимость:</div>
+			</td>
+			<td style="text-align: right; vertical-align: middle; ">
+				<div id="cost">
+					220 руб.*</div>
+			</td>
+			<td style="text-align: center; vertical-align: middle; width: 110px; ">
+				<em style="text-align: right; white-space: nowrap; "><a href="#zakaz_hand" onclick="form_hide_vds()"><img alt="" onmousedown=" this.src='/media/jpg/button_sergei_down.png'" onmouseout=" this.src='/media/jpg/button_sergei.png' " onmouseover=" this.src='/media/jpg/button_sergei_over.png' " src="/media/jpg/button_sergei.png" style="border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; margin-left: 7px; margin-right: 7px; margin-top: 3px; margin-bottom: 3px; " /></a></em></td>
+		</tr>
+	</tbody>
+</table>
+
+<form>
+</form>
+  <a href="#" class="overlay" id="zakaz256"></a>
+    <div class="popup">
+	<form action="/content/vds/send_zakaz_256/" id="preview256" method="post">
+	<font color="black">
+            <h2><font color="blue">Оформление заказа</font></h2>
+            <p>Для заказа необходимо заполнить все поля</p>
+			<div>
+				<label for="usluga"><font color="black">Тип услуги</font></label>
+				<font color="blue">Аренда виртуального выделенного сервера</font>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Тариф</font></label>
+				<font color="blue">VDS-256</font>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Операционная система</font></label>
+				<font color="blue" id="os256">CentOS 5 (x32)</font>
+           		<input id="hidden_os256" type="hidden" name="hidden_os256" value="CentOS 5 (x32)"/>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Стоимость услуги</font></label>
+				<font color="blue">220 руб.</font>
+			</div>
+			<div>
+  			 <button type="submit">Оформить заказ</button>
+			</div>
+
+            <a class="close" href="#close" onclick="form_show()"></a>
+	  </font>
+	  </form>
+</div>
+
+  <a href="#" class="overlay" id="zakaz512"></a>
+    <div class="popup">
+	<form action="/content/vds/send_zakaz_512/" id="preview512" method="post">
+	<font color="black">
+            <h2><font color="blue">Оформление заказа</font></h2>
+            <p>Для заказа необходимо заполнить все поля</p>
+			<div>
+				<label for="usluga"><font color="black">Тип услуги</font></label>
+				<font color="blue">Аренда виртуального выделенного сервера</font>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Тариф</font></label>
+				<font color="blue">VDS-512</font>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Операционная система</font></label>
+				<font color="blue" id="os512">CentOS 5 (x32)</font>
+           		<input id="hidden_os512" type="hidden" name="hidden_os512" value="CentOS 5 (x32)"/>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Стоимость услуги</font></label>
+				<font color="blue">440 руб.</font>
+			</div>
+			<div>
+  			 <button type="submit">Оформить заказ</button>
+			</div>
+
+            <a class="close" href="#close" onclick="form_show()"></a>
+	  </font>
+	  </form>
+</div>
+
+  <a href="#" class="overlay" id="zakaz1024"></a>
+    <div class="popup">
+	<form action="/content/vds/send_zakaz_1024/" id="preview1024" method="post">
+	<font color="black">
+            <h2><font color="blue">Оформление заказа</font></h2>
+            <p>Для заказа необходимо заполнить все поля</p>
+			<div>
+				<label for="usluga"><font color="black">Тип услуги</font></label>
+				<font color="blue">Аренда виртуального выделенного сервера</font>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Тариф</font></label>
+				<font color="blue">VDS-1024</font>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Операционная система</font></label>
+				<font color="blue" id="os1024">CentOS 5 (x32)</font>
+           		<input id="hidden_os1024" type="hidden" name="hidden_os1024" value="CentOS 5 (x32)"/>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Стоимость услуги</font></label>
+				<font color="blue">880 руб.</font>
+			</div>
+			<div>
+  			 <button type="submit">Оформить заказ</button>
+			</div>
+
+            <a class="close" href="#close" onclick="form_show()"></a>
+	  </font>
+	  </form>
+</div>
+
+  <a href="#" class="overlay" id="zakaz2048"></a>
+    <div class="popup">
+	<form action="/content/vds/send_zakaz_2048/" id="preview2048" method="post">
+	<font color="black">
+            <h2><font color="blue">Оформление заказа</font></h2>
+            <p>Для заказа необходимо заполнить все поля</p>
+			<div>
+				<label for="usluga"><font color="black">Тип услуги</font></label>
+				<font color="blue">Аренда виртуального выделенного сервера</font>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Тариф</font></label>
+				<font color="blue">VDS-2048</font>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Операционная система</font></label>
+				<font color="blue" id="os2048">CentOS 5 (x32)</font>
+           		<input id="hidden_os2048" type="hidden" name="hidden_os2048" value="CentOS 5 (x32)"/>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Стоимость услуги</font></label>
+				<font color="blue">1760 руб.</font>
+			</div>
+			<div>
+  			 <button type="submit">Оформить заказ</button>
+			</div>
+
+            <a class="close" href="#close" onclick="form_show()"></a>
+	  </font>
+	  </form>
+</div>
+
+  <a href="#" class="overlay" id="zakaz3072"></a>
+    <div class="popup">
+	<form action="/content/vds/send_zakaz_3072/" id="preview3072" method="post">
+	<font color="black">
+            <h2><font color="blue">Оформление заказа</font></h2>
+            <p>Для заказа необходимо заполнить все поля</p>
+			<div>
+				<label for="usluga"><font color="black">Тип услуги</font></label>
+				<font color="blue">Аренда виртуального выделенного сервера</font>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Тариф</font></label>
+				<font color="blue">VDS-3072</font>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Операционная система</font></label>
+				<font color="blue" id="os3072">CentOS 5 (x32)</font>
+           		<input id="hidden_os3072" type="hidden" name="hidden_os3072" value="CentOS 5 (x32)"/>
+			</div>
+			<div>
+				<label for="usluga"><font color="black">Стоимость услуги</font></label>
+				<font color="blue">2640 руб.</font>
+			</div>
+			<div>
+  			 <button type="submit">Оформить заказ</button>
+			</div>
+
+            <a class="close" href="#close" onclick="form_show()"></a>
+	  </font>
+	  </form>
+</div>
+
+	<a href="#" class="overlay" id="zakaz_hand"></a>
+    <div class="popup">
+	<form action="/content/vds/send_zakaz_hand/" id="previewhand" name="preview" method="post">
+	<font color="black">
+            <h2><font color="blue">Оформление заказа</font></h2>
+            <p>Для заказа необходимо заполнить все поля</p>
+			<input type="hidden" name="zakaz" value=""/>
+			<div>
+				<label for="usluga"><font color="black">Тип услуги</font></label>
+				<font color="blue">Аренда виртуального выделенного сервера</font>
+			</div>
+			<div>
+				<label for="surname"><font color="black">Тариф</font></label>
+				<font color="blue">Создан вручную</font>
+			</div>
+			<div>
+				<label for="surname"><font color="black">Процессор</font></label>
+				<font color="blue" id="cpu"></font><font color="blue"> МГц</font>
+           		<input id="hidden_hand_cpu" type="hidden" name="hidden_hand_cpu"/>
+			</div>
+			<div>
+				<label for="surname"><font color="black">Оперативная память</font></label>
+				<font color="blue" id="ram"></font><font color="blue"> Мб</font>
+           		<input id="hidden_hand_ram" type="hidden" name="hidden_hand_ram"/>
+			</div>
+			<div>
+				<label for="surname"><font color="black">Объем жесткого диска</font></label>
+				<font color="blue" id="hdd"></font><font color="blue"> Гб</font>
+           		<input id="hidden_hand_hdd" type="hidden" name="hidden_hand_hdd"/>
+			</div>
+			<div>
+				<label for="surname"><font color="black">Количество IP адресов</font></label>
+				<font color="blue" id="ip"></font>
+           		<input id="hidden_hand_ip" type="hidden" name="hidden_hand_ip"/>
+			</div>
+			<div>
+				<label for="surname"><font color="black">Операционная система</font></label>
+				<font color="blue" id="os_hand">CentOS 5 (x32)</font>
+           		<input id="hidden_hand" type="hidden" name="hidden_hand" value="CentOS 5 (x32)"/>
+			</div>
+			<div>
+				<label for="surname"><font color="black">Стоимость</font></label>
+				<font color="blue" id="cost_hand">220 руб.</font>
+           		<input id="hidden_cost" type="hidden" name="hidden_cost" value="220 руб."/>
+			</div>
+			<div>
+  			 <button type="submit">Оформить заказ</button>
+			</div>
+
+            <a class="close" href="#close" onclick="form_show()"></a>            
+	  </font>
+	  </form>
+      </div>
+* Все цены приведены без учёта НДС. На сегодняшний день НДС состоявляет 18%	-->
+{% endblock %}

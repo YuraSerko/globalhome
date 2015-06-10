@@ -1,0 +1,29 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+{% block content %}
+
+{{ block.super }}
+
+<h1 class="title">{{ title }}</h1>
+
+<form name="create-complaint" action="" method="post">
+	<div class="popup-form coplaint_form">
+        {% if form1 %}
+            {% form_field form.title block %}
+            {% form_field form.submitter_email block %}
+            {% form_field form.bodytext block %}
+        {% endif %}
+        {% if not form1 %}
+            {% form_field form.name block %}
+            {% form_field form.place block %}
+            {% form_field form.submitter_email block %}
+            {% form_field form.text block %}
+        {% endif %}
+        <div class="form-submit-right">
+            <input class="bt bt-blue2" type="submit" name="submit" value="Отправить" />
+        </div>
+    </div>
+</form>
+
+{% endblock %}

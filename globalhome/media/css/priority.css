@@ -1,0 +1,38 @@
+@charset "utf-8";
+/* CSS Document */
+.oplata{
+	padding: 5px;
+	height: 20px;
+	width: auto;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-ms-box-shadow: 5px 5px 5px 5px;
+	-o-box-shadow: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	border: 2px solid #ccc;
+	border-color: #CCC;
+}
+
+.oplata_left {
+	float:left;
+	margin-left:5px;
+	margin-top:3px;
+}
+
+.oplata_rigth{
+	float:right;
+	margin-right:5px;
+	margin-top:3px;
+}
+
+.oplata_rigth .auto_paid{
+	background: #ff9000;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	 -moz-border-radius: 5px 5px 5px 5px;
+	 -ms-box-shadow: 5px 5px 5px 5px;
+	 -o-box-shadow: 5px 5px 5px 5px;
+	 border-radius: 5px 5px 5px 5px;
+	 padding-left:2px;
+	 padding-right: 2px;
+}
+

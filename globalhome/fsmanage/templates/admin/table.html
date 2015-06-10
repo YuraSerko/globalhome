@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Документ без названия</title>
+</head>
+
+<body >
+<br />Он-лайн звонков: {{ons}}
+<br />Он-лайн звонков c учетом фильтра: {{uons}}
+<style type="text/css">
+<!--
+/* tables */
+table.tablesorter {
+	font-family:arial;
+	background-color: #CDCDCD;
+	margin:10px 0pt 15px;
+	font-size: 8pt;
+	width: 100%;
+	text-align: left;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #e6EEEE;
+	border: 1px solid #FFF;
+	font-size: 8pt;
+	padding: 4px;
+}
+table.tablesorter thead tr .header {
+	
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	width:auto;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+}
+table.tablesorter tbody tr.odd td {
+	background-color:#F0F0F6;
+}
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(../../../media/sort/asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(../../../media/sort/desc.gif);
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+background-color: #8dbdd8;
+}
+
+</style>
+
+<script type="text/javascript" src="../../../media/sort/jquery.tablesorter.js"></script> 
+<script type="text/javascript">
+
+	$(document).ready(function() {
+	// call the tablesorter plugin
+	$("table").tablesorter({
+		// set forced sort on the fourth column and i decending order.
+		//sortForce: [[0,1]]
+	});
+	
+	if (document.getElementById("ids2").value=="header headerSortUp")
+	{
+	$('#{{ids}}').click();
+	} else {
+	$('#{{ids}}').click();
+	$('#{{ids}}').click();
+	document.getElementById("ids2").value="header headerSortDown";
+	
+	
+	
+	
+	}
+}); 
+ 
+	</script>
+    
+<script type="text/javascript">
+function tem(a) {
+	
+	document.getElementById("ids").value=a;
+	if (document.getElementById(a).className=='header'){
+	document.getElementById("ids2").value="header headerSortUp";}
+	else{document.getElementById("ids2").value=document.getElementById(a).className;}}
+
+</script>
+    
+	{% if channels %}
+
+
+
+<table class="tablesorter" id="stats_table">
+		
+	<thead>
+		<tr>
+			<th class="header" id="src_1" onclick="tem(this.id)" >src_ip</td>
+			<th class="header" id="src_2" onclick="tem(this.id)">src_num</td>
+	        <th class="header" id="src_3" onclick="tem(this.id)">dest_num</td>
+	        <th class="header" id="src_4" onclick="tem(this.id)">created</td>
+            <th class="header" id="src_5" onclick="tem(this.id)">pdd</td>
+	        <th class="header" id="src_6" onclick="tem(this.id)">billsec</td>
+	        <!-- <td>epoch</td>
+	        <td>call_epoch</td>
+	        <td>time</td> -->
+	        <th class="header" id="src_7" onclick="tem(this.id)">callstate</td>
+	        <th class="header" id="src_8" onclick="tem(this.id)">b_callstate</td>
+	        <th class="header" id="src_9" onclick="tem(this.id)">state</td>
+	        <th class="header" id="src_10" onclick="tem(this.id)">b_state</td>
+	        <th class="header" id="src_11" onclick="tem(this.id)">'uuid'</td> 
+            <th class="header" id="src_12" onclick="tem(this.id)">ip_freeswitch</td> 
+		</tr>
+  </thead>
+		{% else %}
+        {{ msg }}
+        <p>No channels</p>
+        
+        {% endif %}
+		
+		<tbody>
+		{% for channel in channels %}
+		<tr>
+		    <td>{{ channel.ip_addr }}</td>
+	        <td>{{ channel.cid_num }}</td>
+	        <td>{{ channel.callee_num }}</td>
+	        <td>{{ channel.created }}</td>
+            <td>{{ channel.pdd }}</td>
+	        <td>{{ channel.billsec }}</td>
+            <!-- <td>{{ channel.created_epoch }}</td>
+            <td>{{ channel.call_created_epoch }}</td>
+	        <td>{{ channel.time }}</td> -->
+            <td>{{ channel.callstate }}</td>
+	        <td>{{ channel.b_callstate }}</td>
+	        <td>{{ channel.state }}</td>
+	        <td>{{ channel.b_state }}</td>
+	        <td>{{ channel.uuid }}</td>	
+            <td>{{ channel.ip_freeswitch }}</td>	
+		</tr>
+		{% endfor %}
+		</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends "admin/services/base_assign.html" %}
+{% load form_tags i18n %}
+
+{% block assign_service_content %}
+	<table>
+		<tr>
+			<th style="text-align: right">{% trans "Minutes left" %}:</th>
+			<td><input type="text" name="minutes" value="{{ default_minutes }}"></td>
+		</tr>
+		<tr>
+			<th style="text-align: right">{% trans "To number" %}:</th>
+			<td>
+				<select name="to_number">
+					{% for number in numbers %}
+						<option value="{{ number.id }}">{{ number }}</option>>
+					{% endfor %}
+				</select>
+			</td>
+		</tr>
+	</table>
+{% endblock %}

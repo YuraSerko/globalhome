@@ -1,0 +1,51 @@
+<script src="{{ MEDIA_URL }}js/jquery-1.7.2.min.js"></script> 
+<link type="text/css" href="{{ MEDIA_URL }}css/egplant_cost.css" rel="stylesheet" />
+<link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+
+
+{% if not "number_act_arenda_obor" in	application_text %}
+ <table class="type-4" style="height: 600px;">
+        	<caption>
+                    <div class="form-submit-left">
+                    </div>
+            </caption>
+             <tbody>
+             	<td style="padding: 0;">
+                    <div class="document" id="signed-findoc-text" style="clear: all; height: 800px; width:600px; overflow: hidden;">
+                        <a type = "button" class="bt bt-blue2" href="/media/doc/{{display}}.zip" target="_blank">СКАЧАТЬ</a>
+                        {{ application_text|safe }}
+                        {{ next_button|safe }}
+                    </div>
+                </td>
+             </tbody>
+	 </table>
+
+{% else %}
+<div class="status status-info">
+       <i class="ico"></i>
+       <div class="status-i">
+           <p>Договор уже подписан</p>
+       </div>
+   </div>
+{% endif %}	
+<script>
+
+
+function fun_next(doc_number)
+	{
+	   
+	   get = '?zakaz_id=' + {{ zakaz_id }};
+     	$.ajax ({
+    	url:"/admin/data_centr/zakazy/download_findoc_zakazy_admin/2/" + get, // документ 2
+    	cash:false,
+    	async:false,
+    	complete:function(html)
+    	    {
+    		 document.getElementById("signed-findoc-text").innerHTML = html.responseText;	
+    	    },
+    	error:function()
+    	    {document.getElementById("signed-findoc-text").innerHTML = 'Невозможно отобразить договор';	}
+     	})
+	}
+
+</script>

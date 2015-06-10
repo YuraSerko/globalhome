@@ -1,0 +1,552 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block extrahead %}
+	{{ block.super }} 
+	<script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/id_utils.js"></script>
+    <script type="text/javascript" language="javascript" charset="utf-8" src="/media/js/wait_utils.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/general.js"></script>
+    <script type="text/javascript" language="javascript" charset="utf-8">
+
+	function PageLoaded() // вызовется, когда страница загрузится
+		{	
+			all_day_week_check = document.getElementById("id_all_check_day_of_week").value.split(',');
+			all_day_check = document.getElementById("id_all_check_day").value.split(',');
+			if (all_day_week_check.length > 1) {
+			for (var i = 0; i < all_day_week_check.length - 1; i++) {
+					$('#calendar_week_table').find( "#" + all_day_week_check[i] ).toggleClass( "highlightweek" );
+				}
+			}
+			if (all_day_check.length > 1) {
+			for (var i = 0; i < all_day_check.length - 1; i++) {
+				$('#calendar_table').find( "#" + all_day_check[i] ).toggleClass( "highlight" );
+				}
+			}
+			
+			var busy_div = GetI("dtmf_conditions");
+			var busy_div2 = GetI("dtmf_conditions2");
+			var busy_cb = GetI("id_answer_dtmf");
+			var one_time = GetI("one_times_conditions");
+			var one_time_cb = GetI("id_one_times");
+			var many_time = GetI("many_times_conditions");
+			var many_time_cb = GetI("id_many_times");
+			var calendar_week = GetI("calendar_week_table");
+			var obzvon_day_cb = GetI("id_obzvon_day_enabled");
+			var calendar = GetI("calendar_table");
+			var obzvon_concretic_day_cb = GetI("id_obzvon_concretic_day_enabled");
+			
+			var obzvon_time_cond = GetI("obzvon_time_cond");
+			var obzvon_time_cb = GetI("id_obzvon_time_enabled");
+			
+			var max_min_time = GetI("max_min_time_conditions");
+			var max_min_time_cb = GetI("id_max_min_time_enabled");
+			//var obzvon_time_for_one_cond = GetI("obzvon_time_for_one_cond");
+			//var obzvon_time_for_one_cb = GetI("id_obzvon_time_enabled_for_one");
+			
+			//var date_to = GetI("date_to");
+			//var obzvon_concretic_day_for_one_cb = GetI("id_obzvon_concretic_day_enabled_for_one");
+			
+			//obzvon_concretic_day_for_one_cb.onclick = function() { 
+			//Sdown(date_to, obzvon_concretic_day_for_one_cb); 
+			//}
+			
+			//obzvon_time_for_one_cb.onclick = function() { 
+			//Sdown(obzvon_time_for_one_cond, obzvon_time_for_one_cb); 
+			//}
+			
+			max_min_time_cb.onclick = function() { 
+			Sdown(max_min_time, max_min_time_cb); 
+			}
+			
+			obzvon_time_cb.onclick = function() { 
+			Sdown(obzvon_time_cond, obzvon_time_cb); 
+			}
+			
+			obzvon_day_cb.onclick = function() { 
+			if (obzvon_day_cb.checked){
+					$("#id_obzvon_concretic_day_enabled").attr("checked",false);
+					Sdown(calendar, obzvon_concretic_day_cb);
+					}
+			Sdown(calendar_week, obzvon_day_cb); 
+			}
+			
+			obzvon_concretic_day_cb.onclick = function() { 
+			if (obzvon_concretic_day_cb.checked){
+					$("#id_obzvon_day_enabled").attr("checked",false);
+					Sdown(calendar_week, obzvon_day_cb);
+					}
+			Sdown(calendar, obzvon_concretic_day_cb); 
+			}
+			
+			busy_cb.onclick = function() { 
+			Sdown(busy_div, busy_cb); 
+			Sdown(busy_div2, busy_cb); 
+			}
+			
+			one_time_cb.onclick = function() {
+				if (one_time_cb.checked){
+					$("#id_many_times").attr("checked",false);
+					Sdown(many_time, many_time_cb);
+					}
+			Sdown(one_time, one_time_cb); 
+			}
+			
+			many_time_cb.onclick = function() { 
+			if (one_time_cb.checked){
+					$("#id_one_times").attr("checked",false);
+					Sdown(one_time, one_time_cb);
+					}
+			Sdown(many_time, many_time_cb); 
+			}
+			
+			Sdown(max_min_time, max_min_time_cb);
+			Sdown(one_time, one_time_cb);
+			Sdown(many_time, many_time_cb); 
+			Sdown(busy_div2, busy_cb);
+			Sdown(busy_div, busy_cb);
+			Sdown(calendar, obzvon_concretic_day_cb); 
+			Sdown(calendar_week, obzvon_day_cb); 
+			Sdown(obzvon_time_cond, obzvon_time_cb);
+			Sdown(date_to, obzvon_concretic_day_for_one_cb); 
+			Sdown(obzvon_time_for_one_cond, obzvon_time_for_one_cb);
+			
+			var ivr_div = GetI("ivr_conditions");
+			var ivr_cb = GetI("id_answer_ivr");
+			ivr_cb.onclick = function() { 
+			if (ivr_cb.checked){
+			$('#id_filea:file').val('');
+			}
+			Sdown(ivr_div, ivr_cb); 
+			}
+			Sdown(ivr_div, ivr_cb);
+		}
+	WaitForLoaded("many_times_conditions", PageLoaded);  
+	
+	function Add_to()
+		{
+			var x = document.getElementById('all_list');
+			x.value=x.value+document.getElementById("numb_temp").value; 
+			var x = document.getElementById('numb_temp');
+			x.value = '';
+		}
+		
+		
+	var items=1;
+	
+	function AddItem() {
+		var div=document.getElementById("items");
+		items++;
+		var new_item='\
+						   <li class="iform-item">\
+								<label>\
+									<input id="to_numb'+items+'" type="text" name="to_number" class="text" onkeyup="return proverka(this);"style="width: 130px;"/>\
+								</label>\
+							</li>\
+							<a style="margin-left: -17px;" href="javascript:void(0);" onClick="removeItem(' + items + ')"><img src=\"/media/images/sprite_delete.png\" style="margin-top: 3px;" title=\"Удалить поле\"></a>'
+	
+		newnode=document.createElement("ul");
+		newnode.id = "item_" + items;
+		newnode.className = "iform";
+		newnode.innerHTML=new_item;
+		div.insertBefore(newnode, null);
+		
+	}
+
+	function removeItem(q){ 
+		var item = document.getElementById("item_" + q);
+		var parent = document.getElementById('items');
+		parent.removeChild(item);
+	}
+	
+	function proverka(input) { 
+		var value = input.value; 
+		var rep = /[-+\.;":'a-zA-Zа-яА-Я\s]/; 
+		if (rep.test(value)) { 
+			value = value.replace(rep, ''); 
+			input.value = value; 
+		} 
+	}
+	
+   function updateElementIndex(el, prefix, ndx) {
+		var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        var replacement = prefix + '-' + ndx + '-';
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+        replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+
+	function deleteForm(btn, prefix) {
+		var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+		if (formCount > 1 || document.getElementById('id_file_text').value!='') {
+			// Delete the item/form
+			$(btn).parent('.number').remove();
+			var forms = $('.number'); // Get all the forms  
+			// Update the total number of forms (1 less than before)
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+			var i = 0;
+			// Go through the forms and set their indices, names and IDs
+            for (formCount = forms.length; i < formCount; i++) {
+                $(forms.get(i)).children().children().each(function () {
+                    if ($(this).attr('type') == 'text') updateElementIndex(this, prefix, i);
+                });
+            }
+        } // End if
+        else {
+            alert("Вы должны ввести по крайней мере один номер или убрать галочку из поля!");
+        }
+        return false;
+    }
+
+    function addForm(btn, prefix, add) {
+		var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+		//alert(formCount);
+        // You can only submit a maximum of 10 todo items 
+		if (formCount == 0) {
+			//var div=document.getElementById("id_form-MAX_NUM_FORMS");
+			var new_new = '<div class="number" style="margin-left:30px"><p><label for="id_form-0-pub_date">Номер:\
+    		</label><input id="id_form-0-pub_date" type="text"\
+			 name="form-0-pub_date"></input></p><p><label for="id_form-0-pub_date_add">Добавочный:</label><input id="id_form-0-pub_date_add" type="text"\
+			  name="form-0-pub_date_add"></input></p><button class="bt bt-blue2" onclick="del_asks(this);" type="button" name="delete">\
+			  Удалить\
+			  </button></div></br>'
+			$("#add_id").before(new_new);
+			var row = $(".number:first").clone(false).get(0);
+            $(row).children().children().each(function () {
+                updateElementIndex(this, prefix, formCount);
+                $(this).val("");
+            });
+			$("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+			//div.insertBefore(new_new, null);
+			}
+        if (formCount < 10 && formCount != 0) {
+            // Clone a form (without event handlers) from the first form
+            var row = $('.number'+ add +':first').clone(false).get(0);
+            // Insert it after the last form
+            $(row).removeAttr('id').hide().insertAfter('.number'+ add +':last').slideDown(300);
+            // Remove the bits we don't want in the new row/form
+            // e.g. error messages
+            $(".errorlist", row).remove();
+            $(row).children().removeClass("error");
+            // Relabel or rename all the relevant bits
+            $(row).children().children().each(function () {
+                updateElementIndex(this, prefix, formCount);
+                $(this).val("");
+            });
+			//alert("asd");
+            // Add an event handler for the delete item/form link 
+            $(row).find(".delete").click(function () {
+                return deleteForm(this, prefix);
+            });
+            // Update the total form count
+            $("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+        } // End if
+        else if (formCount != 0) {
+            alert("Sorry, you can only enter a maximum of ten items.");
+        }
+        return false;
+    }
+    // Register the click event handlers
+    function ask(asd, pre) {
+		if (pre == 'number') {
+		return addForm(asd, "form", "");}
+		else {return addForm(asd, "number", "_ivr");}
+    };
+
+    function del_asks(asd, pre) {
+		if (pre == 'number') {
+		return deleteForm(asd, "form", "");}
+		else {return deleteForm(asd, "number", "_ivr");}
+    };
+	
+	
+	function check_another(a) {
+		$('tr > td > input[type="checkbox"]').attr('checked', false);
+		$(a).attr('checked', true);
+	};
+</script>
+    
+    
+{% endblock %}
+
+{% block content%}
+
+<p class="breadcrumbs"><a href="/account/service_choice/">Выбор раздела</a><span>→</span><a href="/account/">Телефония</a><span>→</span><a href="/account/obzvon/">Обзвон</a><span>→</span>Новый обзвон</p>
+
+<h1 class="title">{{title}}</h1>
+
+<div class="ugc">
+	<p>Заполните все поля и нажмите кнопку "Начать обзвон"</p>
+</div>
+
+{{ block.super }}
+<style>
+.number_ivr > p {
+	float:left;
+	padding-right:5px;
+	}
+.number_ivr > p >label {
+	display:none;
+	}
+.number_ivr > p > select {
+	margin-top:-2px;
+	}
+.number_ivr > p > input {
+	width:100px;
+	}
+.number_ivr > ul {
+	display:none;
+	}
+</style>  
+<style type="text/css">
+	#calendar{border:0px;}
+	#calendar tbody tr{ height:10px;}
+	#calendar td{float:left; width:20px; border:0px; border:solid 1px #FFF; font-size:15px; text-align:center; background:linear-gradient(to bottom, #4ba6e9 0%,#2570c7 100%); border-radius:7px;}
+	#calendar th{background-color:#4ba6e9; border:solid 1px #FFF; color: #FFF;}
+	#calendar td.day{ background-color:#4ba6e9; color:#FFF; cursor:pointer;}
+	.highlight{background:linear-gradient(to bottom, #0C0 0%,#093 100%) !important;}
+	
+	
+	#calendarweek{border:0px;}
+	#calendarweek tbody tr{ height:10px;}
+	#calendarweek td{float:left; width:30px; border:0px; border:solid 1px #FFF; font-size:15px; text-align:center; background:linear-gradient(to bottom, #4ba6e9 0%,#2570c7 100%); border-radius:7px;}
+	#calendarweek th{background-color:#4ba6e9; border:solid 1px #FFF; color: #FFF;}
+	#calendarweek td.dayofweek{ background-color:#4ba6e9; color:#FFF; cursor:pointer;}
+	.highlightweek{background:linear-gradient(to bottom, #0C0 0%,#093 100%) !important;}
+	#calendarweek td.dayofweekend{background-color:#4ba6e9; color:#FFF; cursor:pointer; background:linear-gradient(to bottom, #4ba6e9 0%,#2570c7 100%); border:solid 1px #F00}
+</style>
+
+
+<form id="obzvon" name="new_obzvon" action="" method="post" enctype="multipart/form-data">
+<div class="form-sections">
+
+					<div class="form-section form-section2">
+               			{% form_field form.from_number block %}
+                        <div class="hint"><i></i>С какого номера производить обзвон</div>
+					</div><!--form-section-->
+                    
+<hr>
+                    <div class="form-section form-section2">
+                    
+                    <table>
+                         <tr>
+                         	<td valign="top">
+                         	<label style="display: inline-block; margin: 0px 0px 6px; color: rgb(83, 83, 83); font-size: 12px; font-weight: 700;">Список номеров для обзвона:</label>
+                    {{ formset.management_form }}
+                  	{% for form in formset.forms %}
+                        <div class="number" style="margin-left:30px">
+                          {{ form.as_p }}
+                          <button name="delete" class="bt bt-blue2" type="button" onclick="del_asks(this, 'number');">Удалить</button>
+                         </div>
+					{% endfor %}
+                    <br>
+                    <button name="add" id="add_id" class="bt bt-blue2" type="button" onclick="ask(this, 'number');" style="width: 270px;">Ещё номер...</button>
+                                </td>
+                         
+                                <td width="10%">
+								</td>
+
+                                <td valign="top">
+                                {% form_field form.file_text block %}
+                            
+                            <div class="hint"><i></i>Вы можете выбрать файл со списком номеров формата ".txt".<br>Номера в файле должны располагаться через запятую без пробелов.<br>Пример: 1000016,1000014,74951234567,74991234567.</div>
+                            </td>
+                            
+                            </tr>
+                            
+                            </table>
+                    <div class="hint"><i></i>Какие номера обзванивать</div>
+                    </div><!--form-section-->
+                    
+                    
+                    
+<hr>
+                    <div class="form-section form-section2 form_django">
+                    {% form_field form.filea block %}
+                       
+                        <div class="hint"><i></i>Файл для проигрывания при ответе абонента</div>
+					</div><!--form-section-->
+                    
+<hr>
+                    <div class="form-section form-section2 form_django">
+                    {% form_field form.count_call block %}
+                       
+                        <div class="hint"><i></i>Количество попыток дозвона на номера в случае, если номера не ответили</div>
+					</div><!--form-section-->
+                    
+<hr>
+<div id="conditions"> 
+                    <div class="form-section form-section2 form_django">
+                    {% form_field form.answer_dtmf block %}
+                    	<div id="dtmf_conditions2">
+                       {% form_field form.dtmf_wait_time block %}
+                       </div>
+                        <div class="hint"><i></i>Нажмите галочку, если хотите включить режим интерактивного обзвона. Этот режим означает, что абоненту будет дана возможность нажать на кнопки (0-9,*,#). Нажатия будут видны в статистике по данному обзвону. Таким образом вы сможете определить какой выбор из предложенного сделал абонент.
+</div>
+                       <div id="dtmf_conditions"> 
+                       <hr>
+                        {% form_field form.answer_ivr block %}
+                        <div id="ivr_conditions">
+               
+               {% if ivrs %}
+                
+                <table class="type-2">
+                    <thead>
+                        <tr>
+                            <th width="8%" scope="col">Выбрать</th> 
+                            <th width="20%" scope="col">{% trans "File" %}</th>
+                            <th width="18%" scope="col">{% trans "Last call" %}</th>
+                        </tr>
+                    </thead>
+                    {% for ivr in ivrs %}
+                        <tr>
+                            <td>
+                          <input type="checkbox" {% if ivr.id == select_ivr %}checked{% endif %} name="{{ ivr.id }}" onclick="check_another(this);"/>
+                            </td>
+                            <td>{{ ivr.file_wav }}</td>
+                            <td>{{ ivr.last_call }}</td>
+                    <!--</li> -->
+                        </tr>
+                    {% endfor %}
+                </table>
+                
+            {% else %}
+            
+                <div class="status status-info">
+                    <i class="ico"></i>
+                    <div class="status-i">
+                        <p>{% trans "You have no ivr." %}</p>
+                    </div>
+                </div>
+                
+            {% endif %}
+            <div class="form-submit-left">
+                <a class="bt bt-blue2" href="/account/myivr/create_ivr/?obzvon=1">Добавить новое IVR</a>
+            </div>
+            
+            <br>
+                            </div><!--ivr_cond-->
+                            <div class="hint"><i></i>Нажмите галочку, если хотите добавить IVR к данному обзвону, что позволит после нажатия пользователем определённой кнопки перевести вызов на один из Ваших внутренних номеров.
+</div>
+                        </div><!--dtmf_cond-->
+                        
+					</div><!--form-section-->
+                    </div>
+                    
+                    <hr>
+                    <div class="form-section form-section2 form_django">
+                    {% form_field form.max_min_time_enabled block %}
+                        <div id="max_min_time_conditions" style="padding-left:10px;">
+                           	{% form_field form.min_time block %}
+                            {% form_field form.max_time block %}
+                        </div>
+                    <div class="hint"><i></i>Заполнив поля, Вы можете указать время в которое обзвон будет работать. Во время отличное от указанного диапазона обзвон ставиться на паузу</div>
+					</div><!--form-section-->
+                    
+                    <hr>
+                    <div class="form-section form-section2 form_django">
+                    {% form_field form.one_times block %}
+                        <div id="one_times_conditions" style="padding-left:10px;">
+                           	{% form_field form.obzvon_time_for_one block %}
+                            {% form_field form.date_to block %}
+                        </div>
+                    <div class="hint"><i></i>Заполнив поля, Вы можете указать конкретное время в которое обзвон запустится один раз</div>
+					</div><!--form-section-->
+                    <hr>
+                    <div class="form-section form-section2 form_django">
+                    {% form_field form.many_times block %}
+                        <div id="many_times_conditions" style="padding-left:10px;">
+                            {% form_field form.obzvon_time_enabled block %}
+                            <div id="obzvon_time_cond" style="padding-left:20px;">
+                            	{% form_field form.obzvon_time block %}
+                            </div>
+                            
+                            {% form_field form.obzvon_day_enabled block %}
+                            <div id="calendar_week_table" style="padding-bottom:10px; padding-left:20px;">
+                            <table id="calendarweek" width="710" border="1" cellspacing="0" cellpadding="5">
+                            <tbody>
+<tr><td id="0" class="dayofweek">Пнд</td><td id="1" class="dayofweek">Вт</td><td id="2" class="dayofweek">Срд</td><td id="3" class="dayofweek">Чтв</td><td id="4" class="dayofweek">Птн</td><td id="5" class="dayofweekend">Сбт</td><td id="6" class="dayofweekend">Вск</td></tr>
+                            </tbody>
+                            </table>
+                            <input id="id_all_check_day_of_week" name="all_check_day_of_week" type="hidden" value="{{ day_of_week }}" />
+                            </div>
+                            
+                           {% form_field form.obzvon_concretic_day_enabled block %}
+                           <div id="calendar_table" style="padding-left:20px;">
+                            <table id="calendar" width="710" border="1" cellspacing="0" cellpadding="5">
+                            <tbody>
+								<tr><td id="1" class="day">1</td><td id="2" class="day">2</td><td id="3" class="day">3</td><td id="4" class="day">4</td><td id="5" class="day">5</td><td id="6" class="day">6</td><td id="7" class="day">7</td></tr>
+                                <tr><td id="8" class="day">8</td><td id="9" class="day">9</td><td id="10" class="day">10</td><td id="11" class="day">11</td><td id="12" class="day">12</td><td id="13" class="day">13</td><td id="14" class="day">14</td></tr>
+                                <tr><td id="15" class="day">15</td><td id="16" class="day">16</td><td id="17" class="day">17</td><td id="18" class="day">18</td><td id="19" class="day">19</td><td id="20" class="day">20</td><td id="21" class="day">21</td></tr>
+                                <tr><td id="22" class="day">22</td><td id="23" class="day">23</td><td id="24" class="day">24</td><td id="25" class="day">25</td><td id="26" class="day">26</td><td id="27" class="day">27</td><td id="28" class="day">28</td></tr>
+                                <tr><td id="29" class="day">29</td><td id="30" class="day">30</td><td id="31" class="day">31</td></tr>
+                            </tbody>
+                            </table>
+                            <input id="id_all_check_day" name="all_check_day" type="hidden" value="{{ day_of_month }}" />
+                             </div>
+                            <script>
+							
+							$(".dayofweek").click(function() {
+								$( this ).toggleClass( "highlightweek" );
+								document.getElementById("id_all_check_day_of_week").value = '';
+									$('.highlightweek').each(function () {
+										var ar = this.id;
+										document.getElementById("id_all_check_day_of_week").value=document.getElementById("id_all_check_day_of_week").value+ar+",";
+									});
+								//alert(document.getElementById("id_all_check_day_of_week").value);
+								});
+								
+							$(".dayofweekend").click(function() {
+								$( this ).toggleClass( "highlightweek" );
+									document.getElementById("id_all_check_day_of_week").value = '';
+									$('.highlightweek').each(function () {
+										var ar = this.id;
+										document.getElementById("id_all_check_day_of_week").value=document.getElementById("id_all_check_day_of_week").value+ar+",";
+									});
+								//alert(document.getElementById("id_all_check_day_of_week").value);
+								});	
+								
+								
+							$(".day").click(function() {
+								$( this ).toggleClass( "highlight" );
+								
+								document.getElementById("id_all_check_day").value = '';
+									$('.highlight').each(function () {
+										var ar = this.id;
+										document.getElementById("id_all_check_day").value=document.getElementById("id_all_check_day").value+ar+",";
+									});
+								//alert(document.getElementById("id_all_check_day").value);
+								});
+
+							</script>
+                        </div>
+                    
+                    <div class="hint"><i></i>Заполнив поля, Вы можете указать конкретные дни и/или время запуска повторяющегося обзвона</div>
+					</div><!--form-section-->
+                    
+                    
+                    
+
+</div>
+<div class="form-sections-submit">
+	<input id="subm" class="bt bt-blue" type="submit" name="submit"  value="Сохранить изменения"/>
+</div>
+</form>  
+<style>
+#form-field-wrapper-obzvon_time_enabled{margin-bottom:10px !important;}	
+#form-field-wrapper-obzvon_day_enabled{margin-bottom:10px !important;}			
+</style>
+{% if error_select_ivr %}
+<script>
+$('select>option[value="0"]').filter(':selected').parent().css("border", "1px solid #F00");
+</script>
+{% endif %}
+{% if error_ivr %}
+<script>
+$('.number_ivr>p>input:text[value=""]').css("border", "1px solid #F00");
+</script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,153 @@
+<script src="/media/jquery_style/development-bundle/jquery-1.7.2.js"></script>
+<script src="/media/jquery_style/development-bundle/ui/jquery.ui.core.js"></script>
+<script src="/media/jquery_style/development-bundle/ui/jquery.ui.widget.js"></script>
+<script src="/media/jquery_style/development-bundle/ui/jquery.ui.button.js"></script>	
+<script>	
+	$(function() 
+	{
+		$( "#refresh" ).button({
+			text: false,
+			icons: {
+				primary: "ui-icon-arrowrefresh-1-n"
+			}
+		});
+		$( "#rewind" ).button({
+			text: false,
+			icons: {
+				primary: "ui-icon-seek-prev"
+			}
+		});
+		
+		$( "#forward" ).button({
+			text: false,
+			icons: {
+				primary: "ui-icon-seek-next"
+			}
+		});
+		
+		
+	});
+			
+	function step_2(a,b)
+	{
+   		var str2='';
+		var add_number=document.getElementById("sel_add_number");
+		for (i=0;i<add_number.options.length; i++)
+			{
+			str2 += '&numbers='+add_number.options[i].value
+			}
+		var str = $("#form_step_1").serialize();
+		$.ajax({
+                url: "/step_1/"+a+"/"+b+"/?"+str+str2,  
+                cache: false,
+				async: false,
+				  
+                success: function(html){
+ 					
+                    $("#ajall").html(html);
+					  
+                }  
+            });
+		
+		
+	}
+
+	function add_number()
+	{
+	   var real_number=document.getElementById("sel_real_number");
+	   var add_number=document.getElementById("sel_add_number");
+		add_number.appendChild(real_number.options[real_number.selectedIndex]);
+	}
+	function forward_number()
+	{
+	   var real_number=document.getElementById("sel_real_number");
+	   var add_number=document.getElementById("sel_add_number");
+	   real_number.appendChild(add_number.options[add_number.selectedIndex]);	
+	}
+</script>
+
+
+<a class="popup_personal-close" href="#close"></a> 
+<form class="clearfix" action="#" method="post" id='form_step_1' onkeydown="javascript:if(13==event.keyCode){return false;}">
+	<table class="type-4 modal">
+        <col width="220px;">
+        <col width="50px;">
+        <col width="220px;">
+        <caption>
+        	<h1 class="title">Выбор номеров и вида аккаунта</h1>
+        </caption>
+        <tbody>
+        	{% if errors.numbers %}
+        		<tr>
+                	<td colspan="3">
+                        <div class="status status-error">
+                            <i class="ico"></i>
+                            <div class="status-i">
+                                <p>Выберите хотя бы один номер!</p>
+                            </div>
+                        </div>
+                    </td>
+            	</tr>
+    		{% endif %}
+            {% if errors.none_numbers %}   
+               <tr>         
+                	<td colspan="3">   
+                        <div class="status status-warning">
+                            <i class="ico"></i>
+                            <div class="status-i">
+                                <p>Номера на данном тарифе отсутсвуют!</p>
+                            </div>
+                        </div>
+                     </td>
+                </tr>
+            {% endif %}
+            
+        	<tr style="background: #FFF;">
+            	<td style="text-align:center; background: #FFF;"><strong><p>Доступные номера</p></strong></td>
+                <td style="background: #FFF;"></td>
+                <td style="text-align:center; background: #FFF;"><strong><p>Номера на подключение</p></strong></td>
+            </tr>
+            <tr>
+            	<td style="padding: 0; padding-left: 15px; background: #FFF; padding-bottom: 10px;">
+                    <select class="select_number" ondblclick="add_number()" size="10" id="sel_real_number">
+                    {% for pi in external %}
+                        <option value="{{ pi.number }}">{{ pi.number }}</option>
+                    {% endfor %}
+                    </select>    	
+                </td>
+                <td style="padding: 5px; background: #FFF; padding-bottom: 10px;">
+                    <button class="bt bt-blue2 but" onClick="forward_number()" type="button"><</button>
+                    <p><font color="#FFFFFF">_</font></p>
+                    <button class="bt bt-blue2 but" onClick="add_number()" type="button">></button>
+                </td>
+                <td style="padding: 0; padding-right: 15px; background: #FFF; padding-bottom: 10px;">
+                    <select class="select_number" ondblclick="forward_number()" size="10" id="sel_add_number">
+                    </select>
+                </td>
+            </tr>
+            {% if not final %}
+            	{% if user == '' %}
+                    <tr>
+                        <td colspan="3" style="padding: 0; padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
+                            <label><input name="face" type="radio" id="face_0"  value="0" checked="checked"><strong>Зарегистрироваться</strong></label>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td colspan="3" style="padding: 0; padding-left: 15px; padding-right: 15px; padding-bottom: 10px;">
+                           <label><input type="radio" name="face" id="face_1" value="1"><strong>Авторизоваться в системе</strong></label>
+            	{% else %}
+                	<tr>
+                    	<td colspan="3" style="padding: 0; padding-left: 15px; padding-right: 15px; padding-bottom: 10px; padding-top: 10px;">
+                   			<label style="width: 70%"><input type="hidden" name="face" id="face_2"  value="2">Вы авторизованы как пользователь: <strong>{{ user }}</strong></label>
+         		{% endif %}
+                           <div class="form-submit-right" id="ajf">
+                               <input class="bt bt-blue2" name="next" type="button" id='next_button' value="Далее" onclick="step_2('{{id_tarif}}','{{icode}}')"/>
+                               <input name="id_tarif" type="hidden" id="textfield"  value="{{id_tarif}}"/> 
+                               <input name="icode" type="hidden" value="{{icode}}" />
+                           </div>
+                        </td>
+                    </tr>
+         {% endif %}
+        </tbody>
+	</table>
+</form>

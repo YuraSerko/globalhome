@@ -1,0 +1,94 @@
+{% load i18n form_tags %}
+<style> 
+#statys_user{
+width: 16px;
+height: 16px;
+
+float: right;
+margin-right: 68px;
+margin-top: 21px;
+display:none;
+}
+
+</style>
+<form id='form_auth'>
+	<table class="type-4 modal">
+    	<caption>
+        	<h1 class="title">Информация для регистрации</h1>
+        </caption>
+        <tbody>
+        	<tr>
+            	<td>
+                {% if errors.error_auth %}
+                    <div class="status status-error">
+                        <i class="ico"></i>
+                        <div class="status-i">
+                            <p>Заполните правильно все поля!</p>
+                        </div>
+                    </div>
+   				{% endif %} 
+                </td>
+            </tr>
+        	<tr>
+            	<td style="padding: 0; height: auto;">
+            	 <div id="statys_user"></div>
+                    <div class="popup-form register2-form" style="min-height: 200px;">
+                    {{form_reg.media}}
+                        {% for field in form_reg %}
+                            {% form_field field block %}
+                        {% endfor %}
+                        <div style="clear: both"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+            	<td style="padding-right: 5px; padding-bottom: 10px;">
+                    <div class="form-submit-right">
+                        <input class="bt bt-blue2" type="button" value='Назад' onclick="step_zakaz('{{ type_face }}')"/>
+                        <input class="bt bt-blue2" type="button" value="Далее" onclick="step_final('registration')"/>
+                        <input type="hidden" name="data" id="textfield" value="{{ data }}" /></input>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+     </table>
+     <script>
+      function chen(back) {
+      $("#statys_user").fadeIn("700")
+      $("#statys_user").css("background", back)
+      }
+      
+      function check(){
+      user=$("#id_username").val()
+      if(user.length>="3")
+      var items = { user:$('#id_username').val(),
+                   }
+      		$.ajax({
+               url: "/account/user_reg_check_ajax/",
+               type: "POST",
+               data: items,
+               cache: true,
+			   async: true,
+               success: function(items){ 
+	              if(items=='1'){
+	              	var iteam="url({{ MEDIA_URL }}images/stop.png) no-repeat"
+           		    chen(iteam)}
+                  else {
+                  	var iteam="url({{ MEDIA_URL }}images/ok.png) no-repeat"
+	              	chen(iteam)
+                    }
+                  
+                }  
+                
+           });
+           
+           if(user.length<="2")
+             $("#statys_user").hide()
+           if(user=="") 
+              $("#statys_user").fadeOut()
+      }
+      var input=document.getElementById('id_username')
+      input.oninput = function() { check()}
+
+      </script>
+</form>

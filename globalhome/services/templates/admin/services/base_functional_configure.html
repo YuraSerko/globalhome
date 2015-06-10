@@ -1,0 +1,152 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+  	<script type="text/javascript" src="{% url "admin:jsi18n" %}"></script>
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/forms1.css" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/interface-style1.css" />
+    {{ media.css }}
+
+    <style type="text/css">
+    	.vTextField {
+    		width: 400px;
+    	}
+    </style>
+    
+{% endblock %}
+
+{% block extrahead %}
+	{{ block.super }}
+	{{ media.js }}
+	{{ form.media }}
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/notify1.css" type="text/css" /> 
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript">
+	
+	</script>
+{% endblock %}
+
+{% if not is_popup %}
+    {% block breadcrumbs %}
+		<div class="breadcrumbs">
+			<a href="/admin/">
+			    {% trans "Home" %}
+			</a>
+			&rsaquo; 
+			<a href="../../">
+			    Services
+			</a>
+			&rsaquo; 
+			<a href="../">
+			    {{ app_section }}
+			</a>
+			&rsaquo;
+			{% trans "Setup" %} {{ functional }}
+		</div>
+	{% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+    {% if cl.formset.errors %}
+        <p class="errornote">
+        {% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+        </p>
+        {{ cl.formset.non_form_errors }}
+    {% endif %}
+    
+    {% block notifications %}
+      {% if request.notifications %}
+        {% for message in request.notifications %}
+          <div class="{% if message.tags %}{{ message.tags }}{% else %}information{% endif %}" style="margin: 10px;">
+            {{ message|safe }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock %}
+    
+	<div class="module" style="width: 700px; padding: 5px;">
+		<form enctype="multipart/form-data" action="" method="post" id="service_functional_setup_form">    
+			<table>
+				<tr>
+					<th style="text-align: right;">
+						<label for="id_name" class="required">{% trans "Functional name" %}:</label>
+					</th>
+					<td>
+						<input id="id_name" type="text" class="vTextField" name="name" maxlength="255" value="{{ functional.name }}"/>
+					</td>
+				</tr>
+				<tr>
+					<th style="text-align: right;">
+						<label for="id_slug" class="required">{% trans "Slug" %}:</label>
+					</th>
+					<td>
+						<input id="id_slug" type="text" class="vTextField" name="slug" maxlength="50" value="{{ functional.slug }}"/>
+					</td>
+				</tr>
+				<tr>
+					<th style="text-align: right;">
+						<label for="id_module" class="required">{% trans "Python module name" %}:</label>
+					</th>
+					<td>
+						{% if not f_class %}
+							<div class="error">
+								{{ exception }}
+								<input id="id_module" type="text" class="vTextField" name="module" maxlength="255" value="{{ functional.module }}"/>
+							</div>
+						{% else %}
+							<input id="id_module" type="text" class="vTextField" name="module" maxlength="255" value="{{ functional.module }}"/>
+						{% endif %}
+						
+					</td>
+				</tr>
+			</table>
+			
+			<div class="module">
+				{% block functional_setup %}
+				{% endblock %}
+			</div>
+			
+			<div class="submit-row">
+                <p class="deletelink-box">
+                    <a class="deletelink" href="delete/">{% trans "Delete" %}</a>
+                </p>
+                
+				<input type="submit" value='{% trans "Save" %}' class="default" name="save"/>
+				<input type="submit" value='{% trans "Cancel" %}' class="default" name="cancel"/>
+			</div>
+		</form>
+    </div>
+    
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

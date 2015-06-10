@@ -1,0 +1,61 @@
+{% extends 'base_public.html' %}
+{% load i18n form_tags %}
+
+
+
+{% block content %}
+
+
+<h1 class="title">{% trans "Log in" %}</h1>
+
+<form class="reglog" action="" method="post">
+
+    {% if top_errors %}
+        <div class="status status-error">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>{{ top_errors|safe }}</p>
+            </div>
+        </div>
+    {% endif %}
+    
+    {% if form.non_field_errors %}
+        <div class="status status-error">
+            <i class="ico"></i>
+            <div class="status-i">
+                <p>{{ form.non_field_errors }}</p>
+            </div>
+        </div>
+    {% endif %}
+    
+    <div class="blue_border">
+        <p>{% trans "New to the site?" %} <a href="{% url "account_registration" %}">{% trans "Sign up" %}</a></p>
+    </div>
+    
+    <br />
+    
+    <div class="popup-form login2-form">
+        {% for field in form %}
+            {% form_field field block %}
+        {% endfor %}
+        
+        <div class="form-submit">
+            <div class="form-submit-left">
+             <a class="bt bt-blue2" href="{% url "account_password_reset_request" %}"> {% trans "Forget?" %}</a>
+            </div>
+            <div class="form-submit-right">
+                <input class="bt bt-blue2" type="submit" name="proceed_login" value="Войти" />
+            </div>
+        </div>
+    </div>
+</form>
+        {% if site == 3 %}
+        <script type="text/javascript">
+             z =document.getElementById('form-field-wrapper-username').childNodes[1].childNodes[1]
+                z.innerHTML = "Логин"
+            </script>
+            {% block sendin %}
+            {{block.super}}
+            {% endblock %}
+            {% endif %}
+{% endblock %}

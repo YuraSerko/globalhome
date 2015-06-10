@@ -1,0 +1,37 @@
+{% extends 'base_private.html' %}
+{% load i18n form_tags lib_tags %}
+
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+
+<form action="." method="post" enctype="multipart/form-data">
+    <div class="confirm">
+        <h4 class="h4_style">{% trans "Are you sure you want to delete this ivr?" %}</h4>
+        <table class="type-2">
+        	<thead>
+            	<th width="40%">Правило</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{% trans "Enabled" %}</td>
+                    <td>{% if ivr.enabled %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>{% trans "Number" %}</td>
+                    <td>{% if ivr.number_ivr %}{{ ivr.GetTelNumber }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>{% trans "Filename" %}</td>
+                    <td>{{ ivr.file_wav }}</td>
+                </tr>
+           	</tbody>
+        </table>
+        <div class="form-submit-right">
+            <input type="submit" class="bt bt-blue2" name="abort" value="{% trans 'Cancel' %}"/>
+            <input type="submit" class="bt bt-blue2" name="submit" value="{% trans 'Yes' %}"/>
+        </div>
+    </div>
+</form>
+{% endblock %}

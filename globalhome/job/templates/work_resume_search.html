@@ -1,0 +1,370 @@
+{% extends 'base_public.html' %}
+{% load i18n page_tags form_tags %}
+
+
+{% block extrahead %}
+     	  <link href="/media/css/chosen.css" rel="stylesheet" type="text/css" >  		 
+   		  <script src="/media/js/chosen.jquery.js"></script>
+		  <script src="/media/js/chosen_select.js"></script>   		  
+{% endblock %}
+
+{% block content %} 
+
+
+ {% block sendin %}
+ {{block.super}}
+         {% endblock %}
+ 
+
+  
+ 
+  
+  <article id="right">
+	
+				
+			
+				
+				
+				  {% block burat2 %}
+                  {{block.super}}
+                  {% endblock %}
+				
+				
+			
+			
+		 <div id='centr_field'>
+				{% block cap %}
+				{{block.super}}
+         {% endblock %}
+         {% block work_login %}
+		 		{{block.super}}
+		 {% endblock %} 
+                
+    
+    
+    
+	 	<!-- мои данные -->
+		<div  id="main_title">
+			Поиск резюме
+		</div>
+		<div id= "work_search_block">
+	 		<div id = "work_search_input_block">
+		 		<div id = "work_select_block">
+			 		<select id = "select_resume">
+			 			<option value = ""></option>
+			 			<!-- paginator -->
+			 			<div>
+				 			{% for profession in select_resume  %}
+				 				<option value = '{{  profession.id  }}'>{{ profession.profession }}</option>
+				 			{% endfor %}
+			 		</select>
+		 		</div>
+		 		<div id="button_block">
+		 			<button onclick = "submit_hidden_form()">Найти</button>
+		 		</div>
+		 	</div>	
+	 	</div>
+		<div >
+	 		<form id = 'hidden_form' method = "POST" action = "" style = "display:none">  {% csrf_token %}
+	 			<input id = "profession_id" name = "profession_id" type ="text">
+	 		</form>
+	 	</div>
+		
+		
+		
+		 {% load endless %}
+		 {% paginate 10 wishes %}
+		 
+		 	
+		 {% for wish in wishes %}
+		 {% if forloop.last %}
+	 	 <div class = "resume_block last_resume_block">
+	 	 {% else %}
+		 <div class = "resume_block">
+		 {% endif %}
+		 	
+		 	    <div class = "date_and_photo" >
+		 	    	<div class="date">
+		 	    		{{ wish.resume.publication_date|date:"d.m.Y" }}
+		 	    	</div>
+		 	    	<div class = "photo">
+			 	    	<div class = "picture_preview">
+					 		{% if wish.resume.personal_data.photo.url = '/media/uploads/work_photo/None/no-img.jpg' %}
+			  	 				<img class="img_prev" src='/media/img/no_avatar1.png' alt="Ваше фото" style = "width:auto; height:100%"></img>
+			  	 			{% else %}
+			  	 				<img class="img_prev" src='{{ wish.resume.personal_data.photo.url }}' alt="Ваше фото" style = "width:auto; height:100%"></img>
+			  	 			{% endif %}
+				  	 	</div>
+			  		</div>
+  	 			</div>
+  	 			<div class='text_block' >
+  	 					<div class= 'name_and_salary'>
+  	 						
+	  	 						
+		  	 						<div class = 'name'>
+		  	 						   <a href = "/work_account/work_resume_view/{{wish.resume.id}}/">{{ wish.desirable_position }}</a>
+		  	 						</div>
+		  	 						<div class = 'salary'>
+		  	 							{% if  wish.salary %}
+		  	 						   		{{ wish.salary }} {{ wish.get_salary_um_display }}
+		  	 						   	{% else %}
+		  	 						   		з/п не указана
+		  	 						   	{% endif %}
+		  	 						</div>
+		  	 					
+	  	 					
+  	 					</div>
+  	 					<br>
+  	 					<div class = "personal_data">
+  	 						{% for k, v in resume_personal_data.items %}
+  	 							{% if wish.resume.id = k %}
+  	 								{{ v }}
+  	 							{% endif %}
+  	 						{% endfor %}
+  	 					</div>
+  	 					<br>
+  	 					<div class = 'now'>
+  	 						<div class='title_now_then'>
+  	 							Сейчас
+  	 						</div>
+  	 						<div class = "now_then_content">
+  	 							{% for k, v in resume_now_data.items %}
+  	 							{% if wish.resume.id = k %}
+  	 								{{ v|safe }}
+  	 							{% endif %}
+  	 							{% endfor %}
+  	 						</div>
+  	 					</div>
+  	 					<br>
+  	 					
+  	 					
+  	 					{% for k, v in resume_then_data.items %}
+  	 							{% if wish.resume.id = k %}
+  	 					<div class = 'then'>
+  	 						<div class='title_now_then'>
+  	 							Ранее
+  	 						</div>
+  	 						<div class = "now_then_content">
+  	 								{{ v|safe }}
+  	 						</div>
+  	 					</div>
+  	 					{% endif %}
+  	 					{% endfor %}
+  	 					
+  	 					
+  	 					{% for k, v in resume_all_data.items %}
+  	 							{% if wish.resume.id = k %}
+  	 					<div class = 'then'>
+  	 						<div class='title_now_then'>
+  	 						</div>
+  	 						<div class = "now_then_content" style = "font-style:italic;padding-top:13px; color:gray;" >
+  	 								{{ v|safe }}
+  	 						</div>
+  	 					</div>
+  	 					{% endif %}
+  	 					{% endfor %}
+  	 					
+  	 			</div>
+		 	</div>
+		 {% endfor %}
+		
+		
+		<div class="pagination">
+    	{% show_pages %}</div>
+	   	<!-- окончание моих данных -->
+   
+   
+   
+   
+   
+   
+   </div>
+			
+	</article>
+  
+ 
+   
+	
+<style type="text/css">
+#select_resume+div{
+width:358px!important;}
+
+#work_search_block{
+	width:750px;
+	margin-bottom:10px;
+	}
+	
+#work_select_block{
+	display:inline-block;
+	width:350px;
+}
+
+#button_block{
+	display:inline-block;
+	margin-left:11px;}	
+
+#main_title{
+	font-size:24px;
+	font-weight:bold;
+	margin-bottom:20px;
+	}
+
+
+.date_and_photo{
+	width:13%;
+	/*border:1px solid green;*/
+	display:inline-block;
+	}
+	
+.date{font-size:13px;
+padding:1px;}
+	
+.resume_block{
+	border-left:1px solid lightgray;
+	border-right:1px solid lightgray;
+	border-top:1px solid lightgray;
+	width:750px;
+	padding:5px;}
+
+.picture_preview{
+	width:62px;
+	height:82px;
+	
+	}
+.img_prev{
+    height:100%;}	
+    
+.photo{
+	width:62px;
+	height:82px;
+	overflow:hidden;}  
+	
+.text_block{
+	display:inline-block;
+	/*border:1px solid black; */
+	vertical-align:top;
+	width:86%;}
+	  
+.name_and_salary{
+	/*border:1px solid blue; */
+	width:auto;
+	font-weight:bold;}
+	
+.salary{
+	display:inline-block;
+	float:right;}
+
+.name{
+	display:inline-block;
+	}
+	
+.title_now_then{
+	font-style:italic;
+	color:gray;
+	width:60px;
+	display:inline-block;
+	}
+.now_then_content{
+	vertical-align: top;
+	display:inline-block;}
+	
+.chosen-container-single .chosen-single{
+	border-radius: 0px !important;
+	}
+
+.chosen-container-single .chosen-drop {
+	border-radius:0px! important;
+}
+
+#button_block button{
+	height:23px;}
+
+.last_resume_block{
+	border-bottom:1px solid lightgray;}
+	
+a{color: #3a7cbd;}
+</style>
+
+  <script>
+jQuery('[data-show]').on('click', function(){
+  var jElem = $(this);
+  
+  if(jElem.hasClass('active')) return;
+  
+  jQuery('[data-show]').removeClass('active');
+  
+  var id = jElem.addClass('active').data('show');
+  jQuery('[data-id]').fadeOut();
+  jQuery('[data-id="'+id+'"]').fadeIn();
+  
+
+});
+
+// мой javascript
+
+
+
+// блог залогирован
+$(document).ready(function(){
+$('#select_resume').val('{{pr_id}}');	
+$('#select_resume').chosen({allow_single_deselect:true});
+})
+
+function submit_hidden_form(){
+	$('#profession_id').val($("#select_resume").val())
+	$('#hidden_form').submit();
+	
+}
+// окончание моего javascript
+
+</script>
+<!--
+<script>
+      div="_ph1968";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1968&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>
+	<script>
+      div="_ph1971";
+      document.write('<scr'+'ipt src="http://pay-hit.com/s.js?t=1971&div='+div+'&ref='+encodeURIComponent(document.referrer)+'"><'+'/scr'+'ipt>');
+    </script>-->
+    
+    <a href="#" class="overlay" id="hs_login2" ></a>
+		<div class="main_modal_tip">
+			<div class="modal_tip">
+				<a alt='закрыть' href="#close" id='krest2' onclick = 'clear_cookies()'></a>
+				<h2>Вы воспользовались услугами Бесплатной* Wi-Fi сети<br> <a href='http://globalhome.su/content/article/hot_spot/' target="_blank">HotSpot GlobalHome </a><h2>
+				<ul>
+					<li>Скорость доступа к интернет ресурсам составляет до 15 мбит\с.</li>
+					<li>Для более подробной информации нажмите<a href="http://globalhome.su/content/article/hot_spot/" target="_blank">здесь</a></li>
+					<li>Для открытия сайта или получения нужной информации введите запрос в поисковой строке.  Далее перейдите по ссылке в выдаче информации.</li>
+				</ul>
+				<p>* - на период тестирования.</p>
+				
+				<div class="lower_part">
+				
+				{%if trial%}
+					<form action = '/' method = 'GET' class="forma modal" id='' name = 'search_form' onsubmit = 'javascript:log();'>
+					{% else%}
+					<form action = '/' method = 'GET' class="forma modal"  name = 'search_form' >
+					{% endif%}
+					<input tabindex="4" type="text" class="searchbox modal" name="query" value=""  id = 'ya_input_log' />
+					<input  type="submit"   class="searchbox_submit modal"   value="Найти"  /><span class="tri"></span>
+						
+					</form>
+				</div>	
+			</div>
+		</div>
+		
+		{% block login_1 %}
+		{{block.super}}
+         {% endblock %}
+		
+		 {% block complaint_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+         {% block review_window %}
+		 {{block.super}}
+         {% endblock %}
+		 
+{% endblock %}

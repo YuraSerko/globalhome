@@ -1,0 +1,210 @@
+{% extends 'base_public.html' %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/error.js"></script>
+    <link href="{{ MEDIA_URL }}css/modal.css" rel="stylesheet" type="text/css" />
+    <script>
+     function sub(){
+   $("#form_href").submit()
+   }
+    </script>
+   
+{% endblock %}
+ 
+{% block content %}
+
+<div class="ugc">
+
+<h1 class="title">Аренда серверной стойки 19</h1>
+
+{{pannel|safe}}
+
+<p>Товарищи! Если Вам необходимо разместить большое количество серверного или телекоммуникационного оборудования, то мы предлагаем для этих целей арендовать  телекоммуникационную стойку в нашем дата-центре.</p>
+
+<p>Телекоммуникационную стойка – это стандартная серверная стойка 19, которая имеет ширину 19 дюймов и высоту 42U. Исходя из потребностей, Вы сможете сами выбрать глубину серверной стойки (600, 800 или 1000 мм). Стойка будет обеспечена бесперебойным электропитанием 5 кВт и подключена к безлимитному интернет-каналу со скоростью 100 Мбит/сек. </p>
+<p>Аренда телекоммуникационной стойки позволит Вам обеспечить стабильную и надежную работу серверного оборудования без потери данных. Ваша серверная стойка будет находиться под круглосуточным наблюдением наших квалифицированных специалистов.</p>
+<h4>Телекоммуникационная стойка в Moscow Data:</h4>
+<ul>
+<li>обеспечена бесперебойным питанием; </li>
+<li>подключена к высокоскоростному интернет-каналу; </li>
+<li>защищена от несанкционированного доступа; </li>
+<li>находится под видеонаблюдением; </li>
+<li>круглосуточная техническая поддержка. </li>
+</ul>
+</div>
+
+<table class="type-2">
+	<thead>
+		<tr>
+			<th>Основные характеристики услуги</th>
+			<th colspan="2">Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Высота серверной стойки</td>
+			<td colspan="2">42U (unit) / 2070 мм</td>
+		</tr>
+		<tr>
+			<td>Глубина стойки</td>
+			<td colspan="2">600 / 800 / 1000 мм на выбор</td>
+		</tr>
+		<tr>
+			<td>Предоставляемое электропитание</td>
+			<td colspan="2">5 кВт</td>
+		</tr>
+		<tr>
+			<td>Порт коммутатора Ethernet 100 Мбит/сек</td>
+			<td colspan="2">1 шт</td>
+		</tr>
+		<tr>
+			<td>Скорость доступа в интернет</td>
+			<td colspan="2">100 Мбит/сек</td>
+		</tr>
+		<tr>
+			<td>Количество включенного траффика</td>
+			<td colspan="2">Неограничено</td>
+		</tr>
+		<tr>
+			<td>IP-адрес</td>
+			<td colspan="2">10 шт</td>
+		</tr>
+		<tr>
+			<td>Блок розеток</td>
+			<td colspan="2">2 шт</td>
+		</tr>
+		<tr>
+			<td>Источник бесперебойного питания</td>
+			<td colspan="2">1 шт</td>
+		</tr>
+		<tr>
+			<td>IP-KVM</td>
+			<td colspan="2">Неограничено</td>
+		</tr>
+		<tr>
+			<td>Установочная плата за размещение</td>
+			<td colspan="2">Бесплатно</td>
+		</tr>
+		<tr>
+			<td><strong><em>Ежемесячный платеж за аренду стойки</em></strong></td>
+			<td><strong><em>35000 руб.<req>*</req></em></strong></td>
+			<td><a href="#zakaz" class="bt bt-blue2">Заказать</a></td>
+		</tr>
+	</tbody>
+</table>
+
+<h1 class="title">Дополнительные услуги и параметры</h1>
+<table class="type-2">
+<thead>
+		<tr>
+			<th>Наименование услуги</th>
+			<th>Цена, рублей в месяц</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Дополнительный 1 кВт на стойку</td>
+			<td>4000</td>
+		</tr>
+		<tr>
+			<td>Дополнительный (второй и более ) порт коммутатора 100 Мбит/сек, за каждый</td>
+			<td>500</td>
+		</tr>
+		<tr>
+			<td>Дополнительный IP-адрес</td>
+			<td>20</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="ugc">
+	<span class="fn">*</span> <small>все цены указаны без НДС</small>
+</div>
+
+<div class="ugc">
+<p><strong>Другие услуги дата-центра:</strong><p>
+<ul>
+<li><a href="/service/dedicated-server/">Выделенные сервера</a></li> 
+<li><a href="/service/colocation-server/">Размещение оборудования</a></li>
+<li><a href="/service/virtual-server/">Виртуальные сервера</a></li>
+<li><a href="/service/hosting-site/">Хостинг</a></li>
+<li><a href="/service/proxy-server/">Прокси-сервер</a></li>
+<li><a href="/service/communication/">Аренда каналов связи</a></li>
+</ul>
+</div>
+
+<form>
+</form>
+<a href="#" class="overlay" id="zakaz"></a>
+    <div class="popup_personal">
+    <form action="/content/main_rack/send_zakaz/" id="preview" method="post">
+    	<a class="popup_personal-close" href="#close"></a>
+    	<table class="type-4 modal">
+        	<caption>
+            	<h1 class="title">Оформление заказа</h1>
+                <div class="ugc" style="margin: 0; margin-top: 5px;">
+                    <p>Для заказа необходимо заполнить все поля</p>
+                </div>
+            </caption>
+            <tbody>
+            	<tr>
+                	<td><label for="usluga">Тип услуги</label></td>
+                    <td><label class="value">Аренда серверных стоек</label></td>
+                </tr>
+                <tr>
+                	<td><label for="cost">Стоимость услуги</label></td>
+                    <td><label class="value">35000 руб.<req>*</req></label></td>
+                </tr>
+                <tr>
+					<td><label for="surname">Фамилия</label></td>   
+					<td><input type="text" class="input_field_15em" name="surname" id="surname" value="" /></td>
+                </tr>     
+                <tr>
+                    <td><label for="name">Имя</label></td>
+                    <td><input type="text" class="input_field_15em" name ="name" id="name" value="" /></td>
+                </tr>
+                <tr>
+                    <td><label for="patronymic">Отчество</label></td>
+                    <td><input type="text" class="input_field_15em" name="patronymic" id="patronymic" value="" /></td>
+                </tr>
+                <tr>
+                    <td><label for="email">Почтовой ящик (email)</label></td>
+                    <td><input type="text"  class="input_field_15em" name="email" id="email" value="" /></td>
+                </tr>
+                <tr>
+                    <td><label for="phoneNumber">Контактный номер телефона</label></td>
+                    <td>+ <input type="text" class="input_field_14em" style="display: inline-block;width: 95%;" name="phoneNumber" id="phoneNumber" value="" /></td>
+                </tr>
+                <tr>
+                	<td colspan="2">        
+                        <div class="ugc" style="margin: 0; display:inline-block;">
+                            <p><small><req>*</req> Все цены приведены без учёта НДС.</small></p>
+                        </div>
+                        <button class="bt bt-blue2" type="button" onclick="checkForm('')">Оформить заказ</button>
+                        <button class="bt bt-blue2" type="reset" onclick="ochistka('rack')">Очистить</button>
+                	</td>
+                </tr>
+                <tr id="alert_tr" style="display: none;">
+                    <td colspan="2"><font color="#FF0000"><p class="red" id="alert"></p></font></td>
+                </tr>
+            </tbody>
+		</table>
+	</form>
+	</div>
+        
+<a href="#" class="overlay" id="message_send"></a>
+    <div class="popup_personal">
+    <a class="popup_personal-close" href="#close"></a>
+    	<table class="type-4 modal" style="width: 500px;">
+        	<caption>
+            	<h1 class="title">Ваша заявка успешно принята!</h1>
+            </caption>
+            <tbody>
+            	<tr>
+                	<td><p>Ожидайте, очень скоро с Вами свяжется наш сотрудник.</p></td>
+                </tr>
+            </tbody>
+        </table>
+	</div>		
+{% endblock %}

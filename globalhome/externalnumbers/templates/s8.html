@@ -1,0 +1,46 @@
+<script>
+	var secCount = 10;
+	function timer()
+	{
+		if(secCount != 0)
+		{
+			// если счётчик ещё не обнулился - 
+			// уменьшаем его и снова взводим таймер
+			secCount -= 1;
+			document.getElementById('counter').innerHTML = "Автоматический переход произойдет через " + secCount;
+			window.setTimeout("timer()", 1000);
+		}
+		else
+		{
+			document.location = "/account/{% if page %}{{ page }}{% endif %}";
+		}
+	}
+	function set_time_out()
+	{
+		
+	}
+</script>
+
+<a class="popup_personal-close" href="#close"></a> 
+<table class="type-4 modal">
+	<caption>
+    	<h1 class="title">Завершение</h1>
+    </caption>
+    <tbody>
+    	<tr>
+        	<td>
+            <h3 align="center">Запросы на подключение созданы</h3>
+            <p align="center">Спустя 10 секунд Вы автоматически перейдете на страницу для заверешения подключения.
+               Если этого не произошло, нажмите на ссылку ниже.</p>
+            <p align="center"><a href="/account/{% if page %}{{ page }}{% endif %}" class="da-link">Перейти</a></p>
+            <br />
+            <br />
+            <p align="center" id="counter">Автоматический переход произойдет через 10</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+    
+<script>
+timer();
+</script>
